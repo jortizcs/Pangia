@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Pangia :: Dashboard</title>
+	
+	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<script src="js/jquery-1.5.2.min.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script> 
+    <script src="js/jquery.tablesorter.min.js" type="text/javascript"></script>
+    <script src="js/hideshow.js" type="text/javascript"></script>
+    <script src="js/slider.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	$(document).ready(function() 
+    	{ 
+      	  $(".tablesorter").tablesorter(); 
+   	 } 
+	);
+	$(document).ready(function() {
+
+	//When page loads...
+	$("#main").fadeOut(0);
+	$("#main").fadeIn(650);
+
+});
+    </script>
+<style>
+html,body {overflow-y:auto; overflow-x:hidden}
+.no_module {min-width:1220px; }
+section {width:100%;}
+</style>
+
+</head>
+
+
+<body class="no_module">
+
+	<header id="header">
+		<hgroup>
+			<h1 class="site_title"><a href="index.html"><img src="images/logo.png" alt="logo"></a></h1>
+            <h2 class="section_title"></h2>
+            <div class="user_bar">
+            <ul>
+            	<li class="icn_notification_active"><a href="alerts_view.html">423</a></li>
+                <li><span class="icn_profile">&nbsp;&nbsp;Michael Heinrich</span></li>
+                <li><a href="#"><span class="icn_settings"></span></a></li>
+            </ul>
+            </div>
+		</hgroup>
+	</header> <!-- end of header bar -->
+	
+    <aside class="width_10">
+        <div class="dashboard_segment" ><h3>Building<br>Comparison</h3></div>
+        <div class="dashboard_segment" style="margin-top:313px;"><h3>Portfolio<br>Metrics</h3></div>
+    </aside>
+	<section id="main" class="width_full" style="float:left;margin-left:0px;">
+		<div class="spacer">&nbsp;</div><div class="spacer">&nbsp;</div>
+        <article class="slider-container slider-percentage"> 
+            <div class="slider"> 
+                <span class="left"></span> 
+                <span class="guide"><span style="padding-left:100px;">Slide me</span></span> 
+                <span class="right"></span> 
+            </div> 
+			<div class="ruler container" style="min-width:0px;max-width:auto;"> <ul> 
+				<li>1 Year</li> 
+				<li>3 Months</li> 
+				<li>1 Month</li> 
+				<li>1 Week</li>
+                <li>1 Day</li> </ul> 
+			</div>
+            </article>
+            <div class="spacer">&nbsp;</div><div class="spacer">&nbsp;</div>
+      			<article class="module width_40" style="margin-left:0px; height:240px">
+				</article>
+                <article class="module width_40" style="height:240px">
+				</article>
+                <article class="module width_20" style="height:240px">
+				</article>
+                <article class="module width_40" style="margin-left:0px; height:240px">
+				</article>
+                <article class="module width_40" style="height:240px">
+				</article>
+                <article class="module width_20" style="height:240px">
+				</article>
+            <br class="clear"><br>
+        <div class="spacer">&nbsp;</div><div class="spacer">&nbsp;</div>
+        <article>
+        <div class="tab_container">
+			<div id="tab1" class="tab_content">
+			<table class="tablesorter" cellspacing="0"> 
+			<thead> 
+				<tr> 
+                    <th>Metric</th> 
+    				<th>Value</th> 
+    				<th>/ FEET2</th> 
+    				<th>/ WEATHER</th> 
+    				<th>/ OCCUPANCY</th> 
+    				<th>COSTS</th> 
+    				<th>/ FEET2</th> 
+                    <th></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+				<tr >
+                    <td valign="middle"><div class="icn_electricity"></div>Electricity</td> 
+    				<td>21,529,612 kWH</td> 
+    				<td>73.2 kBTU / ft2</td> 
+    				<td>8 kBTU / ft2 / HDD</td> 
+    				<td> </td>
+                    <td>$1,000,000</td>
+                    <td align="center">$ 7.10</td>  
+    				<td></td> 
+				</tr> 
+				<tr> 
+    				<td ><div class="icn_gas"></div>Gas</td> 
+    				<td >21,529,612 kWH</td> 
+    				<td>73.2 kBTU / ft2</td> 
+    				<td>8 kBTU / ft2 / HDD</td> 
+    				<td> </td>
+                    <td>$1,000,000</td>
+                    <td align="center">$ 7.10</td>  
+    				<td></td> 
+				</tr>
+				<tr> 
+    				<td><div class="icn_oil"></div>Oil</td> 
+    				<td >21,529,612 kWH</td> 
+    				<td>73.2 kBTU / ft2</td> 
+    				<td>8 kBTU / ft2 / HDD</td> 
+    				<td> </td>
+                    <td>$1,000,000</td>
+                    <td align="center">$ 7.10</td>  
+    				<td></td> 
+				</tr> 
+								<tr> 
+    				<td><div class="icn_steam"></div>Steam</td> 
+    				<td >21,529,612 kWH</td> 
+    				<td>73.2 kBTU / ft2</td> 
+    				<td>8 kBTU / ft2 / HDD</td> 
+    				<td> </td>
+                    <td>$1,000,000</td>
+                    <td align="center">$ 7.10</td>  
+    				<td></td> 
+				</tr> 
+                				<tr> 
+    				<td><div class="icn_water"></div>Water</td> 
+    				<td >21,529,612 kWH</td> 
+    				<td>73.2 kBTU / ft2</td> 
+    				<td>8 kBTU / ft2 / HDD</td> 
+    				<td> </td>
+                    <td>$1,000,000</td>
+                    <td align="center">$ 7.10</td>  
+    				<td></td> 
+				</tr> 
+                <tr> 
+    				<td><div class="icn_co2"></div>CO2	</td> 
+    				<td >21,529,612 kWH</td> 
+    				<td>73.2 kBTU / ft2</td> 
+    				<td>8 kBTU / ft2 / HDD</td> 
+    				<td> </td>
+                    <td>$1,000,000</td>
+                    <td align="center">$ 7.10</td>  
+    				<td></td> 
+				</tr> 
+                <tr bgcolor="#f2f2f2"> 
+    				<td>Total Fuel & Other</td> 
+    				<td >21,529,612 kWH</td> 
+    				<td>73.2 kBTU / ft2</td> 
+    				<td>8 kBTU / ft2 / HDD</td> 
+    				<td> </td>
+                    <td>$1,000,000</td>
+                    <td align="center">$ 7.10</td>  
+    				<td></td> 
+				</tr> 
+                <tr bgcolor="#f2f2f2"> 
+    				<td>Total Energy</td> 
+    				<td >21,529,612 kWH</td> 
+    				<td>73.2 kBTU / ft2</td> 
+    				<td>8 kBTU / ft2 / HDD</td> 
+    				<td> </td>
+                    <td>$1,000,000</td>
+                    <td align="center">$ 7.10</td>  
+    				<td></td> 
+				</tr>                 
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+		</div><!-- end of .tab_container -->
+        </article>
+        <div class="spacer">&nbsp;</div><div class="spacer">&nbsp;</div>
+	</section>
+	
+</body>
+
+</html>

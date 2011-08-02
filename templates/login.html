@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Pangia :: Login</title>
+	
+	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.easing.min.js"></script>
+		<script type="text/javascript" src="js/supersized.3.2.4.min.js"></script>
+        <script type="text/javascript">
+			
+			jQuery(function($){
+				
+				$.supersized({
+				
+					// Functionality
+					slide_interval          :   6000,		// Length between transitions
+					transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+					transition_speed		:	700,		// Speed of transition
+					random 					:	1,								   
+					// Components							
+					slide_links				:	'blank',	// Individual links for each slide (Options: false, 'number', 'name', 'blank')
+					slides 					:  	[			// Slideshow Images
+														{image : 'images/bcg/1.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/2.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/3.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/4.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/5.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/6.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/7.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/8.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/9.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/10.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/11.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/12.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/13.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/14.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/15.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/16.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/17.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/18.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/19.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/20.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/21.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/22.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/23.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/24.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+														{image : 'images/bcg/25.jpg', title : 'Image Source: Flickr > Cuba Gallery'}														
+																										
+												]
+					
+				});
+		    });
+		    
+		</script>
+	
+</head>
+
+
+<body class="login">
+
+<div id="login"> 
+<header id="header">
+		<hgroup>
+			<h1 class="site_title" style="margin-left:180px;"><img src="images/logo.png" alt="logo"></h1>
+		</hgroup>
+	</header> <!-- end of header bar -->
+ 	<section>
+    <h2>Energy Efficient Buildings, one click away.</h2>
+    <form id="login-form" action="#" method="post"> 
+            <div class="module_content">
+            <fieldset>
+                <label>Username</label>
+                <input type="text" style="margin-bottom:20px;">
+                <label>Password</label>
+                <input type="text">  
+            </fieldset>  
+            	<input id="" value="1" type="checkbox" /><label>Remember me</label><br><br>
+                <input type="submit" value="Login" class="alt_btn">
+			</div>
+    </form>
+	</section>
+</div><!-- form --> 
+</body>
+
+</html>

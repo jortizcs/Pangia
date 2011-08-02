@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Energy Explorer</title>
+	
+	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<script src="js/jquery-1.5.2.min.js" type="text/javascript"></script>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script> 
+	<script type="text/javascript" src="js/jquery.equalHeight.js"></script>
+    <script src="js/hideshow.js" type="text/javascript"></script>
+    <script src="js/slider.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(function(){
+        $('.column').equalHeight();
+    });
+</script>
+</head>
+
+
+<body>
+
+	<header id="header">
+		<hgroup>
+			<h1 class="site_title"><a href="index.html"><img src="images/logo.png" alt="logo"></a></h1>
+			<h2 class="section_title"></h2>
+            <div class="user_bar">User here</div>
+		</hgroup>
+	</header> <!-- end of header bar -->
+	
+  <section id="secondary_bar">
+		<div class="user">
+					<form class="quick_search">
+			<input type="text" value="Quick Search" onFocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+		</form>
+	</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current"></a></article>
+		</div>
+	</section><!-- end of secondary bar -->
+	
+	<aside id="sidebar" class="column">
+		<h3>Spaces</h3>
+        <ul class="toggle">
+		<li>Put streams here</li>
+		</ul>
+       <h3>Systems</h3>
+        <ul class="toggle">
+		<li>Put streams here</li>
+		</ul>
+				
+	</aside><!-- end of sidebar -->
+	
+	<section id="main" class="column">
+		<article class="module width_full">
+			<header><h3>Average Energy Consumption</h3></header>
+            <div class="module_content clear" style="height:500px;">
+            	<div class="graph_placeholder">
+                <p>Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Grholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholderGraph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholderGraph placeholder  Graph placeholder Graph placeholder Graph placeholder </p><br><br>
+            <div class="slider-container slider-percentage"> 
+            <div class="slider"> 
+                <span class="left"></span> 
+                <span class="guide"><span style="padding-left:100px;">Slide me</span></span> 
+                <span class="right"></span> 
+            </div> 
+			<div class="ruler container" style="min-width:0px;max-width:auto;"> <ul> 
+				<li>1 Year</li> 
+				<li>3 Months</li> 
+				<li>1 Month</li> 
+				<li>1 Week</li>
+                <li>1 Day</li> 
+			</ul> 
+			</div></div> 
+            </div> 	
+            <div id="button_bar_horizontal">
+            <ul class="menu">
+                <li class="btn_area"><a href="javascript:dashboardChartTypeUpdate(0, 'area')"></a></li>
+                <li class="btn_bar"><a href="javascript:dashboardChartTypeUpdate(0, 'bar')"></a></li>
+                <li class="btn_pie"><a href="javascript:dashboardChartTypeUpdate(0, 'pie')"></a></li>
+           </ul>
+            </div>
+                
+<!--             <li class="first"><a href="javascript:dashboardDataLoad('Live')" class="active">
+                Live
+                </li></a>
+                <li ><a href="javascript:dashboardDataLoad('Today')">
+                Today
+                </li></a>
+                <li><a href="javascript:dashboardDataLoad('Week')">
+                7 days
+                </li></a>
+                <li><a href="javascript:dashboardDataLoad('Month')">
+                30 days
+                </li></a>
+                <li><a href="javascript:dashboardDataLoad('Year')">
+                365 days
+                </li></a>-->
+            </div>
+            <footer></footer>
+        </article>
+		<div class="spacer"></div>
+	</section>
+
+
+</body>
+
+</html>

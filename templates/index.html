@@ -5,12 +5,12 @@
 	<meta charset="utf-8"/>
 	<title>Energy Explorer</title>
 	
-	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/layout.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	<script src="js/jquery-1.5.2.min.js" type="text/javascript"></script>
+	<script src="{{ STATIC_URL }}js/jquery-1.5.2.min.js" type="text/javascript"></script>
 <script>
      $(document).ready(function(){
         $("#main").fadeOut(0);
@@ -29,7 +29,7 @@
             <h2 class="section_title"></h2>
             <div class="user_bar">
             <ul>
-            	<li class="icn_notification_active"><a href="alerts_view.html">423</a></li>
+            	<li class="icn_notification_active"><a href="alerts/alerts_view.html">423</a></li>
                 <li><span class="icn_profile">&nbsp;&nbsp;Michael Heinrich</span></li>
                 <li><b><a href="#">Feedback</a></b></li>
                 <li><a href="#"><span class="icn_settings"></span></a></li>
@@ -44,7 +44,7 @@
     	<div class ="index_text">
             <a href="dashboard.html"><div class="app_dashboard"><h2>Dashboard</h2></div></a>
             <a href="energy_explorer.html"><div class="app_energy_explorer"><h2>Energy Explorer</h2></div></a>
-            <a href="alerts_view.html"><div class="app_alerts"><h2>Alerts</h2></div></a>
+            <a href="alerts/alerts_view.html"><div class="app_alerts"><h2>Alerts</h2></div></a>
         </div>
         <div class="shelf clear"></div>
 		<div class ="index_text">

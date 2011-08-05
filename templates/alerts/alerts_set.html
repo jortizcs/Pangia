@@ -1,36 +1,15 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-	<meta charset="utf-8"/>
-	<title>Energy Explorer</title>
-	
-	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<script src="js/jquery-1.5.2.min.js" type="text/javascript"></script>
-    	<script type="text/javascript" src="js/jquery.equalHeight.js"></script>
-  
+{% extends "base_sidebar.html" %}
+{% block title %}Pangia :: Set Alerts{% endblock %}
+{% block extrahead %}
+    {{ block.super }}
     <script type="text/javascript">
     $(function(){
         $('.column').equalHeight();
     });
 </script>
-</head>
+{% endblock %}
 
-
-<body>
-
-	<header id="header">
-		<hgroup>
-			<h1 class="site_title"><a href="../index.html"><img src="images/logo.png" alt="logo"></a></h1>
-			<h2 class="section_title"></h2>
-            <div class="user_bar">User here</div>
-		</hgroup>
-	</header> <!-- end of header bar -->
-	
+{% block secondary_bar %}
   <section id="secondary_bar">
 		<div class="user">
 	</div>
@@ -38,16 +17,17 @@
 			<article class="breadcrumbs"><a href="../index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Alerts</a></article>
 		</div>
 	</section><!-- end of secondary bar -->
-	
+{% endblock %}
+{% block sidebar%}
 	<aside id="sidebar" class="column">
     <div class="spacer"></div>
     <a href="alerts_view.html"><div class="btn_large">VIEW ALERTS</div></a>
     <div class="btn_large_pressed">SET ALERTS</div>
     <div class="spacer"></div>
     <hr/>
-				
 	</aside><!-- end of sidebar -->
-	
+{% endblock %}
+{% block mainbody %}
 	<section id="main" class="column alerts">
 		<article class="module width_half">
             <header><h3 class="tabs_involved">CHOOSE POINT TO MONITOR</h3></header>
@@ -89,7 +69,4 @@
 		</article><!-- end of alert information -->
 		<div class="spacer"></div>
 	</section>
-
-</body>
-
-</html>
+{% endblock  %}

@@ -14,7 +14,7 @@
     {% block extrahead %}{% endblock %}
 
 </head>
-<body class="{% block bodyclass %}no_module{% endblock %}">
+<body class="{% block bodyclass %}{% endblock %}">
 	<header id="header">
 		<hgroup>
 			<h1 class="site_title"><a href="index.html"><img src="{{ MEDIA_URL }}images/logo.png" alt="logo"></a></h1>
@@ -29,6 +29,12 @@
             </div>
 		</hgroup>
 	</header> <!-- end of header bar -->
+
+    {% block secondary_bar %}
+    {% endblock %}
+
+    {% block sidebar %}
+    {% endblock %}
 
     {% block mainbody %}
     {% endblock %}

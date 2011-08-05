@@ -2,7 +2,8 @@
 
 {% block title %}Pangia :: Analytics{% endblock %}
 {% block extrahead %}
-<script type="text/javascript">
+{{ block.super }}
+    <script type="text/javascript">
     $(function(){
         $('.column').equalHeight();
     });
@@ -11,6 +12,7 @@
 
 {% block bodyclass %}{% endblock %}
     {% block secondary_bar %}
+    <section id="secondary_bar">
  		<div class="user">
 					<form class="quick_search">
 			<input type="text" value="Quick Search" onFocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
@@ -19,9 +21,11 @@
 		<div class="breadcrumbs_container">
 			<article class="breadcrumbs"><a href="index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current"></a></article>
 		</div>
+    </section><!-- end of secondary bar -->
     {% endblock %}
 	
 	{% block sidebar %}
+    <aside id="sidebar" class="column">
     	<h3>Spaces</h3>
         <ul class="toggle">
 		<li>Put streams here</li>
@@ -30,6 +34,7 @@
         <ul class="toggle">
 		<li>Put streams here</li>
 		</ul>
+    </aside><!-- end of sidebar -->
 	{% endblock %}
 	
 	{% block mainbody %}

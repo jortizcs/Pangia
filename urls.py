@@ -4,6 +4,7 @@ from django.conf import settings
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
+import views
 
 urlpatterns = patterns('',
     # Example:
@@ -14,6 +15,11 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # (r'^admin/', include(admin.site.urls)),
+    (r'^energy_explorer', 'views.energy_explorer'),
+    (r'^alerts', 'views.alerts'),
+    (r'^login', 'views.login'),
+    (r'^analytics', 'views.analytics'),
+    (r'^dashboard', 'views.dashboard'),
     (r'', 'views.index'),
 )
 

@@ -1,20 +1,8 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-	<meta charset="utf-8"/>
-	<title>Pangia :: Dashboard</title>
-	
-	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<script src="js/jquery-1.5.2.min.js" type="text/javascript"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script> 
-    <script src="js/jquery.tablesorter.min.js" type="text/javascript"></script>
-    <script src="js/hideshow.js" type="text/javascript"></script>
-    <script src="js/slider.js" type="text/javascript"></script>
+{% extends "base_sidebar.html" %}
+{% block title %}Pangia :: Dashboard{% endblock %}
+{% block extrahead %}
+    {{ block.super }}
+	<script src="{{ MEDIA_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 	$(document).ready(function() 
     	{ 
@@ -34,30 +22,17 @@ html,body {overflow-y:auto; overflow-x:hidden}
 .no_module {min-width:1220px; }
 section {width:100%;}
 </style>
+{% endblock %}
+{% block bodyclass %}no_module{% endblock %}
 
-</head>
-
-
-<body class="no_module">
-
-	<header id="header">
-		<hgroup>
-			<h1 class="site_title"><a href="index.html"><img src="images/logo.png" alt="logo"></a></h1>
-            <h2 class="section_title"></h2>
-            <div class="user_bar">
-            <ul>
-            	<li class="icn_notification_active"><a href="alerts/alerts_view.html">423</a></li>
-                <li><span class="icn_profile">&nbsp;&nbsp;Michael Heinrich</span></li>
-                <li><a href="#"><span class="icn_settings"></span></a></li>
-            </ul>
-            </div>
-		</hgroup>
-	</header> <!-- end of header bar -->
-	
+{% block sidebar %}
     <aside class="width_10">
         <div class="dashboard_segment" ><h3>Building<br>Comparison</h3></div>
         <div class="dashboard_segment" style="margin-top:313px;"><h3>Portfolio<br>Metrics</h3></div>
     </aside>
+{% endblock %}
+
+{% block mainbody %}
 	<section id="main" class="width_full" style="float:left;margin-left:0px;">
 		<div class="spacer">&nbsp;</div><div class="spacer">&nbsp;</div>
         <article class="slider-container slider-percentage"> 
@@ -193,7 +168,4 @@ section {width:100%;}
         </article>
         <div class="spacer">&nbsp;</div><div class="spacer">&nbsp;</div>
 	</section>
-	
-</body>
-
-</html>
+	{% endblock %}

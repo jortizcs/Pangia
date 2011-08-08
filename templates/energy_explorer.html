@@ -1,39 +1,15 @@
-<!doctype html>
-<html lang="en">
+{% extends "base_sidebar.html" %}
 
-<head>
-	<meta charset="utf-8"/>
-	<title>Energy Explorer</title>
-	
-	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<script src="js/jquery-1.5.2.min.js" type="text/javascript"></script>
-
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script> 
-	<script type="text/javascript" src="js/jquery.equalHeight.js"></script>
-    <script src="js/hideshow.js" type="text/javascript"></script>
-    <script src="js/slider.js" type="text/javascript"></script>
+{% block title %}Pangia :: Energy Explorer{% endblock %}
+{% block extrahead %}
+{{ block.super }}
     <script type="text/javascript">
     $(function(){
         $('.column').equalHeight();
     });
 </script>
-</head>
-
-
-<body>
-
-	<header id="header">
-		<hgroup>
-			<h1 class="site_title"><a href="index.html"><img src="images/logo.png" alt="logo"></a></h1>
-			<h2 class="section_title"></h2>
-            <div class="user_bar">User here</div>
-		</hgroup>
-	</header> <!-- end of header bar -->
-	
+{% endblock %}
+{% block secondary_bar %}
   <section id="secondary_bar">
 		<div class="user">
 					<form class="quick_search">
@@ -44,7 +20,8 @@
 			<article class="breadcrumbs"><a href="index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current"></a></article>
 		</div>
 	</section><!-- end of secondary bar -->
-	
+{% endblock %}
+{% block sidebar %}
 	<aside id="sidebar" class="column">
 	<div id="buttons" ><ul>
         <li><div class="btn_small_pressed">SPACES</div></li>
@@ -67,7 +44,9 @@
 		</ul>
 				
 	</aside><!-- end of sidebar -->
-	
+{% endblock %}
+
+{% block mainbody %}
 	<section id="main" class="column">
 		<h4 class="alert_info">Please, select a building to start.</h4>
 		<article class="module width_full">
@@ -118,8 +97,4 @@
         </article>
 		<div class="spacer"></div>
 	</section>
-
-
-</body>
-
-</html>
+{% endblock %}

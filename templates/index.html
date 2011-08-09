@@ -1,13 +1,5 @@
 {% extends "base.html" %}
 {% block title %}Pangia :: Please select your application {% endblock %}
-{% block extrahead %}
-<script>
-     $(document).ready(function(){
-        $("#main").fadeOut(0);
-		$("#main").fadeIn(650);
-      });
-    </script>
-{% endblock %}
 
 {% block bodyclass %}no_module{% endblock %}
 
@@ -18,7 +10,7 @@
     	<div class ="index_text">
             <a href="dashboard.html"><div class="app_dashboard"><h2>Dashboard</h2></div></a>
             <a href="energy_explorer.html"><div class="app_energy_explorer"><h2>Energy Explorer</h2></div></a>
-            <a href="alerts/alerts_view.html"><div class="app_alerts"><h2>Alerts</h2></div></a>
+            <a href="/alerts/view"><div class="app_alerts"><h2>Alerts</h2></div></a>
         </div>
         <div class="shelf clear"></div>
 		<div class ="index_text">

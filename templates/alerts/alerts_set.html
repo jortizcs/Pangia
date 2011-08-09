@@ -1,13 +1,5 @@
 {% extends "base_sidebar.html" %}
 {% block title %}Pangia :: Set Alerts{% endblock %}
-{% block extrahead %}
-    {{ block.super }}
-    <script type="text/javascript">
-    $(function(){
-        $('.column').equalHeight();
-    });
-</script>
-{% endblock %}
 
 {% block secondary_bar %}
   <section id="secondary_bar">
@@ -21,7 +13,7 @@
 {% block sidebar%}
 	<aside id="sidebar" class="column">
     <div class="spacer"></div>
-    <a href="alerts_view.html"><div class="btn_large">VIEW ALERTS</div></a>
+    <a href="/alerts/view"><div class="btn_large">VIEW ALERTS</div></a>
     <div class="btn_large_pressed">SET ALERTS</div>
     <div class="spacer"></div>
     <hr/>
@@ -46,11 +38,16 @@
         <article class="module width_quarter">
 		<header><h3 class="tabs_involved">Alert Options</h3></header>
         	<div class="module_content">		
-                    <fieldset>
+                <fieldset>
+                    <label>Name</label>
+                    <input type="text" style="width:85%;">
+                </fieldset>
+                <fieldset>
                     <label>Threshold</label>
                     <input type="text" style="width:85%;">
-                    </fieldset>
-                    <fieldset>
+                </fieldset>
+
+                <fieldset>
                     <label>Priority (5 = highest)</label>
                     <select style="width:92%;">
 						<option>1</option>

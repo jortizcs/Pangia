@@ -8,9 +8,10 @@ def login(request):
     """
     The login page
     """
+    slides2 = "{image : 'images/bcg/1.jpg', title : 'Image Source: Flickr > Cuba Gallery'}"
 
     return render_to_response('login.html',
-      context_instance=RequestContext(request, {}))
+      context_instance=RequestContext(request, {slides2}))
 
 def index(request):
     """
@@ -33,11 +34,18 @@ def energy_explorer(request):
     return render_to_response('energy_explorer.html',
       context_instance=RequestContext(request, {}))
 
-def alerts(request):
+def alerts_view(request):
     """
     Displays alerts
     """
     return render_to_response('alerts/alerts_view.html',
+      context_instance=RequestContext(request, {}))
+
+def alerts_set(request):
+    """
+    Displays alerts
+    """
+    return render_to_response('alerts/alerts_set.html',
       context_instance=RequestContext(request, {}))
 
 def dashboard(request):

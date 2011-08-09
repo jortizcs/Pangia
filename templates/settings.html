@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Pangia :: Change your settings {% endblock %}
+{% block extrahead %}
+<script>
+     $(document).ready(function(){
+        $("#main").fadeOut(0);
+		$("#main").fadeIn(650);
+      });
+    </script>
+{% endblock %}
+
+{% block bodyclass %}no_module{% endblock %}
+
+{% block mainbody %}
+<section id="main" class="column">
+    <article class="module width_quarter">
+        <div class="spacer"></div>
+        <div class="btn_large" style="text-align: left; padding-left: 10px;">
+            <span class="icn_settings"></span>&nbsp;&nbsp;General</div>
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+    </article><!-- end of content manager article -->
+
+	<article class="module width_3_quarter">
+    	<header><h3 class="tabs_involved">Settings</h3>
+
+		</header>
+        <div class="module_content">
+        <fieldset>
+            <label>Email</label>
+            <input type="text">
+        </fieldset>
+        <fieldset>
+            <label>Phone</label>
+            <input type="text">
+        </fieldset>
+        </div>
+		<footer></footer>
+	</article><!-- end of content manager article -->
+		<div class="spacer"></div>
+	</section>
+{% endblock %}

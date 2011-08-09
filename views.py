@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django.contrib.auth import authenticate, login
 
 __author__ = 'mheinrich'
 
@@ -7,6 +8,7 @@ def login(request):
     """
     The login page
     """
+
     return render_to_response('login.html',
       context_instance=RequestContext(request, {}))
 
@@ -44,3 +46,11 @@ def dashboard(request):
     """
     return render_to_response('dashboard.html',
       context_instance=RequestContext(request, {}))
+
+def settings(request):
+    """
+    Displays alerts
+    """
+    return render_to_response('settings.html',
+      context_instance=RequestContext(request, {}))
+

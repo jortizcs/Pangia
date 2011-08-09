@@ -79,6 +79,21 @@ def dashboard(request):
     return render_to_response('dashboard.html',
       context_instance=RequestContext(request, {}))
 
+def live_feedback_submit(request):
+    """
+    Allows user to submit comfort feedback
+    """
+    return render_to_response('live_feedback/submit.html',
+      context_instance=RequestContext(request, {}))
+
+def live_feedback_view(request):
+    """
+    Displays the gathered feedback spatially
+    """
+    return render_to_response('live_feedback/view.html',
+      context_instance=RequestContext(request, {}))
+
+
 def settings(request):
     """
     User settings

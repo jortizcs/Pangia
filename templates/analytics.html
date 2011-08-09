@@ -41,7 +41,10 @@
 
       var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
           document.getElementById('visualization'));
-      annotatedtimeline.draw(data, {'displayAnnotations': false});
+      annotatedtimeline.draw(data, {'displayAnnotations': false, 'displayAnnotationsFilter':true,'displayLegendDots': false, 'displayDateBarSeparator': false,
+      'displayRangeSelector':true, 'displayLegendValues':true,'displayZoomButtons':false, 'legendPosition': 'newRow','fill':25, 'wmode':'transparent',
+      colors: ['#A9D943', '#F6EE45', '#F24C40','#1286F7','#90B710', '#F68D31', '#B74B0B','#0116ED'],'thickness':3
+      });
     }
 
     google.setOnLoadCallback(drawVisualization);
@@ -79,32 +82,33 @@
 		<article class="module width_full">
 			<header><h3>Average Energy Consumption</h3></header>
             <div class="module_content clear" style="height:500px;">
-            	<!--<div class="graph_placeholder">-->
-                    <div id="visualization" style="width: 85%; height: 500px;float:left; clear:both"></div>
-			<!--<p>Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Grholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholderGraph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholderGraph placeholder  Graph placeholder Graph placeholder Graph placeholder </p><br><br>-->
+             <div class="graph_placeholder">
+                <div id="visualization" style="width: 100%;  height: 490px;clear:both; border-top: 2px solid #E7E8ED; font:14px; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;"></div><br><br>
+
             <!--<div class="slider-container slider-percentage">
-            <div class="slider"> 
-                <span class="left"></span> 
-                <span class="guide"><span style="padding-left:100px;">Slide me</span></span> 
-                <span class="right"></span> 
-            </div> 
-			<div class="ruler container" style="min-width:0px;max-width:auto;"> <ul> 
-				<li>1 Year</li> 
-				<li>3 Months</li> 
-				<li>1 Month</li> 
-				<li>1 Week</li>
-                <li>1 Day</li> 
-			</ul> 
-			</div></div> 
-            </div> 	-->
-            <div id="button_bar_horizontal">
-            <ul class="menu">
-                <li class="btn_area"><a href="javascript:dashboardChartTypeUpdate(0, 'area')"></a></li>
-                <li class="btn_bar"><a href="javascript:dashboardChartTypeUpdate(0, 'bar')"></a></li>
-                <li class="btn_pie"><a href="javascript:dashboardChartTypeUpdate(0, 'pie')"></a></li>
-           </ul>
+            <div class="slider">
+                <span class="left"></span>
+                <span class="guide"><span style="padding-left:100px;">Slide me</span></span>
+                <span class="right"></span>
             </div>
-                
+			<div class="ruler container" style="min-width:0px;max-width:auto;"> <ul>
+				<li>1 Year</li>
+				<li>3 Months</li>
+				<li>1 Month</li>
+				<li>1 Week</li>
+                <li>1 Day</li>
+			</ul>
+			</div></div>-->
+             </div>
+                    <div id="button_bar_horizontal">
+                    <ul class="menu">
+                        <li class="btn_area"><a href="javascript:dashboardChartTypeUpdate(0, 'area')"></a></li>
+                        <li class="btn_bar"><a href="javascript:dashboardChartTypeUpdate(0, 'bar')"></a></li>
+                        <li class="btn_pie"><a href="javascript:dashboardChartTypeUpdate(0, 'pie')"></a></li>
+                    </ul>
+                    </div>
+                </div>
+
 <!--             <li class="first"><a href="javascript:dashboardDataLoad('Live')" class="active">
                 Live
                 </li></a>

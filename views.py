@@ -8,10 +8,9 @@ def login(request):
     """
     The login page
     """
-    slides2 = "{image : 'images/bcg/1.jpg', title : 'Image Source: Flickr > Cuba Gallery'}"
-
+    
     return render_to_response('login.html',
-      context_instance=RequestContext(request, {slides2}))
+      context_instance=RequestContext(request, {}))
 
 def index(request):
     """

@@ -1,6 +1,8 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+import httplib
 
 __author__ = 'mheinrich'
 
@@ -25,6 +27,29 @@ def analytics(request):
     """
     return render_to_response('analytics.html',
       context_instance=RequestContext(request, {}))
+
+def sfs_get_ts(request):
+    """
+    Runs a GET request to obtain timeseries data from SFS
+    """
+    try:
+        start_time = request.REQUEST["start_time"]
+        end_time = request.REQUEST["end_time"]
+        qpath = request.REQUEST["path"]
+        sfshost = request.REQUEST["sfshost"]
+        sfsport = request.REQUEST["sfsport"]
+
+        address = sfshost + ":" + sfsport
+        conn = httplib.HTTPConnection(address)
+        path = qpath + "?query=true&ts_timestamp=gte:" + start_time + ",lte:" + end_time
+        #path = "/temp/stream01?query=true&ts_timestamp=gte:" + start_time + ",lte:" + end_time
+        #conn.request("GET", "/temp/stream01?query=true&ts_timestamp=gte:1312874584,lte:1312878184")
+        conn.request("GET", path)
+        r = conn.getresponse()
+        #return HttpResponse("Hello, world. You're at the poll index.")
+        return HttpResponse(r.read())
+    except KeyError:
+        return HttpResponse("Missing start_time, end_time, path, sfshost, sfsport params.")
 
 def energy_explorer(request):
     """

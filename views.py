@@ -60,28 +60,28 @@ def energy_explorer(request):
 
 def alerts_view(request):
     """
-    Displays alerts
+    Show all alerts
     """
     return render_to_response('alerts/alerts_view.html',
       context_instance=RequestContext(request, {}))
 
 def alerts_set(request):
     """
-    Displays alerts
+    Set your alerts
     """
     return render_to_response('alerts/alerts_set.html',
       context_instance=RequestContext(request, {}))
 
 def dashboard(request):
     """
-    Displays alerts
+    Displays the dashboard view
     """
     return render_to_response('dashboard.html',
       context_instance=RequestContext(request, {}))
 
 def settings(request):
     """
-    Displays alerts
+    User settings
     """
     return render_to_response('settings.html',
       context_instance=RequestContext(request, {}))

@@ -193,8 +193,7 @@ section#main.alerts .module_content {height:500px;}
 .btn_equal_pressed { background-position: -154px -58px; }
 .btn_larger_pressed { background-position: -154px 0px; }
 /* 
-
-** Energy Explorer / Analytics View 
+** Energy Explorer / Analytics View
 */
 .graph_placeholder {width:85%; min-height:500px; float:left; text-align:justify}
 #button_bar_horizontal {float:left; width:15%; height:500px;}
@@ -208,7 +207,10 @@ section#main.alerts .module_content {height:500px;}
 .btn_pie:hover { background-position: -75px -110px;}
 .btn_area:hover {background-position: -75px -55px;}
 .btn_bar:hover {background-position: -75px 0px;}
-
+.stats p {margin: 0; padding: 0;text-transform: uppercase;text-shadow: 0 1px 0 #fff;}
+.stats p.count {font-size: 26px;font-weight: bold;color: #333333;font-family: "Georgia",serif}
+.stats p.type {font-size: 10px;color: #999999;margin-bottom: 8px; text-transform: uppercase;}
+.stats fieldset {height:230px; padding-left: 7%;padding-right: 7%;width:86%}
 /* =============== MODULES (REUSABLE COMPONENTS) ==================== */
 .module {border: 1px solid #9BA0AF;width: 100%;margin: 20px 3% 0 3%;margin-top: 20px;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;background: #ffffff;}
 #main .module header h3 {display: block;width: 90%;float: left;}

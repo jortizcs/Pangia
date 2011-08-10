@@ -1,7 +1,64 @@
 {% extends "base_sidebar.html" %}
 
 {% block title %}Pangia :: Energy Explorer{% endblock %}
+{% block extrahead %}
+    {{ block.super }}
+    <script>       $(function(){
+        $("#building").fadeOut(0);
+       $("#floor").fadeOut(0);
+       };</script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
 
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Year');
+        data.addColumn('number', 'Sales');
+        data.addColumn('number', 'Expenses');
+        data.addRows(4);
+        data.setValue(0, 0, '2004');
+        data.setValue(0, 1, 1000);
+        data.setValue(0, 2, 400);
+        data.setValue(1, 0, '2005');
+        data.setValue(1, 1, 1170);
+        data.setValue(1, 2, 460);
+        data.setValue(2, 0, '2006');
+        data.setValue(2, 1, 860);
+        data.setValue(2, 2, 580);
+        data.setValue(3, 0, '2007');
+        data.setValue(3, 1, 1030);
+        data.setValue(3, 2, 540);
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, {width: 600, height: 440, title: 'Company Performance'});
+      }
+      google.setOnLoadCallback(drawChart2);
+          function drawChart2() {
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string', 'Year');
+        data2.addColumn('number', 'Sales');
+        data2.addColumn('number', 'Expenses');
+        data2.addRows(4);
+        data2.setValue(0, 0, '2004');
+        data2.setValue(0, 1, 1000);
+        data2.setValue(0, 2, 400);
+        data2.setValue(1, 0, '2005');
+        data2.setValue(1, 1, 1170);
+        data2.setValue(1, 2, 460);
+        data2.setValue(2, 0, '2006');
+        data2.setValue(2, 1, 860);
+        data2.setValue(2, 2, 580);
+        data2.setValue(3, 0, '2007');
+        data2.setValue(3, 1, 1030);
+        data2.setValue(3, 2, 540);
+
+        var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        chart2.draw(data2, {width: 680, height: 240, title: 'Company Performance'});
+      }
+    </script>
+{% endblock %}
 {% block secondary_bar %}
   <section id="secondary_bar">
 		<div class="user">
@@ -40,28 +97,28 @@
 {% endblock %}
 
 {% block mainbody %}
-	<section id="main" class="column">
+	<!--<section id="main" class="2column" >
 		<h4 class="alert_info">Please, select a building to start.</h4>
-		<article class="module width_full">
+		<article class="module width_full" id="floor" style="display:none;">>
 			<header><h3>Average Energy Consumption</h3></header>
             <div class="module_content clear" style="height:500px;">
             	<div class="graph_placeholder">
-                <p>Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Grholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholderGraph placeholder  Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholder Graph placeholderGraph placeholder  Graph placeholder Graph placeholder Graph placeholder </p><br><br>
-            <div class="slider-container slider-percentage"> 
-            <div class="slider"> 
-                <span class="left"></span> 
-                <span class="guide"><span style="padding-left:100px;">Slide me</span></span> 
-                <span class="right"></span> 
-            </div> 
-			<div class="ruler container" style="min-width:0px;max-width:auto;"> <ul> 
-				<li>1 Year</li> 
-				<li>3 Months</li> 
-				<li>1 Month</li> 
+                  <div id="chart_div"></div>
+            <div class="slider-container slider-percentage">
+            <div class="slider">
+                <span class="left"></span>
+                <span class="guide"><span style="padding-left:100px;">Slide me</span></span>
+                <span class="right"></span>
+            </div>
+			<div class="ruler container" style="min-width:0px;max-width:auto;"> <ul>
+				<li>1 Year</li>
+				<li>3 Months</li>
+				<li>1 Month</li>
 				<li>1 Week</li>
-                <li>1 Day</li> 
-			</ul> 
-			</div></div> 
-            </div> 	
+                <li>1 Day</li>
+			</ul>
+			</div></div>
+            </div>
             <div id="button_bar_horizontal">
             <ul class="menu">
                 <li class="btn_area"><a href="javascript:dashboardChartTypeUpdate(0, 'area')"></a></li>
@@ -69,7 +126,7 @@
                 <li class="btn_pie"><a href="javascript:dashboardChartTypeUpdate(0, 'pie')"></a></li>
            </ul>
             </div>
-                
+
 <!--             <li class="first"><a href="javascript:dashboardDataLoad('Live')" class="active">
                 Live
                 </li></a>
@@ -84,10 +141,101 @@
                 </li></a>
                 <li><a href="javascript:dashboardDataLoad('Year')">
                 365 days
-                </li></a>-->
+                </li></a>
             </div>
             <footer></footer>
         </article>
 		<div class="spacer"></div>
+	</section>-->
+        <div id="building" style="">
+        <section id="main" class="column" rel="building">
+		<article class="module width_3_quarter">
+			<header><h3>Overview</h3></header>
+            <div class="module_content clear stats" style="height:510px;">
+                <fieldset >
+                    <table cellpadding="5px" width="100%" >
+                        <tr>
+                            <td width="25%">
+                                <h3>General</h3>
+                            </td>
+                            <td width="25%">
+                                <h3>Energy</h3>
+                            </td>
+                            <td width="25%">
+                                <h3>Emissions</h3>
+                            </td>
+                            <td width="25%">
+                                <h3>Weather</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%">
+                                <p class="count">200K</p>
+                                <p class="type">SQUARE FEET</p>
+                            </td>
+                            <td width="25%">
+                               <p class="count">75</p>
+                                <p class="type">Energy Star</p>
+                            </td>
+                            <td width="25%">
+                               <p class="count">6,500t</p>
+                                <p class="type">Carbon</p>
+                            </td>
+                            <td width="25%">
+                                <p class="count">95°</p>
+                                <p class="type">Fahrenheit</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%">
+                                <p class="count">2,300</p>
+                                <p class="type">Max occupancy</p>
+                            </td>
+                            <td width="25%">
+                                <p class="count">1,200</p>
+                                <p class="type">Avg Daily KWH</p>
+                            </td>
+                            <td width="25%">
+                                <p class="count">18.47</p>
+                                <p class="type">LBS / FT2</p>
+                            </td>
+                            <td width="25%" rowspan="2">
+                                <img src="{{ MEDIA_URL }}images/buildings/leed.png" style="position:relative; padding: 10px 0px 10px 0px;" align="middle">
+                                 <p class="type" style="padding-left:22px;">GOLD</p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td width="25%">
+                                <p class="count">29</p>
+                                <p class="type">Rooms</p>
+                            </td>
+                            <td width="25%">
+                                <p class="count">67</p>
+                                <p class="type">KBTU / FT2</p>
+                            </td>
+                            <td width="25%" rowspan="2">
+                                <p class="count"></p>
+                                <p class="type"></p>
+                            </td>
+
+                        </tr>
+                    </table>
+                </fieldset>
+                <div class="spacer"></div>
+                <div id="chart_div2"></div><br>
+            </div>
+            <footer></footer>
+        </article>
+		<article class="module width_quarter">
+            <header><h3 class="tabs_involved">Picture</h3></header><center>
+            <img src="{{ MEDIA_URL }}images/buildings/sdh.png" style="position:relative; padding: 10px 0px 10px 0px;" align="middle">
+		</center></article >
+        <article class="module width_quarter">
+            <header><h3 class="tabs_involved">Location</h3></header>
+            <iframe width="100%" height="249" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=sutardja+dai+hall,+berkeley+ca&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=51.089971,100.898438&amp;ie=UTF8&amp;hq=&amp;hnear=Sutardja+Dai+Hall,+Berkeley,+California+94709&amp;z=14&amp;ll=37.874914,-122.25821&amp;output=embed"></iframe><br /><small><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=sutardja+dai+hall,+berkeley+ca&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=51.089971,100.898438&amp;ie=UTF8&amp;hq=&amp;hnear=Sutardja+Dai+Hall,+Berkeley,+California+94709&amp;z=14&amp;ll=37.874914,-122.25821" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+		<footer></footer>
+        </article >
 	</section>
+        </div>
 {% endblock %}

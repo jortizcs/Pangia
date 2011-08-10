@@ -1,0 +1,97 @@
+{% extends "base_sidebar.html" %}
+{% block title %}Pangia :: Tell us how comfortable you are{% endblock %}
+
+{% block bodyclass %}{% endblock %}
+{% block secondary_bar %}
+  <section id="secondary_bar">
+		<div class="user">
+	</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="/"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Live Feedback</a></article>
+		</div>
+	</section><!-- end of secondary bar -->
+{% endblock %}
+{% block sidebar%}
+	<aside id="sidebar" class="column">
+    <div class="spacer"></div>
+    <div class="btn_large_pressed">SUBMIT FEEDBACK</div>
+    <a href="/live_feedback/view"><div class="btn_large">VIEW FEEDBACK</div></a>
+    <div class="spacer"></div>
+    <hr/>
+	</aside><!-- end of sidebar -->
+{% endblock %}
+{% block mainbody %}
+	<section id="main" class="column alerts">
+		<article class="module width_half">
+            <header><h3 class="tabs_involved">TELL US ABOUT YOUR COMFORT LEVEL</h3></header>
+            <div class="module_content">
+                <fieldset>
+                    <label>Location</label>
+                    <select>
+                        <option>Select Building</option>
+                        <option>Surtadja Dai</option>
+                    </select>
+                    <select>
+                    <option>Select Floor</option>
+                    <option>5</option>
+                        <option>4</option>
+                        <option>3</option>
+                        <option>2</option>
+                        <option>1</option>
+                    </select>
+                    <select>
+                    <option>Select Room</option>
+                        <option>25</option>
+                            <option>23</option>
+                            <option>21</option>
+                            <option>19</option>
+                            <option>10</option>
+                        </select>
+
+                </fieldset>
+                <fieldset>
+                    <label>Discomfort Level</label>
+                    <table width="100%">
+                        <tr>
+                    <td width="25%" ><input type="radio" name="group1" value="Hot"> Hot<br>
+                    <input type="radio" name="group1" value="Cold"> Cold<br></td>
+                    <td width="25%" ><input type="radio" name="group2" value="Stuffy">Stuffy<br></td>
+                    <td width="25%" ><input type="radio" name="group3" value="Noisy"> Noisy<br></td>
+                    <td width="25%"><input type="radio" name="group4" value="Dark"> Dark<br>
+                    <input type="radio" name="group4" value="Glare"> Glare<br></td>
+                        </tr>
+                    </table></fieldset>
+                    <fieldset>
+                    <label>Comfort Level</label>
+                    <table width="100%">
+                        <tr>
+                    <td><input type="radio" name="group5" value="Comfortable"> Comfortable<br>
+                        <input type="radio" name="group5" value="Comfortable"> Very comfortable<br>
+                    </td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <fieldset>
+                    <label>Priority</label>
+                    <select>
+                    <option>5</option>
+                        <option>4</option>
+                        <option>3</option>
+                        <option>2</option>
+                        <option>1</option>
+                    </select>
+                    <div class="spacer"></div>
+                    <label>Anything else?</label>
+                    <textarea cols="30" rows="4" name="comment" style="width:90% "></textarea>
+                </fieldset>
+            </div>
+        
+        <footer>
+        <div class="submit_link">
+        			<input type="submit" value="Submit" class="alt_btn">
+        </div>
+        </footer>
+		</article><!-- end of alert information -->
+		<div class="spacer"></div>
+	</section>
+{% endblock  %}

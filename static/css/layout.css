@@ -148,7 +148,7 @@ section#main { width: 77%; min-height: 500px; background: url(../images/sidebar_
 .app_analytics {background:url(../images/btn/dashboard.png) no-repeat 0px -194px; margin-left:75px;}
 .app_analytics:hover {background:url(../images/btn/dashboard_hover.png) no-repeat 0 -194px;}
 .app_live_feedback {background:url(../images/btn/dashboard.png) no-repeat -226px -194px; margin-left:65px;}
-/*.app_live_feedback:hover {background:url(../images/btn/dashboard_hover.png) no-repeat -226px -194px;}*/
+.app_live_feedback:hover {background:url(../images/btn/dashboard_hover.png) no-repeat -226px -194px;}
 .app_realtime {background:url(../images/btn/dashboard.png) no-repeat -452px -194px; margin-left:65px;}
 /*.app_realtime:hover {background:url(../images/btn/dashboard_hover.png) no-repeat -452px -194px; }*/
 .index_text {margin-top:20px;top:70px; }
@@ -166,14 +166,17 @@ section#main { width: 77%; min-height: 500px; background: url(../images/sidebar_
 /* 
 ** Dashboards View 
 */
-.dashboard_segment {background:#9B9BA8; width:100%; text-align:right;color:#FFF;text-transform:uppercase; padding:10px 20px 10px;padding-top:170px; margin-top:138px; float:left;text-shadow: 0 1px 0 #666; height:62px;}
-.icn_electricity, .icn_gas, .icn_oil, .icn_steam, .icn_water, .icn_co2 {float:left; vertical-align:bottom; margin-right:10px;padding-top:5px;}  
+.dashboard_segment, .dashboard_segment_bottom {background:#9B9BA8; width:100%; text-align:right;color:#FFF;text-transform:uppercase; padding:10px 20px 10px;padding-top:190px; margin-top:138px; float:left;text-shadow: 0 1px 0 #666; height:62px;}
+.dashboard_segment_bottom {margin-top:333px;}
+.icn_electricity, .icn_gas, .icn_oil, .icn_steam, .icn_water, .icn_co2 {float:left; vertical-align:bottom; margin-right:10px;padding-top:5px;}
 .icn_electricity {background:url(../images/icons/energy.png) 0 0 no-repeat; height: 17px; width:18px; margin-top:-3px;}
 .icn_gas{background:url(../images/icons/energy.png) 0 -22px no-repeat; height: 20px; width:18px;margin-top:-3px;padding-top:2px;}
 .icn_oil{background:url(../images/icons/energy.png) 0 -44px no-repeat; height: 18px; width:18px;margin-top:-7px;padding-top:5px;}
 .icn_steam{background:url(../images/icons/energy.png) 0 -67px no-repeat; height: 8px; width:18px;margin-top:1px;}
 .icn_water{background:url(../images/icons/energy.png) 0 -80px no-repeat; height: 19px; width:18px;margin-top:-7px;}
 .icn_co2{background:url(../images/icons/energy.png) 0 -104px no-repeat; height: 11px; width:18px;margin-top:-1px;}
+.width_40 .title, .width_20 .title  {z-index:124214; margin:-10px 0px 0px 0px; text-align:center;width:100%;font-weight:bold;color:#8C8C9B;}
+;
 /* 
 ** Alerts View 
 */
@@ -219,8 +222,8 @@ section#main.alerts .module_content {height:500px;}
 .width_half {width: 46%;margin-right: 0;float: left;}
 .width_quarter {width: 26%;margin-right: 0;float: left;}
 .width_3_quarter {width: 66%;margin-right: 0;float: left;}
-.width_40 {width: 36%;margin-right: 0;float: left;}
-.width_20 {width: 21%;margin-right: 0;float: left;}
+.width_40 {width: 36%;margin-right: 0;float: left; padding-top:20px;}
+.width_20 {width: 21%;margin-right: 0;float: left;padding-top:20px;}
 .width_10 {width:12%;float:left;margin-right:8%;}
 /* 
 ++ Stats Module 

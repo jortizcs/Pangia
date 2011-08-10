@@ -5,7 +5,7 @@
    {{ block.super }}
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript">
-    google.load('visualization', '1', {packages: ['annotatedtimeline']});
+  google.load('visualization', '1', {packages: ['annotatedtimeline']});
     function drawVisualization() {
       var data = new google.visualization.DataTable();
       data.addColumn('date', 'Date');
@@ -39,14 +39,14 @@
       data.setValue(5, 1, 33322);
       data.setValue(5, 4, 39463);
 
-      var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
+      var chart = new google.visualization.AnnotatedTimeLine(
           document.getElementById('visualization'));
-      annotatedtimeline.draw(data, {'displayAnnotations': false, 'displayAnnotationsFilter':true,'displayLegendDots': false, 'displayDateBarSeparator': false,
+      chart.draw(data, {'displayAnnotations': false, 'displayAnnotationsFilter':true,'displayLegendDots': false, 'displayDateBarSeparator': false,
       'displayRangeSelector':true, 'displayLegendValues':true,'displayZoomButtons':false, 'legendPosition': 'newRow','fill':25, 'wmode':'transparent',
       colors: ['#A9D943', '#F6EE45', '#F24C40','#1286F7','#90B710', '#F68D31', '#B74B0B','#0116ED'],'thickness':3
       });
-    }
-
+     }
+    
     google.setOnLoadCallback(drawVisualization);
   </script>
 {% endblock %}
@@ -59,7 +59,7 @@
 		</form>
 	</div>
 		<div class="breadcrumbs_container">
-			<article class="breadcrumbs"><a href="index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current"></a></article>
+			<article class="breadcrumbs"><a href="index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Analytics</a></article>
 		</div>
     </section><!-- end of secondary bar -->
     {% endblock %}

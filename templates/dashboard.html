@@ -3,7 +3,54 @@
 {% block extrahead %}
     {{ block.super }}
 	<script src="{{ MEDIA_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Building');
+        data.addColumn('number', 'kWH');
+        data.addRows(4);
+        data.setValue(0, 0, 'Surtaja Dai Hall');
+        data.setValue(0, 1, 1000);
+        data.setValue(1, 0, 'Soda Hall');
+        data.setValue(1, 1, 1170);
+        data.setValue(2, 0, 'Cory Hall');
+        data.setValue(2, 1, 660);
+        data.setValue(3, 0, 'Evans');
+        data.setValue(3, 1, 1030);
 
+        var chart_r1c1 = new google.visualization.ColumnChart(document.getElementById('chart_r1c1'));
+        var chart_r1c2 = new google.visualization.ColumnChart(document.getElementById('chart_r1c2'));
+        var chart_r1c3 = new google.visualization.ColumnChart(document.getElementById('chart_r1c3'));
+        var chart_r2c1 = new google.visualization.ColumnChart(document.getElementById('chart_r2c1'));
+        var chart_r2c2 = new google.visualization.ColumnChart(document.getElementById('chart_r2c2'));
+        var chart_r2c3 = new google.visualization.ColumnChart(document.getElementById('chart_r2c3'));
+        var options = {'height':220,
+                        'chartArea': {width: 300, height: 140}, 'legend':'none',
+                       'fontName':'Lucida Sans Unicode',
+                        'vAxis' : {'textPosition':'none','gridlineColor':'#FFF'},
+                        'hAxis' : {'slantedText':true},
+                        'colors':['#8C8C9B'],
+                        };
+        var options2 = {'height':220,
+                              'chartArea': {width: 150, height: 140}, 'legend':'none',
+                             'fontName':'Lucida Sans Unicode',
+                              'vAxis' : {'textPosition':'none','gridlineColor':'#FFF'},
+                              'hAxis' : {'slantedText':true},
+                              'colors':['#8C8C9B'],
+                              };
+
+      chart_r1c1.draw(data, options);
+      chart_r1c2.draw(data, options);
+      chart_r1c3.draw(data, options2);
+      chart_r2c1.draw(data, options);
+      chart_r2c2.draw(data, options);
+      chart_r2c3.draw(data, options2);
+
+      }
+    </script>
 <style>
 html,body {overflow-y:auto; overflow-x:hidden}
 .no_module {min-width:1220px; }
@@ -15,7 +62,7 @@ section {width:100%;}
 {% block sidebar %}
     <aside class="width_10">
         <div class="dashboard_segment" ><h3>Building<br>Comparison</h3></div>
-        <div class="dashboard_segment" style="margin-top:313px;"><h3>Portfolio<br>Metrics</h3></div>
+        <div class="dashboard_segment_bottom"><h3>Portfolio<br>Metrics</h3></div>
     </aside>
 {% endblock %}
 
@@ -37,17 +84,29 @@ section {width:100%;}
 			</div>
             </article>
             <div class="spacer">&nbsp;</div><div class="spacer">&nbsp;</div>
-      			<article class="module width_40" style="margin-left:0px; height:240px">
-				</article>
-                <article class="module width_40" style="height:240px">
-				</article>
+      			<article class="module width_40" style="margin-left:0px; height:240px" >
+                      <div class="title">$ / FEET2</div>
+                      <div id="chart_r1c1"></div>
+                  </article>
+                <article class="module width_40" style="height:240px;">
+                    <div class="title">kBTU / FEET2 / HDD </div>
+                    <div id="chart_r1c2"></div>
+                </article>
                 <article class="module width_20" style="height:240px">
+                    <div class="title">ENERGY STAR</div>
+                    <div id="chart_r1c3"></div>
 				</article>
                 <article class="module width_40" style="margin-left:0px; height:240px">
+                    <div class="title" style="">CO2 (TONS)</div>
+                    <div id="chart_r2c1"></div>
 				</article>
                 <article class="module width_40" style="height:240px">
+                    <div class="title">kBTU / SYSTEM / FEET2</div>
+                    <div id="chart_r2c2"></div>
 				</article>
                 <article class="module width_20" style="height:240px">
+                    <div class="title">LEED</div>
+                    <div id="chart_r2c3"></div>
 				</article>
             <br class="clear"><br>
         <div class="spacer">&nbsp;</div><div class="spacer">&nbsp;</div>

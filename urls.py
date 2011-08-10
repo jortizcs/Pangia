@@ -34,4 +34,3 @@ if settings.DEBUG:
         'django.views.static.serve',
         {'document_root': 'static'}
     )) + urlpatterns
-

@@ -90,10 +90,11 @@
                 <script language="javascript"
                         type="text/javascript"
                         src="{{ MEDIA_URL }}js/flot/jquery.flot.pie.js"></script>
-                <script type="text/javascript">
+			<script type="text/javascript">
                     var d1 = [[0, 3], [4, 8], [8, 5], [9, 13]];
                     var d2 = d1;
                     var d3 = [ {data: 1}, {data: 2}, {data: 3}, {data: 4} ];
+                    
                     function dashboardChartTypeUpdate(chart, type) {
                         var options = new Object();
                         var data = new Array();
@@ -117,13 +118,38 @@
                                     options.series = {
                                           pie: {
                                             show: true,
-                                          },
-                                    };
+					      				 	}
+					      			};
+					  				options.grid={
+											hoverable:true,
+											clickable:true
+										};
                                     break;
                         }
 
                         $.plot($("#flotvisualization"), data, options);
+                        if (type == 'pie'){
+							$("#flotvisualization").bind("plothover", pieHover);
+							$("#flotvisualization").bind("plotclick", pieClick);
+						}
                     }
+                    
+                    function pieHover(event, pos, obj) 
+					{
+						/*if (!obj)
+								return;
+						percent = parseFloat(obj.series.percent).toFixed(2);
+						$("#hover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');*/
+					}
+
+					function pieClick(event, pos, obj) 
+					{
+							alert("click");
+							/*if (!obj)
+								return;
+							percent = parseFloat(obj.series.percent).toFixed(2);
+							alert(''+obj.series.label+': '+percent+'%');*/
+					}
 
                     dashboardChartTypeUpdate(0, 'area');
                 </script>

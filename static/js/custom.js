@@ -4,7 +4,10 @@
         $("#main").fadeIn(650);
     });
 $(document).ready(function() {
-    $(".tablesorter").tablesorter();
+	try {
+    	$(".tablesorter").tablesorter();
+    } catch(error){
+    }
 
     //tab content
 	$(".tab_content").hide(); //Hide all content

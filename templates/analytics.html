@@ -67,42 +67,60 @@
 
                     var data = [ 3, 8, 5, 13, 8 ];
 
-                    var overtime = genChartData(data, overTimeData);
-                    var pie = genChartData(data, pieData);
+                    var currentcharttype;
+                    var curplot;
+
+                    var setAreaData = function() {
+                        return([
+                            {
+                                lines: {
+                                    show: true,
+                                    fill: true,
+                                },
+                                data: genChartData(data, overTimeData),
+                            }
+                        ]);
+                    };
+                    var setBarData = function() {
+                        return([
+                            {
+                                bars: {
+                                    show: true,
+                                },
+                                data: genChartData(data, overTimeData),
+                            }
+                        ]);
+                    };
+                    var setPieData = function() {
+                        return(genChartData(data, pieData));
+                    };
+
+                    function setData(type) {
+                        switch (type) {
+                        case 'area': return(setAreaData());
+                        case 'bar': return(setBarData());
+                        case 'pie': return(setPieData());
+                        }
+                    }
 
                     function dashboardChartTypeUpdate(chart, type) {
                         var options = new Object();
-                        var data = new Array();
-                        switch (type) {
-                        case 'area': data[0] = {
-                                          lines: {
-                                             show: true,
-                                             fill: true,
-                                          },
-                                          data: overtime
-                                     };
-                                     break;
-                        case 'bar': data[0] = {
-                                          bars: {
-                                             show: true,
-                                          },
-                                          data: overtime
-                                     };
-                                    break;
-                        case 'pie': data = pie;
-                                    options.series = {
-                                          pie: {
-                                            show: true,
-					      				 	}
-					      			};
-					  				options.grid={
-											hoverable:true,
-											clickable:true
-										};
-                                    break;
-                        }
+                        var data = setData(type);
 
-                        $.plot($("#flotvisualization"), data, options);
+                        if (type === 'pie') {
+                            options.series = {
+                                  pie: {
+                                    show: true,
+                                    }
+                            };
+                            options.grid = {
+                                hoverable:true,
+                                clickable:true
+                            };
+                        }
+                        currentcharttype = type;
+
+                        curplot = $.plot($("#flotvisualization"), data, options);
                         if (type == 'pie'){
 							$("#flotvisualization").bind("plothover", pieHover);
 							$("#flotvisualization").bind("plotclick", pieClick);
@@ -126,7 +144,19 @@
 							alert(''+obj.series.label+': '+percent+'%');*/
 					}
 
-                    dashboardChartTypeUpdate(0, 'area');
+                    currentcharttype = 'area';
+                    dashboardChartTypeUpdate(0, currentcharttype);
+
+                    var timeout;
+                    var timeoutCallback = function () {
+                        var randomnumber = Math.floor(Math.random() * 13);
+                        data.shift();
+                        data.push(randomnumber);
+                        curplot.setData(setData(currentcharttype));
+                        curplot.draw();
+                        timeout = setTimeout(timeoutCallback, 2000);
+                    };
+                    timeout = setTimeout(timeoutCallback, 2000);
                 </script>
              </div><br><br>
 

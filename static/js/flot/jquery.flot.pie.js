@@ -278,6 +278,9 @@ More detail and specific examples can be found in the included HTML file.
 			var slices = plot.getData();
 		
 			var attempts = 0;
+			/*Modification : we need to redraw pie chart on resize*/
+			redraw = true;
+			/*End Modification*/
 			while (redraw && attempts<redrawAttempts)
 			{
 				redraw = false;
@@ -288,6 +291,9 @@ More detail and specific examples can be found in the included HTML file.
 				if (options.series.pie.tilt<=0.8)
 					drawShadow();
 				drawPie();
+				/*Modification: We need to clear overlay in case of an update after a highlight*/
+				plot.triggerRedrawOverlay();
+				/*End Modification*/
 			}
 			if (attempts >= redrawAttempts) {
 				clear();
@@ -306,6 +312,10 @@ More detail and specific examples can be found in the included HTML file.
 			{
 				ctx.clearRect(0,0,canvas.width,canvas.height);
 				target.children().filter('.pieLabel, .pieLabelBackground').remove();
+				/*Modification : after a clear, we set total to zero and allow data processing again*/
+				total = 0;
+				processed = false;
+				/*End Modification*/
 			}
 			
 			function drawShadow()

@@ -8,9 +8,9 @@
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/layout.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/ie.css" type="text/css" media="screen" />
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="{{ MEDIA_URL }}js/html5.js"></script>
 	<![endif]-->
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.easing.min.js"></script>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/supersized.3.2.4.min.js"></script>
         <script type="text/javascript">
@@ -78,7 +78,7 @@
 	</header> <!-- end of header bar -->
  	<section>
     <h2>Energy Efficient Buildings, one click away.</h2>
-    <form id="login-form" action="#" method="post"> 
+    <form id="login-form" action="#" method="post">{% csrf token %}
             <div class="module_content">
             <fieldset>
                 <label>Username</label>

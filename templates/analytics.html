@@ -3,7 +3,7 @@
 {% block title %}Pangia :: Analytics{% endblock %}
 {% block extrahead %}
    {{ block.super }}
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <!--script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript">
   google.load('visualization', '1', {packages: ['annotatedtimeline']});
     function drawVisualization() {
@@ -48,7 +48,7 @@
      }
     
     google.setOnLoadCallback(drawVisualization);
-  </script>
+  </script-->
 {% endblock %}
 {% block bodyclass %}{% endblock %}
     {% block secondary_bar %}
@@ -83,7 +83,77 @@
 			<header><h3>Average Energy Consumption</h3></header>
             <div class="module_content clear" style="height:500px;">
              <div class="graph_placeholder">
-                <div id="visualization" style="width: 100%;  height: 490px;clear:both; border-top: 2px solid #E7E8ED; font:14px; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;"></div><br><br>
+                <div id="flotvisualization" style="width: 100%;  height: 490px;clear:both; border-top: 2px solid #E7E8ED; font:14px; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+                <script language="javascript"
+                        type="text/javascript"
+                        src="{{ MEDIA_URL }}js/flot/jquery.flot.js"></script>
+                <script language="javascript"
+                        type="text/javascript"
+                        src="{{ MEDIA_URL }}js/flot/jquery.flot.pie.js"></script>
+			<script type="text/javascript">
+                    var d1 = [[0, 3], [4, 8], [8, 5], [9, 13]];
+                    var d2 = d1;
+                    var d3 = [ {data: 1}, {data: 2}, {data: 3}, {data: 4} ];
+                    
+                    function dashboardChartTypeUpdate(chart, type) {
+                        var options = new Object();
+                        var data = new Array();
+                        switch (type) {
+                        case 'area': data[0] = {
+                                          lines: {
+                                             show: true,
+                                             fill: true,
+                                          },
+                                          data: d1
+                                     };
+                                     break;
+                        case 'bar': data[0] = {
+                                          bars: {
+                                             show: true,
+                                          },
+                                          data: d2
+                                     };
+                                    break;
+                        case 'pie': data = d3;
+                                    options.series = {
+                                          pie: {
+                                            show: true,
+					      				 	}
+					      			};
+					  				options.grid={
+											hoverable:true,
+											clickable:true
+										};
+                                    break;
+                        }
+
+                        $.plot($("#flotvisualization"), data, options);
+                        if (type == 'pie'){
+							$("#flotvisualization").bind("plothover", pieHover);
+							$("#flotvisualization").bind("plotclick", pieClick);
+						}
+                    }
+                    
+                    function pieHover(event, pos, obj) 
+					{
+						/*if (!obj)
+								return;
+						percent = parseFloat(obj.series.percent).toFixed(2);
+						$("#hover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');*/
+					}
+
+					function pieClick(event, pos, obj) 
+					{
+							alert("click");
+							/*if (!obj)
+								return;
+							percent = parseFloat(obj.series.percent).toFixed(2);
+							alert(''+obj.series.label+': '+percent+'%');*/
+					}
+
+                    dashboardChartTypeUpdate(0, 'area');
+                </script>
+             </div><br><br>
 
             <!--<div class="slider-container slider-percentage">
             <div class="slider">
@@ -102,9 +172,9 @@
              </div>
                     <div id="button_bar_horizontal">
                     <ul class="menu">
-                        <li class="btn_area"><a href="javascript:dashboardChartTypeUpdate(0, 'area')"></a></li>
-                        <li class="btn_bar"><a href="javascript:dashboardChartTypeUpdate(0, 'bar')"></a></li>
-                        <li class="btn_pie"><a href="javascript:dashboardChartTypeUpdate(0, 'pie')"></a></li>
+                        <li onclick="dashboardChartTypeUpdate(0, 'area')" class="btn_area"></a></li>
+                        <li class="btn_bar" onclick="dashboardChartTypeUpdate(0, 'bar')"></li>
+                        <li class="btn_pie" onclick="javascript:dashboardChartTypeUpdate(0, 'pie')"></li>
                     </ul>
                     </div>
                 </div>

@@ -3,6 +3,8 @@
 {% block title %}Pangia :: Analytics{% endblock %}
 {% block extrahead %}
    {{ block.super }}
+   <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/flot/jquery.flot.js"></script>
+   <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/flot/jquery.flot.pie.js"></script>
 {% endblock %}
 
 {% block bodyclass %}{% endblock %}
@@ -38,13 +40,8 @@
 			<header><h3>Average Energy Consumption</h3></header>
             <div class="module_content clear" style="height:500px;">
              <div class="graph_placeholder">
-                <div id="flotvisualization" style="width: 100%;  height: 490px;clear:both; border-top: 2px solid #E7E8ED; font:14px; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
-                <script language="javascript"
-                        type="text/javascript"
-                        src="{{ MEDIA_URL }}js/flot/jquery.flot.js"></script>
-                <script language="javascript"
-                        type="text/javascript"
-                        src="{{ MEDIA_URL }}js/flot/jquery.flot.pie.js"></script>
+                <div id="flotvisualization" style="width: 100%;  height: 490px;clear:both; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+
 			<script type="text/javascript">
                     var genChartData = function(data, dataPoint) {
                         var result = new Array();
@@ -126,8 +123,8 @@
 							$("#flotvisualization").bind("plotclick", pieClick);
 						}
                     }
-                    
-                    function pieHover(event, pos, obj) 
+
+                    function pieHover(event, pos, obj)
 					{
 						/*if (!obj)
 								return;
@@ -135,7 +132,7 @@
 						$("#hover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');*/
 					}
 
-					function pieClick(event, pos, obj) 
+					function pieClick(event, pos, obj)
 					{
 							alert("click");
 							/*if (!obj)

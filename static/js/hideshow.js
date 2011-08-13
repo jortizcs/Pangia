@@ -26,10 +26,15 @@ is_visible = !is_visible;
 if ($(this).text()==showText) {
 $(this).text(hideText);
 $(this).parent().next('.toggle').slideDown('slow');
+    $("#building").fadeIn(350, 'swing');
+    $("#alert").fadeOut(350, 'swing');
 }
 else {
 $(this).text(showText);
 $(this).parent().next('.toggle').slideUp('slow');
+    $("#floor").fadeOut(450, 'swing');
+    $("#building").fadeOut(450, 'swing');
+    $("#alert").fadeIn(450, 'swing');
 }
 
 // return false so any link destination is not followed

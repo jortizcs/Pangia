@@ -1,7 +1,6 @@
     $(function(){
-        $('.column').equalHeight();
         $("#main").fadeOut(0);
-        $("#main").fadeIn(650);
+        $("#main").fadeIn(600);
     });
 $(document).ready(function() {
 	try {

@@ -3,10 +3,26 @@
 {% block title %}Pangia :: Energy Explorer{% endblock %}
 {% block extrahead %}
     {{ block.super }}
-    <script>       $(function(){
-        $("#building").fadeOut(0);
-       $("#floor").fadeOut(0);
-       };</script>
+    <script>
+        $(function(){
+            //hide the energy explorer divs
+            //$('.column').equalHeight();
+            $("#building").fadeOut(0);
+            $("#floor").fadeOut(0);
+
+            //When user clicks on a cube piece, hide the building div and show the floor div
+            //the rest of the behavior is controlled in hideshow.js
+            $(".cube_piece").click(function () {
+                $("#building").fadeOut(350, 'swing', function(){
+                $("#floor").fadeIn(350);
+                        }
+                );
+            });
+
+
+    });
+    </script>
+
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
 
@@ -97,10 +113,15 @@
 {% endblock %}
 
 {% block mainbody %}
-	<!--<section id="main" class="2column" >
-		<h4 class="alert_info">Please, select a building to start.</h4>
-		<article class="module width_full" id="floor" style="display:none;">>
-			<header><h3>Average Energy Consumption</h3></header>
+
+
+    <section id="main" class="column" >
+		<div id="alert">
+            <h4 class="alert_info" >Please, select a building to start.</h4>
+        </div>
+        <div id="floor">
+        <article class="module width_full" >
+			<header><h3>Floor information</h3></header>
             <div class="module_content clear" style="height:500px;">
             	<div class="graph_placeholder">
                   <div id="chart_div"></div>
@@ -141,19 +162,17 @@
                 </li></a>
                 <li><a href="javascript:dashboardDataLoad('Year')">
                 365 days
-                </li></a>
+                </li></a>-->
             </div>
             <footer></footer>
         </article>
-		<div class="spacer"></div>
-	</section>-->
-        <div id="building" style="">
-        <section id="main" class="column" rel="building">
-		<article class="module width_3_quarter">
-			<header><h3>Overview</h3></header>
-            <div class="module_content clear stats" style="height:510px;">
+        </div>
+        <div id="building">
+        <article class="module width_3_quarter">
+			<header><h3>Building information</h3></header>
+            <div class="module_content clear stats" style="height:610px;">
                 <fieldset >
-                    <table cellpadding="5px" width="100%" >
+                    <table cellpadding="0px" width="100%" >
                         <tr>
                             <td width="25%">
                                 <h3>General</h3>
@@ -224,7 +243,22 @@
                 </fieldset>
                 <div class="spacer"></div>
                 <div id="chart_div2"></div><br>
+            <div class="slider-container slider-percentage">
+            <div class="slider">
+                <span class="left"></span>
+                <span class="guide"><span style="padding-left:100px;">Slide me</span></span>
+                <span class="right"></span>
             </div>
+			<div class="ruler container" style="min-width:0px;max-width:auto;"> <ul>
+				<li>1 Year</li>
+				<li>3 Months</li>
+				<li>1 Month</li>
+				<li>1 Week</li>
+                <li>1 Day</li>
+			</ul>
+			</div></div>
+            </div>
+
             <footer></footer>
         </article>
 		<article class="module width_quarter">
@@ -236,6 +270,8 @@
             <iframe width="100%" height="249" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=sutardja+dai+hall,+berkeley+ca&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=51.089971,100.898438&amp;ie=UTF8&amp;hq=&amp;hnear=Sutardja+Dai+Hall,+Berkeley,+California+94709&amp;z=14&amp;ll=37.874914,-122.25821&amp;output=embed"></iframe><br /><small><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=sutardja+dai+hall,+berkeley+ca&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=51.089971,100.898438&amp;ie=UTF8&amp;hq=&amp;hnear=Sutardja+Dai+Hall,+Berkeley,+California+94709&amp;z=14&amp;ll=37.874914,-122.25821" style="color:#0000FF;text-align:left">View Larger Map</a></small>
 		<footer></footer>
         </article >
-	</section>
         </div>
+        <div class="spacer"></div>
+	</section>
+
 {% endblock %}

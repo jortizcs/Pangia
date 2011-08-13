@@ -1,6 +1,6 @@
 /* =============== ESSENTIALS =============== */
 html, div, map, dt, isindex, form, header, aside, section, section, article, footer {  display: block;  } 
-html, body { height: 100%;margin: 0;padding: 0;font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;background: #F8F8F8;font-size: 12px; min-height: 100%; position: fixed; width:100%; min-width:960px;}
+html, body { height: 100%;margin: 0;padding: 0;font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;background: #F8F8F8;font-size: 12px; min-height: 100%; position: fixed; width:100%; min-width:1220px;}
 .clear {clear: both;}
 .spacer {height: 20px;}
 a:link, a:visited {color: #77BACE;text-decoration: none;}
@@ -107,8 +107,10 @@ display: inline-block; height: 17px; line-height: 17px; text-shadow: 0 1px 0 #ff
 /* 
 << Sidebar cubes 
 */
-.cube_piece {margin:0 auto;background:url(../images/cube.png) -144px 0px no-repeat;display:block;height:110px;margin-top:-60px;width:140px; position:relative;cursor:pointer;text-align:right; alignment-baseline:text-after-edge}
-.cube_piece:hover {margin:0 auto; background:url(../images/cube.png) 0px 0px no-repeat; display:block;position:relative; margin-top:-60px;width:144px;height:110px;z-index:99999999999; }
+.cube_piece {margin:0 auto;background:url(../images/cube.png) -144px 0px no-repeat;display:block;height:110px;margin-top:-60px;width:140px; position:relative;cursor:pointer;text-align:right; alignment-baseline:text-after-edge; color:#999999; font-size: 0.9em;font-weight:bold;}
+.cube_piece span {margin:0px -55px 0px 0px; text-transform:uppercase; text-shadow: 0 1px 0 #fff;}
+.cube_piece:hover {margin:0 auto; background:url(../images/cube.png) 0px 0px no-repeat; display:block;position:relative; margin-top:-60px;width:144px;height:110px;z-index:99999999999; color:#464C4C}
+.cube_piece span:hover {}
 .cube_shadow {margin:0 auto;background:url(../images/cube.png) -286px -40px no-repeat; height:120px; width:186px;display:block; margin-top:-70px}
 /* 
 << Sidebar icon

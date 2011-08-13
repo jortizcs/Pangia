@@ -9,6 +9,9 @@ import views
 urlpatterns = patterns('',
     # Example:
     # (r'^pangia/', include('pangia.foo.urls')),
+	(r'^buildings/procs/sfs_get', 'buildings.views.sfs_get_ts'),
+	(r'^buildings/procs/sfs_post_target', 'buildings.views.sfs_post_target'),
+    (r'^buildings', 'buildings.views.index'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -22,7 +25,6 @@ urlpatterns = patterns('',
     (r'^live_feedback/submit', 'views.live_feedback_submit'),
     (r'^login', 'views.login'),
     (r'^analytics', 'views.analytics'),
-    (r'^procs/sfs_get', 'views.sfs_get_ts'),
     (r'^dashboard', 'views.dashboard'),
     (r'^settings', 'views.settings'),
     (r'', 'views.index'),

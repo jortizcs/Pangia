@@ -78,3 +78,4 @@ class AvgStat(models.Model):
 	)
 	window_size = models.CharField(max_length=3, choices=WINDOW_SIZE_CHOICES)
 	start_time = models.DateTimeField(db_index=True)
+	

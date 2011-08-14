@@ -49,35 +49,52 @@ function analytics_js () {
     };
 
     function setData(type) {
+        var data;
+
         switch (type) {
-        case 'area': return(setAreaData());
-        case 'bar': return(setBarData());
-        case 'pie': return(setPieData());
+        case 'area': data = setAreaData();
+                     break;
+        case 'bar': data = setBarData();
+                    break;
+        case 'pie': data = setPieData();
+                    break;
         }
+
+        return data;
     }
 
-    function dashboardChartTypeUpdate(chart, type) {
-        var options = new Object();
-        var data = setData(type);
+    function setOptions(type) {
+        var options;
 
-        if (type === 'pie') {
-            options.series = {
-                  pie: {
-                    show: true,
-                    }
-            };
-            options.grid = {
-                hoverable:true,
-                clickable:true
-            };
+        switch (type) {
+        case 'area': options = {
+                        selection: {
+                            mode: 'x',
+                        },
+                     };
+                     break;
+        case 'bar': options = {};
+                    break;
+        case 'pie': options = {
+                        series: {
+                            pie: {
+                                show: true,
+                            },
+                        },
+                        grid: {
+                            hoverable: true,
+                            clickable: true,
+                        },
+                    };
+                    break;
         }
-        currentcharttype = type;
 
-        curplot = $.plot($("#flotvisualization"), data, options);
-        if (type == 'pie'){
-            $("#flotvisualization").bind("plothover", pieHover);
-            $("#flotvisualization").bind("plotclick", pieClick);
-        }
+        return options;
+    }
+
+    function areaSelected(event, pos, obj)
+    {
+        alert('selected!');
     }
 
     function pieHover(event, pos, obj)
@@ -95,6 +112,28 @@ function analytics_js () {
                 return;
             percent = parseFloat(obj.series.percent).toFixed(2);
             alert(''+obj.series.label+': '+percent+'%');*/
+    }
+
+    function registerChartCallbacks(type, visualizationelement) {
+        switch (type) {
+        case 'area': visualizationelement.bind("plotselected", areaSelected);
+                     break;
+        case 'bar': break;
+        case 'pie': visualizationelement.bind("plothover", pieHover);
+                    visualizationelement.bind("plotclick", pieClick);
+                    break;
+        }
+    }
+
+    function dashboardChartTypeUpdate(chart, type) {
+        var data = setData(type);
+        var options = setOptions(type);
+
+        currentcharttype = type;
+        var visualizationelement = $('#flotvisualization');
+        curplot = $.plot($(visualizationelement), data, options);
+
+        registerChartCallbacks(type, visualizationelement);
     }
 
     currentcharttype = 'area';

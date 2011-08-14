@@ -1,4 +1,4 @@
-function analytics_js () {
+var ANALYTICS = (function () {
     var genChartData = function(data, dataPoint) {
         var result = new Array();
         var i;
@@ -18,12 +18,12 @@ function analytics_js () {
         return({ data: data[index] });
     };
 
-    var data = [ 3, 8, 5, 13, 8 ];
+    var data = [ 3, 8, 5, 13, 8, 2, 2, 9, 10, 1, 2, 5 ];
 
     var currentcharttype;
     var curplot;
 
-    var setAreaData = function() {
+    function setAreaData () {
         return([
             {
                 lines: {
@@ -33,8 +33,9 @@ function analytics_js () {
                 data: genChartData(data, overTimeData),
             }
         ]);
-    };
-    var setBarData = function() {
+    }
+
+    function setBarData () {
         return([
             {
                 bars: {
@@ -43,10 +44,11 @@ function analytics_js () {
                 data: genChartData(data, overTimeData),
             }
         ]);
-    };
-    var setPieData = function() {
+    }
+
+    function setPieData () {
         return(genChartData(data, pieData));
-    };
+    }
 
     function setData(type) {
         var data;
@@ -92,9 +94,9 @@ function analytics_js () {
         return options;
     }
 
-    function areaSelected(event, pos, obj)
+    function areaSelected(event, ranges)
     {
-        alert('selected!');
+        alert(ranges.xaxis.from + " : " + ranges.xaxis.to);
     }
 
     function pieHover(event, pos, obj)
@@ -173,5 +175,4 @@ function analytics_js () {
             paused = false;
         }
     });
-}
-analytics_js();
+}());

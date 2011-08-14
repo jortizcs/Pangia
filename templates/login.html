@@ -8,11 +8,11 @@
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/layout.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/ie.css" type="text/css" media="screen" />
-	<script src="{{ MEDIA_URL }}js/html5.js"></script>
+	<script src="{{ MEDIA_URL }}js/lib/html5.js"></script>
 	<![endif]-->
-		<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.2.min.js"></script>
-		<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.easing.min.js"></script>
-		<script type="text/javascript" src="{{ MEDIA_URL }}js/supersized.3.2.4.min.js"></script>
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/lib/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/lib/jquery.easing.min.js"></script>
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/lib/supersized.3.2.4.min.js"></script>
         <script type="text/javascript">
 
             jQuery(function($){
@@ -27,8 +27,8 @@
                                 // Components
                                 slide_links				:	'blank',	// Individual links for each slide (Options: false, 'number', 'name', 'blank')
                                 slides 					:  	[			// Slideshow Images
-                                                                    {image : '/static/images/bcg/1.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                                   {image : '/static/images/bcg/2.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+                                                                    {image : '{{ MEDIA_URL }}images/bcg/1.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+                                                                   {image : '{{ MEDIA_URL }}images/bcg/2.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
                                                         /*{image : '../images/bcg/3.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
                                                         {image : '../images/bcg/4.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
                                                         {image : '../images/bcg/5.jpg', title : 'Image Source: Flickr > Cuba Gallery'},

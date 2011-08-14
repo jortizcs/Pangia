@@ -71,7 +71,30 @@
         data2.setValue(3, 2, 540);
 
         var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
-        chart2.draw(data2, {width: 680, height: 240, title: 'Company Performance'});
+        chart2.draw(data2, {width: 280, height: 240, title: 'Company Performance'});
+      }
+         google.setOnLoadCallback(drawChart3);
+          function drawChart3() {
+        var data3 = new google.visualization.DataTable();
+        data3.addColumn('string', 'Year');
+        data3.addColumn('number', 'Sales');
+        data3.addColumn('number', 'Expenses');
+        data3.addRows(4);
+        data3.setValue(0, 0, '2004');
+        data3.setValue(0, 1, 1000);
+        data3.setValue(0, 2, 400);
+        data3.setValue(1, 0, '2005');
+        data3.setValue(1, 1, 1170);
+        data3.setValue(1, 2, 460);
+        data3.setValue(2, 0, '2006');
+        data3.setValue(2, 1, 860);
+        data3.setValue(2, 2, 580);
+        data3.setValue(3, 0, '2007');
+        data3.setValue(3, 1, 1030);
+        data3.setValue(3, 2, 540);
+
+        var chart3 = new google.visualization.PieChart(document.getElementById('chart_div3'));
+        chart3.draw(data3, {width: 280, height: 240, title: 'Company Performance'});
       }
     </script>
 {% endblock %}
@@ -83,7 +106,7 @@
 		</form>
 	</div>
 		<div class="breadcrumbs_container">
-			<article class="breadcrumbs"><a href="index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Energy Explorer</a></article>
+			<article class="breadcrumbs"><a href="../index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Energy Explorer</a></article>
 		</div>
 	</section><!-- end of secondary bar -->
 {% endblock %}
@@ -91,7 +114,7 @@
 	<aside id="sidebar" class="column">
 	<div id="buttons" ><ul>
         <li><div class="btn_small_pressed">SPACES</div></li>
-        <li><div class="btn_small">SYSTEMS</div></li>
+        <li><a href="/energy_explorer/systems" style="margin: 0;padding:0px"><div class="btn_small">SYSTEMS</div></a></li>
 	</ul></div>
     <div class="clear">
     <hr/></div>
@@ -197,7 +220,7 @@
                                 <p class="type">Energy Star</p>
                             </td>
                             <td width="25%">
-                               <p class="count">6,500t</p>
+                               <p class="count">650t</p>
                                 <p class="type">Carbon</p>
                             </td>
                             <td width="25%">
@@ -241,8 +264,11 @@
                         </tr>
                     </table>
                 </fieldset>
-                <div class="spacer"></div>
-                <div id="chart_div2"></div><br>
+                 
+                <div id="chart_div2" style="float:left;"></div>
+                <div id="chart_div3" style="float:left;"></div>
+                    <br>
+                <div style="margin-top:260px;">
             <div class="slider-container slider-percentage">
             <div class="slider">
                 <span class="left"></span>
@@ -258,7 +284,7 @@
 			</ul>
 			</div></div>
             </div>
-
+            </div>
             <footer></footer>
         </article>
 		<article class="module width_quarter">

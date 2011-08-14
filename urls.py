@@ -18,7 +18,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
-    (r'^energy_explorer', 'views.energy_explorer'),
+    (r'^energy_explorer/spaces', 'views.energy_explorer_spaces'),
+    (r'^energy_explorer/systems', 'views.energy_explorer_systems'),
+    (r'^energy_explorer/search', 'views.energy_explorer_search'),
     (r'^alerts/view', 'views.alerts_view'),
     (r'^alerts/set', 'views.alerts_set'),
     (r'^live_feedback/view', 'views.live_feedback_view'),
@@ -26,6 +28,7 @@ urlpatterns = patterns('',
     (r'^login', 'views.login'),
     (r'^analytics', 'views.analytics'),
     (r'^dashboard', 'views.dashboard'),
+    (r'^realtime', 'views.realtime'),
     (r'^settings', 'views.settings'),
     (r'', 'views.index'),
 )

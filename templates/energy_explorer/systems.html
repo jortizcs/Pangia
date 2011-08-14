@@ -1,0 +1,188 @@
+{% extends "base_sidebar.html" %}
+
+{% block title %}Pangia :: Energy Explorer{% endblock %}
+{% block extrahead %}
+    {{ block.super }}
+    <script>
+        $(function(){
+            //hide the energy explorer divs
+            //$('.column').equalHeight();
+            $("#building").fadeOut(0);
+
+            //When user clicks on a cube piece, hide the building div and show the floor div
+            //the rest of the behavior is controlled in hideshow.js
+            $(".cube_piece").click(function () {
+            });
+    });
+    </script>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Year');
+        data.addColumn('number', 'Sales');
+        data.addColumn('number', 'Expenses');
+        data.addRows(4);
+        data.setValue(0, 0, '2004');
+        data.setValue(0, 1, 1000);
+        data.setValue(0, 2, 400);
+        data.setValue(1, 0, '2005');
+        data.setValue(1, 1, 1170);
+        data.setValue(1, 2, 460);
+        data.setValue(2, 0, '2006');
+        data.setValue(2, 1, 860);
+        data.setValue(2, 2, 580);
+        data.setValue(3, 0, '2007');
+        data.setValue(3, 1, 1030);
+        data.setValue(3, 2, 540);
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, {width: 600, height: 440, title: 'Company Performance'});
+      }
+      google.setOnLoadCallback(drawChart2);
+          function drawChart2() {
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string', 'Year');
+        data2.addColumn('number', 'Sales');
+        data2.addColumn('number', 'Expenses');
+        data2.addRows(4);
+        data2.setValue(0, 0, '2004');
+        data2.setValue(0, 1, 1000);
+        data2.setValue(0, 2, 400);
+        data2.setValue(1, 0, '2005');
+        data2.setValue(1, 1, 1170);
+        data2.setValue(1, 2, 460);
+        data2.setValue(2, 0, '2006');
+        data2.setValue(2, 1, 860);
+        data2.setValue(2, 2, 580);
+        data2.setValue(3, 0, '2007');
+        data2.setValue(3, 1, 1030);
+        data2.setValue(3, 2, 540);
+
+        var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        chart2.draw(data2, {width: 280, height: 240, title: 'Company Performance'});
+      }
+         google.setOnLoadCallback(drawChart3);
+          function drawChart3() {
+        var data3 = new google.visualization.DataTable();
+        data3.addColumn('string', 'Year');
+        data3.addColumn('number', 'Sales');
+        data3.addColumn('number', 'Expenses');
+        data3.addRows(4);
+        data3.setValue(0, 0, '2004');
+        data3.setValue(0, 1, 1000);
+        data3.setValue(0, 2, 400);
+        data3.setValue(1, 0, '2005');
+        data3.setValue(1, 1, 1170);
+        data3.setValue(1, 2, 460);
+        data3.setValue(2, 0, '2006');
+        data3.setValue(2, 1, 860);
+        data3.setValue(2, 2, 580);
+        data3.setValue(3, 0, '2007');
+        data3.setValue(3, 1, 1030);
+        data3.setValue(3, 2, 540);
+
+        var chart3 = new google.visualization.PieChart(document.getElementById('chart_div3'));
+        chart3.draw(data3, {width: 280, height: 240, title: 'Company Performance'});
+      }
+    </script>
+{% endblock %}
+{% block secondary_bar %}
+  <section id="secondary_bar">
+		<div class="user">
+					<form class="quick_search">
+			<input type="text" value="Quick Search" onFocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+		</form>
+	</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="../index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Energy Explorer</a></article>
+		</div>
+	</section><!-- end of secondary bar -->
+{% endblock %}
+{% block sidebar %}
+	<aside id="sidebar" class="column">
+	<div id="buttons" ><ul>
+        <li><a href="/energy_explorer/spaces" style="margin: 0px; padding:0px;"><div class="btn_small">SPACES</div></a></li>
+        <li><div class="btn_small_pressed">SYSTEMS</div></li>
+	</ul></div>
+    <div class="clear">
+    <hr/></div>
+		<h3>Surtadja Dai Hall</h3>
+        <ul class="toggle" style="padding-left:20px;">
+            <h3>HVAC</h3>
+            <ul class="toggle">
+                <li class="icn_new_article"><a href="#">HVAC</a></li>
+                <li class="icn_edit_article"><a href="#">Lighting</a></li>
+                <li class="icn_categories"><a href="#">Other Electric</a></li>
+                <li class="icn_tags"><a href="#">Other</a></li>
+            </ul>
+            <h3>Lighting</h3>
+            <h3>Other Electric</h3>
+            <h3>Other</h3>
+
+		</ul>
+				
+	</aside><!-- end of sidebar -->
+{% endblock %}
+
+{% block mainbody %}
+    <section id="main" class="column" >
+		<div id="alert">
+            <h4 class="alert_info" >Please, select a building to start.</h4>
+        </div>
+        <div id="building">
+            <article class="module width_full" >
+                        <header><h3>System energy information</h3></header>
+                        <div class="module_content clear" style="height:500px;">
+                            <div class="graph_placeholder">
+                              <div id="chart_div"></div>
+                        <div class="slider-container slider-percentage">
+                        <div class="slider">
+                            <span class="left"></span>
+                            <span class="guide"><span style="padding-left:100px;">Slide me</span></span>
+                            <span class="right"></span>
+                        </div>
+                        <div class="ruler container" style="min-width:0px;max-width:auto;"> <ul>
+                            <li>1 Year</li>
+                            <li>3 Months</li>
+                            <li>1 Month</li>
+                            <li>1 Week</li>
+                            <li>1 Day</li>
+                        </ul>
+                        </div></div>
+                        </div>
+                        <div id="button_bar_horizontal">
+                        <ul class="menu">
+                            <li class="btn_area"><a href="javascript:dashboardChartTypeUpdate(0, 'area')"></a></li>
+                            <li class="btn_bar"><a href="javascript:dashboardChartTypeUpdate(0, 'bar')"></a></li>
+                            <li class="btn_pie"><a href="javascript:dashboardChartTypeUpdate(0, 'pie')"></a></li>
+                       </ul>
+                        </div>
+
+            <!--             <li class="first"><a href="javascript:dashboardDataLoad('Live')" class="active">
+                            Live
+                            </li></a>
+                            <li ><a href="javascript:dashboardDataLoad('Today')">
+                            Today
+                            </li></a>
+                            <li><a href="javascript:dashboardDataLoad('Week')">
+                            7 days
+                            </li></a>
+                            <li><a href="javascript:dashboardDataLoad('Month')">
+                            30 days
+                            </li></a>
+                            <li><a href="javascript:dashboardDataLoad('Year')">
+                            365 days
+                            </li></a>-->
+                        </div>
+                        <footer></footer>
+                    </article>
+                    </div>
+                <div class="spacer"></div>
+	</section>
+
+{% endblock %}

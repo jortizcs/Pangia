@@ -27,25 +27,39 @@ def analytics(request):
     return render_to_response('analytics.html',
       context_instance=RequestContext(request, {}))
 
-def energy_explorer(request):
+def energy_explorer_spaces(request):
     """
-    Displays energy explorer
+    Displays energy explorer spaces view
     """
-    return render_to_response('energy_explorer.html',
+    return render_to_response('energy_explorer/spaces.html',
+      context_instance=RequestContext(request, {}))
+
+def energy_explorer_systems(request):
+    """
+    Displays energy explorer systems view
+    """
+    return render_to_response('energy_explorer/systems.html',
+      context_instance=RequestContext(request, {}))
+
+def energy_explorer_search(request):
+    """
+    Displays energy explorer search results view
+    """
+    return render_to_response('energy_explorer/search.html',
       context_instance=RequestContext(request, {}))
 
 def alerts_view(request):
     """
     Show all alerts
     """
-    return render_to_response('alerts/alerts_view.html',
+    return render_to_response('alerts/view.html',
       context_instance=RequestContext(request, {}))
 
 def alerts_set(request):
     """
     Set your alerts
     """
-    return render_to_response('alerts/alerts_set.html',
+    return render_to_response('alerts/set.html',
       context_instance=RequestContext(request, {}))
 
 def dashboard(request):
@@ -69,6 +83,12 @@ def live_feedback_view(request):
     return render_to_response('live_feedback/view.html',
       context_instance=RequestContext(request, {}))
 
+def realtime (request):
+    """
+    Displays the gathered feedback spatially
+    """
+    return render_to_response('realtime.html',
+      context_instance=RequestContext(request, {}))
 
 def settings(request):
     """

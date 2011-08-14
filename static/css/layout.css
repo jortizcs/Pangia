@@ -69,10 +69,10 @@ article.breadcrumbs { float: left; padding: 0 10px; border: 1px solid #ccc; -web
 
 /* =============== SIDEBAR =============== */
 aside#sidebar { width: 23%; background: #E0E0E3 url(../images/sidebar.jpg) repeat-y;
-float: left; min-height: 100%; height:auto;margin:-4px 0px 0px 0px; }
+float: left; min-height: 100%; height:1800px;margin:-4px 0px 0px 0px; }
 #sidebar hr { border: none; outline: none; background: url(../images/sidebar_divider.png) repeat-x;
 display: block; width: 100%; height: 2px;}
-.column {height:2000px;}
+.column {height:1800px;}
 /* 
 << Search 
 */
@@ -95,8 +95,8 @@ display: inline-block; height: 17px; line-height: 17px; text-shadow: 0 1px 0 #ff
 /* 
 << Sidebar buttons 
 */
-.btn_small_pressed {margin:0px auto; width:68px;margin: 8px 8px 8px 0px; height: 20px; text-align: center; color: #fff; text-decoration: none; text-shadow: 0 -1px 0 #000; background:url(../images/btn/btn_small.png) 0 0px no-repeat; font-weight:bold;font-size:1em;line-height: 20px;position:relative;}
-.btn_small {width:68px; margin: 8px 8px 8px 0px; height: 20px; text-align: center; line-height: 20px; background:url(../images/btn/btn_small.png) 0px -20px no-repeat;font-weight:bold; cursor:pointer; font-size:1em; text-shadow: 0 -1px 0 #FFF;position:relative;}
+.btn_small_pressed {margin:0px auto; width:68px;margin: 8px; height: 20px; text-align: center; color: #fff; text-decoration: none; text-shadow: 0 -1px 0 #000; background:url(../images/btn/btn_small.png) 0 0px no-repeat; font-weight:bold;font-size:1em;line-height: 20px;position:relative;}
+.btn_small {width:68px; margin: 8px; height: 20px; text-align: center; line-height: 20px; background:url(../images/btn/btn_small.png) 0px -20px no-repeat;font-weight:bold; cursor:pointer; font-size:1em; text-shadow: 0 -1px 0 #FFF;position:relative;}
 .btn_small:hover {background-position: 0px -40px; text-decoration:none;}
 #buttons{float:right;position:relative;left:-50%;text-align:left;}
 #buttons ul{list-style:none; position:relative;left:50%;}
@@ -153,7 +153,7 @@ section#main { width: 77%; background: url(../images/sidebar_shadow.png) repeat-
 .app_live_feedback {background:url(../images/btn/dashboard.png) no-repeat -226px -194px; margin-left:65px;}
 .app_live_feedback:hover {background:url(../images/btn/dashboard_hover.png) no-repeat -226px -194px;}
 .app_realtime {background:url(../images/btn/dashboard.png) no-repeat -452px -194px; margin-left:65px;}
-/*.app_realtime:hover {background:url(../images/btn/dashboard_hover.png) no-repeat -452px -194px; }*/
+.app_realtime:hover {background:url(../images/btn/dashboard_hover.png) no-repeat -452px -194px; }
 .index_text {margin-top:20px;top:70px; }
 .index_text * div {color:#1f1f1f;text-decoration:none; }
 .index_text * div:hover {color:#A9D943; }
@@ -195,6 +195,8 @@ section#main.alerts .module_content {height:500px;}
 .btn_less_pressed { background-position: -154px -117px; }
 .btn_equal_pressed { background-position: -154px -58px; }
 .btn_larger_pressed { background-position: -154px 0px; }
+.icn_edit {background:url(../images/icons/icn_edit.png);float:left;width:16px;height:16px; margin-right:10px;cursor:pointer}
+.icn_trash {background:url(../images/icons/icn_trash.png); float:left;width:16px;height:14px;cursor:pointer}
 /* 
 ** Energy Explorer / Analytics View
 */
@@ -259,7 +261,8 @@ html ul.tabs li:last-child, html ul.tabs li:last-child a  {	-webkit-border-top-r
 #main .module header h3.tabs_involved {display: block;width: 60%;float: left;}
 .tablesorter td:first-child {padding:0px;margin:0px;padding-left:20px;}
 .tablesorter th:first-child {padding-left:10px;} 
-.tablesorter .alert {background:#F3D9D9}
+.tablesorter .alarm {background:#F3D9D9}
+.tablesorter .alert {background:#F5F3BA}
 /* 
 ++ Messages 
 */

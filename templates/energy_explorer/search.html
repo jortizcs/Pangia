@@ -1,0 +1,128 @@
+{% extends "base_sidebar.html" %}
+
+{% block title %}Pangia :: Energy Explorer{% endblock %}
+{% block extrahead %}
+    {{ block.super }}
+    <script>
+        $(function(){
+
+            //When user clicks on a cube piece, hide the building div and show the floor div
+            //the rest of the behavior is controlled in hideshow.js
+            $(".cube_piece").click(function () {
+            });
+
+
+    });
+    </script>
+    <style>
+html,body {overflow-y:auto; overflow-x:hidden}
+.no_module {min-width:1220px; }
+section {width:100%;}
+</style>
+{% endblock %}
+{% block secondary_bar %}
+  <section id="secondary_bar">
+		<div class="user">
+		<form class="quick_search" ACTION="/energy_explorer/search" METHOD=GET>
+			<input type="text" value="Quick Search" onFocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+		</form>
+	    </div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="../index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a HREF="/energy_explorer/spaces" onClick="history.back();return false;">Energy Explorer</a><div class="breadcrumb_divider"></div><a class="current">Search Results</a></article>
+		</div>
+  </section><!-- end of secondary bar -->
+{% endblock %}
+{% block sidebar %}
+	<aside id="sidebar" class="column">
+	<div id="buttons" ><ul>
+        <li><a href="/energy_explorer/spaces" style="margin: 0;padding:0px"><div class="btn_small">SPACES</div></a></li>
+        <li><a href="/energy_explorer/systems" style="margin: 0;padding:0px"><div class="btn_small">SYSTEMS</div></a></li>
+	</ul></div>
+    <div class="clear">
+        <br>
+    </div>
+    <hr/>
+
+	</aside><!-- end of sidebar -->
+{% endblock %}
+
+{% block mainbody %}
+    <section id="main" class="column" >
+        <div id="search">
+<article class="module width_full">
+		<header><h3 class="tabs_involved">Search</h3>
+<form class="sub_search">
+			<input type="text" value="Search within Results" onFocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+		</form>
+		</header>
+
+		<div class="tab_container">
+			<div id="tab2" class="tab_content">
+			<table class="tablesorter" cellspacing="0">
+			<thead>
+				<tr>
+                    <th>Name</th>
+    				<th>Location</th>
+    				<th>System</th>
+    				<th>View in</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+                    <td>Lorem Ipsum Dolor Sit Amet</td>
+    				<td>Surtadja Dai Hall, Room 354</td>
+    				<td>VAV heating coil</td>
+    				<td>
+                        <a href="/energy_explorer/spaces" style="margin: 0;padding:0px;float:left"><div class="btn_small">SPACES</div></a>
+                        <a href="/energy_explorer/systems" style="margin: 0;padding:0px;float:left"><div class="btn_small">SYSTEMS</div></a>
+    				</td>
+				</tr>
+				<tr>
+    				<td >Ipsum Lorem Dolor Sit Amet</td>
+    				<td>Surtadja Dai Hall, Room 354</td>
+    				<td>VAV heating coil</td>
+                    <td>
+                        <a href="/energy_explorer/spaces" style="margin: 0;padding:0px;float:left"><div class="btn_small">SPACES</div></a>
+                        <a href="/energy_explorer/systems" style="margin: 0;padding:0px;float:left"><div class="btn_small">SYSTEMS</div></a>
+                    </td>
+				</tr>
+				<tr>
+    				<td >Sit Amet Dolor Ipsum</td>
+    				<td>Surtadja Dai Hall, Room 354</td>
+    				<td>VAV heating coil</td>
+                    <td>
+                        <a href="/energy_explorer/spaces" style="margin: 0;padding:0px;float:left"><div class="btn_small">SPACES</div></a>
+                        <a href="/energy_explorer/systems" style="margin: 0;padding:0px;float:left"><div class="btn_small">SYSTEMS</div></a>
+                    </td>
+				</tr>
+				<tr>
+    				<td >Sit Amet Dolor Ipsum</td>
+    				<td>Surtadja Dai Hall, Room 354</td>
+    				<td>VAV heating coil</td>
+                    <td>
+                        <a href="/energy_explorer/spaces" style="margin: 0;padding:0px;float:left"><div class="btn_small">SPACES</div></a>
+                        <a href="/energy_explorer/systems" style="margin: 0;padding:0px;float:left"><div class="btn_small">SYSTEMS</div></a>
+                    </td>
+				</tr>
+				<tr>
+    				<td >Sit Amet Dolor Ipsum</td>
+    				<td>Surtadja Dai Hall, Room 354</td>
+    				<td>VAV heating coil</td>
+                    <td>
+                        <a href="/energy_explorer/spaces" style="margin: 0;padding:0px;float:left"><div class="btn_small">SPACES</div></a>
+                        <a href="/energy_explorer/systems" style="margin: 0;padding:0px;float:left"><div class="btn_small">SYSTEMS</div></a>
+                    </td>
+				</tr>
+
+			</tbody>
+			</table>
+			</div><!-- end of #tab2 -->
+
+		</div><!-- end of .tab_container -->
+		<footer></footer>
+		</article><!-- end of content manager article -->
+		<div class="spacer"></div>
+        </div>
+	</section>
+
+{% endblock %}

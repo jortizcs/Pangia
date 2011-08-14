@@ -1,0 +1,204 @@
+{% extends "base_sidebar.html" %}
+
+{% block title %}Pangia :: Analytics{% endblock %}
+{% block extrahead %}
+   {{ block.super }}
+   <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/flot/jquery.flot.js"></script>
+   <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/flot/jquery.flot.pie.js"></script>
+{% endblock %}
+
+{% block bodyclass %}{% endblock %}
+    {% block secondary_bar %}
+    <section id="secondary_bar">
+ 		<div class="user">
+					<form class="quick_search">
+			<input type="text" value="Quick Search" onFocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+		</form>
+	</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Analytics</a></article>
+		</div>
+    </section><!-- end of secondary bar -->
+    {% endblock %}
+	
+	{% block sidebar %}
+    <aside id="sidebar" class="column">
+    	<h3>Spaces</h3>
+        <ul class="toggle">
+		<li>Put streams here</li>
+		</ul>
+       <h3>Systems</h3>
+        <ul class="toggle">
+		<li>Put streams here</li>
+		</ul>
+    </aside><!-- end of sidebar -->
+	{% endblock %}
+	
+	{% block mainbody %}
+    <section id="main" class="column">
+		<article class="module width_full">
+			<header><h3>Average Energy Consumption</h3></header>
+            <div class="module_content clear" style="height:500px;">
+             <div class="graph_placeholder">
+                <div id="flotvisualization" style="width: 100%;  height: 490px;clear:both; font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;">
+
+			<script type="text/javascript">
+                    var genChartData = function(data, dataPoint) {
+                        var result = new Array();
+                        var i;
+
+                        for (i = 0; i < data.length; i++) {
+                            result.push(dataPoint(data, i));
+                        }
+
+                        return(result);
+                    }
+
+                    var overTimeData = function(data, index) {
+                        return([ index, data[index] ]);
+                    };
+
+                    var pieData = function(data, index) {
+                        return({ data: data[index] });
+                    };
+
+                    var data = [ 3, 8, 5, 13, 8 ];
+
+                    var currentcharttype;
+                    var curplot;
+
+                    var setAreaData = function() {
+                        return([
+                            {
+                                lines: {
+                                    show: true,
+                                    fill: true,
+                                },
+                                data: genChartData(data, overTimeData),
+                            }
+                        ]);
+                    };
+                    var setBarData = function() {
+                        return([
+                            {
+                                bars: {
+                                    show: true,
+                                },
+                                data: genChartData(data, overTimeData),
+                            }
+                        ]);
+                    };
+                    var setPieData = function() {
+                        return(genChartData(data, pieData));
+                    };
+
+                    function setData(type) {
+                        switch (type) {
+                        case 'area': return(setAreaData());
+                        case 'bar': return(setBarData());
+                        case 'pie': return(setPieData());
+                        }
+                    }
+
+                    function dashboardChartTypeUpdate(chart, type) {
+                        var options = new Object();
+                        var data = setData(type);
+
+                        if (type === 'pie') {
+                            options.series = {
+                                  pie: {
+                                    show: true,
+                                    }
+                            };
+                            options.grid = {
+                                hoverable:true,
+                                clickable:true
+                            };
+                        }
+                        currentcharttype = type;
+
+                        curplot = $.plot($("#flotvisualization"), data, options);
+                        if (type == 'pie'){
+							$("#flotvisualization").bind("plothover", pieHover);
+							$("#flotvisualization").bind("plotclick", pieClick);
+						}
+                    }
+
+                    function pieHover(event, pos, obj)
+					{
+						/*if (!obj)
+								return;
+						percent = parseFloat(obj.series.percent).toFixed(2);
+						$("#hover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');*/
+					}
+
+					function pieClick(event, pos, obj)
+					{
+							alert("click");
+							/*if (!obj)
+								return;
+							percent = parseFloat(obj.series.percent).toFixed(2);
+							alert(''+obj.series.label+': '+percent+'%');*/
+					}
+
+                    currentcharttype = 'area';
+                    dashboardChartTypeUpdate(0, currentcharttype);
+
+                    var timeout;
+                    var timeoutCallback = function () {
+                        var randomnumber = Math.floor(Math.random() * 13);
+                        data.shift();
+                        data.push(randomnumber);
+                        curplot.setData(setData(currentcharttype));
+                        curplot.draw();
+                        timeout = setTimeout(timeoutCallback, 2000);
+                    };
+                    timeout = setTimeout(timeoutCallback, 2000);
+                </script>
+             </div><br><br>
+
+            <!--<div class="slider-container slider-percentage">
+            <div class="slider">
+                <span class="left"></span>
+                <span class="guide"><span style="padding-left:100px;">Slide me</span></span>
+                <span class="right"></span>
+            </div>
+			<div class="ruler container" style="min-width:0px;max-width:auto;"> <ul>
+				<li>1 Year</li>
+				<li>3 Months</li>
+				<li>1 Month</li>
+				<li>1 Week</li>
+                <li>1 Day</li>
+			</ul>
+			</div></div>-->
+             </div>
+                    <div id="button_bar_horizontal">
+                    <ul class="menu">
+                        <li onclick="dashboardChartTypeUpdate(0, 'area')" class="btn_area"></a></li>
+                        <li class="btn_bar" onclick="dashboardChartTypeUpdate(0, 'bar')"></li>
+                        <li class="btn_pie" onclick="javascript:dashboardChartTypeUpdate(0, 'pie')"></li>
+                    </ul>
+                    </div>
+                </div>
+
+<!--             <li class="first"><a href="javascript:dashboardDataLoad('Live')" class="active">
+                Live
+                </li></a>
+                <li ><a href="javascript:dashboardDataLoad('Today')">
+                Today
+                </li></a>
+                <li><a href="javascript:dashboardDataLoad('Week')">
+                7 days
+                </li></a>
+                <li><a href="javascript:dashboardDataLoad('Month')">
+                30 days
+                </li></a>
+                <li><a href="javascript:dashboardDataLoad('Year')">
+                365 days
+                </li></a>-->
+            </div>
+            <footer></footer>
+        </article>
+		<div class="spacer"></div>
+	</section>
+{% endblock %}

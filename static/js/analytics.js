@@ -110,6 +110,7 @@ function analytics_js () {
         timeout = setTimeout(timeoutCallback, 2000);
     };
     timeout = setTimeout(timeoutCallback, 2000);
+    var paused = false;
 
 
     var genChartUpdate = function (type) {
@@ -118,5 +119,20 @@ function analytics_js () {
     $('#btn_area').click(genChartUpdate('area'));
     $('#btn_bar').click(genChartUpdate('bar'));
     $('#btn_pie').click(genChartUpdate('pie'));
+
+    var pausebtn = $('#btn_pause');
+    pausebtn.click(function(obj) {
+        if (!paused) {
+            clearTimeout(timeout);
+            pausebtn.addClass('btn_pause');
+            pausebtn.removeClass('btn_play');
+            paused = true;
+        } else {
+            timeout = setTimeout(timeoutCallback, 2000);
+            pausebtn.addClass('btn_play');
+            pausebtn.removeClass('btn_pause');
+            paused = false;
+        }
+    });
 }
 analytics_js();

@@ -217,8 +217,8 @@ section#main.alerts .module_content {height:500px;}
 #button_bar_horizontal .menu li:first-child {margin-top:10px}
 #button_bar_horizontal .menu li a, .menu li a:visited {	display: block;	text-indent: -9999px; background-repeat: no-repeat;}
 .btn_pause, .btn_pie, .btn_area, .btn_bar {margin:0px auto; }
-.btn_pause {background:url(../images/btn/pause-icon.jpg) no-repeat; height:61px; width:75px;}
-.btn_play {background:url(../images/btn/play-icon.png) no-repeat; height:61px; width:75px;}
+.btn_pause {background:url(../images/btn/play-icon.png) no-repeat; height:61px; width:75px;}
+.btn_play {background:url(../images/btn/pause-icon.jpg) no-repeat; height:61px; width:75px;}
 .btn_pie {background:url(../images/btn/btn_charts.png) 0px -110px no-repeat; height:61px; width:75px;}
 .btn_area {background:url(../images/btn/btn_charts.png) 0px -55px no-repeat; width:75px; height:55px}
 .btn_bar {background:url(../images/btn/btn_charts.png) 0px 0px no-repeat; width:75px;height:55px;}

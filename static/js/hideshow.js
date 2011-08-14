@@ -12,9 +12,11 @@ var is_visible = false;
 
 // append show/hide links to the element directly preceding the element with a class of "toggle"
 $('.toggle').prev().append(' <a href="#" class="toggleLink">'+showText+'</a>');
+$('.toggle_sub').prev().append(' <a href="#" class="toggleLink_sub">'+showText+'</a>');
 
 // hide all of the elements with a class of 'toggle'
 $('.toggle').hide();
+$('.toggle_sub').hide();
 
 // capture clicks on the toggle links
 $('a.toggleLink').click(function() {
@@ -36,9 +38,24 @@ $(this).parent().next('.toggle').slideUp('slow');
     $("#building").fadeOut(450, 'swing');
     $("#alert").fadeIn(450, 'swing');
 }
-
 // return false so any link destination is not followed
 return false;
-
 });
+
+$('a.toggleLink_sub').click(function() {
+
+// switch visibility
+    is_visible = !is_visible;
+
+// change the link text depending on whether the element is shown or hidden
+    if ($(this).text()==showText) {
+    $(this).text(hideText); $(this).parent().next('.toggle_sub').slideDown('slow');
+    }
+    else {
+    $(this).text(showText); $(this).parent().next('.toggle_sub').slideUp('slow');
+    }
+
+// return false so any link destination is not followed
+    return false;
+    });
 });

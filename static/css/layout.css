@@ -85,8 +85,9 @@ outline: none; color: #666666; border: 1px solid #77BACE; -webkit-box-shadow: in
 << Sidebar Menu 
 */
 #sidebar h3 { color: #1F1F20; text-transform: uppercase; text-shadow: 0 1px 0 #fff; font-size: 13px; margin: 10px 0 10px 6%; display: block; float: left; width: 90%; }
-.toggleLink { color: #999999; font-size: 10px; text-decoration: none; display: block; float: right; margin-right: 2% }
-#sidebar .toggleLink:hover { color: #77BACE; text-decoration: none; }
+.toggleLink, .toggleLink_sub { color: #999999; font-size: 10px; text-decoration: none; display: block; float: right; margin-right: 2% }
+#sidebar .toggleLink:hover, #sidebar .toggleLink_sub:hover { color: #77BACE; text-decoration: none; }
+#sidebar .toggle h3 {color:#464C4C}
 #sidebar ul { clear: both; margin: 0; padding: 0; }
 #sidebar li { list-style: none; margin: 0 0 0 12%; padding: 0; }
 #sidebar li a { color: #666666; padding-left: 25px; text-decoration: none;
@@ -129,6 +130,16 @@ display: inline-block; height: 17px; line-height: 17px; text-shadow: 0 1px 0 #ff
 #sidebar li.icn_settings a {background: url(../images/icons/icn_settings.png) no-repeat center left;}
 #sidebar li.icn_security a {background: url(../images/icons/icn_security.png) no-repeat center left;}
 #sidebar li.icn_jump_back a {background: url(../images/icons/icn_jump_back.png) no-repeat center left;}
+#sidebar li.icn_heating a {background: url(../images/icons/icn_heating.png) no-repeat center left;}
+#sidebar li.icn_ventilation a {background: url(../images/icons/icn_ventilation.png) no-repeat center left;}
+#sidebar li.icn_ac a {background: url(../images/icons/icn_ac.png) no-repeat center left;}
+#sidebar li.icn_lighting a {background: url(../images/icons/icn_lighting.png) no-repeat center left;}
+#sidebar li.icn_plugload a {background: url(../images/icons/icn_plugload.png) no-repeat center left;}
+#sidebar li.icn_datacenter a {background: url(../images/icons/icn_datacenter.png) no-repeat center left;}
+#sidebar li.icn_s_water a {background: url(../images/icons/icn_water.png) no-repeat center left;}
+#sidebar li.icn_s_oil a {background: url(../images/icons/icn_oil.png) no-repeat center left;}
+#sidebar li.icn_s_gas a {background: url(../images/icons/icn_gas.png) no-repeat center left;}
+#sidebar li.icn_s_steam a {background: url(../images/icons/icn_steam.png) no-repeat center left;} */
 #sidebar p { color: #666666; padding-left: 6%; text-shadow: 0 1px 0 #fff; margin: 10px 0 0 0;}
 #sidebar a { color: #666666; text-decoration: none; }
 #sidebar a:hover { text-decoration: underline; }

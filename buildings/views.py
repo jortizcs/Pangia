@@ -1,7 +1,8 @@
 from buildings.models import Building
 from django.http import HttpResponse
-from django.core.context_processors import csrf
+#from django.core.context_processors import csrf
 import httplib
+import json
 
 __author__='jortiz'
 
@@ -32,10 +33,14 @@ def sfs_get_ts(request):
         return HttpResponse("Missing start_time, end_time, path, sfshost, sfsport params.")
         
 def sfs_post_target(request):
-
-	if request.method == 'POST':
-		c = {}
-		c.update(csrf(request))
-		return HttpResponse("{\"status\":\"success\"}");
+	datastr = request.raw_post_data
+	if request.method == 'POST' and len(datastr) > 0 :
+		datapoint = json.loads(datastr)
+		respobj = {}
+		respobj["status"]="success"
+		return HttpResponse(json.dumps(respobj, sort_keys=True, indent=4))
+		#return HttpResponse(datastr)
 	else:
-		return HttpResponse("{\"status\":\"fail\"}");
+		respobj = {}
+		respobj["status"]="fail"
+		return HttpResponse(json.dumps(respobj, sort_keys=True, indent=4))

@@ -1,0 +1,198 @@
+{% extends "base_sidebar.html" %}
+{% block title %}Pangia :: View how comfortable people are{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+        <script>
+        $(function(){
+            //hide the energy explorer divs
+            $("#building").fadeOut(0);
+
+            //When user clicks on a cube piece, hide the building div and show the floor div
+            //the rest of the behavior is controlled in hideshow.js
+            $(".cube_piece").click(function () {
+            });
+    });
+    </script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+          google.load("visualization", "1", {packages:["corechart"]});
+          google.setOnLoadCallback(drawChart);
+          function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Year');
+            data.addColumn('number', 'Sales');
+            data.addColumn('number', 'Expenses');
+            data.addRows(4);
+            data.setValue(0, 0, '2004');
+            data.setValue(0, 1, 1000);
+            data.setValue(0, 2, 400);
+            data.setValue(1, 0, '2005');
+            data.setValue(1, 1, 1170);
+            data.setValue(1, 2, 460);
+            data.setValue(2, 0, '2006');
+            data.setValue(2, 1, 860);
+            data.setValue(2, 2, 580);
+            data.setValue(3, 0, '2007');
+            data.setValue(3, 1, 1030);
+            data.setValue(3, 2, 540);
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, {width: 400, height: 440, title: 'Company Performance'});
+          }
+    </script>
+{% endblock %}
+
+{% block bodyclass %}{% endblock %}
+{% block secondary_bar %}
+  <section id="secondary_bar">
+		<div class="user">
+	</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="/"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Live Feedback</a></article>
+		</div>
+	</section><!-- end of secondary bar -->
+{% endblock %}
+{% block sidebar%}
+	<aside id="sidebar" class="column">
+    <div id="buttons" ><ul>
+        <li><a href="/live_feedback/submit" style="margin: 0;padding:0px"><div class="btn_small">SUBMIT</div></a></li>
+        <li><div class="btn_small_pressed">VIEW</div></li>
+	</ul></div>
+    <hr/>
+    <h3>Surtadja Dai Hall</h3>
+        <ul class="toggle">
+            <div class="cube_piece" style="z-index:50"><span><br><br><br>Floor 5</span></div>
+        	<div class="cube_piece" style="z-index:40"><span><br><br><br>Floor 4</span></div>
+        	<div class="cube_piece" style="z-index:30"><span><br><br><br>Floor 3</span></div>
+        	<div class="cube_piece" style="z-index:20"><span><br><br><br>Floor 2</span></div>
+        	<div class="cube_piece" style="z-index:10"><span><br><br><br>Floor 1</span></div>
+           	<div class="cube_shadow" style="z-index:1"></div>
+<!--			<li class="icn_new_article"><a href="#">New Article</a></li>
+			<li class="icn_edit_article"><a href="#">Edit Articles</a></li>
+			<li class="icn_categories"><a href="#">Categories</a></li>
+			<li class="icn_tags"><a href="#">Tags</a></li>-->
+		</ul>
+	</aside><!-- end of sidebar -->
+{% endblock %}
+{% block mainbody %}
+	<section id="main" class="column alerts">
+		<div id="alert">
+            <h4 class="alert_info" >Please, select a building to start.</h4>
+        </div>
+        <div id="building">
+        <article class="module width_half" >
+            <header><h3 class="tabs_involved">Recent submissions</h3></header>
+            <div class="tab_container" style="max-height: 600px">
+			<div id="tab1" class="tab_content">
+			<table class="tablesorter" cellspacing="0">
+			<thead>
+				<tr>
+                    <th>Condition</th>
+    				<th>Priority</th>
+    				<th>Location</th>
+    				<th>Created</th>
+    				<th>Other info</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="alarm">
+                    <td>Stuffy, Hot</td>
+    				<td align="center">3</td>
+    				<td>Surtadja Dai Hall, Room 354</td>
+                    <td>17 July 2011</td>
+                    <td>Very hot today</td>
+    				<!--<td><div class="icn_edit"></div><div class="icn_trash"></div></td>-->
+				</tr>
+				<tr >
+                    <td>Cold</td>
+    				<td align="center">2</td>
+    				<td>Surtadja Dai Hall, Room 354</td>
+                    <td>17 July 2011</td>
+                    <td></td>
+    				<!--<td><div class="icn_edit"></div><div class="icn_trash"></div></td>-->
+				</tr>
+				<tr>
+                    <td>Glare</td>
+    				<td align="center">1</td>
+    				<td>Surtadja Dai Hall, Room 354</td>
+                    <td>17 July 2011</td>
+                    <td></td>
+    				<!--<td><div class="icn_edit"></div><div class="icn_trash"></div></td>-->
+				</tr>
+
+			</tbody>
+			</table>
+			</div><!-- end of #tab1 -->
+        </div>
+        <footer>
+        </footer>
+		</article>
+		<article class="module width_half" >
+            <header><h3 class="tabs_involved">Annotated Feedback</h3></header>
+            <div class="module_content" style="height: 600px">
+                <fieldset>
+                    <div class="fleft">
+                    <label>Axis 1</label>
+                    <select name ="axis1" style="width:175px;">
+                        <option value="volvo">kWh</option>
+                        <option value="saab">kBTU</option>
+                        <option value="fiat">Temperature</option>
+                        <option value="audi">Occupancy</option>
+                        <option value="saab">HVAC</option>
+                        <option value="saab">&nbsp;&nbsp;Heating</option>
+                        <option value="saab">&nbsp;&nbsp;Ventilation</option>
+                        <option value="saab">&nbsp;&nbsp;AC</option>
+                        <option value="saab">Lighting</option>
+                        <option value="saab">Plugloads</option>
+                        <option value="saab">Data Center</option>
+                        <option value="fiat">Water</option>
+                        <option value="audi">Oil</option>
+                        <option value="fiat">Gas</option>
+                        <option value="audi">Steam</option>
+                    </select>
+                    </div>
+                    <div class="fleft">
+                        <label>Axis 2</label>
+                        <select name class="axis2" style="width:175px;">
+                        <option value="volvo">kWh</option>
+                        <option value="saab">kBTU</option>
+                        <option value="fiat">Temperature</option>
+                        <option value="audi">Occupancy</option>
+                        <option value="saab">HVAC</option>
+                        <option value="saab">&nbsp;&nbsp;Heating</option>
+                        <option value="saab">&nbsp;&nbsp;Ventilation</option>
+                        <option value="saab">&nbsp;&nbsp;AC</option>
+                        <option value="saab">Lighting</option>
+                        <option value="saab">Plugloads</option>
+                        <option value="saab">Data Center</option>
+                        <option value="fiat">Water</option>
+                        <option value="audi">Oil</option>
+                        <option value="fiat">Gas</option>
+                        <option value="audi">Steam</option>
+                    </select>
+                    </div>
+                </fieldset>
+                    <div id="chart_div"></div>
+                    <div class="slider-container slider-percentage">
+                    <div class="slider">
+                        <span class="left"></span>
+                        <span class="guide"><span style="padding-left:100px;">Slide me</span></span>
+                        <span class="right"></span>
+                    </div>
+                    <div class="ruler container" style="min-width:0px;max-width:auto;"> <ul>
+                        <li>1 Year</li>
+                        <li>3 Months</li>
+                        <li>1 Month</li>
+                        <li>1 Week</li>
+                        <li>1 Day</li>
+                    </ul>
+                    </div></div>
+                    </div>
+            <footer>
+            </footer>
+		</article>
+        </div>
+	</section>
+{% endblock  %}

@@ -2,7 +2,6 @@
 
 // this tells jquery to run the function below once the DOM is ready
 $(document).ready(function() {
-
 // choose text for the show/hide link - can contain HTML (e.g. an image)
 var showText='Show';
 var hideText='Hide';

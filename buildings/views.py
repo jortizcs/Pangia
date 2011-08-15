@@ -2,6 +2,8 @@ from buildings.models import Building, AvgStat, AggStat
 from django.http import HttpResponse
 #from django.core.context_processors import csrf
 from time import strftime, localtime
+from datetime import datetime
+from decimal import Decimal
 import httplib
 import json
 
@@ -29,15 +31,28 @@ def sfs_get_ts(request):
 		type = request.REQUEST["type"]
 		t_scope = request.REQUEST["scope"]
 	except KeyError:
-		return HttpResponse("Missing start_time, end_time, path, sfshost, sfsport params.")
+		return HttpResponse("Missing one or more of [start_time, end_time, path, sfshost, sfsport, type, scope] params.")
 	
+	""" Convert from local unix timestamp to date in accepted format """
 	st = strftime("%Y-%m-%d %H:%M:%S", localtime(float(start_time)))
 	et = strftime("%Y-%m-%d %H:%M:%S", localtime(float(end_time)))
 	try:
 		if type == 'agg':
 			res=AggStat.objects.filter(path=qpath).filter(start_time__gte=st).filter(start_time__lte=et).filter(window_size=t_scope)
+			if qpath.endswith("/") and len(res) == 0:
+				qpath = qpath[0:len(qpath)-1]
+				res=AggStat.objects.filter(path=qpath).filter(start_time__gte=st).filter(start_time__lte=et).filter(window_size=t_scope)
+			elif len(res)==0 :
+				qpath = qpath + "/"
+				res=AggStat.objects.filter(path=qpath).filter(start_time__gte=st).filter(start_time__lte=et).filter(window_size=t_scope)
 		elif type == 'avg':
 			res=AvgStat.objects.filter(path=qpath).filter(start_time__gte=st).filter(start_time__lte=et).filter(window_size=t_scope)
+			if qpath.endswith("/") and len(res) == 0:
+				qpath = qpath[0:len(qpath)-1]
+				res=AvgStat.objects.filter(path=qpath).filter(start_time__gte=st).filter(start_time__lte=et).filter(window_size=t_scope)
+			elif len(res)==0 :
+				qpath = qpath + "/"
+				res=AvgStat.objects.filter(path=qpath).filter(start_time__gte=st).filter(start_time__lte=et).filter(window_size=t_scope)
 	except Exception as error:
 		return HttpResponse("Error caught:: " + str(error))
 		
@@ -49,12 +64,28 @@ def sfs_get_ts(request):
 		#conn.request("GET", "/temp/stream01?query=true&ts_timestamp=gte:1312874584,lte:1312878184")
 		conn.request("GET", path)
 		r = conn.getresponse()
+		#rjson = json.loads(r.read())
+		#rjson["len_res"]=len(res)
 		
 		#check if the response is empty, format, and return
+		#return HttpResponse(json.dumps(rjson))
 		return HttpResponse(r.read())
 	else:
 		#format the results and return them
-		return HttpResponse()
+		results = {}
+		results["path"]=qpath
+		results["ts_query_results"]=[]
+		for record in res:
+			dp = {}
+			dp["ts"]=record.start_time
+			if type == 'agg':
+				dp["value"]=record.sum
+			elif type == 'avg':
+				dp["value"]=record.avg
+
+			results["ts_query_results"].append(dp)
+		
+		return HttpResponse(json.dumps(results))
 	
 	#return HttpResponse("ok")
 
@@ -73,32 +104,39 @@ def sfs_post_target(request):
 			t_ts = datapoint["ts"]
 			t_value = datapoint["value"]
 			t_path = str(datapoint["is4_uri"])
-			t_units = str(datapoint["urlparams"]["units"])				#set by agg
+			t_units = str(datapoint["urlparams"]["units"])					#set by agg
 			t_type = str(datapoint["urlparams"]["type"])					#avg, agg, raw
 			t_scope = str(datapoint["urlparams"]["scope"])				
 		except KeyError:
 			respobj["status"]="fail"
-			error = "Missing ts, value, path, urlparams, units, and/or type"
+			error = "Missing ts, value, is4_uri, urlparams, units, and/or type"
 			respobj["error"]=error
 			return HttpResponse(json.dumps(respobj))
-		
-		if len(type) >0 :
-			if type == 'avg' :
-				# the value is an average
-				thisAvgStat = AvgStat(path=t_path, avg=t_value, units=t_units, 
-										window_size=t_scope, start_time=t_ts)
-				thisAvgStat.save()
-			elif type == 'agg' :
-				thisAggStat = AggStat(path=t_path, avg=t_value, units=t_units, 
-										window_size=t_scope, start_time=t_ts)
-				thisAvgStat.save()
-			elif type == 'raw' :
-				thisAggStat = AggStat(path=t_path, avg=t_value, units="sec", 
-										window_size="sec", start_time=t_ts)
-				thisAvgStat.save()
-				thisAvgStat = AvgStat(path=t_path, avg=t_value, units="sec", 
-										window_size="sec", start_time=t_ts)
-				thisAvgStat.save()
+			
+		#st = strftime("%Y-%m-%d %H:%M:%S", localtime(float(t_ts)))
+		lt = localtime(t_ts)
+		dt = datetime(year=lt.tm_year, month=lt.tm_mon, day=lt.tm_mday, hour=lt.tm_hour, minute=lt.tm_min, second=lt.tm_sec)
+		if t_type == 'avg' :
+			# the value is an average	
+			thisAvgStat = AvgStat(path=t_path, avg=Decimal(str(t_value)), units=t_units, window_size=t_scope, start_time=dt)
+			thisAvgStat.save()
+			respobj["saved"]="true"
+		elif t_type == 'agg' :
+			# the value is a sum
+			thisAggStat = AggStat(path=t_path, sum=Decimal(str(t_value)), units=t_units, window_size=t_scope, start_time=dt)
+			thisAggStat.save()
+			respobj["saved"]="true"
+		else :
+			return HttpResponse("Unknown type")
+		"""
+		elif type == 'raw' :
+			thisAggStat = AggStat(path=t_path, sum=t_value, units="sec", 
+									window_size="sec", start_time=t_ts)
+			thisAvgStat.save()
+			thisAvgStat = AvgStat(path=t_path, avg=t_value, units="sec", 
+									window_size="sec", start_time=t_ts)
+			thisAvgStat.save()
+		"""
 			
 		respobj["status"]="success"
 		return HttpResponse(json.dumps(respobj))

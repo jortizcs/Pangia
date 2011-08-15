@@ -5,7 +5,7 @@ class Building(models.Model):
 	address = models.CharField(max_length=200)
 	
 class AggStat(models.Model):
-	path = models.CharField(max_length=500, primary_key=True)
+	path = models.CharField(max_length=500, db_index=True, unique=False)
 	sum = models.DecimalField(max_digits=10, decimal_places=2)
 	UNIT_CHOICES = (
 		('W', 'Watt'),
@@ -40,7 +40,7 @@ class AggStat(models.Model):
 	start_time = models.DateTimeField(db_index=True)
 	
 class AvgStat(models.Model):
-	path = models.CharField(max_length=500, primary_key=True)
+	path = models.CharField(max_length=500, db_index=True, unique=False)
 	avg = models.DecimalField(max_digits=10, decimal_places=2)
 	UNIT_CHOICES = (
 		('W', 'Watt'),

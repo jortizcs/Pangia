@@ -64,8 +64,11 @@ def sfs_get_ts(request):
 		#conn.request("GET", "/temp/stream01?query=true&ts_timestamp=gte:1312874584,lte:1312878184")
 		conn.request("GET", path)
 		r = conn.getresponse()
+		#rjson = json.loads(r.read())
+		#rjson["len_res"]=len(res)
 		
 		#check if the response is empty, format, and return
+		#return HttpResponse(json.dumps(rjson))
 		return HttpResponse(r.read())
 	else:
 		#format the results and return them
@@ -122,6 +125,7 @@ def sfs_post_target(request):
 			# the value is a sum
 			thisAggStat = AggStat(path=t_path, sum=Decimal(str(t_value)), units=t_units, window_size=t_scope, start_time=dt)
 			thisAggStat.save()
+			respobj["saved"]="true"
 		else :
 			return HttpResponse("Unknown type")
 		"""

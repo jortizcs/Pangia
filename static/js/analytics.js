@@ -33,6 +33,7 @@ var ANALYTICS = (function () {
                     fill: true
                 },
                 data: genChartData(data, overTimeData)
+
             }
         ]);
     }

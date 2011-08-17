@@ -27,8 +27,8 @@
                                 // Components
                                 slide_links				:	'blank',	// Individual links for each slide (Options: false, 'number', 'name', 'blank')
                                 slides 					:  	[			// Slideshow Images
-                                                                    {image : '{{ MEDIA_URL }}images/bcg/1.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                                   {image : '{{ MEDIA_URL }}images/bcg/2.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+                                                                    {image : '/static/images/bcg/1.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
+                                                                   {image : '/static/images/bcg/2.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
                                                         /*{image : '../images/bcg/3.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
                                                         {image : '../images/bcg/4.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
                                                         {image : '../images/bcg/5.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
@@ -78,7 +78,7 @@
 	</header> <!-- end of header bar -->
  	<section>
     <h2>Energy Efficient Buildings, one click away.</h2>
-    <form id="login-form" action="#" method="post">{% csrf token %}
+    <form id="login-form" action="#" method="post">
             <div class="module_content">
             <fieldset>
                 <label>Username</label>

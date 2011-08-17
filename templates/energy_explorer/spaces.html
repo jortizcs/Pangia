@@ -3,6 +3,9 @@
 {% block title %}Pangia :: Energy Explorer{% endblock %}
 {% block extrahead %}
     {{ block.super }}
+    <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/lib/flot/jquery.flot.js"></script>
+       <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/lib/flot/jquery.flot.pie.js"></script>
+       <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/lib/flot/jquery.flot.selection.js"></script>
     <script>
         $(function(){
             //hide the energy explorer divs
@@ -241,7 +244,7 @@
         </article>
 		<article class="module width_quarter">
             <header><h3 class="tabs_involved">Picture</h3></header><center>
-            <img src="{{ MEDIA_URL }}images/buildings/sdh.png" style="position:relative; padding: 10px 0px 10px 0px;" align="middle">
+            <img src="{{ MEDIA_URL }}images/buildings/sdh.png" style="position:relative; padding: 10px 0px 10px 0px; width:100%; height:auto;" align="middle">
 		</center></article >
         <article class="module width_quarter">
             <header><h3 class="tabs_involved">Location</h3></header>

@@ -3,6 +3,10 @@
 
 {% block extrahead %}
     {{ block.super }}
+    <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/lib/flot/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/lib/flot/jquery.flot.pie.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/lib/flot/jquery.flot.selection.js"></script>
+
         <script>
         $(function(){
             //hide the energy explorer divs
@@ -13,34 +17,6 @@
             $(".cube_piece").click(function () {
             });
     });
-    </script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-
-          google.load("visualization", "1", {packages:["corechart"]});
-          google.setOnLoadCallback(drawChart);
-          function drawChart() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Year');
-            data.addColumn('number', 'Sales');
-            data.addColumn('number', 'Expenses');
-            data.addRows(4);
-            data.setValue(0, 0, '2004');
-            data.setValue(0, 1, 1000);
-            data.setValue(0, 2, 400);
-            data.setValue(1, 0, '2005');
-            data.setValue(1, 1, 1170);
-            data.setValue(1, 2, 460);
-            data.setValue(2, 0, '2006');
-            data.setValue(2, 1, 860);
-            data.setValue(2, 2, 580);
-            data.setValue(3, 0, '2007');
-            data.setValue(3, 1, 1030);
-            data.setValue(3, 2, 540);
-
-            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-            chart.draw(data, {width: 400, height: 440, title: 'Company Performance'});
-          }
     </script>
 {% endblock %}
 
@@ -135,7 +111,7 @@
                 <fieldset>
                     <div class="fleft">
                     <label>Axis 1</label>
-                    <select name ="axis1" style="width:175px;">
+                    <select name ="axis1" style="width:155px;">
                         <option value="volvo">kWh</option>
                         <option value="saab">kBTU</option>
                         <option value="fiat">Temperature</option>
@@ -155,7 +131,7 @@
                     </div>
                     <div class="fleft">
                         <label>Axis 2</label>
-                        <select name class="axis2" style="width:175px;">
+                        <select name class="axis2" style="width:155px;">
                         <option value="volvo">kWh</option>
                         <option value="saab">kBTU</option>
                         <option value="fiat">Temperature</option>
@@ -174,8 +150,9 @@
                     </select>
                     </div>
                 </fieldset>
-                    <div id="chart_div"></div>
-                    <div class="slider-container slider-percentage">
+                    <div id="flotvisualization" style="width:380px;height:440px;margin:10px;"></div>
+                    <br>
+                <div class="slider-container slider-percentage">
                     <div class="slider">
                         <span class="left"></span>
                         <span class="guide"><span style="padding-left:100px;">Slide me</span></span>
@@ -195,4 +172,5 @@
 		</article>
         </div>
 	</section>
+    <script src="{{ MEDIA_URL}}js/analytics.js" type="text/javascript"></script>
 {% endblock  %}

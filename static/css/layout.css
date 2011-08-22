@@ -228,7 +228,7 @@ section#main.alerts .module_content {height:500px;}
 .btn_area:hover {background-position: -75px -55px;}
 .btn_bar:hover {background-position: -75px 0px;}
 .stats p {margin: 0; padding: 0;text-transform: uppercase;text-shadow: 0 1px 0 #fff;}
-.stats p.count {font-size: 26px;font-weight: bold;color: #333333;font-family: "Georgia",serif}
+.stats p.count {font-size: 26px;font-weight: bold;color: #333333;font-family: "Georgia",serif; text-shadow:none;}
 .stats p.type {font-size: 10px;color: #999999;margin-bottom: 8px; text-transform: uppercase;}
 .stats fieldset {height:230px; padding-left: 7%;padding-right: 7%;width:86%}
 /* =============== MODULES (REUSABLE COMPONENTS) ==================== */

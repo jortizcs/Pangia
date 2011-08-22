@@ -12,14 +12,6 @@ $(function () {
     var d1 = [[1,7] ];
     var d2 = [[2,6.5], [3,6]];
     var d3 = [[4, 5.5]];
-    var d_pie = [
-            { data: [[1,10]]},
-            { data: [[1,30]]},
-            { data: [[1,90]]},
-            { data: [[1,70]]},
-            { data: [[1,80]]},
-            { data: [[1,0]]}
-    ];
     //for (var i = 0; i < 4; ++i)
     //    d1.push([i, Math.sin(i)]);
 
@@ -34,7 +26,7 @@ $(function () {
     var r2c3 = $("#chart_r2c3");
 
     var options = {
-        bars: { show: true, barWidth: 0.5, fill: 1, align:"center" },
+        bars: { show: true, barWidth: 0.75, fill: 1, align:"center" },
         xaxis: { ticks: [
             //[1, "SDH"],[2,"Soda"],[3,"Cory"],[4,"Evans"]
             ], autoscaleMargin: 0.02 },

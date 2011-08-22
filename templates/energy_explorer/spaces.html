@@ -10,8 +10,8 @@
         $(function(){
             //hide the energy explorer divs
             //$('.column').equalHeight();
-            $("#building").fadeOut(0);
-            $("#floor").fadeOut(0);
+            $("#building").hide(0);
+            $("#floor").hide(0);
 
             //When user clicks on a cube piece, hide the building div and show the floor div
             //the rest of the behavior is controlled in hideshow.js
@@ -30,20 +30,33 @@
         $(function () {
             var data = [];
             var series = Math.floor(Math.random()*10)+1;
-            for( var i = 0; i<series; i++)
+            for( var i = 0; i<5; i++)
             {
-                data[i] = { label: "Series"+(i+1), data: Math.floor(Math.random()*100)+1 }
+                data[i] = { label: "Floor "+(i+1), data: Math.floor(Math.random()*100)+1 }
             }
 
             // DEFAULT
-            $.plot($("#pie"), data,
-            {
-                series: {
-                    pie: {
-                        show: true
-                    }
-                }
-            });
+
+                    $.plot($("#pie"), data,
+                        {
+                            series: {
+                                pie: {
+                                    show: true,
+                                    radius: 1,
+                                    label: {
+                                        show: true,
+                                        radius: 3/4,
+                                        formatter: function(label, series){
+                                            return '<div style="background-color:#1f1f1f;font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
+                                        }
+                                    }
+                                }, color:"#CCC"
+                            },
+                            legend: {
+                                show: false
+                            }
+                        });
+
                   var d1 = [];
     for (var i = 0; i < 14; i += 0.5)
         d1.push([i, Math.sin(i)]);
@@ -128,7 +141,7 @@
                                 <p class="type">Energy Star</p>
                             </td>
                             <td width="25%">
-                               <p class="count">650t</p>
+                               <p class="count">6.5t</p>
                                 <p class="type">Carbon</p>
                             </td>
                             <td width="25%">

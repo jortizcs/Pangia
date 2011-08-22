@@ -2,6 +2,7 @@ var ANALYTICS = (function () {
     'use strict';
     var currentcharttype,
         curplot,
+        colors = ["#CCC","#666","#999","#1f1f1f","#F8EE58","#A9D943","#ED4344", "#0968F6", "#F68D31", "#8FBA09","#B62110","#281EF9"],
         data = [ 3, 8, 5, 13, 8, 2, 2, 9, 10, 1, 2, 5 ],
         paused = false,
         pausebtn,
@@ -79,11 +80,11 @@ var ANALYTICS = (function () {
             options = {
                 selection: {
                     mode: 'x'
-                }
+                }, colors:colors
             };
             break;
         case 'bar':
-            options = {};
+            options = { colors:colors};
             break;
         case 'pie':
             options = {
@@ -95,7 +96,7 @@ var ANALYTICS = (function () {
                 grid: {
                     hoverable: true,
                     clickable: true
-                }
+                }, colors:"#1f1f1f"
             };
             break;
         }

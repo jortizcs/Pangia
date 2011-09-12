@@ -1,8 +1,43 @@
 from django.db import models
 
 class Building(models.Model):
-	name = models.CharField(max_length=200, primary_key=True)
-	address = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, primary_key=True)
+    address = models.CharField(max_length=200)
+
+class Floor(models.Model):
+    building = models.ForeignKey('Building')
+    level = models.PositiveIntegerField()
+
+class Room(models.Model):
+    floor = models.ForeignKey('Floor')
+    roomid = models.CharField(max_length=20)
+
+class LiveFeedback(models.Model):
+    building = models.ForeignKey('Building')
+    floor = models.ForeignKey('Floor')
+    room = models.ForeignKey('Room')
+    submitter = models.CharField(max_length=200, blank=True)
+    DISCOMFORT_CHOICES = (
+        ('H', 'Hot'),
+        ('C', 'Cold'),
+        ('S', 'Stuffy'),
+        ('N', 'Noisy'),
+        ('D', 'Dark'),
+        ('G', 'Glare')
+    )
+    discomfort = models.CharField(max_length=3, choices=DISCOMFORT_CHOICES, blank=True)
+    COMFORT_CHOICES = (
+        ('C', 'Comfortable'),
+        ('V', 'Very Comfortable')
+    )
+    comfort = models.CharField(max_length=3, choices=COMFORT_CHOICES, blank=True)
+    PRIORITY_CHOICES = (
+        (3, '3 - Most Priority'),
+        (2, '2'),
+        (1, '1 - Least Priority')
+    )
+    priority = models.PositiveIntegerField(choices=PRIORITY_CHOICES)
+    comments = models.CharField(max_length=500, blank=True)
 	
 class AggStat(models.Model):
 	path = models.CharField(max_length=500, db_index=True, unique=False)

@@ -10,7 +10,7 @@ class Floor(models.Model):
 
 class Room(models.Model):
     floor = models.ForeignKey('Floor')
-    roomid = models.CharField(max_length=20)
+    roomname = models.CharField(max_length=20)
 
 class LiveFeedback(models.Model):
     building = models.ForeignKey('Building')

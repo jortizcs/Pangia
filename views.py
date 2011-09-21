@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
+from django import forms
 
 __author__ = 'mheinrich'
 
@@ -67,20 +68,6 @@ def dashboard(request):
     Displays the dashboard view
     """
     return render_to_response('dashboard.html',
-      context_instance=RequestContext(request, {}))
-
-def live_feedback_submit(request):
-    """
-    Allows user to submit comfort feedback
-    """
-    return render_to_response('live_feedback/submit.html',
-      context_instance=RequestContext(request, {}))
-
-def live_feedback_view(request):
-    """
-    Displays the gathered feedback spatially
-    """
-    return render_to_response('live_feedback/view.html',
       context_instance=RequestContext(request, {}))
 
 def realtime (request):

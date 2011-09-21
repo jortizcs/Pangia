@@ -1,4 +1,4 @@
-from buildings.models import Building, AvgStat, AggStat
+from buildings.models import Building, Floor, Room, LiveFeedback, AvgStat, AggStat
 from django.http import HttpResponse
 #from django.core.context_processors import csrf
 from time import strftime, localtime
@@ -6,6 +6,12 @@ from datetime import datetime
 from decimal import Decimal
 import httplib
 import json
+from django.shortcuts import render_to_response
+from django.template.context import RequestContext
+from django.http import HttpResponse
+
+from django.db import models
+from django.forms.models import modelformset_factory
 
 __author__='jortiz'
 
@@ -147,10 +153,33 @@ def sfs_post_target(request):
 		respobj["status"]="fail"
 		return HttpResponse(json.dumps(respobj))
 		#return HttpResponse(json.dumps(respobj, sort_keys=True, indent=4))
-		
-		
-		
-		
-		
-		
-		
+
+def live_feedback_submit(request):
+    """
+    Allows user to submit comfort feedback
+    """
+    LiveFeedbackFormSet = modelformset_factory(LiveFeedback)
+
+    if request.method == 'POST':
+        formset = LiveFeedbackFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            formset.save()
+            #TODO do something here and in the else case
+        else:
+            #do something with formset.errors
+            pass
+    else:
+        formset = LiveFeedbackFormSet()
+
+    return render_to_response('live_feedback/submit.html',
+      context_instance=RequestContext(request, {
+            "formset": formset,
+      }))
+
+def live_feedback_view(request):
+    """
+    Displays the gathered feedback spatially
+    """
+    return render_to_response('live_feedback/view.html',
+      context_instance=RequestContext(request, {}))
+

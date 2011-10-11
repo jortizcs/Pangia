@@ -11,7 +11,8 @@ from django.template.context import RequestContext
 from django.http import HttpResponse
 
 from django.db import models
-from django.forms.models import modelformset_factory
+
+from django.forms import ModelForm
 
 __author__='jortiz'
 
@@ -154,32 +155,35 @@ def sfs_post_target(request):
 		return HttpResponse(json.dumps(respobj))
 		#return HttpResponse(json.dumps(respobj, sort_keys=True, indent=4))
 
+class LiveFeedbackForm(ModelForm):
+    class Meta:
+        model = LiveFeedback
+	
 def live_feedback_submit(request):
     """
     Allows user to submit comfort feedback
     """
-    LiveFeedbackFormSet = modelformset_factory(LiveFeedback)
 
     print "word to your moms"
 
     if request.method == 'POST':
-        formset = LiveFeedbackFormSet(request.POST, request.FILES)
+        form = LiveFeedbackForm(request.POST, request.FILES)
         print "validating..."
-        if formset.is_valid():
+        if form.is_valid():
             print "valid! now saving..."
-            formset.save()
+            form.save()
             print "done saving."
             #TODO do something here and in the else case
         else:
-            #do something with formset.errors
+            #do something with form.errors
             print "error!"
             pass
     else:
-        formset = LiveFeedbackFormSet()
+        form = LiveFeedbackForm()
 
     return render_to_response('live_feedback/submit.html',
       context_instance=RequestContext(request, {
-            "formset": formset,
+            "feedbackform": form,
       }))
 
 def live_feedback_view(request):

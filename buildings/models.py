@@ -38,7 +38,7 @@ class LiveFeedback(models.Model):
     )
     priority = models.PositiveIntegerField(choices=PRIORITY_CHOICES)
     comments = models.CharField(max_length=500, blank=True)
-	
+
 class AggStat(models.Model):
 	path = models.CharField(max_length=500, db_index=True, unique=False)
 	sum = models.DecimalField(max_digits=10, decimal_places=2)

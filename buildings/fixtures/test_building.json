@@ -1,0 +1,55 @@
+[
+    {
+        "model": "buildings.Building",
+        "pk": 1,
+        "fields": {
+            "name": "Joel's House",
+            "address": "123 FooBar Ave, Berkeley, CA"
+        }
+    },
+
+    {
+        "model": "buildings.Floor",
+        "pk": 1,
+        "fields": {
+            "building": "Joel's House",
+            "level": 1
+        }
+    },
+
+    {
+        "model": "buildings.Floor",
+        "pk": 2,
+        "fields": {
+            "building": "Joel's House",
+            "level": 2
+        }
+    },
+
+    {
+        "model": "buildings.Room",
+        "pk": 1,
+        "fields": {
+            "floor": 1,
+            "roomname": "123"
+        }
+    },
+
+    {
+        "model": "buildings.Room",
+        "pk": 2,
+        "fields": {
+            "floor": 1,
+            "roomname": "129"
+        }
+    },
+
+    {
+        "model": "buildings.Room",
+        "pk": 3,
+        "fields": {
+            "floor": 2,
+            "roomname": "200"
+        }
+    }
+]

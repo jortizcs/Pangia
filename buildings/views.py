@@ -160,13 +160,19 @@ def live_feedback_submit(request):
     """
     LiveFeedbackFormSet = modelformset_factory(LiveFeedback)
 
+    print "word to your moms"
+
     if request.method == 'POST':
         formset = LiveFeedbackFormSet(request.POST, request.FILES)
+        print "validating..."
         if formset.is_valid():
+            print "valid! now saving..."
             formset.save()
+            print "done saving."
             #TODO do something here and in the else case
         else:
             #do something with formset.errors
+            print "error!"
             pass
     else:
         formset = LiveFeedbackFormSet()

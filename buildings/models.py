@@ -6,11 +6,11 @@ class Building(models.Model):
 
 class Floor(models.Model):
     building = models.ForeignKey('Building')
-    level = models.PositiveIntegerField()
+    level = models.PositiveIntegerField(primary_key=True)
 
 class Room(models.Model):
     floor = models.ForeignKey('Floor')
-    roomname = models.CharField(max_length=20)
+    roomname = models.CharField(max_length=20, primary_key=True)
 
 class LiveFeedback(models.Model):
     building = models.ForeignKey('Building')

@@ -27,71 +27,67 @@
             <div class="module_content">
                 <form id="live_feedback_form" method="post">
                 {% csrf_token %}
-                {{ feedbackform }}
-                </form>
-                <!--
-                <fieldset >
-                    <label >Name (Optional)</label>
-                    <input type="text" name="name" style="width:90%">
-                </fieldset>
-                <fieldset>
-                    <label>Location</label>
-                    <select>
-                        <option>Select Building</option>
-                        <option>Surtadja Dai</option>
-                    </select>
-                    <select>
-                    <option>Select Floor</option>
-                    <option>5</option>
-                        <option>4</option>
-                        <option>3</option>
-                        <option>2</option>
-                        <option>1</option>
-                    </select>
-                    <select>
-                    <option>Select Room</option>
-                        <option>25</option>
-                            <option>23</option>
-                            <option>21</option>
-                            <option>19</option>
-                            <option>10</option>
-                        </select>
+                {{ feedbackform.non_field_errors }}
 
-                </fieldset>
-                <fieldset style="float:left; width:247px">
-                    <label >I'm Discomfortable</label>
-                    <table width="100%">
-                        <tr>
-                    <td width="25%" ><input type="radio" name="group1" value="Hot"> Hot<br>
-                    <input type="radio" name="group1" value="Cold"> Cold<br></td>
-                    <td width="25%" ><input type="radio" name="group2" value="Stuffy">Stuffy<br></td>
-                    <td width="25%" ><input type="radio" name="group3" value="Noisy"> Noisy<br></td>
-                    <td width="25%"><input type="radio" name="group4" value="Dark"> Dark<br>
-                    <input type="radio" name="group4" value="Glare"> Glare<br></td>
-                        </tr>
-                    </table></fieldset>
-                    <fieldset style="float:left; width:130px; margin-left:10px">
-                    <label>I'm Comfortable</label>
-                    <table width="100%">
-                        <tr>
-                    <td><input type="radio" name="group5" value="Comfortable"> Comfortable<br>
-                        <input type="radio" name="group5" value="Comfortable"> Very comfortable<br>
-                    </td>
-                        </tr>
-                    </table>
-                </fieldset>
-                <fieldset style="float: left;">
-                    <label>Priority (3 = Highest)</label>
-                    <select>
-                        <option>3</option>
-                        <option>2</option>
-                        <option>1</option>
-                    </select>
-                    <div class="spacer"></div>
-                    <label>Anything else?</label>
-                    <textarea cols="30" rows="4" name="comment" style="width:90% "></textarea>
-                </fieldset>
-            -->
+                <div class="livefeedback_entries">
+                    <span class="livefeedback_entry">
+                    {{ feedbackform.building.errors }}
+                    <label for="id_building">Building:</label>
+                    {{ feedbackform.building }}
+                    </span>
+
+                    <span class="livefeedback_entry">
+                    {{ feedbackform.floor.errors }}
+                    <label for="id_floor">Floor:</label>
+                    {{ feedbackform.floor }}
+                    </span>
+
+                    <span class="livefeedback_entry">
+                    {{ feedbackform.room.errors }}
+                    <label for="id_room">Room:</label>
+                    {{ feedbackform.room }}
+                    </span>
+                </div>
+
+                <div class="livefeedback_entries">
+                    <span class="livefeedback_entry">
+                    {{ feedbackform.submitter.errors }}
+                    <label for="submitter">Submitter:</label>
+                    {{ feedbackform.submitter }}
+                    </span>
+                </div>
+
+                <div class="livefeedback_entries">
+                    <span class="livefeedback_entry">
+                    {{ feedbackform.discomformt.errors }}
+                    <label for="discomfort">Discomfort:</label>
+                    {{ feedbackform.discomfort }}
+                    </span>
+
+                    <span class="livefeedback_entry">
+                    {{ feedbackform.comformt.errors }}
+                    <label for="comfort">Comfort:</label>
+                    {{ feedbackform.comfort }}
+                    </span>
+                </div>
+
+                <div class="livefeedback_entries">
+                    <span class="livefeedback_entry">
+                    {{ feedbackform.priority.errors }}
+                    <label for="priority">Priority:</label>
+                    {{ feedbackform.priority }}
+                    </span>
+                </div>
+
+                <div class="livefeedback_entries">
+                    <span class="livefeedback_entry">
+                    {{ feedbackform.comments.errors }}
+                    <label for="comments">Comments:</label>
+                    {{ feedbackform.comments }}
+                    </span>
+                </div>
+
+                </form>
             </div>
         
         <footer>
@@ -103,6 +99,7 @@
 		</article><!-- end of alert information -->
 		<div class="spacer"></div>
 
-        <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/live_feedback.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/live_feedback_submit.js"></script>
+         <link rel="stylesheet" href="{{ MEDIA_URL }}css/live_feedback_submit.css" type="text/css" /> 
 	</section>
 {% endblock  %}

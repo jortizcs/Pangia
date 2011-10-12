@@ -3,3 +3,11 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+#livefeedback_priority span ul {
+    list-style-type: none;
+}
+
+#livefeedback_priority span ul li {
+    display: inline;
+}

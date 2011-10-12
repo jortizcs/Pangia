@@ -12,7 +12,7 @@ from django.http import HttpResponse
 
 from django.db import models
 
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea, RadioSelect
 
 __author__='jortiz'
 
@@ -158,6 +158,10 @@ def sfs_post_target(request):
 class LiveFeedbackForm(ModelForm):
     class Meta:
         model = LiveFeedback
+        widgets = {
+            'comments': Textarea(attrs={'cols': 50, 'rows': 4}),
+            'priority': RadioSelect,
+        }
 	
 def live_feedback_submit(request):
     """

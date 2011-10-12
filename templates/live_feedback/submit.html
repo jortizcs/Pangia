@@ -71,7 +71,7 @@
                     </span>
                 </div>
 
-                <div class="livefeedback_entries">
+                <div class="livefeedback_entries" id="livefeedback_priority">
                     <span class="livefeedback_entry">
                     {{ feedbackform.priority.errors }}
                     <label for="priority">Priority:</label>
@@ -83,7 +83,9 @@
                     <span class="livefeedback_entry">
                     {{ feedbackform.comments.errors }}
                     <label for="comments">Comments:</label>
+                    <div>
                     {{ feedbackform.comments }}
+                    </div>
                     </span>
                 </div>
 

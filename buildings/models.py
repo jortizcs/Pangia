@@ -45,7 +45,7 @@ class LiveFeedback(models.Model):
         (2, '2'),
         (1, '1 - Least Priority')
     )
-    priority = models.PositiveIntegerField(choices=PRIORITY_CHOICES)
+    priority = models.PositiveIntegerField(choices=PRIORITY_CHOICES, blank=False, default=2)
     comments = models.CharField(max_length=500, blank=True)
 
 class AggStat(models.Model):

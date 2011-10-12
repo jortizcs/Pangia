@@ -3,14 +3,23 @@ from django.db import models
 class Building(models.Model):
     name = models.CharField(max_length=200, primary_key=True)
     address = models.CharField(max_length=200)
+    
+    def  __unicode__(self):
+        return u'%s' % (self.name)
 
 class Floor(models.Model):
     building = models.ForeignKey('Building')
     level = models.PositiveIntegerField(primary_key=True)
 
+    def  __unicode__(self):
+        return u'%s' % (self.level)
+
 class Room(models.Model):
     floor = models.ForeignKey('Floor')
     roomname = models.CharField(max_length=20, primary_key=True)
+
+    def  __unicode__(self):
+        return u'%s' % (self.roomname)
 
 class LiveFeedback(models.Model):
     building = models.ForeignKey('Building')

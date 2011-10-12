@@ -164,19 +164,13 @@ def live_feedback_submit(request):
     Allows user to submit comfort feedback
     """
 
-    print "word to your moms"
-
     if request.method == 'POST':
         form = LiveFeedbackForm(request.POST, request.FILES)
-        print "validating..."
         if form.is_valid():
-            print "valid! now saving..."
             form.save()
-            print "done saving."
             #TODO do something here and in the else case
         else:
             #do something with form.errors
-            print "error!"
             pass
     else:
         form = LiveFeedbackForm()

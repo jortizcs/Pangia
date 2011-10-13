@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     (r'^buildings', 'buildings.views.index'),
     (r'^live_feedback/view', 'buildings.views.live_feedback_view'),
     (r'^live_feedback/submit', 'buildings.views.live_feedback_submit'),
+    (r'^live_feedback/thanks', 'buildings.views.live_feedback_thanks'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),

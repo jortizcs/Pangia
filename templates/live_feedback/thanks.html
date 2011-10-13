@@ -1,0 +1,42 @@
+{% extends "base_sidebar.html" %}
+{% block title %}Pangia :: View how comfortable people are{% endblock %}
+
+{% block bodyclass %}{% endblock %}
+{% block secondary_bar %}
+  <section id="secondary_bar">
+		<div class="user">
+	</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="/"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Live Feedback</a></article>
+		</div>
+	</section><!-- end of secondary bar -->
+{% endblock %}
+{% block sidebar%}
+	<aside id="sidebar" class="column">
+    <div id="buttons" ><ul>
+        <li><a href="/live_feedback/submit" style="margin: 0;padding:0px"><div class="btn_small">SUBMIT</div></a></li>
+        <li><a href="/live_feedback/view" style="margin: 0;padding:0px"><div class="btn_small">VIEW</div></a></li>
+	</ul></div>
+    <hr/>
+	</aside><!-- end of sidebar -->
+{% endblock %}
+{% block mainbody %}
+	<section id="main" class="column alerts">
+        <div id="building">
+        <article class="module width_half" >
+
+            <div class="module_content">
+                <div id="alert">
+                    <h4 class="alert_info" >
+                    Your feedback has been successfully processed. Your feedback
+                    is greatly appreciated and will be used to help improve you
+                    and your colleagues comfort levels.</h4>
+                </div>
+            </div>
+
+            <footer>
+            </footer>
+		</article>
+        </div>
+	</section>
+{% endblock  %}

@@ -1,5 +1,5 @@
 from buildings.models import Building, Floor, Room, LiveFeedback, AvgStat, AggStat
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 #from django.core.context_processors import csrf
 from time import strftime, localtime
 from datetime import datetime
@@ -172,6 +172,7 @@ def live_feedback_submit(request):
         if form.is_valid():
             form.save()
             #TODO do something here and in the else case
+            return HttpResponseRedirect('/live_feedback/thanks.html');
         else:
             #do something with form.errors
             pass
@@ -190,3 +191,9 @@ def live_feedback_view(request):
     return render_to_response('live_feedback/view.html',
       context_instance=RequestContext(request, {}))
 
+def live_feedback_thanks(request):
+    """
+    Thank you screen for submitting feedback
+    """
+    return render_to_response('live_feedback/thanks.html',
+      context_instance=RequestContext(request, {}))

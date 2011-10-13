@@ -168,15 +168,18 @@ def live_feedback_submit(request):
     """
 
     if request.method == 'POST':
+        #A POST is received on feedback submission. We validate it, and if that
+        #fails, return with the error list.
         form = LiveFeedbackForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            #TODO do something here and in the else case
             return HttpResponseRedirect('/live_feedback/thanks.html');
         else:
-            #do something with form.errors
+            #We just pass here because in the case of errors, we just return to
+            #the feedback page and display the errors.
             pass
     else:
+        #In the case of a GET request, just generate a new form.
         form = LiveFeedbackForm()
 
     return render_to_response('live_feedback/submit.html',

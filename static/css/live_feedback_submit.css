@@ -1,13 +1,22 @@
-.livefeedback_entries {
-    width: 90%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-#livefeedback_priority span ul {
-    list-style-type: none;
-}
-
-#livefeedback_priority span ul li {
+#livefeedback_priority {
     display: inline;
+}
+
+#livefeedback_priority ul {
+    list-style-type: none;
+    display: inline;
+}
+
+#livefeedback_priority ul li {
+    display: inline;
+}
+
+#livefeedback_discomfort {
+    float: left;
+    width: 220px;
+}
+
+#livefeedback_comfort {
+    float: right;
+    width: 220px;
 }

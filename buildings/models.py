@@ -41,9 +41,9 @@ class LiveFeedback(models.Model):
     )
     comfort = models.CharField(max_length=3, choices=COMFORT_CHOICES, blank=True)
     PRIORITY_CHOICES = (
-        (3, '3 - Most Priority'),
+        (3, '3'),
         (2, '2'),
-        (1, '1 - Least Priority')
+        (1, '1')
     )
     priority = models.PositiveIntegerField(choices=PRIORITY_CHOICES, blank=False, default=2)
     comments = models.CharField(max_length=500, blank=True)

@@ -160,7 +160,6 @@ class LiveFeedbackForm(ModelForm):
         model = LiveFeedback
         widgets = {
             'comments': Textarea(attrs={'cols': 50, 'rows': 4}),
-            'priority': RadioSelect,
         }
 	
 def live_feedback_submit(request):

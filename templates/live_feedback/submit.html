@@ -29,65 +29,49 @@
                 {% csrf_token %}
                 {{ feedbackform.non_field_errors }}
 
-                <div class="livefeedback_entries">
-                    <span class="livefeedback_entry">
-                    {{ feedbackform.building.errors }}
+                <fieldset>
                     <label for="id_building">Building:</label>
+                    {{ feedbackform.building.errors }}
                     {{ feedbackform.building }}
-                    </span>
 
-                    <span class="livefeedback_entry">
-                    {{ feedbackform.floor.errors }}
                     <label for="id_floor">Floor:</label>
+                    {{ feedbackform.floor.errors }}
                     {{ feedbackform.floor }}
-                    </span>
 
-                    <span class="livefeedback_entry">
-                    {{ feedbackform.room.errors }}
                     <label for="id_room">Room:</label>
+                    {{ feedbackform.room.errors }}
                     {{ feedbackform.room }}
-                    </span>
-                </div>
+                </fieldset>
 
-                <div class="livefeedback_entries">
-                    <span class="livefeedback_entry">
+                <fieldset>
                     {{ feedbackform.submitter.errors }}
                     <label for="submitter">Submitter:</label>
                     {{ feedbackform.submitter }}
-                    </span>
-                </div>
+                </fieldset>
 
-                <div class="livefeedback_entries">
-                    <span class="livefeedback_entry">
+                <fieldset id="livefeedback_discomfort">
                     {{ feedbackform.discomformt.errors }}
                     <label for="discomfort">Discomfort:</label>
                     {{ feedbackform.discomfort }}
-                    </span>
+                </fieldset>
 
-                    <span class="livefeedback_entry">
+                <fieldset id="livefeedback_comfort">
                     {{ feedbackform.comformt.errors }}
                     <label for="comfort">Comfort:</label>
                     {{ feedbackform.comfort }}
-                    </span>
-                </div>
+                </fieldset>
 
-                <div class="livefeedback_entries" id="livefeedback_priority">
-                    <span class="livefeedback_entry">
+                <fieldset id="livefeedback_priority">
                     {{ feedbackform.priority.errors }}
-                    <label for="priority">Priority:</label>
+                    <label for="priority">Priority (1 = LOWEST):</label>
                     {{ feedbackform.priority }}
-                    </span>
-                </div>
 
-                <div class="livefeedback_entries">
-                    <span class="livefeedback_entry">
                     {{ feedbackform.comments.errors }}
                     <label for="comments">Comments:</label>
                     <div>
                     {{ feedbackform.comments }}
                     </div>
-                    </span>
-                </div>
+                </fieldset>
 
                 </form>
             </div>

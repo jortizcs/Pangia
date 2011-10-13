@@ -30,15 +30,15 @@
                 {{ feedbackform.non_field_errors }}
 
                 <fieldset>
-                    <label for="id_building">Building:</label>
+                    <label for="id_building">Building (required):</label>
                     {{ feedbackform.building.errors }}
                     {{ feedbackform.building }}
 
-                    <label for="id_floor">Floor:</label>
+                    <label for="id_floor">Floor (required):</label>
                     {{ feedbackform.floor.errors }}
                     {{ feedbackform.floor }}
 
-                    <label for="id_room">Room:</label>
+                    <label for="id_room">Room (required):</label>
                     {{ feedbackform.room.errors }}
                     {{ feedbackform.room }}
                 </fieldset>
@@ -51,13 +51,13 @@
 
                 <fieldset id="livefeedback_discomfort">
                     {{ feedbackform.discomformt.errors }}
-                    <label for="discomfort">Discomfort:</label>
+                    <label for="discomfort">I'm uncomfortable:</label>
                     {{ feedbackform.discomfort }}
                 </fieldset>
 
                 <fieldset id="livefeedback_comfort">
                     {{ feedbackform.comformt.errors }}
-                    <label for="comfort">Comfort:</label>
+                    <label for="comfort">I'm comfortable:</label>
                     {{ feedbackform.comfort }}
                 </fieldset>
 

@@ -47,6 +47,7 @@ class LiveFeedback(models.Model):
     )
     priority = models.PositiveIntegerField(choices=PRIORITY_CHOICES, blank=False, default=2)
     comments = models.CharField(max_length=500, blank=True)
+    submitted = models.DateTimeField(auto_now_add=True)
 
 class AggStat(models.Model):
 	path = models.CharField(max_length=500, db_index=True, unique=False)

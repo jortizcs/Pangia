@@ -191,8 +191,23 @@ def live_feedback_view(request):
     """
     Displays the gathered feedback spatially
     """
-    return render_to_response('live_feedback/view.html',
-      context_instance=RequestContext(request, {}))
+    buildings = Building.objects.all()
+
+    if request.method == 'POST':
+        all_feedback = LiveFeedback.objects.all()
+
+        return render_to_response('live_feedback/view.html',
+          context_instance=RequestContext(request, {
+            "feedback": all_feedback,
+            "buildings": buildings,
+          }))
+    else:
+        return render_to_response('live_feedback/view.html',
+          context_instance=RequestContext(request, {
+            "buildings": buildings,
+          }))
+
+
 
 def live_feedback_thanks(request):
     """

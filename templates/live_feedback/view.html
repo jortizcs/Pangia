@@ -37,7 +37,9 @@
         <li><div class="btn_small_pressed">VIEW</div></li>
 	</ul></div>
     <hr/>
-    <h3>Surtadja Dai Hall</h3>
+    {% for building in buildings %}
+        <h3>{{ building }}</h3>
+    {% endfor %}
         <ul class="toggle">
             <div class="cube_piece" style="z-index:50"><span><br><br><br>Floor 5</span></div>
         	<div class="cube_piece" style="z-index:40"><span><br><br><br>Floor 4</span></div>
@@ -55,7 +57,11 @@
 {% block mainbody %}
 	<section id="main" class="column alerts">
 		<div id="alert">
-            <h4 class="alert_info" >Please, select a building to start.</h4>
+            <h4 class="alert_info" >
+            {% for entry in feedback %}
+                {{ entry.building }}
+            {% endfor %}
+            Please select a building to start.</h4>
         </div>
         <div id="building">
         <article class="module width_half" >

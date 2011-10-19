@@ -31,6 +31,7 @@
 	</section><!-- end of secondary bar -->
 {% endblock %}
 {% block sidebar%}
+{% autoescape on %}
 	<aside id="sidebar" class="column">
     <div id="buttons" ><ul>
         <li><a href="/live_feedback/submit" style="margin: 0;padding:0px"><div class="btn_small">SUBMIT</div></a></li>
@@ -39,20 +40,10 @@
     <hr/>
     {% for building in buildings %}
         <h3>{{ building }}</h3>
+        <div class="toggle"></div>
     {% endfor %}
-        <ul class="toggle">
-            <div class="cube_piece" style="z-index:50"><span><br><br><br>Floor 5</span></div>
-        	<div class="cube_piece" style="z-index:40"><span><br><br><br>Floor 4</span></div>
-        	<div class="cube_piece" style="z-index:30"><span><br><br><br>Floor 3</span></div>
-        	<div class="cube_piece" style="z-index:20"><span><br><br><br>Floor 2</span></div>
-        	<div class="cube_piece" style="z-index:10"><span><br><br><br>Floor 1</span></div>
-           	<div class="cube_shadow" style="z-index:1"></div>
-<!--			<li class="icn_new_article"><a href="#">New Article</a></li>
-			<li class="icn_edit_article"><a href="#">Edit Articles</a></li>
-			<li class="icn_categories"><a href="#">Categories</a></li>
-			<li class="icn_tags"><a href="#">Tags</a></li>-->
-		</ul>
 	</aside><!-- end of sidebar -->
+{% endautoescape %}
 {% endblock %}
 {% block mainbody %}
 	<section id="main" class="column alerts">

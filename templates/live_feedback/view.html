@@ -40,12 +40,13 @@
     <hr/>
     {% for building in buildings %}
         <h3>{{ building }}</h3>
-        <div class="toggle"></div>
+        <div class="toggle" onclick="alert('boom goes the dynamite')"></div>
     {% endfor %}
 	</aside><!-- end of sidebar -->
 {% endautoescape %}
 {% endblock %}
 {% block mainbody %}
+{% autoescape on %}
 	<section id="main" class="column alerts">
 		<div id="alert">
             <h4 class="alert_info" >
@@ -170,4 +171,5 @@
         </div>
 	</section>
     <script src="{{ MEDIA_URL}}js/analytics.js" type="text/javascript"></script>
+{% endautoescape %}
 {% endblock  %}

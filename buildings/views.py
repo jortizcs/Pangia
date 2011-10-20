@@ -191,23 +191,24 @@ def live_feedback_view(request):
     """
     Displays the gathered feedback spatially
     """
+    #To deal with CSRF
+    request.META['CSRF_COOKIE_USED'] = True
+
     buildings = Building.objects.all()
 
-    if request.method == 'POST':
-        all_feedback = LiveFeedback.objects.all()
-
-        return render_to_response('live_feedback/view.html',
-          context_instance=RequestContext(request, {
-            "feedback": all_feedback,
-            "buildings": buildings,
-          }))
-    else:
+    if not request.POST:
         return render_to_response('live_feedback/view.html',
           context_instance=RequestContext(request, {
             "buildings": buildings,
           }))
 
+    building_feedback = LiveFeedback.objects.filter(building=request.POST.get('building', False))
 
+    return render_to_response('live_feedback/view.html',
+      context_instance=RequestContext(request, {
+        "feedback": building_feeback,
+        "buildings": buildings,
+      }))
 
 def live_feedback_thanks(request):
     """

@@ -25,6 +25,10 @@ $(document).ready(function() {
 
         // change the link text depending on whether the element is shown or hidden
         if ($(this).text()==showText) {
+            if (jQuery.data($(this).parent()[0], 'onshow')) {
+                jQuery.data($(this).parent()[0], 'onshow')();
+            }
+
             $(this).text(hideText);
             $(this).parent().next('.toggle').slideDown('slow');
                 $("#alert").fadeOut(350, 'swing',
@@ -33,6 +37,10 @@ $(document).ready(function() {
                     });
         }
         else {
+            if ($(this).onhide) {
+                $(this).onhide();
+            }
+
             $(this).text(showText);
             $(this).parent().next('.toggle').slideUp('slow');
                 $("#floor").fadeOut(450, 'swing');

@@ -7,7 +7,7 @@ function live_feedback_request_building(building) {
 
         buildingdata = jQuery.parseJSON(us_data);
         table = $('#submissionsbody');
-        //table.empty();
+        table.empty();
         for (i in buildingdata) {
             us_floor = buildingdata[i].fields.floor;
             us_room = buildingdata[i].fields.room;
@@ -20,15 +20,37 @@ function live_feedback_request_building(building) {
 
             // Make a table here
             row = $('<tr class="alarm" />');
+
+            // Condition
             condition = $('<td/>');
             if (us_discomfort && us_comfort) {
-                condition.text(us_discomfort + ',' + us_comfort);
+                condition.text(us_discomfort + ', ' + us_comfort);
             } else if (us_discomfort) {
                 condition.text(us_discomfort);
             } else {
                 condition.text(us_comfort);
             }
             row.append(condition);
+
+            // Priority
+            priority = $('<td class="textcentered" />');
+            priority.text(us_priority);
+            row.append(priority);
+
+            // Location
+            loc = $('<td/>');
+            loc.text('Room ' + us_room + ', ' + 'Floor ' + us_floor);
+            row.append(loc);
+
+            // Created date
+            created = $('<td/>');
+            created.text(us_submitted);
+            row.append(created);
+
+            // Comments
+            other = $('<td/>');
+            other.text(us_comments);
+            row.append(other);
 
             table.append(row);
         }

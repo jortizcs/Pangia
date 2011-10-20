@@ -40,8 +40,8 @@
 	</ul></div>
     <hr/>
     {% for building in buildings %}
-        <h3 class="buildingselector">{{ building }}</h3>
-        <span class="toggle"></span>
+        <h3><span class="buildingname">{{ building }}<span></h3>
+        <span class="toggle buildingselector"></span>
     {% endfor %}
 	</aside><!-- end of sidebar -->
 {% endautoescape %}

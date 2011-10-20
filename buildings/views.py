@@ -1,6 +1,7 @@
 from buildings.models import Building, Floor, Room, LiveFeedback, AvgStat, AggStat
 from django.http import HttpResponse, HttpResponseRedirect
 #from django.core.context_processors import csrf
+from django.core import serializers
 from time import strftime, localtime
 from datetime import datetime
 from decimal import Decimal
@@ -188,6 +189,7 @@ def live_feedback_submit(request):
       }))
 
 def live_feedback_view(request):
+    print "wtf, mate"
     """
     Displays the gathered feedback spatially
     """
@@ -196,19 +198,23 @@ def live_feedback_view(request):
 
     buildings = Building.objects.all()
 
-    if not request.POST:
+    if request.method != 'POST':
         return render_to_response('live_feedback/view.html',
           context_instance=RequestContext(request, {
             "buildings": buildings,
           }))
 
+    print "building = " + request.POST.get('building')
     building_feedback = LiveFeedback.objects.filter(building=request.POST.get('building', False))
 
-    return render_to_response('live_feedback/view.html',
-      context_instance=RequestContext(request, {
-        "feedback": building_feeback,
-        "buildings": buildings,
-      }))
+    #return render_to_response('live_feedback/view.html',
+    #  context_instance=RequestContext(request, {
+    #    "feedback": building_feeback,
+    #    "buildings": buildings,
+    #  }))
+    print building_feedback;
+    return HttpResponse(serializers.serialize('json', building_feedback));
+    
 
 def live_feedback_thanks(request):
     """

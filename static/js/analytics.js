@@ -142,10 +142,12 @@ var ANALYTICS = (function () {
             options = setOptions(type),
             visualizationelement = $('#flotvisualization');
 
-        currentcharttype = type;
-        curplot = $.plot(visualizationelement, data, options);
+        if (visualizationelement) {
+            currentcharttype = type;
+            curplot = $.plot(visualizationelement, data, options);
 
-        registerChartCallbacks(type, visualizationelement);
+            registerChartCallbacks(type, visualizationelement);
+        }
     }
 
     currentcharttype = 'area';

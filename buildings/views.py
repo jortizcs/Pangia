@@ -189,7 +189,6 @@ def live_feedback_submit(request):
       }))
 
 def live_feedback_view(request):
-    print "wtf, mate"
     """
     Displays the gathered feedback spatially
     """
@@ -204,10 +203,14 @@ def live_feedback_view(request):
             "buildings": buildings,
           }))
 
-    print "building = " + request.POST.get('building')
     building_feedback = LiveFeedback.objects.filter(building=request.POST.get('building', False))
 
-    return HttpResponse(serializers.serialize('json', building_feedback));
+    # Make the various fields look pretty for serialization
+    for b in building_feedback:
+        b.discomfort = b.get_discomfort_display()
+        b.comfort = b.get_comfort_display()
+
+    return HttpResponse(serializers.serialize('json', building_feedback, use_natural_keys=True));
     
 
 def live_feedback_thanks(request):

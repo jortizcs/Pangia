@@ -207,12 +207,6 @@ def live_feedback_view(request):
     print "building = " + request.POST.get('building')
     building_feedback = LiveFeedback.objects.filter(building=request.POST.get('building', False))
 
-    #return render_to_response('live_feedback/view.html',
-    #  context_instance=RequestContext(request, {
-    #    "feedback": building_feeback,
-    #    "buildings": buildings,
-    #  }))
-    print building_feedback;
     return HttpResponse(serializers.serialize('json', building_feedback));
     
 

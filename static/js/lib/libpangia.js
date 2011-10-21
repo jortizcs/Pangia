@@ -18,6 +18,9 @@ function pTable(columnnames, sort, reversesort)
 
     // Setup value to sort by
     this.sortBy(sort);
+
+    this.tableelt = $('<table class="tablesorter" cellspacing="0" />');
+    this.tablebodyelt = $('<tbody />');
 }
 
 pTable.prototype.addRow = function (row) {
@@ -43,6 +46,8 @@ pTable.prototype.sortBy = function (sort, reverse) {
 
     if (reverse) {
         this.reversesort = true;
+    } else {
+        this.reversesort = false;
     }
 
     this.sort();
@@ -74,23 +79,14 @@ pTable.prototype.sort = function () {
     });
 };
 
-pTable.prototype.render = function () {
-    var i, j, eltclass, table, thead, tbody, tr, th, td;
+pTable.prototype.renderTableBody = function () {
+    var i, eltclass, tbody, tr, td;
+    var obj = this;
 
-    table = $('<table class="tablesorter" cellspacing="0" />');
-    thead = $('<thead />');
-    tbody = $('<tbody />');
+    tbody = this.tablebodyelt;
+    tbody.empty();
 
-    tr = $('<tr />');
-    for (i = 0; i < this.columnnames.length; i++) {
-        th = $('<th />');
-        th.text(this.columnnames[i]);
-        tr.append(th);
-    }
-    thead.append(tr);
-    table.append(thead);
-
-    for (i = 0; i < this.data.length; i++) {
+    for (i = 0; i < obj.data.length; i++) {
         eltclass = '';
         if (i % 2 == 0) {
             eltclass = 'alarm';
@@ -98,17 +94,49 @@ pTable.prototype.render = function () {
 
         tr = $('<tr class="' + eltclass + '"/>');
 
-        for (j = 0; j < this.data[i].length; j++) {
+        for (j = 0; j < obj.data[i].length; j++) {
             td = $('<td />');
-            td.text(this.data[i][j]);
+            td.text(obj.data[i][j]);
             tr.append(td);
         }
         tbody.append(tr);
     }
-    table.append(tbody);
-
-    return table;
+    obj.tableelt.append(tbody);
 };
+
+pTable.prototype.render = function () {
+    var i, j, eltclass, thead, tbody, tr, th, td, a;
+    var obj = this;
+
+    obj.tableelt.empty();
+
+    thead = $('<thead />');
+
+    tr = $('<tr />');
+    for (i = 0; i < obj.columnnames.length; i++) {
+        th = $('<th />');
+        a = $('<a href="#" class="ptable_sorter" />');
+        a.click((function(sortindex) {
+            return function () {
+                obj.sortBy(obj.columnnames[sortindex],
+                           (obj.sortindex === sortindex) ? !obj.reversesort : false);
+                obj.renderTableBody();
+            }})(i));
+
+        a.text(obj.columnnames[i]);
+        th.append(a);
+        tr.append(th);
+    }
+    thead.append(tr);
+    obj.tableelt.append(thead);
+
+    obj.renderTableBody();
+    obj.tableelt.append(obj.tablebodyelt);
+};
+
+pTable.prototype.getTable = function () {
+    return this.tableelt;
+}
 
 pTable.prototype.empty = function () {
     this.data = [];

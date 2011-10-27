@@ -1,26 +1,28 @@
-function pTable(columnnames, sort, reversesort)
+function pTable(columnnames, sort, ascendingsort)
 {
-    this.columnnames = undefined;
-    this.data = [];
-    this.numcolumns = 0;
-    this.reversesort = false;
-    this.sortindex = undefined;
+    var widget = this;
+
+    widget.columnnames = undefined;
+    widget.data = [];
+    widget.numcolumns = 0;
+    widget.ascendingsort = false;
+    widget.sortindex = undefined;
 
     // Setup column heading names
     if (columnnames) {
-        this.columnnames = columnnames;
-        this.numcolumns = columnnames.length;
+        widget.columnnames = columnnames;
+        widget.numcolumns = columnnames.length;
     }
 
-    if (reversesort) {
-        this.reversesort = true;
+    if (ascendingsort) {
+        widget.ascendingsort = true;
     }
 
-    // Setup value to sort by
-    this.sortBy(sort);
+    widget.tableelt = $('<table class="tablesorter" cellspacing="0" />');
+    widget.tablebodyelt = $('<tbody />');
 
-    this.tableelt = $('<table class="tablesorter" cellspacing="0" />');
-    this.tablebodyelt = $('<tbody />');
+    // Setup defualt value to sort by
+    widget.sorting = [[widget.sortIndex(sort), 0]];
 }
 
 pTable.prototype.addRow = function (row) {
@@ -31,7 +33,7 @@ pTable.prototype.addRow = function (row) {
     this.data.push(row);
 };
 
-pTable.prototype.sortBy = function (sort, reverse) {
+pTable.prototype.sortIndex = function (sort) {
     var i;
 
     if (sort) {
@@ -44,39 +46,25 @@ pTable.prototype.sortBy = function (sort, reverse) {
         }
     }
 
-    if (reverse) {
-        this.reversesort = true;
+    return i;
+}
+
+pTable.prototype.sortBy = function (sort, ascending) {
+    var i, sorting, sortdirection;
+
+    i = this.sortIndex(sort);
+
+    if (ascending) {
+        this.ascendingsort = true;
     } else {
-        this.reversesort = false;
+        this.ascendingsort = false;
     }
 
-    this.sort();
-};
+    sortdirection = this.ascendingsort ? 1 : 0;
+    this.sorting = [[i, sortdirection]];
 
-pTable.prototype.sort = function () {
-    var list = this;
-
-    if (this.sortindex < 0) {
-        return;
-    }
-
-    this.data.sort(function (a, b) {
-        var ret;
-
-        if (a[list.sortindex] < b[list.sortindex]) {
-            ret = -1;
-        } else if (a[list.sortindex] === b[list.sortindex]) {
-            ret = 0;
-        } else {
-            ret = 1;
-        }
-
-        if (list.reversesort) {
-            ret = ret * -1;
-        }
-
-        return ret;
-    });
+    //this.tableelt.trigger('sorton', [3, 0]);
+    this.tableelt.trigger('sorton', [this.sorting]);
 };
 
 pTable.prototype.renderTableBody = function () {
@@ -92,7 +80,7 @@ pTable.prototype.renderTableBody = function () {
             eltclass = 'alarm';
         }
 
-        tr = $('<tr class="' + eltclass + '"/>');
+        tr = $('<tr class="' + eltclass + '" />');
 
         for (j = 0; j < obj.data[i].length; j++) {
             td = $('<td />');
@@ -105,7 +93,7 @@ pTable.prototype.renderTableBody = function () {
 };
 
 pTable.prototype.render = function () {
-    var i, j, eltclass, thead, tbody, tr, th, td, a;
+    var i, j, thead, tbody, tr, th, td, a;
     var obj = this;
 
     obj.tableelt.empty();
@@ -119,8 +107,7 @@ pTable.prototype.render = function () {
         a.click((function(sortindex) {
             return function () {
                 obj.sortBy(obj.columnnames[sortindex],
-                           (obj.sortindex === sortindex) ? !obj.reversesort : false);
-                obj.renderTableBody();
+                           (obj.sortindex === sortindex) ? !obj.ascendingsort : false);
             }})(i));
 
         a.text(obj.columnnames[i]);
@@ -132,6 +119,12 @@ pTable.prototype.render = function () {
 
     obj.renderTableBody();
     obj.tableelt.append(obj.tablebodyelt);
+    obj.tableelt.tablesorter({
+        sortList: obj.sorting,
+        widgets: [ 'zebra' ],
+        widgetZebra: { css: [ '', 'alarm' ] }
+
+    });
 };
 
 pTable.prototype.getTable = function () {

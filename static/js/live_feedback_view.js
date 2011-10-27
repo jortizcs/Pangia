@@ -41,7 +41,7 @@ function request_building(building) {
 
             buildingList.addRow(us_row);
         }
-        buildingList.sort();
+        //buildingList.sort();
         buildingList.render();
         tablelocation.append(buildingList.getTable());
     });

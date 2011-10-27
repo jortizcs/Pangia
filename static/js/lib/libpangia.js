@@ -70,24 +70,19 @@ pTable.prototype.sortBy = function (sort, descendingsort) {
     sortdirection = this.descendingsort ? 'desc' : 'asc';
     this.sorting = [[i, sortdirection]];
 
-    this.tableelt.trigger('sorton', [this.sorting]);
+    //this.tableelt.trigger('sorton', [this.sorting]);
+    this.tableelt.dataTable().fnSort(this.sorting);
 };
 
 pTable.prototype.renderTableBody = function () {
-    var i, eltclass, tbody, tr, td;
+    var i, tbody, tr, td;
     var obj = this;
 
     tbody = this.tablebodyelt;
     tbody.empty();
 
     for (i = 0; i < obj.data.length; i++) {
-        eltclass = '';
-        if (i % 2 == 0) {
-            eltclass = '';
-            //eltclass = 'alarm';
-        }
-
-        tr = $('<tr class="' + eltclass + '" />');
+        tr = $('<tr />');
 
         for (j = 0; j < obj.data[i].length; j++) {
             td = $('<td />');

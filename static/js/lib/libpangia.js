@@ -1,11 +1,11 @@
-function pTable(columnnames, sort, ascendingsort)
+function pTable(columnnames, sort, descendingsort)
 {
     var widget = this;
 
     widget.columnnames = undefined;
     widget.data = [];
     widget.numcolumns = 0;
-    widget.ascendingsort = false;
+    widget.descendingsort = false;
     widget.sortindex = undefined;
 
     // Setup column heading names
@@ -14,23 +14,30 @@ function pTable(columnnames, sort, ascendingsort)
         widget.numcolumns = columnnames.length;
     }
 
-    if (ascendingsort) {
-        widget.ascendingsort = true;
+    if (descendingsort) {
+        widget.descendingsort = true;
     }
 
     widget.tableelt = $('<table class="tablesorter" cellspacing="0" />');
     widget.tablebodyelt = $('<tbody />');
 
     // Setup defualt value to sort by
-    widget.sorting = [[widget.sortIndex(sort), 0]];
+    widget.sorting = [[widget.sortIndex(sort), widget.descendingsort ? 'desc' : 'asc' ]];
+    widget.render();
 }
 
-pTable.prototype.addRow = function (row) {
-    if (row.length !== this.numcolumns) {
-        return;
+pTable.prototype.addRows = function (rows) {
+    var i;
+
+    for (i = 0; i < rows.length; i++) {
+        if (rows[i].length !== this.numcolumns) {
+            return;
+        }
+
+        this.data.push(rows[i]);
     }
 
-    this.data.push(row);
+    this.tableelt.dataTable().fnAddData(rows);
 };
 
 pTable.prototype.sortIndex = function (sort) {
@@ -49,21 +56,20 @@ pTable.prototype.sortIndex = function (sort) {
     return i;
 }
 
-pTable.prototype.sortBy = function (sort, ascending) {
+pTable.prototype.sortBy = function (sort, descendingsort) {
     var i, sorting, sortdirection;
 
     i = this.sortIndex(sort);
 
-    if (ascending) {
-        this.ascendingsort = true;
+    if (descending) {
+        this.descendingsort = true;
     } else {
-        this.ascendingsort = false;
+        this.descendingsort = false;
     }
 
-    sortdirection = this.ascendingsort ? 1 : 0;
+    sortdirection = this.descendingsort ? 'desc' : 'asc';
     this.sorting = [[i, sortdirection]];
 
-    //this.tableelt.trigger('sorton', [3, 0]);
     this.tableelt.trigger('sorton', [this.sorting]);
 };
 
@@ -77,7 +83,8 @@ pTable.prototype.renderTableBody = function () {
     for (i = 0; i < obj.data.length; i++) {
         eltclass = '';
         if (i % 2 == 0) {
-            eltclass = 'alarm';
+            eltclass = '';
+            //eltclass = 'alarm';
         }
 
         tr = $('<tr class="' + eltclass + '" />');
@@ -96,8 +103,6 @@ pTable.prototype.render = function () {
     var i, j, thead, tbody, tr, th, td, a;
     var obj = this;
 
-    obj.tableelt.empty();
-
     thead = $('<thead />');
 
     tr = $('<tr />');
@@ -107,7 +112,7 @@ pTable.prototype.render = function () {
         a.click((function(sortindex) {
             return function () {
                 obj.sortBy(obj.columnnames[sortindex],
-                           (obj.sortindex === sortindex) ? !obj.ascendingsort : false);
+                           (obj.sortindex === sortindex) ? !obj.descendingsort : false);
             }})(i));
 
         a.text(obj.columnnames[i]);
@@ -119,11 +124,9 @@ pTable.prototype.render = function () {
 
     obj.renderTableBody();
     obj.tableelt.append(obj.tablebodyelt);
-    obj.tableelt.tablesorter({
-        sortList: obj.sorting,
-        widgets: [ 'zebra' ],
-        widgetZebra: { css: [ '', 'alarm' ] }
 
+    obj.tableelt.dataTable({
+        'aaSorting': obj.sorting,
     });
 };
 
@@ -133,4 +136,5 @@ pTable.prototype.getTable = function () {
 
 pTable.prototype.empty = function () {
     this.data = [];
+    this.tableelt.dataTable().fnClearTable();
 };

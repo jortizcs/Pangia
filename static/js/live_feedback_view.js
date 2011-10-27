@@ -2,20 +2,21 @@
 
 var buildingList = new pTable(['Condition', 'Priority', 'Location',
                                'Created', 'Comments'],
-                              'Priority');
+                              'Priority', true);
 
 function request_building(building) {
     $.post('view', {building: building}, function (us_data) {
         var i, buildingdata, tablelocation, table, row;
         var condition, priority, loc, created, other;
         var us_floor, us_room, us_submitter, us_discomfort, us_comfort,
-            us_priority, us_comments, us_submitted;
+            us_priority, us_comments, us_submitted, us_rows;
 
         tablelocation = $('#submissionsbody');
         tablelocation.empty();
 
         buildingdata = jQuery.parseJSON(us_data);
         buildingList.empty();
+        us_rows = [];
         for (i in buildingdata) {
             var us_row = [];
             us_floor = buildingdata[i].fields.floor;
@@ -39,10 +40,10 @@ function request_building(building) {
             us_row.push(us_submitted);
             us_row.push(us_comments);
 
-            buildingList.addRow(us_row);
+            us_rows.push(us_row);
         }
-        //buildingList.sort();
-        buildingList.render();
+        buildingList.addRows(us_rows);
+
         tablelocation.append(buildingList.getTable());
     });
 }

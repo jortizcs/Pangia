@@ -18,8 +18,11 @@ function pTable(columnnames, sort, descendingsort)
         widget.descendingsort = true;
     }
 
+    widget.tablecontainer = $('<div />');
     widget.tableelt = $('<table class="tablesorter" cellspacing="0" />');
     widget.tablebodyelt = $('<tbody />');
+
+    widget.tablecontainer.append(widget.tableelt);
 
     // Setup defualt value to sort by
     widget.sorting = [[widget.sortIndex(sort), widget.descendingsort ? 'desc' : 'asc' ]];
@@ -70,28 +73,7 @@ pTable.prototype.sortBy = function (sort, descendingsort) {
     sortdirection = this.descendingsort ? 'desc' : 'asc';
     this.sorting = [[i, sortdirection]];
 
-    //this.tableelt.trigger('sorton', [this.sorting]);
     this.tableelt.dataTable().fnSort(this.sorting);
-};
-
-pTable.prototype.renderTableBody = function () {
-    var i, tbody, tr, td;
-    var obj = this;
-
-    tbody = this.tablebodyelt;
-    tbody.empty();
-
-    for (i = 0; i < obj.data.length; i++) {
-        tr = $('<tr />');
-
-        for (j = 0; j < obj.data[i].length; j++) {
-            td = $('<td />');
-            td.text(obj.data[i][j]);
-            tr.append(td);
-        }
-        tbody.append(tr);
-    }
-    obj.tableelt.append(tbody);
 };
 
 pTable.prototype.render = function () {
@@ -117,16 +99,19 @@ pTable.prototype.render = function () {
     thead.append(tr);
     obj.tableelt.append(thead);
 
-    obj.renderTableBody();
     obj.tableelt.append(obj.tablebodyelt);
 
     obj.tableelt.dataTable({
         'aaSorting': obj.sorting,
+        'bPaginate': true,
+        'bLengthChange': false,
+        'iDisplayLength': 5,
+        'sPaginationType': 'full_numbers'
     });
 };
 
 pTable.prototype.getTable = function () {
-    return this.tableelt;
+    return this.tablecontainer;
 }
 
 pTable.prototype.empty = function () {

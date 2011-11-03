@@ -1,6 +1,12 @@
 {% extends "base_sidebar.html" %}
 {% block title %}Pangia :: Set Alerts{% endblock %}
 
+{% block extrahead %}
+    {{ block.super }}
+    <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/lib/jquery.dataTables.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/alert_set.js"></script>
+{% endblock %}
+
 {% block secondary_bar %}
   <section id="secondary_bar">
 		<div class="user">
@@ -22,14 +28,17 @@
 {% block mainbody %}
 	<section id="main" class="column alerts">
 		<article class="module width_half">
-            <header><h3 class="tabs_involved">CHOOSE POINT TO MONITOR</h3>
+            <header><h3 class="tabs_involved">CHOOSE POINT TO MONITOR</h3></header>
+            <!--header><h3 class="tabs_involved">CHOOSE POINT TO MONITOR</h3>
 <form class="sub_search" style="float:right; margin-right: -40%">
 			<input type="text" value="Search Points" onFocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
 		</form>
-            </header>
+            </header-->
             <div class="module_content">
-
-            </div>
+            <div class="tab_container" style="max-height: 600px">
+			<div id="tab1" class="tab_content">
+            <div id="sensorlist"></div>
+			</div><!-- end of #tab1 -->
             <footer></footer>
 		</article><!-- end of points article-->
         <article style="float:left; width:20%; margin:170px -15px 0px 15px;">

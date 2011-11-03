@@ -1,4 +1,17 @@
-function pTable(columnnames, sort, descendingsort)
+/*
+ * options:
+ *      columnnames:
+ *          An array of the column names in the table.
+ *      descedingsort:
+ *          Boolean value specifying whether that the columns should be sorted
+ *          from highest to lowest value by default.
+ *      rowselect:
+ *          A function callback when a row is selected. If left unspecified,
+ *          the table will not support row selection.
+ *      sortby:
+ *          The column name to initially sort by.
+ */
+function pTable(options)
 {
     var widget = this;
 
@@ -7,14 +20,15 @@ function pTable(columnnames, sort, descendingsort)
     widget.numcolumns = 0;
     widget.descendingsort = false;
     widget.sortindex = undefined;
+    widget.rowselect = undefined;
 
     // Setup column heading names
-    if (columnnames) {
-        widget.columnnames = columnnames;
-        widget.numcolumns = columnnames.length;
+    if (options.columnnames) {
+        widget.columnnames = options.columnnames;
+        widget.numcolumns = options.columnnames.length;
     }
 
-    if (descendingsort) {
+    if (options.descendingsort) {
         widget.descendingsort = true;
     }
 
@@ -25,7 +39,22 @@ function pTable(columnnames, sort, descendingsort)
     widget.tablecontainer.append(widget.tableelt);
 
     // Setup defualt value to sort by
-    widget.sorting = [[widget.sortIndex(sort), widget.descendingsort ? 'desc' : 'asc' ]];
+    widget.sorting = [[widget.sortIndex(options.sortby), widget.descendingsort ? 'desc' : 'asc' ]];
+
+    if (options.rowselect) {
+        widget.rowselect = options.rowselect;
+        widget.tablebodyelt.click(function (event) {
+            var rowelt;
+
+            $(widget.tableelt.fnSettings().aoData).each(function (){
+                $(this.nTr).removeClass('row_selected');
+            });
+            rowelt = $(event.target.parentNode);
+            rowelt.addClass('row_selected');
+            widget.rowselect(rowelt[0].rowIndex);
+        });
+    }
+
     widget.render();
 }
 
@@ -112,6 +141,15 @@ pTable.prototype.render = function () {
 
 pTable.prototype.getTable = function () {
     return this.tablecontainer;
+}
+
+/*
+ * Indexes start at 1, as per the rowIndex field of elements.
+ */
+pTable.prototype.getRowValues = function (index) {
+    var widget = this;
+
+    return widget.data[index - 1]
 }
 
 pTable.prototype.empty = function () {

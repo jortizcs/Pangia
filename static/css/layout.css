@@ -279,6 +279,7 @@ html ul.tabs li:last-child, html ul.tabs li:last-child a  {	-webkit-border-top-r
 .tablesorter .alarm {background:#F3D9D9}
 .tablesorter .alert {background:#F5F3BA}
 .tablesorter .odd {background:#F3D9D9}
+.tablesorter .row_selected {background:#B0BED9}
 
 /* 
 ++ Messages 

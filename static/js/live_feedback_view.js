@@ -1,8 +1,10 @@
 (function () {
-
-var buildingList = new pTable(['Condition', 'Priority', 'Location',
-                               'Created', 'Comments'],
-                              'Priority', true);
+var buildingList = new pTable({
+    'columnnames': [ 'Condition', 'Priority', 'Location',
+                     'Created', 'Comments' ],
+    'sortby': 'Priority',
+    'descedingsort': true
+});
 
 function request_building(building) {
     $.post('view', {building: building}, function (us_data) {

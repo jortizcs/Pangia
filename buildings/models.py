@@ -49,6 +49,19 @@ class LiveFeedback(models.Model):
     comments = models.CharField(max_length=500, blank=True)
     submitted = models.DateTimeField(auto_now_add=True)
 
+class Alert(models.Model):
+    name = models.CharField(max_length=200, blank=False)
+    PRIORITY_CHOICES = (
+        (3, '3'),
+        (2, '2'),
+        (1, '1')
+    )
+    priority = models.PositiveIntegerField(choices=PRIORITY_CHOICES, blank=False, default=2)
+    sensor = models.CharField(max_length=200, blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+    threshold = models.FloatField(blank=False)
+    action = models.EmailField(blank=False)
+
 class AggStat(models.Model):
 	path = models.CharField(max_length=500, db_index=True, unique=False)
 	sum = models.DecimalField(max_digits=10, decimal_places=2)

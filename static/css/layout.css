@@ -202,9 +202,11 @@ section#main.alerts .module_content {height:500px;}
 .btn_less {background:url(../images/btn/btn_comparators.png) 0px -117px no-repeat;}
 .btn_equal {background:url(../images/btn/btn_comparators.png) 0px -58px no-repeat; }
 .btn_larger { background:url(../images/btn/btn_comparators.png) 0px 0px no-repeat; }
+/*
 .btn_less:hover { background-position: -77px -117px; }
 .btn_equal:hover { background-position: -77px -58px; }
 .btn_larger:hover { background-position: -77px 0px; }
+*/
 .btn_less_pressed { background-position: -154px -117px; }
 .btn_equal_pressed { background-position: -154px -58px; }
 .btn_larger_pressed { background-position: -154px 0px; }

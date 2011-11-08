@@ -49,19 +49,6 @@ def energy_explorer_search(request):
     return render_to_response('energy_explorer/search.html',
       context_instance=RequestContext(request, {}))
 
-def alerts_view(request):
-    """
-    Show all alerts
-    """
-    return render_to_response('alerts/view.html',
-      context_instance=RequestContext(request, {}))
-
-def alerts_set(request):
-    """
-    Set your alerts
-    """
-    return render_to_response('alerts/set.html',
-      context_instance=RequestContext(request, {}))
 
 def dashboard(request):
     """

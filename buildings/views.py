@@ -219,3 +219,40 @@ def live_feedback_thanks(request):
     """
     return render_to_response('live_feedback/thanks.html',
       context_instance=RequestContext(request, {}))
+
+class AlertSetForm(ModelForm):
+    class Meta:
+        model = LiveFeedback
+        widgets = {
+        }
+
+def alerts_view(request):
+    """
+    Show all alerts
+    """
+    return render_to_response('alerts/view.html',
+      context_instance=RequestContext(request, {}))
+
+def alerts_set(request):
+    """
+    Set your alerts
+    """
+    if request.method == 'POST':
+        #A POST is received on an alert set. We validate it, and if that
+        #fails, return with the error list.
+        form = AlertSetForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/alerts/thanks.html');
+        else:
+            #We just pass here because in the case of errors, we just return to
+            #the feedback page and display the errors.
+            pass
+    else:
+        #In the case of a GET request, just generate a new form.
+        form = AlertSetForm()
+
+    return render_to_response('alerts/set.html',
+      context_instance=RequestContext(request, {
+            "feedbackform": form,
+      }))

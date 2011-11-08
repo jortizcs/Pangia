@@ -39,16 +39,10 @@ function init_buttons() {
             if (button.hasClass(pressedClass)) {
                 button.removeClass(pressedClass);
             } else {
-                alreadypressed = false;
                 for (b in buttons) {
-                    if (b !== buttonName && buttons[b].hasClass(b + '_pressed')) {
-                        alreadypressed = true;
-                        break;
-                    }
+                    buttons[b].removeClass(b + '_pressed');
                 }
-                if (!alreadypressed) {
-                    button.addClass(pressedClass);
-                }
+                button.addClass(pressedClass);
             }
         };
     };

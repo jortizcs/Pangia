@@ -55,6 +55,10 @@ function init_buttons() {
 $(document).ready(function() {
     list_sensors($('#sensorlist'));
     init_buttons();
+
+    $('#alert_set').click(function () {
+        $('#alert_set_form').submit();
+    });
 });
 
 })();

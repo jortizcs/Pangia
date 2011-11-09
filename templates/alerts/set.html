@@ -3,6 +3,7 @@
 
 {% block extrahead %}
     {{ block.super }}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/alert_set.css" type="text/css" /> 
     <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/lib/jquery.dataTables.js"></script>
     <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/alert_set.js"></script>
 {% endblock %}
@@ -37,6 +38,7 @@
             <div class="module_content">
             <div class="tab_container" style="max-height: 600px">
 			<div id="tab1" class="tab_content">
+            {{alertform.sensor.errors}}
             <div id="sensorlist"></div>
 			</div><!-- end of #tab1 -->
             <footer></footer>
@@ -50,28 +52,34 @@
 		</article><!-- end of buttons -->
         <article class="module width_quarter">
 		<header><h3 class="tabs_involved">Alert Options</h3></header>
-        	<div class="module_content">		
-                <fieldset>
+        	<div class="module_content">
+                <form id="alert_set_form" method="post">
+                {% csrf_token %}
+                {{ alertform.non_field_errors }}
+
+                <fieldset id="alert_set_name" class="alert_set_text">
                     <label>Name</label>
-                    <input type="text" style="width:85%;">
-                </fieldset>
-                <fieldset>
-                    <label>Threshold</label>
-                    <input type="text" style="width:85%;">
+                    {{ alertform.name.errors }}
+                    {{ alertform.name }}
                 </fieldset>
 
-                <fieldset>
-                    <label>Priority (3 = highest)</label>
-                    <select style="width:92%;">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-					</select>
-                    </fieldset>
+                <fieldset id="alert_set_threshold" class="alert_set_text">
+                    <label>Threshhold</label>
+                    {{ alertform.threshold.errors }}
+                    {{ alertform.threshold }}
+                </fieldset>
+
+                <fieldset id="alert_set_priority">
+                    <label>Priority (1 = lowest)</label>
+                    {{ alertform.priority.errors }}
+                    {{ alertform.priority }}
+                </fieldset>
+
+                </form>
  			</div>       
         <footer>
         <div class="submit_link">
-        			<input type="submit" value="Set Alert" class="alt_btn">
+       	    <input id="alert_set" type="submit" value="Set Alert" class="alt_btn">
         </div>
         </footer>
 		</article><!-- end of alert information -->

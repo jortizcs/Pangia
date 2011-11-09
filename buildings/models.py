@@ -60,7 +60,8 @@ class Alert(models.Model):
     sensor = models.CharField(max_length=200, blank=False)
     created = models.DateTimeField(auto_now_add=True)
     threshold = models.FloatField(blank=False)
-    action = models.EmailField(blank=False)
+    action = models.EmailField()
+    #action = models.EmailField(blank=False)
 
 class AggStat(models.Model):
 	path = models.CharField(max_length=500, db_index=True, unique=False)

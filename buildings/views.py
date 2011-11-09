@@ -1,4 +1,4 @@
-from buildings.models import Building, Floor, Room, LiveFeedback, AvgStat, AggStat
+from buildings.models import Building, Floor, Room, LiveFeedback, Alert, AvgStat, AggStat
 from django.http import HttpResponse, HttpResponseRedirect
 #from django.core.context_processors import csrf
 from django.core import serializers
@@ -222,7 +222,7 @@ def live_feedback_thanks(request):
 
 class AlertSetForm(ModelForm):
     class Meta:
-        model = LiveFeedback
+        model = Alert
         widgets = {
         }
 
@@ -241,10 +241,13 @@ def alerts_set(request):
         #A POST is received on an alert set. We validate it, and if that
         #fails, return with the error list.
         form = AlertSetForm(request.POST, request.FILES)
+        print "form submitted"
         if form.is_valid():
+            print "valid form"
             form.save()
             return HttpResponseRedirect('/alerts/thanks.html');
         else:
+            print "invalid form"
             #We just pass here because in the case of errors, we just return to
             #the feedback page and display the errors.
             pass
@@ -254,5 +257,5 @@ def alerts_set(request):
 
     return render_to_response('alerts/set.html',
       context_instance=RequestContext(request, {
-            "feedbackform": form,
+            "alertform": form,
       }))

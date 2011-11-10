@@ -57,6 +57,10 @@
                 {% csrf_token %}
                 {{ alertform.non_field_errors }}
 
+                <div id="alert_sensor">
+                    {{ alertform.sensor }}
+                </div>
+
                 <fieldset id="alert_set_name" class="alert_set_text">
                     <label>Name</label>
                     {{ alertform.name.errors }}

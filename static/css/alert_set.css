@@ -9,3 +9,7 @@ fieldset.alert_set_text input { width: 85%; }
 .errorlist li {
     display: inline;
 }
+
+#alert_sensor {
+    display: none;
+}

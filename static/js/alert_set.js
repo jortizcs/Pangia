@@ -9,6 +9,8 @@ var sensorList = new pTable({
         row = sensorList.getRowValues(rowindex);
 
         sensorselection = row[0];
+        
+        $('#id_sensor').val(row[0]);
     }
 });
 
@@ -20,6 +22,9 @@ function list_sensors(sensorListElt) {
     ]);
 
     sensorListElt.append(sensorList.getTable());
+
+    if ($('#id_sensor') !== '') {
+    }
 }
 
 function init_buttons() {

@@ -113,20 +113,21 @@ pTable.prototype.sortIndex = function (sort) {
 }
 
 pTable.prototype.sortBy = function (sort, descendingsort) {
+    var widget = this;
     var i, sorting, sortdirection;
 
-    i = this.sortIndex(sort);
+    i = widget.sortIndex(sort);
 
-    if (descending) {
-        this.descendingsort = true;
+    if (descendingsort) {
+        widget.descendingsort = true;
     } else {
-        this.descendingsort = false;
+        widget.descendingsort = false;
     }
 
-    sortdirection = this.descendingsort ? 'desc' : 'asc';
-    this.sorting = [[i, sortdirection]];
+    sortdirection = widget.descendingsort ? 'desc' : 'asc';
+    widget.sorting = [[i, sortdirection]];
 
-    this.tableelt.dataTable().fnSort(this.sorting);
+    widget.tableelt.dataTable().fnSort(widget.sorting);
 };
 
 pTable.prototype.render = function () {

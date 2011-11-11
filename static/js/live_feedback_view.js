@@ -1,17 +1,21 @@
 (function () {
 var buildingList = new pTable({
-    'columnnames': [ 'Condition', 'Priority', 'Location',
-                     'Created', 'Comments' ],
+    'columnnames': [ 'Condition',
+                     'Priority',
+                     'Location',
+                     'Created',
+                     'Comments'
+                   ],
     'sortby': 'Priority',
     'descedingsort': true
 });
 
-function request_building(building) {
+function requestBuilding(building) {
     $.post('view', {building: building}, function (us_data) {
         var i, buildingdata, tablelocation, table, row;
         var condition, priority, loc, created, other;
         var us_floor, us_room, us_submitter, us_discomfort, us_comfort,
-            us_priority, us_comments, us_submitted, us_rows;
+            us_priority, us_comments, us_submitted, us_rows, us_row;
 
         tablelocation = $('#submissionsbody');
         tablelocation.empty();
@@ -20,7 +24,7 @@ function request_building(building) {
         buildingList.empty();
         us_rows = [];
         for (i in buildingdata) {
-            var us_row = [];
+            us_row = [];
             us_floor = buildingdata[i].fields.floor;
             us_room = buildingdata[i].fields.room;
             us_submitter = buildingdata[i].fields.submitter;
@@ -56,7 +60,7 @@ $(document).ready(function() {
     for (i = 0; i < toggles.length; i++) {
         var elt = toggles[i];
         jQuery.data($(elt).prev()[0], 'onshow', function () {
-            request_building($('.buildingname', $(elt).prev())[0].textContent);
+            requestBuilding($('.buildingname', $(elt).prev())[0].textContent);
         });
     }
 });

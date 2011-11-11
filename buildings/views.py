@@ -230,8 +230,21 @@ def alerts_view(request):
     """
     Show all alerts
     """
-    return render_to_response('alerts/view.html',
-      context_instance=RequestContext(request, {}))
+    #To deal with CSRF
+    request.META['CSRF_COOKIE_USED'] = True
+
+    if request.method != 'POST':
+        return render_to_response('alerts/view.html',
+          context_instance=RequestContext(request, {}))
+
+    alerts = Alert.objects.all()
+
+    # Make the various fields look pretty for serialization
+    #for b in building_feedback:
+    #    b.discomfort = b.get_discomfort_display()
+    #    b.comfort = b.get_comfort_display()
+
+    return HttpResponse(serializers.serialize('json', alerts, use_natural_keys=True));
 
 def alerts_set(request):
     """

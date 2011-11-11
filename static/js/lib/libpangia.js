@@ -153,6 +153,37 @@ pTable.prototype.getRowValues = function (index) {
 }
 
 pTable.prototype.empty = function () {
-    this.data = [];
-    this.tableelt.dataTable().fnClearTable();
+    var widget = this;
+
+    widget.data = [];
+    widget.tableelt.dataTable().fnClearTable();
 };
+
+/*
+ * Selects the page of the chosen row, and highlights the appropriate row on
+ * that page. If the simulate option is set to true, calls the "rowselect"
+ * callback. Otherwise, only selects the row but does not make the callback.
+ */
+pTable.prototype.selectRow = function (index, simulate) {
+    var widget = this;
+    var node, rowelt;
+
+    node = widget.tableelt.fnGetNodes()[index];
+    widget.tableelt.fnDisplayRow(node);
+
+    $(widget.tableelt.fnSettings().aoData).each(function (){
+        $(this.nTr).removeClass('row_selected');
+    });
+    rowelt = $(node);
+    rowelt.addClass('row_selected');
+
+    if (simulate) {
+        widget.rowselect(rowelt[0].rowIndex);
+    }
+}
+
+pTable.prototype.searchRow = function (needle) {
+    var widget = this;
+
+    return widget.tableelt.fnFindCellRowIndexes(needle);
+}

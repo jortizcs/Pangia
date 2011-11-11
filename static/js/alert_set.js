@@ -22,9 +22,6 @@ function list_sensors(sensorListElt) {
     ]);
 
     sensorListElt.append(sensorList.getTable());
-
-    if ($('#id_sensor') !== '') {
-    }
 }
 
 function init_buttons() {
@@ -58,8 +55,18 @@ function init_buttons() {
 }
 
 $(document).ready(function() {
+    var currentsensor, rows;
+
     list_sensors($('#sensorlist'));
     init_buttons();
+
+    currentsensor = $('#id_sensor').val();
+    if (currentsensor !== '') {
+        rows = sensorList.searchRow(currentsensor);
+        if (rows.length > 0) {
+            sensorList.selectRow(rows[0]);
+        }
+    }
 
     $('#alert_set').click(function () {
         $('#alert_set_form').submit();

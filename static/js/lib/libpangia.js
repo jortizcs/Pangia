@@ -1,4 +1,28 @@
 /*
+ * Load any required libraries or plugins.
+ *
+ * Add JavaScript files that should be loaded to the to_load array. Note that
+ * order does matter. Each entry is a tuple of the form:
+ *      [ file name, is synchronous? ]
+ */
+(function () {
+    var static_base = $('#pangia_static_base').attr('data-base');
+    var to_load = [
+        [ 'js/lib/jquery.dataTables.js', true ],
+        [ 'js/lib/dataTables.plugins.js', true ]
+    ];
+    var file;
+
+    for (file in to_load) { 
+        if (to_load[file][1]) {
+            $.ajaxSetup({async: false});
+        }
+        $.getScript(static_base + to_load[file][0]);
+        $.ajaxSetup({async: true});
+    }
+})();
+
+/*
  * options:
  *      columnnames:
  *          An array of the column names in the table.

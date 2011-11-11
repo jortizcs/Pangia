@@ -80,6 +80,12 @@
                     {{ alertform.priority }}
                 </fieldset>
 
+                <fieldset id="alert_set_action">
+                    <label>Email on Alert</label>
+                    {{ alertform.action.errors }}
+                    {{ alertform.action }}
+                </fieldset>
+
                 </form>
  			</div>       
         <footer>

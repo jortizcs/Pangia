@@ -1,0 +1,39 @@
+{% extends "base_sidebar.html" %}
+{% block title %}Pangia :: Set Alerts{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+{% endblock %}
+
+{% block secondary_bar %}
+  <section id="secondary_bar">
+		<div class="user">
+	</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="../index.html"><div class="home"></div></a><div class="breadcrumb_divider"></div> <a class="current">Alerts</a></article>
+		</div>
+	</section><!-- end of secondary bar -->
+{% endblock %}
+{% block sidebar%}
+	<aside id="sidebar" class="column">
+    <div class="spacer"></div>
+    <a href="/alerts/view"><div class="btn_large">VIEW ALERTS</div></a>
+    <div class="btn_large_pressed">SET ALERTS</div>
+    <div class="spacer"></div>
+    <hr/>
+	</aside><!-- end of sidebar -->
+{% endblock %}
+{% block mainbody %}
+	<section id="main" class="column alerts">
+		<article class="module width_half">
+            <div id="alert">
+                <h4 class="alert_info">
+                    You have successfully set the alert.
+                </h4>
+            </div>
+        <footer>
+        </footer>
+		</article><!-- end of alert information -->
+		<div class="spacer"></div>
+	</section>
+{% endblock  %}

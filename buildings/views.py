@@ -245,7 +245,7 @@ def alerts_set(request):
         if form.is_valid():
             print "valid form"
             form.save()
-            return HttpResponseRedirect('/alerts/thanks.html');
+            return HttpResponseRedirect('/alerts/success.html');
         else:
             print "invalid form"
             #We just pass here because in the case of errors, we just return to
@@ -259,3 +259,10 @@ def alerts_set(request):
       context_instance=RequestContext(request, {
             "alertform": form,
       }))
+
+def alerts_success(request):
+    """
+    Success screen for setting an alert.
+    """
+    return render_to_response('alerts/success.html',
+      context_instance=RequestContext(request, {}))

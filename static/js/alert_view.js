@@ -21,16 +21,14 @@ function createAlertsList() {
         alerts = jQuery.parseJSON(us_data);
         us_rows = [];
         for (i in alerts) {
-            us_row = [
+            us_rows.push([
                 alerts[i].fields.name,
                 alerts[i].fields.priority,
                 alerts[i].fields.sensor,
                 alerts[i].fields.created,
                 alerts[i].fields.threshold,
                 alerts[i].fields.action
-            ];
-
-            us_rows.push(us_row);
+            ]);
         }
 
         alertsList.addRows(us_rows);

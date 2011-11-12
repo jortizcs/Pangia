@@ -15,7 +15,8 @@ function requestBuilding(building) {
         var i, buildingdata, tablelocation, table, row;
         var condition, priority, loc, created, other;
         var us_floor, us_room, us_submitter, us_discomfort, us_comfort,
-            us_priority, us_comments, us_submitted, us_rows, us_row;
+            us_priority, us_comments, us_submitted, us_rows,
+            us_total_comfort;
 
         tablelocation = $('#submissionsbody');
         tablelocation.empty();
@@ -24,7 +25,6 @@ function requestBuilding(building) {
         buildingList.empty();
         us_rows = [];
         for (i in buildingdata) {
-            us_row = [];
             us_floor = buildingdata[i].fields.floor;
             us_room = buildingdata[i].fields.room;
             us_submitter = buildingdata[i].fields.submitter;
@@ -35,18 +35,20 @@ function requestBuilding(building) {
             us_submitted = buildingdata[i].fields.submitted;
 
             if (us_discomfort && us_comfort) {
-                us_row.push(us_discomfort + ', ' + us_comfort);
+                us_total_comfort = us_discomfort + ', ' + us_comfort;
             } else if (us_discomfort) {
-                us_row.push(us_discomfort);
+                us_total_comfort = us_discomfort;
             } else {
-                us_row.push(us_comfort);
+                us_total_comfort = us_comfort;
             }
-            us_row.push(us_priority);
-            us_row.push('Room ' + us_room + ', ' + 'Floor ' + us_floor);
-            us_row.push(us_submitted);
-            us_row.push(us_comments);
 
-            us_rows.push(us_row);
+            us_rows.push([
+                us_total_comfort,
+                us_priority,
+                'Room' + us_room + ', ' + 'Floor ' + us_floor,
+                us_submitted,
+                us_comments
+            ]);
         }
         buildingList.addRows(us_rows);
 

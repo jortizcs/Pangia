@@ -28,7 +28,7 @@
  *          An array of the column names in the table.
  *      descedingsort:
  *          Boolean value specifying whether that the columns should be sorted
- *          from highest to lowest value by default.
+ *          from highest to lowest value initially.
  *      rowselect:
  *          A function callback when a row is selected. If left unspecified,
  *          the table will not support row selection.
@@ -42,7 +42,6 @@ function pTable(options)
     widget.columnnames = undefined;
     widget.data = [];
     widget.numcolumns = 0;
-    widget.descendingsort = false;
     widget.sortindex = undefined;
     widget.rowselect = undefined;
 
@@ -52,10 +51,6 @@ function pTable(options)
         widget.numcolumns = options.columnnames.length;
     }
 
-    if (options.descendingsort) {
-        widget.descendingsort = true;
-    }
-
     widget.tablecontainer = $('<div />');
     widget.tableelt = $('<table class="tablesorter" cellspacing="0" />');
     widget.tablebodyelt = $('<tbody />');
@@ -63,7 +58,7 @@ function pTable(options)
     widget.tablecontainer.append(widget.tableelt);
 
     // Setup defualt value to sort by
-    widget.sorting = [[widget.sortIndex(options.sortby), widget.descendingsort ? 'desc' : 'asc' ]];
+    widget.sorting = [[widget.sortIndex(options.sortby), options.descendingsort ? 'desc' : 'asc' ]];
 
     if (options.rowselect) {
         widget.rowselect = options.rowselect;
@@ -118,13 +113,7 @@ pTable.prototype.sortBy = function (sort, descendingsort) {
 
     i = widget.sortIndex(sort);
 
-    if (descendingsort) {
-        widget.descendingsort = true;
-    } else {
-        widget.descendingsort = false;
-    }
-
-    sortdirection = widget.descendingsort ? 'desc' : 'asc';
+    sortdirection = descendingsort ? 'desc' : 'asc';
     widget.sorting = [[i, sortdirection]];
 
     widget.tableelt.dataTable().fnSort(widget.sorting);
@@ -132,31 +121,26 @@ pTable.prototype.sortBy = function (sort, descendingsort) {
 
 pTable.prototype.render = function () {
     var i, j, thead, tbody, tr, th, td, a;
-    var obj = this;
+    var widget = this;
 
     thead = $('<thead />');
 
     tr = $('<tr />');
-    for (i = 0; i < obj.columnnames.length; i++) {
+    for (i = 0; i < widget.columnnames.length; i++) {
         th = $('<th />');
         a = $('<a href="#" class="ptable_sorter" />');
-        a.click((function(sortindex) {
-            return function () {
-                obj.sortBy(obj.columnnames[sortindex],
-                           (obj.sortindex === sortindex) ? !obj.descendingsort : false);
-            }})(i));
 
-        a.text(obj.columnnames[i]);
+        a.text(widget.columnnames[i]);
         th.append(a);
         tr.append(th);
     }
     thead.append(tr);
-    obj.tableelt.append(thead);
+    widget.tableelt.append(thead);
 
-    obj.tableelt.append(obj.tablebodyelt);
+    widget.tableelt.append(widget.tablebodyelt);
 
-    obj.tableelt.dataTable({
-        'aaSorting': obj.sorting,
+    widget.tableelt.dataTable({
+        'aaSorting': widget.sorting,
         'bPaginate': true,
         'bLengthChange': false,
         'iDisplayLength': 5,

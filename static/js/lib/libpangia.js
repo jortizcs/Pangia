@@ -35,14 +35,11 @@
  *      sortby:
  *          The column name to initially sort by.
  *      actions:
- *          A list of actions that should be specified for each row. Each item
- *          of the list should consist of an object of the form:
- *              {
- *                  class_name: A string that is the class that should be
- *                              assigned to the span for the action.
- *                  action: A function that is callback for when that action is
- *                          clicked.
- *              }
+ *          A list of actions that should be specified for each row. Each field
+ *          should be a callback. The following callbacks can be specified (each
+ *          taking one argument, the row number):
+ *              delete: Removes a row from the table.
+ *              edit: Updates a row in the table.
  */
 function pTable(options)
 {
@@ -183,13 +180,24 @@ pTable.prototype.render = function () {
                 action_col = row.children('.pTable_action_col');
                 // Clear out any old actions in the column
                 action_col.empty();
-                for (action in widget.actions) {
-                    action_elt = $('<span class="' + widget.actions[action].class_name + '" />');
-                    // Call the actions callback with the index of current row
-                    action_elt.click(function () {
-                        widget.actions[action].action(iDisplayIndexFull);
-                    });
-                    action_col.append(action_elt);
+
+                if (widget.actions) {
+                    // Delete action
+                    if (widget.actions['delete']) {
+                        action_elt = $('<span class="icn_trash" />');
+                        action_elt.click(function () {
+                            widget.actions['delete'](iDisplayIndexFull);
+                        });
+                        action_col.append(action_elt);
+                    }
+                    // Edit action
+                    if (widget.actions['edit']) {
+                        action_elt = $('<span class="icn_edit" />');
+                        action_elt.click(function () {
+                            widget.actions['edit'](iDisplayIndexFull);
+                        });
+                        action_col.append(action_elt);
+                    }
                 }
             }
             return nRow;

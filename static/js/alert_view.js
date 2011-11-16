@@ -9,20 +9,14 @@ var alertsList = new pTable({
                    ],
     'sortby': 'Priority',
     'descendingsort': true,
-    'actions': [
-                    {
-                        class_name: 'icn_edit',
-                        action: function (index) {
-                            alert('edit row ' + index + '!');
-                        }
-                    },
-                    {
-                        class_name: 'icn_trash',
-                        action: function (index) {
-                            alert('delete row ' + index + '!');
-                        }
-                    }
-               ]
+    'actions': {
+                'delete': function (index) {
+                    alert('delete row ' + index + '!');
+                },
+                'edit': function (index) {
+                    alert('edit row ' + index + '!');
+                }
+               }
 });
 
 function createAlertsList() {

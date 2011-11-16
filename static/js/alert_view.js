@@ -5,10 +5,24 @@ var alertsList = new pTable({
                      'Sensor ID',
                      'Date of Creation',
                      'Threshold',
-                     'Email on Alert'
+                     'Email on Alert',
                    ],
     'sortby': 'Priority',
-    'descendingsort': true
+    'descendingsort': true,
+    'actions': [
+                    {
+                        class_name: 'icn_edit',
+                        action: function (index) {
+                            alert('edit row ' + index + '!');
+                        }
+                    },
+                    {
+                        class_name: 'icn_trash',
+                        action: function (index) {
+                            alert('delete row ' + index + '!');
+                        }
+                    }
+               ]
 });
 
 function createAlertsList() {
@@ -27,7 +41,7 @@ function createAlertsList() {
                 alerts[i].fields.sensor,
                 alerts[i].fields.created,
                 alerts[i].fields.threshold,
-                alerts[i].fields.action
+                alerts[i].fields.action,
             ]);
         }
 

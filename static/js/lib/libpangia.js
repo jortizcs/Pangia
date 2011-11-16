@@ -34,6 +34,15 @@
  *          the table will not support row selection.
  *      sortby:
  *          The column name to initially sort by.
+ *      actions:
+ *          A list of actions that should be specified for each row. Each item
+ *          of the list should consist of an object of the form:
+ *              {
+ *                  class_name: A string that is the class that should be
+ *                              assigned to the span for the action.
+ *                  action: A function that is callback for when that action is
+ *                          clicked.
+ *              }
  */
 function pTable(options)
 {
@@ -44,12 +53,12 @@ function pTable(options)
     widget.numcolumns = 0;
     widget.sortindex = undefined;
     widget.rowselect = undefined;
+    widget.columnoptions = [];
+    widget.actions = undefined;
 
     // Setup column heading names
-    if (options.columnnames) {
-        widget.columnnames = options.columnnames;
-        widget.numcolumns = options.columnnames.length;
-    }
+    widget.columnnames = options.columnnames;
+    widget.numcolumns = options.columnnames.length;
 
     widget.tablecontainer = $('<div />');
     widget.tableelt = $('<table class="tablesorter" cellspacing="0" />');
@@ -74,15 +83,33 @@ function pTable(options)
         });
     }
 
+    // If there are sections, set them up.
+    if (options.actions) {
+        widget.actions = options.actions;
+
+        widget.columnoptions.push({
+            'aTargets': [ widget.numcolumns ],
+            // The actions should be the last column
+            'bSortable': false,
+            'sClass': 'pTable_action_col'
+        });
+    }
+
     widget.render();
 }
 
 pTable.prototype.addRows = function (rows) {
+    var widget = this;
     var i;
 
     for (i = 0; i < rows.length; i++) {
         if (rows[i].length !== this.numcolumns) {
             return;
+        }
+
+        // Add the extra action column, if we need one
+        if (widget.actions) {
+            rows[i].push('');
         }
 
         this.data.push(rows[i]);
@@ -120,19 +147,23 @@ pTable.prototype.sortBy = function (sort, descendingsort) {
 };
 
 pTable.prototype.render = function () {
-    var i, j, thead, tbody, tr, th, td, a;
     var widget = this;
+    var i, j, thead, tbody, tr, th, td, a, actionelts;
 
     thead = $('<thead />');
 
     tr = $('<tr />');
-    for (i = 0; i < widget.columnnames.length; i++) {
+    for (i = 0; i < widget.numcolumns; i++) {
         th = $('<th />');
         a = $('<a href="#" class="ptable_sorter" />');
 
         a.text(widget.columnnames[i]);
         th.append(a);
         tr.append(th);
+    }
+    // Create the extra action column, if there is one.
+    if (widget.actions) {
+        tr.append($('<th />'));
     }
     thead.append(tr);
     widget.tableelt.append(thead);
@@ -141,10 +172,30 @@ pTable.prototype.render = function () {
 
     widget.tableelt.dataTable({
         'aaSorting': widget.sorting,
+        'aoColumnDefs': widget.columnoptions,
         'bPaginate': true,
         'bLengthChange': false,
+        'fnRowCallback': function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            var row = $(nRow);
+            var action, action_col, action_elt;
+            // If there are widgets, setup the classes for those icons now.
+            if (widget.actions) {
+                action_col = row.children('.pTable_action_col');
+                // Clear out any old actions in the column
+                action_col.empty();
+                for (action in widget.actions) {
+                    action_elt = $('<span class="' + widget.actions[action].class_name + '" />');
+                    // Call the actions callback with the index of current row
+                    action_elt.click(function () {
+                        widget.actions[action].action(iDisplayIndexFull);
+                    });
+                    action_col.append(action_elt);
+                }
+            }
+            return nRow;
+        },
         'iDisplayLength': 5,
-        'sPaginationType': 'full_numbers'
+        'sPaginationType': 'full_numbers',
     });
 };
 

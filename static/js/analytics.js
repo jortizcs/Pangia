@@ -4,7 +4,7 @@ var ANALYTICS = (function () {
         curplot,
         colors = ["#CCC","#666","#999","#1f1f1f","#F8EE58","#A9D943","#ED4344", "#0968F6", "#F68D31", "#8FBA09","#B62110","#281EF9"],
         data = [ 3, 8, 5, 13, 8, 2, 2, 9, 10, 1, 2, 5 ],
-        paused = false,
+        paused = true,
         pausebtn,
         timeout;
 
@@ -162,7 +162,7 @@ var ANALYTICS = (function () {
         timeout = setTimeout(timeoutCallback, 2000);
     }
 
-    timeout = setTimeout(timeoutCallback, 2000);
+    //timeout = setTimeout(timeoutCallback, 2000);
 
 
     function genChartUpdate(type) {

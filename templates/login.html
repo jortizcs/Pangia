@@ -4,7 +4,6 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Pangia :: Login</title>
-    {{ slides2 }}
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/layout.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/ie.css" type="text/css" media="screen" />
@@ -12,57 +11,7 @@
 	<![endif]-->
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/lib/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/lib/jquery.easing.min.js"></script>
-		<script type="text/javascript" src="{{ MEDIA_URL }}js/lib/supersized.3.2.4.min.js"></script>
-        <script type="text/javascript">
-
-            jQuery(function($){
-
-                            $.supersized({
-
-                                // Functionality
-                                slide_interval          :   6000,		// Length between transitions
-                                transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
-                                transition_speed		:	700,		// Speed of transition
-                                random 					:	1,
-                                // Components
-                                slide_links				:	'blank',	// Individual links for each slide (Options: false, 'number', 'name', 'blank')
-                                slides 					:  	[			// Slideshow Images
-                                                                    {image : '/static/images/bcg/1.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                                   {image : '/static/images/bcg/2.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        /*{image : '../images/bcg/3.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/4.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/5.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/6.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/7.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/8.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/9.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/10.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/11.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/12.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/13.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/14.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/15.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/16.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/17.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/18.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/19.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/20.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/21.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/22.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/23.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/24.jpg', title : 'Image Source: Flickr > Cuba Gallery'},
-                                                        {image : '../images/bcg/25.jpg', title : 'Image Source: Flickr > Cuba Gallery'}
-                                                        {image : '../images/bcg/26.jpg', title : 'Image Source: Flickr > Cuba Gallery'}
-                                                        {image : '../images/bcg/27.jpg', title : 'Image Source: Flickr > Cuba Gallery'}
-                                                        {image : '../images/bcg/28.jpg', title : 'Image Source: Flickr > Cuba Gallery'}
-*/
-                                                ]
-
-                });
-            });
-
-
-		</script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/accounts/login.js"></script>
 </head>
 
 
@@ -78,18 +27,19 @@
 	</header> <!-- end of header bar -->
  	<section>
     <h2>Energy Efficient Buildings, one click away.</h2>
-    <form id="login-form" action="#" method="post">
-            <div class="module_content">
+    <div class="module_content">
+    <form id="login_form" method="post">
+           {% csrf_token %}
             <fieldset>
                 <label>Username</label>
-                <input type="text" style="margin-bottom:20px;">
+                <input name="username" type="text" style="margin-bottom:20px;">
                 <label>Password</label>
-                <input type="text">  
+                <input name="password" type="password">  
             </fieldset>  
-            	<input id="" value="1" type="checkbox" /><label>Remember me</label><br><br>
-                <input type="submit" value="Login" class="alt_btn">
-			</div>
+           	<input name="rememberme" value="1" type="checkbox" /><label>Remember me</label><br><br>
+            <input id="login_submit" type="submit" value="Login" class="alt_btn">
     </form>
+	</div>
 	</section>
 </div><!-- form --> 
 </body>

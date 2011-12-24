@@ -7,22 +7,6 @@ from django import forms
 
 __author__ = 'mheinrich'
 
-def login(request):
-    """
-    The login page
-    """
-
-    if request.method != 'POST':
-        print('GET hullo!');
-        return render_to_response('login.html',
-          context_instance=RequestContext(request, {}))
-    
-    print('POST hullo!');
-    print(request.POST['username']);
-    print(request.POST['password']);
-    return render_to_response('login.html',
-      context_instance=RequestContext(request, {}))
-
 @login_required
 def index(request):
     """

@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<title>Pangia :: Login</title>
+	<title>Pangia :: Logout</title>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/layout.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/ie.css" type="text/css" media="screen" />
@@ -11,7 +11,6 @@
 	<![endif]-->
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/lib/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/lib/jquery.easing.min.js"></script>
-        <!--script type="text/javascript" src="{{ MEDIA_URL }}js/accounts/login.js"></script-->
 </head>
 
 
@@ -20,9 +19,6 @@
     
 </div>
 <div id="login"> 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
 <header id="header">
 		<hgroup>
 			<h1 class="site_title" style="margin-left:180px;"><img src="{{ MEDIA_URL }}images/logo.png" alt="logo"></h1>
@@ -31,17 +27,7 @@
  	<section>
     <h2>Energy Efficient Buildings, one click away.</h2>
     <div class="module_content">
-    <form id="login_form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
-           {% csrf_token %}
-            <fieldset>
-                {{ form.username.label_tag }}
-                {{ form.username }}
-                {{ form.password.label_tag }}
-                {{ form.password }}
-            </fieldset>  
-           	<input name="rememberme" value="1" type="checkbox" /><label>Remember me</label><br><br>
-            <input id="login_submit" type="submit" value="Login" class="alt_btn">
-    </form>
+    You have successfully logged out. Click <a href="/accounts/login">here</a> to log back in.
 	</div>
 	</section>
 </div><!-- form --> 

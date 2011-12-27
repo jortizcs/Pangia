@@ -10,6 +10,8 @@ import json
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 from django.db import models
 
@@ -17,9 +19,11 @@ from django.forms import ModelForm, Textarea, RadioSelect
 
 __author__='jortiz'
 
+@login_required
 def index(request):
 	return HttpResponse("Buildings application in the heezy fo' sheezy")
 
+@login_required
 def sfs_get_ts(request):
 	start_time = 0
 	end_time = 0
@@ -97,6 +101,7 @@ def sfs_get_ts(request):
 	
 	#return HttpResponse("ok")
 
+@login_required
 def sfs_post_target(request):
 	datastr = request.raw_post_data
 	respobj = {}
@@ -163,6 +168,7 @@ class LiveFeedbackForm(ModelForm):
             'comments': Textarea(attrs={'cols': 50, 'rows': 4}),
         }
 	
+@login_required
 def live_feedback_submit(request):
     """
     Allows user to submit comfort feedback
@@ -188,6 +194,7 @@ def live_feedback_submit(request):
             "feedbackform": form,
       }))
 
+@login_required
 def live_feedback_view(request):
     """
     Displays the gathered feedback spatially
@@ -213,6 +220,7 @@ def live_feedback_view(request):
     return HttpResponse(serializers.serialize('json', building_feedback, use_natural_keys=True));
     
 
+@login_required
 def live_feedback_thanks(request):
     """
     Thank you screen for submitting feedback
@@ -226,6 +234,7 @@ class AlertSetForm(ModelForm):
         widgets = {
         }
 
+@login_required
 def alerts_view(request):
     """
     Show all alerts
@@ -246,6 +255,7 @@ def alerts_view(request):
 
     return HttpResponse(serializers.serialize('json', alerts, use_natural_keys=True));
 
+@login_required
 def alerts_set(request):
     """
     Set your alerts
@@ -273,6 +283,7 @@ def alerts_set(request):
             "alertform": form,
       }))
 
+@login_required
 def alerts_success(request):
     """
     Success screen for setting an alert.

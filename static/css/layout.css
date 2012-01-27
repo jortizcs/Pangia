@@ -376,3 +376,7 @@ fieldset textarea:focus {outline: none;border: 1px solid #77BACE;-webkit-box-sha
 .paging_full_numbers span.paginate_active {
 	background-color: #99B3FF;
 }
+
+.error-message {
+    color: red;
+}

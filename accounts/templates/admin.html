@@ -3,6 +3,7 @@
 {% block title %}Pangia :: Admin Management{% endblock %}
 {% block extrahead %}
    {{ block.super }}
+    <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/account_admin.js"></script>
 {% endblock %}
 
 {% block secondary_bar %}
@@ -33,13 +34,103 @@
 {% endblock %}
 
 {% block mainbody %}
+{% autoescape on %}
 <section id="main" class="column">
     <article class="module width_full">
         <header><h3>Admin Management</h3></header>
-            <p>Welcome, {{ user }}!</p>
-            <p>staff? {{ is_staff }}!</p>
-        <footer></footer>
+            <p>"With great power comes great responsibility." --Stan Lee</p>
+
+            {% if created_user %}
+            <p> User "{{ created_user }}" successfully created.</p>
+            {% endif %}
+
+            <form id="accounts_create_user_form" method="post">
+            {% csrf_token %}
+            <p>All fields are required.</p>
+            <fieldset id="accounts_create_user">
+            {% if create_user_errors.user_name %}
+            <ul class="errorlist">
+            {% for error in create_user_errors.user_name %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            <fieldset>
+                <label>User Name</label>
+                <input id="id_user_name" type="text" name="user_name"></input>
+            </fieldset>
+
+            {% if create_user_errors.full_name %}
+            <ul class="errorlist">
+            {% for error in create_user_errors.full_name %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            <fieldset>
+                <label>Full Name</label>
+                <input id="id_full_name" type="text" name="full_name"></input>
+            </fieldset>
+
+            {% if create_user_errors.is_admin %}
+            <ul class="errorlist">
+            {% for error in create_user_errors.is_admin %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            <fieldset>
+                <label>Administrator</label>
+                <input id="id_is_admin" type="checkbox" name="is_admin" value="is_admin"></input>
+            </fieldset>
+
+            {% if create_user_errors.email %}
+            <ul class="errorlist">
+            {% for error in create_user_errors.email %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            <fieldset>
+                <label>Email Address</label>
+                <input id="id_email" type="text" name="email"></input>
+            </fieldset>
+
+            {% if create_user_errors.password %}
+            <ul class="errorlist">
+            {% for error in create_user_errors.password %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if create_user_errors.confirm_password %}
+            <ul class="errorlist">
+            {% for error in create_user_errors.confirm_password %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            <fieldset>
+                <label>Password</label>
+                <input id="id_password" type="password" name="password"></input>
+
+                <label>Confirm Password</label>
+                <input id="id_confirm_password" type="password" name="confirm_password"></input>
+            </fieldset>
+            </form>
+        <footer>
+            <div class="submit_link">
+                <input id="create_user" type="submit" value="Create User" class="alt_btn">
+            </div>
+        </footer>
     </article>
     <div class="spacer"></div>
 </section>
+{% endautoescape %}
 {% endblock %}

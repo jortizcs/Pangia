@@ -37,7 +37,42 @@ def accounts_profile(request):
 def accounts_admin(request):
     u = request.user
 
-    return render_to_response('admin.html',
-      context_instance=RequestContext(request, {
-        "is_staff": u.is_staff
-    }))
+    if request.method == 'POST':
+        post = request.POST
+        errors = {}
+        required_text_fields = [
+            ['user_name', 'user name'],
+            ['full_name', 'full name'],
+            ['email', 'email'],
+        ]
+
+        for field in required_text_fields:
+            if not (field[0] in post) or len(post[field[0]]) == 0:
+                errors[field[0]] = [ "Missing " + field[1] + "." ]
+
+        if not ('password' in post) or len(post['password']) == 0:
+            errors['password'] = [ "Missing password." ]
+        elif not ('confirm_password' in post) or len(post['confirm_password']) == 0:
+            errors['confirm_password'] = [ "Missing password confirmation." ]
+        elif not (post['password'] == post['confirm_password']):
+            errors['password'] = [ "Passwords do not match." ]
+
+        """If there are no errors, create a new user."""
+
+        if len(errors) > 0:
+            return render_to_response('admin.html',
+              context_instance=RequestContext(request, {
+                "is_staff": u.is_staff,
+                "create_user_errors": errors
+            }))
+        else:
+            return render_to_response('admin.html',
+              context_instance=RequestContext(request, {
+                "is_staff": u.is_staff,
+                "created_user": post['user_name']
+            }))
+    else:
+        return render_to_response('admin.html',
+          context_instance=RequestContext(request, {
+            "is_staff": u.is_staff
+        }))

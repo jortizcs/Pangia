@@ -1,15 +1,5 @@
 fieldset.alert_set_text input { width: 85%; }
 
-.errorlist {
-    list-style-type: none;
-    color: red;
-    display: inline;
-}
-
-.errorlist li {
-    display: inline;
-}
-
 #alert_sensor {
     display: none;
 }

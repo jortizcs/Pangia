@@ -24,13 +24,3 @@
 #live_feedback_form label {
     display: inline;
 }
-
-#live_feedback_form .errorlist {
-    list-style-type: none;
-    color: red;
-    display: inline;
-}
-
-#live_feedback_form .errorlist li {
-    display: inline;
-}

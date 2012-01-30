@@ -380,3 +380,14 @@ fieldset textarea:focus {outline: none;border: 1px solid #77BACE;-webkit-box-sha
 .error-message {
     color: red;
 }
+
+.errorlist {
+    list-style-type: none;
+    color: red;
+    display: inline;
+}
+
+.errorlist li {
+    display: inline;
+}
+

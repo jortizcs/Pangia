@@ -3,6 +3,7 @@
 {% block title %}Pangia :: Profile Management{% endblock %}
 {% block extrahead %}
    {{ block.super }}
+    <script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/account_profile.js"></script>
 {% endblock %}
 
 {% block secondary_bar %}
@@ -37,8 +38,31 @@
     <article class="module width_full">
         <header><h3>Profile Management</h3></header>
             <p>Welcome, {{ user }}!</p>
-            <p>staff? {{ is_staff }}!</p>
-        <footer></footer>
+            <form id="accounts_set_password_form" method="post">
+            {% csrf_token %}
+            <fieldset id="accounts_set_password">
+                {% if password_errors %}
+                <ul class="errorlist">
+                {% for error in password_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+
+
+                <label>Current Password</label>
+                <input id="id_current_password" type="password" name="current_password"></input>
+                <label>New Password</label>
+                <input id="id_new_password" type="password" name="new_password"></input>
+                <label>Confirm New Password</label>
+                <input id="id_confirm_new_password" type="password" name="confirm_new_password"></input>
+            </fieldset>
+            </form>
+        <footer>
+            <div class="submit_link">
+                <input id="change_password" type="submit" value="Change Password" class="alt_btn">
+            </div>
+        </footer>
     </article>
     <div class="spacer"></div>
 </section>

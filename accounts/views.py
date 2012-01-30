@@ -16,27 +16,16 @@ def accounts_profile(request):
             if 'new_password' in post and 'confirm_new_password' in post and post['new_password'] == post['confirm_new_password']:
                 u.set_password(post['new_password'])
                 u.save()
-                return render_to_response('profile.html',
-                  context_instance=RequestContext(request, {
-                    "is_staff": u.is_staff
-                }))
             else:
                 errors.append('New password does not match its confirmation.')
-                return render_to_response('profile.html',
-                  context_instance=RequestContext(request, {
-                    "is_staff": u.is_staff,
-                    "password_errors": errors
-                }))
         else:
-            print ""
-            print "FAILED"
-            print ""
             errors.append('Invalid current password.')
-            return render_to_response('profile.html',
-              context_instance=RequestContext(request, {
-                "is_staff": u.is_staff,
-                "password_errors": errors
-            }))
+
+        return render_to_response('profile.html',
+          context_instance=RequestContext(request, {
+            "is_staff": u.is_staff,
+            "password_errors": errors
+        }))
     else:
         return render_to_response('profile.html',
           context_instance=RequestContext(request, {

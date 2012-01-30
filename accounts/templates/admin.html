@@ -1,0 +1,45 @@
+{% extends "base_sidebar.html" %}
+
+{% block title %}Pangia :: Admin Management{% endblock %}
+{% block extrahead %}
+   {{ block.super }}
+{% endblock %}
+
+{% block secondary_bar %}
+  <section id="secondary_bar">
+		<div class="user">
+	</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="../index.html">
+            <div class="home"></div></a>
+            <div class="breadcrumb_divider"></div>
+            <a class="current">Admin</a>
+            </article>
+		</div>
+	</section><!-- end of secondary bar -->
+{% endblock %}
+
+{% block bodyclass %}{% endblock %}
+{% block sidebar %}
+<aside id="sidebar" class="column">
+    <h3>Manage</h3>
+    <ul>
+    <li><a href="/accounts/manage/profile">Profile</a></li>
+    {% if is_staff %}
+    <li><a href="/accounts/manage/admin">Admin</a></li>
+    {% endif %}
+    </ul>
+</aside><!-- end of sidebar -->
+{% endblock %}
+
+{% block mainbody %}
+<section id="main" class="column">
+    <article class="module width_full">
+        <header><h3>Admin Management</h3></header>
+            <p>Welcome, {{ user }}!</p>
+            <p>staff? {{ is_staff }}!</p>
+        <footer></footer>
+    </article>
+    <div class="spacer"></div>
+</section>
+{% endblock %}

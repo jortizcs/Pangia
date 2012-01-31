@@ -3,6 +3,7 @@ from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 @login_required
 def accounts_profile(request):
@@ -66,6 +67,24 @@ def accounts_admin(request):
                 "create_user_errors": errors
             }))
         else:
+            try:
+                u = User.objects.create_user(post['user_name'],
+                    post['email'], post['password'])
+            except IntegrityError:
+                print ""
+                print "user name fail"
+                print ""
+                errors['user_name'] = [ "User name already in use. Please choose another." ]
+                return render_to_response('admin.html',
+                  context_instance=RequestContext(request, {
+                    "is_staff": u.is_staff,
+                    "create_user_errors": errors
+                }))
+
+            if 'is_admin' in post:
+                u.is_staff = True
+            u.save()
+                
             return render_to_response('admin.html',
               context_instance=RequestContext(request, {
                 "is_staff": u.is_staff,

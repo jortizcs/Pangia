@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^sub/(.*) http://www.localhost.com:8080/sub/$1 [P]

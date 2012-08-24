@@ -11,13 +11,15 @@ body {
 /* ===== Primary Styles ========================================================
    Author: Michael Heinrich
    ========================================================================== */
-@Pangia-green:    #B2DE4B;
+@Pangia-green:                  #B2DE4B;
+@dropdownLinkBackgroundHover:  @black;
 
 a {color: @black;
   &:hover {color:@gray}
 }
-
-
+.nav-list > .active > a, .nav-list > .active > a:hover {
+  background-color: @black !important;
+}
 
 
 

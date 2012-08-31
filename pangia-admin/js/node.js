@@ -1,17 +1,24 @@
+//Global required classes
 var http = require('http');
 var url = require('url');
+var qs = require('querystring');
+//Global vars
 var port = 8080;
+var host = 'energylens.sfsdev.is4server.com';
+
 
 http.createServer(function (req, res) {
-dir = req.url;
+	dir = req.url;
+	method = req.method;
 
-	var options = {
-	  host: 'energylens.sfsdev.is4server.com',
-	  port: 8080,
-	  path: dir,
-	  method: 'GET'
-	};
-	http.get(options,function(response){
+	if (method == 'GET') { 
+		var options = {
+		  host: host,
+		  port: port,
+		  path: dir,
+		  method: method,
+		};
+		http.get(options,function(response){
 			//console.log("hi",response);
 			res.writeHead(200, {'Content-Type': 'text/plain'});
 			var pageData = "";
@@ -27,6 +34,22 @@ dir = req.url;
 		      res.end();
 		    });
 		});
+	// } else if (method == 'POST') {
+		// var options = {
+		  // host: host,
+		  // port: port,
+		  // path: dir,
+		  // method: method,
+		// };	
+// 
+	  // // Set up the request
+	  // http.request(options, function(res) {
+	      // res.setEncoding('utf8');
+	      // res.on('data', function (chunk) {
+	          // console.log('Response: ' + chunk);
+	      // });
+	  // });
+	// } 
 }).listen(port);
 
-console.log('Server running at http://127.0.0.1/' + port);
+console.log('Server running at http://localhost/');

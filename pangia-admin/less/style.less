@@ -1,28 +1,59 @@
 @import "bootstrap/bootstrap.less";
-
+@import "bootstrap/responsive.less";
 body {
   padding-top: 60px;
   padding-bottom: 40px;
 }
 
-@import "bootstrap/responsive.less";
-
 
 /* ===== Primary Styles ========================================================
    Author: Michael Heinrich
    ========================================================================== */
-@Pangia-green:                  #B2DE4B;
+@PangiaGreen:                  #B2DE4B;
 @dropdownLinkBackgroundHover:  @black;
-
+@btnSuccessBackground: @PangiaGreen;
+@btnSuccessBackgroundHighlight:darken(@PangiaGreen, 20%); 
+@successText: @PangiaGreen;
+ 
 a {color: @black;
   &:hover {color:@gray}
 }
+//Nav elements
 .nav-list > .active > a, .nav-list > .active > a:hover {
   background-color: @black !important;
 }
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+  background:@black; color:@white;
+}
 
+//Input elements
+input,
+textarea {
+  width: 90%;
+}
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  &:focus {
+    border-color: @PangiaGreen;
+    .box-shadow(~"inset 0 1px 1px #B2DE4B, 0 0 8px #B2DE4B");
+  }
+}
 
-
-
+//Popover
+.popover {width:400px;z-index:0;}
 
 

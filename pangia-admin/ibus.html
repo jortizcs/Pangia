@@ -14,7 +14,7 @@
         // setup plot
         var options = {
             series: { shadowSize: 0 }, // drawing is faster without shadows
-            //yaxis: { min: 0, max: 100 },
+            yaxis: { min: 0, max: 1000 },
             label: "Total Plug Loads Power Draw",
             xaxis: { show: true },
             xlabel: "Watts",
@@ -33,13 +33,14 @@
         };
 
         function replot(datapt){
+            var max_value=0;
             try {
                 if(typeof datapt !="undefined" && typeof datapt.is4_uri != "undefined" && typeof alldata[datapt.is4_uri] =="undefined"){
                     alldata[datapt.is4_uri]=new Array();
                 }
                 if(alldata[datapt.is4_uri].length>30 && datapt.is4_uri.indexOf("true_power")>0)
                     alldata[datapt.is4_uri]= alldata[datapt.is4_uri].slice(1);
-                else if(alldata[datapt.is4_uri].length>300 && datapt.is4_uri.indexOf("slope")>0)
+                else if(alldata[datapt.is4_uri].length>100 && datapt.is4_uri.indexOf("slope")>0)
                     alldata[datapt.is4_uri]= alldata[datapt.is4_uri].slice(1);
                 alldata[datapt.is4_uri].push(datapt);
                 var res = [];
@@ -53,9 +54,12 @@
                             data[i].ts = Math.floor(data[i].ts/1000)*1000;
                         }
                         moddata.push([data[i].ts-25200000, data[i].value/1000]);
+                        if(data[i].value/1000 >max_value)
+                            max_value = data[i].value/1000;
                     }
                     res.push({"label":label, "data":moddata});
                 }
+                options.yaxis.max=max_value+3*max_value;
                 var plot = $.plot($("#placeholder"), res, options);
             } catch(e){
                 alert(e);

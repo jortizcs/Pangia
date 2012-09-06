@@ -18,6 +18,11 @@ body {
 a {color: @black;
   &:hover {color:@gray}
 }
+
+//Thumbnail hovers
+.thumbnail {
+  &:hover {box-shadow: 0 0 45px @PangiaGreen; -webkit-box-shadow: 0 0 45px @PangiaGreen; -moz-box-shadow: 0 0 45px @PangiaGreen; }
+}
 //Nav elements
 .nav-list > .active > a, .nav-list > .active > a:hover {
   background-color: @black !important;

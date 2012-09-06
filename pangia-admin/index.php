@@ -52,14 +52,14 @@
     <div class="container">
 <div class="row-fluid">
     <div class="span12">
-    	<h1>Please select an instance</h1><br>
+    	<h1>Choose an instance:</h1><br>
       <ul class="thumbnails">
         <li class="span3">
           <div class="thumbnail">
-            <a href="index-instance.php"><img src="http://placehold.it/260x180" alt=""></a>
+            <a href="index-instance.php"><img src="img/oomnitza.png" alt=""></a>
             <div class="caption">
-              <h3>oomnitza</h3>
               <p>Status: <span class="badge badge-success">live</span></p>
+              <p><i>8.19.33.137:8080</i></p>
 		        <div class="btn-group">
 		        	<a href="index-instance.php" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
@@ -75,10 +75,10 @@
         </li>
        <li class="span3">
           <div class="thumbnail">
-            <a href="index-instance.php"><img src="http://placehold.it/260x180" alt=""></a>
+            <a href="index-instance.php"><img src="img/noveda.png" alt=""></a>
             <div class="caption">
-              <h3>Noveda</h3>
               <p>Status: <span class="badge badge-success">live</span></p>
+              <p><i>energylens.sfsdev.is4server.com:8080</i></p>
 		        <div class="btn-group">
 		        	<a href="index-instance.php" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
@@ -95,9 +95,10 @@
 
         <li class="span3">
           <div class="thumbnail">
-            <a href="index-instance.php"><img src="http://placehold.it/260x180" alt="Add Instance"></a>
+            <a href="#"><img src="img/add.png" alt="Add Instance"></a>
             <div class="caption">
               <h3 style="text-align: center">Add an instance</h3>
+              <p>&nbsp;</p>
             </div>
         </li>
 </div>

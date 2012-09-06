@@ -8602,6 +8602,11 @@ a {
 a:hover {
   color: #555555;
 }
+.thumbnail:hover {
+  box-shadow: 0 0 45px #b2de4b;
+  -webkit-box-shadow: 0 0 45px #b2de4b;
+  -moz-box-shadow: 0 0 45px #b2de4b;
+}
 .nav-list > .active > a,
 .nav-list > .active > a:hover {
   background-color: #000000 !important;

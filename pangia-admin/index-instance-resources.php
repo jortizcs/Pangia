@@ -15,11 +15,21 @@
 
 	<link rel="stylesheet" href="less/style.css">
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/libs/jsTree.v.1.0rc/jquery.cookie.js"></script>
+	<script type="text/javascript" src="js/libs/jsTree.v.1.0rc/jquery.hotkeys.js"></script>
+	<script type="text/javascript" src="js/libs/jsTree.v.1.0rc/jquery.jstree.js"></script>
+	<script type="text/javascript" src="js/libs/jsonformatter.js"></script>
 </head>
 <body>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+<input type="hidden" name="context" value="raw" id="context_field_id">
+<input type="hidden" name="host_name" value="energylens.sfsdev.is4server.com" id="host_field_id">
+<input type="hidden" name="host_port" value=8080 id="port_field_id">
 
-	<?php include "navbar.php" ?>
+	<?php include "nav_bar.php" ?>
     <div class="container-fluid">
 	<?php include "nav_breadcrumb.php" ?>
       <div class="row-fluid">
@@ -27,8 +37,7 @@
 		
 		<div class="span3">
 			<div class="well">
-	            <a class="btn" href=""><i class="icon-plus"></i> Add</a> <a class="btn" href=""><i class="icon-edit"></i> Modify</a> <a class="btn" href=""><i class="icon-trash"></i> Delete</a>
-	            <p>Add Dynatree here that lists all modifiable StreamFS resources for instance</p>
+	           <div id="viewer" class="viewer_window" align="left"></div>
 			</div>
 		</div>
 		<div class="span6">
@@ -60,8 +69,7 @@
 
 <?php include "nav_footer.php" ?>
     </div><!--/.fluid-container-->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+
 
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 

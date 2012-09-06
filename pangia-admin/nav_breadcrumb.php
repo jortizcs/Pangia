@@ -11,7 +11,8 @@
 			} elseif  ($page == "sub") { echo 'Subscriptions'; 
 			} elseif ($page == "JSON") { echo 'JSON interface'; 
 			} elseif ($page == "proc") { echo 'Processing elements'; 
-			} elseif ($page == "plot") { echo 'Plotter'; } 
+			} elseif ($page == "plot") { echo 'Plotter'; 
+			} elseif ($page == "anomaly") { echo 'Anomaly Detection'; }  
 			?>
 		  </li> 
 		</ul>

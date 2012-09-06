@@ -19,7 +19,7 @@
 <body>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-	<?php include "navbar.php" ?>
+	<?php include "nav_bar.php" ?>
     <div class="container-fluid">
 	<?php include "nav_breadcrumb.php" ?>
       <div class="row-fluid">
@@ -34,7 +34,7 @@
 			<div class="span3">
 			<ul class="thumbnails">
 			  <li >
-			      <img src="http://placehold.it/260x180" alt="">
+			      <img src="img/noveda.png" alt="">
 			  </li>
 			</ul>
 			</div>

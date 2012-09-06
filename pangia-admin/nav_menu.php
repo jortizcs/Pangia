@@ -13,6 +13,8 @@
               <li class="nav-header">Data display</li>
               <li <?php if ($page == "plot") { echo 'class="active"'; } ?>>
               	<a href="index-instance-plotter.php?page=plot"><i class="icon-picture"></i>Plotter</a></li>
+              	<li <?php if ($page == "anomaly") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-anomaly.php?page=anomaly"><i class="icon-list"></i>Anomaly Detection</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->

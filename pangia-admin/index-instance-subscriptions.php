@@ -26,7 +26,7 @@ $(document).ready(function(){
 	getJSON('default','sub/*');
 });
 </script>
-	<?php include "navbar.php" ?>
+	<?php include "nav_bar.php" ?>
     <div class="container-fluid">
 	<?php include "nav_breadcrumb.php" ?>
       <div class="row-fluid">

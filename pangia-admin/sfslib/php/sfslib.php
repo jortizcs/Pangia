@@ -214,16 +214,16 @@ class SFSConnection{
 		}
 		return $res;
 	}
-	public function deleteSubscription($source, $target){
-		global $host, $port;
-		$request = array();
-		$url = "http://".$host.":".$port."/sub/";
-		$res = put(json_encode($request),$url);
-		if(empty($res)){
-			return 0;
-		}
-		return $res;
-	}
+	// public function deleteSubscription($source, $target){
+		// global $host, $port;
+		// $request = array();
+		// $url = "http://".$host.":".$port."/sub/";
+		// $res = put(json_encode($request),$url);
+		// if(empty($res)){
+			// return 0;
+		// }
+		// return $res;
+	// }
 
 }
 

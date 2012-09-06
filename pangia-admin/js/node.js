@@ -34,7 +34,7 @@ http.createServer(function (req, res) {
 		      res.end();
 		    });
 		});
-	// } else if (method == 'POST') {
+	} //else if (method == 'POST') {
 		// var options = {
 		  // host: host,
 		  // port: port,

@@ -27,10 +27,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="index.html">PANGIA</a>
+          <a class="brand" href="index.php">PANGIA</a>
           <div class="btn-group pull-right">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> Username
+              <i class="icon-user"></i> admin
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -49,53 +49,66 @@
         </div>
       </div>
     </div>
-
-    <div class="container-fluid">
-    	 <ul class="breadcrumb">
-		  <li>
-		    <a href="index.html">Home</a> <span class="divider">/</span>
-		  </li>
-		  <li class="active">Instance Name</li>
-		</ul>
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Modification Options</li>
-              <li><a href="index-instance-resources.html"><i class="icon-book"></i>Files</a></li>
-              <li><a href="index-instance-subscriptions.html"><i class="icon-magnet"></i>Subscriptions</a></li>
-              <li><a href="index-instance-processing.html"><i class="icon-random"></i>Processing elements</a></li>                        
-              <li class="nav-header">Data display</li>
-              <li><a href="index-instance-plotter.html"><i class="icon-picture"></i>Plotter</a></li>
-              <li><a href="index-instance-query.html"><i class="icon-indent-left"></i>Query output</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-
-          <div class="hero-unit span9">
-            <div class="span6">
-	            <h1>Name of instance</h1>
-	            <p>Use the left sidebar to modify your instance</p>
-	            <p>Status: <span class="badge badge-success">live</span></p>
-			</div>
-			<div class="span3">
-			<ul class="thumbnails">
-			  <li >
-			      <img src="http://placehold.it/260x180" alt="">
-			  </li>
-			</ul>
-			</div>
+    <div class="container">
+<div class="row-fluid">
+    <div class="span12">
+    	<h1>Please select an instance</h1><br>
+      <ul class="thumbnails">
+        <li class="span3">
+          <div class="thumbnail">
+            <a href="index-instance.php"><img src="http://placehold.it/260x180" alt=""></a>
+            <div class="caption">
+              <h3>oomnitza</h3>
+              <p>Status: <span class="badge badge-success">live</span></p>
+		        <div class="btn-group">
+		        	<a href="index-instance.php" class="btn btn-success">View </a>
+		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">Start</a></li>
+		            <li><a href="#">Pause</a></li>
+		            <li class="divider"></li>
+		            <li><a href="#">Stop</a></li>
+		          </ul>
+		        </div><!-- /btn-group -->
+            </div>
           </div>
+        </li>
+       <li class="span3">
+          <div class="thumbnail">
+            <a href="index-instance.php"><img src="http://placehold.it/260x180" alt=""></a>
+            <div class="caption">
+              <h3>Noveda</h3>
+              <p>Status: <span class="badge badge-success">live</span></p>
+		        <div class="btn-group">
+		        	<a href="index-instance.php" class="btn btn-success">View </a>
+		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">Start</a></li>
+		            <li><a href="#">Pause</a></li>
+		            <li class="divider"></li>
+		            <li><a href="#">Stop</a></li>
+		          </ul>
+		        </div><!-- /btn-group -->
+            </div>
+          </div>
+        </li>
 
-      </div><!--/row-->
-
+        <li class="span3">
+          <div class="thumbnail">
+            <a href="index-instance.php"><img src="http://placehold.it/260x180" alt="Add Instance"></a>
+            <div class="caption">
+              <h3 style="text-align: center">Add an instance</h3>
+            </div>
+        </li>
+</div>
+<div class="row-fluid">
       <hr>
 
       <footer>
         <p>&copy; Pangia 2012</p>
       </footer>
-
-    </div><!--/.fluid-container-->
+</div>
+</div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 

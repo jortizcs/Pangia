@@ -26,62 +26,11 @@ $(document).ready(function(){
 	getJSON('default','sub/*');
 });
 </script>
-<div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="index.html">PANGIA</a>
-          <div class="btn-group pull-right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> Username
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Sign Out</a></li>
-            </ul>
-          </div>
-          <div class="nav-collapse">
-            <!-- <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul> -->
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
+	<?php include "navbar.php" ?>
     <div class="container-fluid">
-    	<ul class="breadcrumb">
-		  <li>
-		    <a href="index.html">Home</a> <span class="divider">/</span>
-		  </li>
-		  <li>
-		    <a href="index-instance.html">Instance name</a> <span class="divider">/</span>
-		  </li>
-		  <li class="active">Subscriptions</li>
-		</ul>
+	<?php include "nav_breadcrumb.php" ?>
       <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Modification Options</li>
-              <li ><a href="index-instance-resources.html"><i class="icon-book"></i>Files</a></li>
-              <li class="active"><a href="index-instance-subscriptions.html"><i class="icon-magnet"></i>Subscriptions</a></li>
-              <li><a href="index-instance-processing.html"><i class="icon-resize-horizontal"></i>Symbolic links</a></li>
-              <li><a href="index-instance-processing.html"><i class="icon-random"></i>Processing elements</a></li>                        
-              <li class="nav-header">Data display</li>
-              <li><a href="index-instance-plotter.html"><i class="icon-picture"></i>Plotter</a></li>
-              <li><a href="index-instance-query.html"><i class="icon-indent-left"></i>Query output</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
+		<?php include "nav_menu.php" ?>
 		
 		<div class="span2">
 			<div class="well">

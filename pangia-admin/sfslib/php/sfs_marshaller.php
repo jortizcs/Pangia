@@ -1,5 +1,5 @@
 <?php
-include_once ("sfslib/php/sfslib.php");
+include_once ("sfslib.php");
 
 $sfs_host = $_REQUEST["sfs_host"];
 $sfs_port = $_REQUEST["sfs_port"];

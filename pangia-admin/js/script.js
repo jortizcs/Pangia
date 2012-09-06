@@ -118,7 +118,7 @@ function deleteSub(type, body){
 		reqInput.method = "delete_sub";
 		reqInput.path = parent_;
 		reqInput.target = target_;
-		jQuery.delete("sfs_marshaller.php", reqInput, createSubResp);
+		jQuery.delete("sfslib/php/sfs_marshaller.php", reqInput, createSubResp);
 	}
 }
 //Symlink handling
@@ -134,7 +134,7 @@ function createSymlink(){
 		reqInput.path = parent_;
 		reqInput.target = target_;
 		reqInput.linkname = name;
-		jQuery.post("sfs_marshaller.php", reqInput, symlinkCreateResp);
+		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, symlinkCreateResp);
 	}
 }
 function symlinkCreateResp(data){

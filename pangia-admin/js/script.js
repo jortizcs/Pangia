@@ -73,7 +73,7 @@ function createSub(){
 		reqInput.method = "create_sub";
 		reqInput.path = parent_;
 		reqInput.target = target_;
-		jQuery.post("sfslib/php/sfs_marshaller.phpp", reqInput, createSubResp);
+		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, createSubResp);
 	}
 };
 function createSubResp(data){

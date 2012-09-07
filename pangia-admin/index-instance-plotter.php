@@ -27,7 +27,7 @@
 		<div class="span9">
 			<div class="well">
 				<!-- <a class="btn" href="#" onclick="javascript: toggleChat();"><i class="icon-ok-sign"></i> Stop refresh</a> -->
-	            <div id="placeholder" style="width:100%;height:400px;"></div> 
+	            <div id="placeholder" style="width:100%;height:350px;"></div> 
 	            <div>
         		<!-- <p class="chat-title">StreamFS Information Bus</p> -->
     			</div>	
@@ -36,9 +36,8 @@
 		</div>	
       </div><!--/row-->
       
-	<?php include "nav_footer.php" ?>
     </div><!--/.fluid-container-->
-
+<?php include "nav_footer.php" ?>
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 <script src="js/script.js"></script>
 </body>

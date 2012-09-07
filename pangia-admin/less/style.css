@@ -8648,3 +8648,28 @@ input[type="color"]:focus,
   width: 400px;
   z-index: 0;
 }
+footer {
+  position: fixed;
+  bottom: 0px;
+  margin-right: 20px;
+  width: 100%;
+}
+footer .row-fluid {
+  margin: 0px;
+  padding: 0px;
+}
+footer .row-fluid .well {
+  margin: 0px;
+  padding-bottom: 0px;
+  padding-top: 10px;
+}
+footer .row-fluid .well #msgs {
+  margin-bottom: -20px;
+}
+footer .row-fluid .well #msgs pre {
+  background: white;
+  min-height: 200px;
+  max-height: 200px;
+  overflow: auto;
+  margin-bottom: 0px;
+}

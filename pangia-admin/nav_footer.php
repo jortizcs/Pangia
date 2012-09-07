@@ -1,5 +1,4 @@
 <footer>
-      	<hr>
       	<div class="row-fluid">
       		<div class="well">
 		      	<?php if ($page != 'plot'): ?><div class="input-prepend input-append">
@@ -7,8 +6,7 @@
 		      	</div>
 		      	<?php endif; ?>
 		      	<?php if ($page == 'plot'): ?><h4>Streaming data output</h4><?php endif; ?>
-		      	<div id="msgs"><pre class="span12" style="background:white;min-height:200px; max-height:200px;overflow:auto;"></pre></div>
-		        <p>&copy; Pangia 2012</p>
+		      	<div id="msgs"><pre class="span12"></pre>&nbsp;</div>
        		</div>
    		</div>
-      </footer>
+</footer>

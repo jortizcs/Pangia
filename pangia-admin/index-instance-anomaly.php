@@ -35,10 +35,8 @@
 			</div>
 		</div>	
       </div><!--/row-->
-      
-	<?php include "nav_footer.php" ?>
     </div><!--/.fluid-container-->
-
+<?php include "nav_footer.php" ?>
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 <script src="js/script.js"></script>
 </body>

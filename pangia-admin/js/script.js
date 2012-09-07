@@ -23,6 +23,24 @@ jQuery.extend({
     }
 });
 
+function getPath (host) {
+		if (host == 'default'){
+		//set this to whatever your localhost is running on, modify .htaccess file to make this work with node js
+		host = 'energylens.sfsdev.is4server.com'; 
+	};
+	var path = document.getElementById("inputPath").value;
+	
+	if(host.length>0){
+		var reqInput = new Object();
+		reqInput.sfs_host = host;
+		reqInput.sfs_port = "8080";
+		reqInput.path = '/' + path;
+		reqInput.method = "get_path";
+		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
+			$('#msgs pre').replaceWith('<div id="msgs"><pre class="span12">' + data + '</pre>&nbsp;</div>');
+			});
+	}
+}
 function getJSON (host,path) {
 	if (host == 'default'){
 		//set this to whatever your localhost is running on, modify .htaccess file to make this work with node js
@@ -30,7 +48,7 @@ function getJSON (host,path) {
 	};
 	
 	var url = host + path; 
-	
+
 	 $.get(url, function(data) {
 	     if ((path == 'sub') || 'sub/' || 'sub/*' || 'sub*'){
 	     	var obj = JSON.parse(data);

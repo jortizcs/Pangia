@@ -97,7 +97,7 @@
                     alert("UNDEFINED_ERROR::" + JSON.stringify(msg));
                 return div;
             });
-            $('#msgs pre')[0].scrollTop = $('#msgs')[0].scrollHeight;
+            $('#msgs pre')[0].scrollTop = $('#msgs pre')[0].scrollHeight;
         }
 
         function sendMsg() {
@@ -105,7 +105,7 @@
             $.each($('#chat').serializeArray(), function(i,v) {
                 msg[v.name] = v.value;
             });
-            $("#msg pre").val("");
+            $("#msgs pre").val("");
             appendMsg(msg);
             socket.emit('msg', JSON.stringify(msg));
         }

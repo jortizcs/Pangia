@@ -49,7 +49,7 @@ function symlinkCreateResp(data){
 /* ===== Anything subscription page related is below ====== */ 
 function getSub (host,path) {
 	if (host == 'default'){
-		host = 'energylens.sfsdev.is4server.com'; 
+		host = 'energylens.sfsprod.is4server.com'; 
 	};
 	
 	if(host.length>0 && path.length>0){
@@ -95,7 +95,7 @@ function createSub(){
 	
 	if(parent_.length>0 && target_.length>0){
 		var reqInput = new Object();
-		reqInput.sfs_host = "http://energylens.sfsdev.is4server.com";
+		reqInput.sfs_host = "http://energylens.sfsprod.is4server.com";
 		reqInput.sfs_port = "8080";
 		reqInput.method = "create_sub";
 		reqInput.path = parent_;
@@ -139,7 +139,7 @@ function deleteSub(type, body){
 		$('#deleteModal .modal-body p').replaceWith('<p>Delete the Subscription ID <strong>' + body + '</strong>?');
 	} else if (type == 'delete') {
 		var reqInput = new Object();
-		reqInput.sfs_host = "http://energylens.sfsdev.is4server.com";
+		reqInput.sfs_host = "http://energylens.sfsprod.is4server.com";
 		reqInput.sfs_port = "8080";
 		reqInput.method = "delete_sub";
 		reqInput.path = parent_;
@@ -148,11 +148,31 @@ function deleteSub(type, body){
 	}
 }
 /* ===== Processing elements related page code  ====== */
-
+function getProc (host,path) {
+	if (host == 'default'){
+		host = 'energylens.sfsprod.is4server.com'; 
+	};
+	
+	if(host.length>0 && path.length>0){
+		var reqInput = new Object();
+		reqInput.sfs_host = host;
+		reqInput.sfs_port = "8080";
+		reqInput.path = path;
+		reqInput.method = "get_path";
+		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
+			if ((path == 'proc') || 'proc/' || 'proc/*' || 'proc*'){
+	     		var obj = JSON.parse(data);
+	     		tableSub(obj);
+	     } else {
+	     	return obj;
+	     }
+	   });
+	}
+}
 /* ===== Related to Footer response handling  ====== */
 function footerResp(host) {
 	if (host == 'default'){
-		host = 'energylens.sfsdev.is4server.com'; 
+		host = 'energylens.sfsprod.is4server.com'; 
 	};
 	var path = document.getElementById("inputPath").value;
 	
@@ -168,4 +188,14 @@ function footerResp(host) {
 			$('#msgs pre').replaceWith('<div id="msgs"><pre class="span12">' + prettyPrint + '</pre>&nbsp;</div>');
 		});
 	}
-}
+};
+	$("#toggle").toggle(function(){
+	    $("#toggle i").replaceWith('<i class="icon-chevron-down"></i>');
+	    $('footer').animate({height:600},200);
+	    $('footer .well').animate({height:600},200);
+	    $('footer #msgs pre').animate({height:545},200);
+	  },function(){
+	  	$("#toggle i").replaceWith('<i class="icon-chevron-up"></i>');
+	    $('footer #msgs pre').animate({height:200},200);
+	    $('footer').animate({height:245},200);
+  });

@@ -23,7 +23,7 @@
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 <script>
 $(document).ready(function(){ 
-	getJSON('default','/sub/*');
+	getSub('default','/sub/*');
 });
 </script>
 	<?php include "nav_bar.php" ?>
@@ -43,6 +43,7 @@ $(document).ready(function(){
 				</tbody>
 				</table>
 			</div>
+			<div style="margin-bottom: 300px"></div>
 		</div>
 		<div class="span7"> <!-- need this div otherwise there is some affix positioning that needs to be done -->
 			<div class="well span6" data-spy="affix" style="top:100">

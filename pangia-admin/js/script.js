@@ -47,12 +47,12 @@ function symlinkCreateResp(data){
 	}
 }
 /* ===== Anything subscription page related is below ====== */ 
-function getJSON (host,path) {
+function getSub (host,path) {
 	if (host == 'default'){
 		host = 'energylens.sfsdev.is4server.com'; 
 	};
 	
-	if(host.length>0){
+	if(host.length>0 && path.length>0){
 		var reqInput = new Object();
 		reqInput.sfs_host = host;
 		reqInput.sfs_port = "8080";
@@ -60,27 +60,26 @@ function getJSON (host,path) {
 		reqInput.method = "get_path";
 		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
 			if ((path == 'sub') || 'sub/' || 'sub/*' || 'sub*'){
-	     		alert ('yea its' + path);
 	     		var obj = JSON.parse(data);
-	     		tableRows(obj);
+	     		tableSub(obj);
 	     } else {
 	     	return obj;
 	     }
 	   });
 	}
 }
-function tableRows(obj) {
+function tableSub(obj) {
       $.each(obj['/sub/'].children, function() {
 	      if(this == "all"){
 	      	//skip all response
 	      } else {
 	      var sub_child = obj['/sub/' + this + '/'];
 	      var edit ='onclick="editSub(\'' + sub_child.sourcePath + '\',\'' + sub_child.destination + '\')"';
-	      var subJSON = JSON.stringify(sub_child,'\t','\t');
-	      var popover_data = subJSON + 
+	      var subJSON = JSON.stringify(sub_child,null,4);
+	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' + subJSON + 
 		      '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> Edit</a>' + 
 		      ' <a class="btn"' + 'onclick="deleteSub(\'modal\',\'' + this + '\' )"' + '><i class="icon-trash"></i> Delete</a>';
-	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" title="Subscription ID: ' + this + '">' + this + '</a></td>' + '</tr>';
+	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Subscription ID: ' + this + '">' + this + '</a></td>' + '</tr>';
 	      
 	      //append the subscription ids to #JSONtable
 	      $('#JSONtable tbody').append(output);

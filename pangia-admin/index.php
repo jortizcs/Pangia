@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    
+	<?php include 'nav_url_exists.php' ?>
     <div class="container">
 <div class="row-fluid">
     <div class="span12">
@@ -48,7 +48,9 @@
           <div class="thumbnail">
             <a href="index-instance.php?host=8.19.33.137&name=oomnitza"><img src="img/oomnitza.png" alt=""></a>
             <div class="caption">
-              <p>Status: <span class="badge badge-success">live</span></p>
+              <p>Status: <?php if (urlExists('8.19.33.137:8080') == true ) {
+              	 echo '<span class="badge badge-success">live</span>'; 
+			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
               <p><i>8.19.33.137</i></p>
 		        <div class="btn-group">
 		        	<a href="index-instance.php?name=oomnitza" class="btn btn-success">View </a>
@@ -67,7 +69,9 @@
           <div class="thumbnail">
             <a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda"><img src="img/noveda.png" alt=""></a>
             <div class="caption">
-              <p>Status: <span class="badge badge-success">live</span></p>
+              <p>Status: <?php if (urlExists('energylens.sfsdev.is4server.com:8080') == true ) {
+              	 echo '<span class="badge badge-success">live</span>'; 
+			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
               <p><i>energylens.sfsdev.is4server.com</i></p>
 		        <div class="btn-group">
 		        	<a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda" class="btn btn-success">View </a>

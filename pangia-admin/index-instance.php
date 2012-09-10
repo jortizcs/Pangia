@@ -29,7 +29,10 @@
             <div class="span9">
 	            <h1><?php echo $name; ?></h1>
 	            <p>Use the top Navigation bar to modify your instance</p>
-	            <p>Status: <span class="badge badge-success">live</span></p>
+	            <?php include 'nav_url_exists.php' ?>
+	          <p>Status: <?php if (urlExists($host) == true ) {
+              	 echo '<span class="badge badge-success">live</span>'; 
+			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
 			</div>
 			<div class="span3">
 			<ul class="thumbnails">

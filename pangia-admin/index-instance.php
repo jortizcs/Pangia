@@ -27,14 +27,14 @@
 
           <div class="hero-unit span12">
             <div class="span9">
-	            <h1>Noveda</h1>
+	            <h1><?php echo $name; ?></h1>
 	            <p>Use the top Navigation bar to modify your instance</p>
 	            <p>Status: <span class="badge badge-success">live</span></p>
 			</div>
 			<div class="span3">
 			<ul class="thumbnails">
 			  <li >
-			      <img src="img/noveda.png" alt="">
+			      <img src="img/<?php echo $name; ?>.png" alt="">
 			  </li>
 			</ul>
 			</div>

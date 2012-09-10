@@ -42,16 +42,16 @@
     <div class="container">
 <div class="row-fluid">
     <div class="span12">
-    	<h1>Choose an instance:</h1><br>
+    	<p>&nbsp;</p>
       <ul class="thumbnails">
         <li class="span3">
           <div class="thumbnail">
-            <a href="index-instance.php"><img src="img/oomnitza.png" alt=""></a>
+            <a href="index-instance.php?host=8.19.33.137&name=oomnitza"><img src="img/oomnitza.png" alt=""></a>
             <div class="caption">
               <p>Status: <span class="badge badge-success">live</span></p>
               <p><i>8.19.33.137</i></p>
 		        <div class="btn-group">
-		        	<a href="index-instance.php?host=8.19.33.137" class="btn btn-success">View </a>
+		        	<a href="index-instance.php?name=oomnitza" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
 		          <ul class="dropdown-menu">
 		            <li><a href="#">Start</a></li>
@@ -65,12 +65,12 @@
         </li>
        <li class="span3">
           <div class="thumbnail">
-            <a href="index-instance.php"><img src="img/noveda.png" alt=""></a>
+            <a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda"><img src="img/noveda.png" alt=""></a>
             <div class="caption">
               <p>Status: <span class="badge badge-success">live</span></p>
               <p><i>energylens.sfsdev.is4server.com</i></p>
 		        <div class="btn-group">
-		        	<a href="index-instance.php?host=energylens.sfsdev.is4server.com" class="btn btn-success">View </a>
+		        	<a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
 		          <ul class="dropdown-menu">
 		            <li><a href="#">Start</a></li>

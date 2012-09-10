@@ -44,24 +44,22 @@
 			<div class="well">
 				<div class="tabbable"> <!-- Only required for left/right tabs -->
 				  <ul class="nav nav-tabs">
-				    <li class="active"><a href="#tab1" data-toggle="tab">Output</a></li>
-				    <li class=""><a href="#tab2" data-toggle="tab">Create Resource</a></li>
-				    <li><a href="#tab3" data-toggle="tab">Edit Resources</a></li>
+				    <li class="active"><a href="#tab1" data-toggle="tab">Edit Resource</a></li>
+				    <li><a href="#tab2" data-toggle="tab">Create Resource</a></li>
 				  </ul>
 				  <div class="tab-content">
 				    <div class="tab-pane active" id="tab1">
-				      <p>streamfs Output here</p>
+				      <textarea rows="18"></textarea>
+				      <a class="btn" href=""><i class="icon-ok-sign"></i> Save</a>
 				    </div>
 				    <div class="tab-pane " id="tab2">
 				      <p>Resource create stuff here w/ streaming or static options</p>
-				    </div>
-				    <div class="tab-pane" id="tab3">
-				      <p>Modification stuff here.</p>
+				      <a class="btn" href=""><i class="icon-ok-sign"></i> Add</a>
 				    </div>
 				  </div>
 				</div>
 	            
-	            <a class="btn" href=""><i class="icon-ok-sign"></i> Save</a>
+	            
 			</div>
 		</div>	
       </div><!--/row-->

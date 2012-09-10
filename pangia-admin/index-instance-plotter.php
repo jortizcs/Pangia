@@ -24,7 +24,7 @@
 	<?php include "nav_breadcrumb.php" ?>
       <div class="row-fluid">
 		<?php include "nav_menu.php" ?>
-		<div class="span9">
+		<div class="span12">
 			<div class="well">
 				<!-- <a class="btn" href="#" onclick="javascript: toggleChat();"><i class="icon-ok-sign"></i> Stop refresh</a> -->
 	            <div id="placeholder" style="width:100%;height:350px;"></div> 

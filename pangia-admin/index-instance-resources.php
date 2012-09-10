@@ -40,7 +40,7 @@
 	           <div id="viewer" class="viewer_window" align="left"></div>
 			</div>
 		</div>
-		<div class="span6">
+		<div class="span9">
 			<div class="well">
 				<div class="tabbable"> <!-- Only required for left/right tabs -->
 				  <ul class="nav nav-tabs">

@@ -8612,7 +8612,9 @@ a:hover {
   background-color: #000000 !important;
 }
 .nav-tabs > .active > a,
-.nav-tabs > .active > a:hover {
+.nav-tabs > .active > a:hover,
+.dropdown-menu .active > a,
+.dropdown-menu .active > a:hover {
   background: #000000;
   color: #ffffff;
 }

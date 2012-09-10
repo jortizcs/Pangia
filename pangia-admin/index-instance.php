@@ -25,10 +25,10 @@
       <div class="row-fluid">
 		<?php include "nav_menu.php" ?>
 
-          <div class="hero-unit span9">
-            <div class="span6">
+          <div class="hero-unit span12">
+            <div class="span9">
 	            <h1>Noveda</h1>
-	            <p>Use the left sidebar to modify your instance</p>
+	            <p>Use the top Navigation bar to modify your instance</p>
 	            <p>Status: <span class="badge badge-success">live</span></p>
 			</div>
 			<div class="span3">

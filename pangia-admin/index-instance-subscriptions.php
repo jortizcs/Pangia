@@ -32,7 +32,7 @@ $(document).ready(function(){
       <div class="row-fluid">
 		<?php include "nav_menu.php" ?>
 		
-		<div class="span2">
+		<div class="span3">
 			<div class="well">
 				<ul class="nav nav-list">
               <li class="nav-header">Subscription IDs</li>
@@ -45,8 +45,8 @@ $(document).ready(function(){
 			</div>
 			<div style="margin-bottom: 300px"></div>
 		</div>
-		<div class="span7"> <!-- need this div otherwise there is some affix positioning that needs to be done -->
-			<div class="well span6" data-spy="affix" style="top:100">
+		<div class="span9"> <!-- need this div otherwise there is some affix positioning that needs to be done -->
+			<div class="well span8" data-spy="affix" style="top:100">
 				<div class="tabbable"> <!-- Only required for left/right tabs -->
 				  <ul class="nav nav-tabs">
 				    <li class="add active"><a href="#tabAdd" data-toggle="tab">Add Subscription</a></li>
@@ -116,10 +116,6 @@ $(document).ready(function(){
 		</div>
     </div><!--/.fluid-container-->
 <?php include "nav_footer.php" ?>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-
-<script src="js/libs/bootstrap/bootstrap.min.js"></script>
 
 <script src="js/script.js"></script>
 <script>

@@ -44,9 +44,10 @@
     <div class="span12">
     	<p>&nbsp;</p>
       <ul class="thumbnails">
-        <li class="span3">
+        <li class="span4">
           <div class="thumbnail">
-            <a href="index-instance.php?host=8.19.33.137&name=oomnitza"><img src="img/oomnitza.png" alt=""></a>
+            <a href="index-instance.php?host=8.19.33.137&name=oomnitza">
+            <img src="img/oomnitza.png" alt="" align="center" width="100%"></a>
             <div class="caption">
               <p>Status: <?php if (urlExists('8.19.33.137:8080') == true ) {
               	 echo '<span class="badge badge-success">live</span>'; 
@@ -65,9 +66,9 @@
             </div>
           </div>
         </li>
-       <li class="span3">
+       <li class="span4">
           <div class="thumbnail">
-            <a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda"><img src="img/noveda.png" alt=""></a>
+            <a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda"><img src="img/noveda.png" alt="" align="center" width="100%"></a>
             <div class="caption">
               <p>Status: <?php if (urlExists('energylens.sfsdev.is4server.com:8080') == true ) {
               	 echo '<span class="badge badge-success">live</span>'; 
@@ -87,9 +88,9 @@
           </div>
         </li>
 
-        <li class="span3">
+        <li class="span4">
           <div class="thumbnail">
-            <a href="#"><img src="img/add.png" alt="Add Instance"></a>
+            <a href="#"><img src="img/add.png" alt="Add Instance" align="center" width="100%"></a>
             <div class="caption">
               <h3 style="text-align: center">Add an instance</h3>
               <p>&nbsp;</p>

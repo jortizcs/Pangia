@@ -37,7 +37,7 @@
 	            Folder hierarchy here
 			</div>
 		</div>
-		<div class="span6">
+		<div class="span9">
 			<div class="well">
 	            <p>Don't forget {} and ''</p>
 	            <textarea rows="12"></textarea> 

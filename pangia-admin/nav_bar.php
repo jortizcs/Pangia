@@ -1,4 +1,9 @@
-<div class="navbar navbar-fixed-top">
+<?php
+	/* gets the page and host values from the links */
+	$page = $_GET['page'];	
+	$host = $_GET['host'];
+?>
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -7,7 +12,36 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="index.php">PANGIA</a>
-          <div class="btn-group pull-right">
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="dropdown <?php if ($page == "files" || $page == "sub" || $page == "JSON" || $page == "proc") { echo 'active'; } ?>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Modify instance <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                 <!--  <li class="nav-header">Basic</li> -->
+				<li <?php if ($page == "files") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-resources.php?page=files"><i class="icon-book"></i> Files</a></li>
+              	<li <?php if ($page == "sub") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-subscriptions.php?page=sub"><i class="icon-magnet"></i> Subscriptions</a></li>
+              	<li <?php if ($page == "JSON") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-JSON.php?page=JSON"><i class="icon-indent-left"></i> JSON interface</a></li>
+              	<li <?php if ($page == "proc") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-processing.php?page=proc"><i class="icon-random"></i> Processing elements</a></li>   
+                </ul>
+              </li>
+               <li class="dropdown <?php if ($page == "plot" || $page == "plot-conf" || $page == "anomaly") { echo 'active'; } ?>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Data display <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+               <li <?php if ($page == "plot") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-plotter.php?page=plot"><i class="icon-picture"></i> Plotter Demo</a></li>
+              <li <?php if ($page == "plot-conf") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-plotter-conf.php?page=plot-conf"><i class="icon-picture"></i> Plotter</a></li>
+              	<li <?php if ($page == "anomaly") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-anomaly.php?page=anomaly"><i class="icon-list"></i> Anomaly Detection</a></li>
+                </ul>
+              </li>
+            </ul>
+
+           <div class="btn-group pull-right">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
               <i class="icon-user"></i> admin
               <span class="caret"></span>
@@ -16,18 +50,10 @@
               <li><a href="#">Profile</a></li>
               <li class="divider"></li>
               <li><a href="#">Sign Out</a></li>
-            </ul>
-          </div>
-          <div class="nav-collapse">
-            <!-- <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul> -->
+            </div>
+
           </div><!--/.nav-collapse -->
         </div>
       </div>
-</div>
-<?php
-	$page = $_GET['page'];	/* gets the variable $page */
-?>	
+    </div>
+	

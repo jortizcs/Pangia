@@ -8612,7 +8612,9 @@ a:hover {
   background-color: #000000 !important;
 }
 .nav-tabs > .active > a,
-.nav-tabs > .active > a:hover {
+.nav-tabs > .active > a:hover,
+.dropdown-menu .active > a,
+.dropdown-menu .active > a:hover {
   background: #000000;
   color: #ffffff;
 }
@@ -8654,6 +8656,9 @@ footer {
   margin-right: 20px;
   width: 100%;
 }
+footer #toggle {
+  margin-bottom: -20px;
+}
 footer .row-fluid {
   margin: 0px;
   padding: 0px;
@@ -8668,8 +8673,7 @@ footer .row-fluid .well #msgs {
 }
 footer .row-fluid .well #msgs pre {
   background: white;
-  min-height: 200px;
-  max-height: 200px;
+  height: 200px;
   overflow: auto;
   margin-bottom: 0px;
 }

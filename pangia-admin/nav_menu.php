@@ -1,4 +1,4 @@
-        <div class="span3">
+<!--         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Modification Options</li>
@@ -16,5 +16,5 @@
               	<li <?php if ($page == "anomaly") { echo 'class="active"'; } ?>>
               	<a href="index-instance-anomaly.php?page=anomaly"><i class="icon-list"></i>Anomaly Detection</a></li>
             </ul>
-          </div><!--/.well -->
+          </div><!--/.well 
         </div><!--/span-->

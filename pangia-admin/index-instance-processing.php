@@ -15,10 +15,16 @@
 
 	<link rel="stylesheet" href="less/style.css">
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 </head>
 <body>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-
+<script>
+$(document).ready(function(){ 
+	getProc('default','/proc/*');
+});
+</script>
 	<?php include "nav_bar.php" ?>
     <div class="container-fluid">
 	<?php include "nav_breadcrumb.php" ?>
@@ -27,13 +33,20 @@
 		
 		<div class="span3">
 			<div class="well">
-	            <a class="btn" href=""><i class="icon-plus"></i> Add</a> <a class="btn" href=""><i class="icon-edit"></i> Modify</a> <a class="btn" href=""><i class="icon-trash"></i> Delete</a>
-	            <p>Add process list here</p>
+				<ul class="nav nav-list">
+              <li class="nav-header">Processing IDs</li>
+	            <!-- <a class="btn" href=""><i class="icon-plus"></i> View</a>  -->
+	           <table class="table table-hover table-condensed" id="JSONtable" style="background:#FFF">
+				<tbody>
+					<!--parsed JSON will display here -->
+				</tbody>
+				</table>
 			</div>
+			<div style="margin-bottom: 300px"></div>
 		</div>
-		<div class="span6">
+		<div class="span9">
 			<div class="well">
-	            <p>Wire it stuff here</p> 
+	            <textarea rows="18" id="editProc"></textarea> 
 	            <a class="btn" href=""><i class="icon-ok-sign"></i> Save</a>
 			</div>
 		</div>	
@@ -41,8 +54,6 @@
      
     </div><!--/.fluid-container-->
 <?php include "nav_footer.php" ?>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 

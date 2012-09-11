@@ -1,5 +1,5 @@
 /* Author: Michael Heinrich */
-//extending jQuery to include PUT and DELETE
+/* ===== extending jQuery to include PUT and DELETE ====== */ 
 function _ajax_request(url, data, callback, type, method) {
     if (jQuery.isFunction(data)) {
         callback = data;
@@ -22,36 +22,64 @@ jQuery.extend({
         return _ajax_request(url, data, callback, type, 'DELETE');
     }
 });
-
-function getJSON (host,path) {
+/* ===== Anything Files page related is below ====== */ 
+function createSymlink(){
+	var parent_ = document.getElementById("symlink_parent").value;
+	var target_ = document.getElementById("symlink_target").value;
+	var name = document.getElementById("symlink_name").value;
+	if(parent_.length>0 && target_.length>0 && name.length>0){
+		var reqInput = new Object();
+		reqInput.sfs_host = parent.menu.sfs_host;
+		reqInput.sfs_port = parent.menu.sfs_port;
+		reqInput.method = "create_symlink";
+		reqInput.path = parent_;
+		reqInput.target = target_;
+		reqInput.linkname = name;
+		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, symlinkCreateResp);
+	}
+}
+function symlinkCreateResp(data){
+	var dataJson = JSON.parse(data);
+	if(dataJson.status == "success"){
+		parent.menu.location.reload();
+	} else {
+		alert("Could not create symlink");
+	}
+}
+/* ===== Anything subscription page related is below ====== */ 
+function getSub (host,path) {
 	if (host == 'default'){
-		//set this to whatever your localhost is running on, modify .htaccess file to make this work with node js
-		host = 'http://localhost/sfs/'; 
+		host = 'energylens.sfsprod.is4server.com'; 
 	};
 	
-	var url = host + path; 
-	
-	 $.get(url, function(data) {
-	     if ((path == 'sub') || 'sub/' || 'sub/*' || 'sub*'){
-	     	var obj = JSON.parse(data);
-	     	tableRows(obj);
+	if(host.length>0 && path.length>0){
+		var reqInput = new Object();
+		reqInput.sfs_host = host;
+		reqInput.sfs_port = "8080";
+		reqInput.path = path;
+		reqInput.method = "get_path";
+		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
+			if ((path == 'sub') || 'sub/' || 'sub/*' || 'sub*'){
+	     		var obj = JSON.parse(data);
+	     		tableSub(obj);
 	     } else {
-	     	alert(data);
+	     	return obj;
 	     }
-	 });
-};
-function tableRows(obj) {
+	   });
+	}
+}
+function tableSub(obj) {
       $.each(obj['/sub/'].children, function() {
 	      if(this == "all"){
 	      	//skip all response
 	      } else {
 	      var sub_child = obj['/sub/' + this + '/'];
 	      var edit ='onclick="editSub(\'' + sub_child.sourcePath + '\',\'' + sub_child.destination + '\')"';
-	      var subJSON = JSON.stringify(sub_child,'\t','\t');
-	      var popover_data = subJSON + 
+	      var subJSON = JSON.stringify(sub_child,null,4);
+	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' + subJSON + 
 		      '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> Edit</a>' + 
 		      ' <a class="btn"' + 'onclick="deleteSub(\'modal\',\'' + this + '\' )"' + '><i class="icon-trash"></i> Delete</a>';
-	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" title="Subscription ID: ' + this + '">' + this + '</a></td>' + '</tr>';
+	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Subscription ID: ' + this + '">' + this + '</a></td>' + '</tr>';
 	      
 	      //append the subscription ids to #JSONtable
 	      $('#JSONtable tbody').append(output);
@@ -60,7 +88,6 @@ function tableRows(obj) {
 	      };
       });
 };
-//Subscription handling
 function createSub(){
 	var parent_ = document.getElementById("addSubSource").value;
 	var target_ = document.getElementById("addSubTarget").value;
@@ -68,25 +95,24 @@ function createSub(){
 	
 	if(parent_.length>0 && target_.length>0){
 		var reqInput = new Object();
-		reqInput.sfs_host = "http://energylens.sfsdev.is4server.com";
+		reqInput.sfs_host = "http://energylens.sfsprod.is4server.com";
 		reqInput.sfs_port = "8080";
 		reqInput.method = "create_sub";
 		reqInput.path = parent_;
 		reqInput.target = target_;
-		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, createSubResp);
-	}
-};
-function createSubResp(data){
-	var dataJson = JSON.parse(data);
-	if(dataJson.status == "success"){
-		alert("works: " + data);
-		//location.reload();
-		//parent.reload();
-		//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
-		//alert('it worked dude');
-		//$('body').append(alert);
-	} else {
-		alert("Could not create subscription: " + data);
+		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
+			var dataJson = JSON.parse(data);
+			if(dataJson.status == "success"){
+				alert("works: " + data);
+				//location.reload();
+				//parent.reload();
+				//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
+				//alert('it worked dude');
+				//$('body').append(alert);
+			} else {
+				alert("Could not create subscription: " + data);
+			}
+		});
 	}
 };
 function editSub(source,destination){
@@ -113,7 +139,7 @@ function deleteSub(type, body){
 		$('#deleteModal .modal-body p').replaceWith('<p>Delete the Subscription ID <strong>' + body + '</strong>?');
 	} else if (type == 'delete') {
 		var reqInput = new Object();
-		reqInput.sfs_host = "http://energylens.sfsdev.is4server.com";
+		reqInput.sfs_host = "http://energylens.sfsprod.is4server.com";
 		reqInput.sfs_port = "8080";
 		reqInput.method = "delete_sub";
 		reqInput.path = parent_;
@@ -121,27 +147,55 @@ function deleteSub(type, body){
 		jQuery.delete("sfslib/php/sfs_marshaller.php", reqInput, createSubResp);
 	}
 }
-//Symlink handling
-function createSymlink(){
-	var parent_ = document.getElementById("symlink_parent").value;
-	var target_ = document.getElementById("symlink_target").value;
-	var name = document.getElementById("symlink_name").value;
-	if(parent_.length>0 && target_.length>0 && name.length>0){
+/* ===== Processing elements related page code  ====== */
+function getProc (host,path) {
+	if (host == 'default'){
+		host = 'energylens.sfsprod.is4server.com'; 
+	};
+	
+	if(host.length>0 && path.length>0){
 		var reqInput = new Object();
-		reqInput.sfs_host = parent.menu.sfs_host;
-		reqInput.sfs_port = parent.menu.sfs_port;
-		reqInput.method = "create_symlink";
-		reqInput.path = parent_;
-		reqInput.target = target_;
-		reqInput.linkname = name;
-		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, symlinkCreateResp);
+		reqInput.sfs_host = host;
+		reqInput.sfs_port = "8080";
+		reqInput.path = path;
+		reqInput.method = "get_path";
+		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
+			if ((path == 'proc') || 'proc/' || 'proc/*' || 'proc*'){
+	     		var obj = JSON.parse(data);
+	     		tableSub(obj);
+	     } else {
+	     	return obj;
+	     }
+	   });
 	}
 }
-function symlinkCreateResp(data){
-	var dataJson = JSON.parse(data);
-	if(dataJson.status == "success"){
-		parent.menu.location.reload();
-	} else {
-		alert("Could not create symlink");
+/* ===== Related to Footer response handling  ====== */
+function footerResp(host) {
+	if (host == 'default'){
+		host = 'energylens.sfsprod.is4server.com'; 
+	};
+	var path = document.getElementById("inputPath").value;
+	
+	if(host.length>0){
+		var reqInput = new Object();
+		reqInput.sfs_host = host;
+		reqInput.sfs_port = "8080";
+		reqInput.path = '/' + path;
+		reqInput.method = "get_path";
+		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
+			dataJSON = JSON.parse(data);
+			prettyPrint = JSON.stringify(dataJSON, null, 4);
+			$('#msgs pre').replaceWith('<div id="msgs"><pre class="span12">' + prettyPrint + '</pre>&nbsp;</div>');
+		});
 	}
-}
+};
+	$("#toggle").toggle(function(){
+	    $("#toggle i").replaceWith('<i class="icon-chevron-down"></i>');
+	    $('footer').animate({height:600},200);
+	    $('footer .well').animate({height:600},200);
+	    $('footer #msgs pre').animate({height:545},200);
+	  },function(){
+	  	$("#toggle i").replaceWith('<i class="icon-chevron-up"></i>');
+	    $('footer #msgs pre').animate({height:200},200);
+	    $('footer').animate({height:245},200);
+  });

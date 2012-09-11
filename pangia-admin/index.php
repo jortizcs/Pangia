@@ -19,36 +19,26 @@
 <body>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-<div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
-        <div class="container-fluid">
+        <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="index.php">PANGIA</a>
-          <div class="btn-group pull-right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> admin
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Sign Out</a></li>
-            </ul>
-          </div>
-          <div class="nav-collapse">
-            <!-- <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul> -->
+          <a class="brand" href="#">PANGIA</a>
+          <div class="nav-collapse collapse">
+            <form class="navbar-form pull-right">
+              <input class="span2" type="text" placeholder="Email">
+              <input class="span2" type="password" placeholder="Password">
+              <button type="submit" class="btn">Sign in</button>
+            </form>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+    
     <div class="container">
 <div class="row-fluid">
     <div class="span12">
@@ -59,9 +49,9 @@
             <a href="index-instance.php"><img src="img/oomnitza.png" alt=""></a>
             <div class="caption">
               <p>Status: <span class="badge badge-success">live</span></p>
-              <p><i>8.19.33.137:8080</i></p>
+              <p><i>8.19.33.137</i></p>
 		        <div class="btn-group">
-		        	<a href="index-instance.php" class="btn btn-success">View </a>
+		        	<a href="index-instance.php?host=8.19.33.137" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
 		          <ul class="dropdown-menu">
 		            <li><a href="#">Start</a></li>
@@ -78,9 +68,9 @@
             <a href="index-instance.php"><img src="img/noveda.png" alt=""></a>
             <div class="caption">
               <p>Status: <span class="badge badge-success">live</span></p>
-              <p><i>energylens.sfsdev.is4server.com:8080</i></p>
+              <p><i>energylens.sfsdev.is4server.com</i></p>
 		        <div class="btn-group">
-		        	<a href="index-instance.php" class="btn btn-success">View </a>
+		        	<a href="index-instance.php?host=energylens.sfsdev.is4server.com" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
 		          <ul class="dropdown-menu">
 		            <li><a href="#">Start</a></li>

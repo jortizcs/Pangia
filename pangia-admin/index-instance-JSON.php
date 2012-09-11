@@ -47,6 +47,8 @@
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 
 <script src="js/script.js"></script>
+<script src="js/libs/jquery.jstree.min.js"></script>
+<script type="text/javascript" src="js/sfs-console-tree.js"></script>
 <script>
 	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
 	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];

@@ -27,6 +27,13 @@
 		
 		<div class="span3">
 			<div class="well">
+                <div id="props_display_id"></div>
+                <div id="props_label_context"></div>
+                <div id="props_edit_id"></div>
+                <div id="overwrite_props_button"></div>
+                <div id="update_props_button"></div>
+                <div id="output_id"></div>
+                <div id="viewer"></div>
 	            Folder hierarchy here
 			</div>
 		</div>
@@ -48,6 +55,8 @@
 
 <script src="js/script.js"></script>
 <script src="js/libs/jquery.jstree.min.js"></script>
+<script src="js/libs/jquery.cookie.js"></script>
+<script src="js/libs/jquery.hotkeys.js"></script>
 <script type="text/javascript" src="js/sfs-console-tree.js"></script>
 <script>
 	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];

@@ -34,12 +34,12 @@ function getResponse(data){
 
     //set properties in body.php
     lastNodeGetResponse = dataJson;
-    var props_display = parent.content.document.getElementById("props_display_id");
-    var props_label = parent.content.document.getElementById("props_label_context");
+    var props_display = document.getElementById("props_display_id");
+    var props_label = document.getElementById("props_label_context");
     props_label.innerHTML = "<b>PATH:<br>" + last_selected_nodeId + "</b><br>"; 
-    var props_edit = parent.content.document.getElementById("props_edit_id");
-    var ow_button = parent.content.document.getElementById("overwrite_props_button");
-    var up_button = parent.content.document.getElementById("update_props_button");
+    var props_edit = document.getElementById("props_edit_id");
+    var ow_button = document.getElementById("overwrite_props_button");
+    var up_button = document.getElementById("update_props_button");
     try {
         props_edit.disabled = false;
         ow_button.style.visibility = 'visible';
@@ -65,7 +65,7 @@ function getResponse(data){
 
     //set standard output here
     var myFormattedString = FormatJSON(dataJson);
-    var output_win = top.content.document.getElementById("output_id");
+    var output_win = document.getElementById("output_id");
     output_win.value = myFormattedString;
     if(fileGets[last_selected_nodeId] == null)
         fileGets[last_selected_nodeId]=data;
@@ -111,6 +111,7 @@ function loadTree() {
     
     viewerObj.bind("select_node.jstree", 
         function (e, data) {
+            console.log("select_node");
             var node  = data.rslt.obj;  
             var nodeId = data.rslt.obj.attr('id');
             var nodetype = data.rslt.obj.attr('type');
@@ -185,6 +186,7 @@ function loadTree() {
 
     viewerObj.bind("remove.jstree", 
         function(e, data) {
+            console.log("remove");
             fileGets = new Array();
             var date = new Date();
             var timestamp = date.getUTCFullYear() + "-" + date.getUTCMonth() + "-" + date.getUTCDay() + "T"
@@ -217,6 +219,7 @@ function loadTree() {
 
     viewerObj.bind("rename.jstree", 
         function(e, data){
+            console.log("rename");
             fileGets = new Array();
             $.jstree.rollback(data.rlbk);
         }
@@ -224,6 +227,7 @@ function loadTree() {
 
     viewerObj.bind("create.jstree",
         function(e, data) {
+            console.log("create");
             //parent.content.$('#dialog-div').dialog('open');
             var nodeId = data.rslt.parent.attr('id');
             //var nodetype = data.rslt.parent.attr('type');
@@ -265,6 +269,7 @@ function loadTree() {
 
     viewerObj.bind("hover_node.jstree",
         function(e, data){
+            console.log("hover_node");
             //if (typeof jQuery.data(data.rslt.obj[0], "jstree") != "undefined"){
             //last_hovered_node = jQuery.data(data.rslt.obj[0], "jstree");
             last_hovered_nodeId = data.rslt.obj.attr('id');

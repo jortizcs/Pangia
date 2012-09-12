@@ -45,6 +45,7 @@
 
 $(document).ready(function(){ 
 	getProc('<?php //$host = $_GET['host']; echo $host; ?>default','/proc/*','table');
+	footerResp('default');
 });
 </script>
 	<?php include "nav_bar.php" ?>

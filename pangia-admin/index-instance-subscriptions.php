@@ -24,6 +24,7 @@
 <script>
 $(document).ready(function(){ 
 	getSub('<?php $host = $_GET['host']; echo $host; ?>','/sub/*');
+	footerResp('default');
 });
 </script>
 	<?php include "nav_bar.php" ?>

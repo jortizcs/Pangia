@@ -14,9 +14,10 @@
 	<link rel="stylesheet" href="less/style.css">
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
 	
-	<script src="js/libs/js-beautify/third-party/codemirror2/lib/codemirror.js"></script>
-    <script src="js/libs/js-beautify/third-party/codemirror2/mode/javascript/javascript.js"></script>
-    <link rel="stylesheet" href="js/libs/js-beautify/third-party/codemirror2/lib/codemirror.css">
+	<script src="js/libs/js-beautify/codemirror2/lib/codemirror.js"></script>
+    <script src="js/libs/js-beautify/codemirror2/mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" href="js/libs/js-beautify/codemirror2/lib/codemirror.css">
+    <link rel="stylesheet" href="js/libs/js-beautify/codemirror2/theme/ambiance.css">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 <script src="js/libs/js-beautify/beautify.js"></script>
@@ -33,9 +34,18 @@
 <body>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 <?php echo $host; ?>
+<style>
+.popover {z-index:10000000}
+.CodeMirror-scroll {
+  height: 500px;
+  overflow-x: auto;
+}
+</style>
 <script>
+
 $(document).ready(function(){ 
 	getProc('<?php //$host = $_GET['host']; echo $host; ?>default','/proc/*','table');
+	footerResp('default');
 });
 </script>
 	<?php include "nav_bar.php" ?>

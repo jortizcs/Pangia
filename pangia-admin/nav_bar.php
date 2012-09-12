@@ -3,6 +3,7 @@
 	$page = $_GET['page'];	
 	$host = $_GET['host'];
 	$name = $_GET['name'];
+	$url = '&host=' . $host . '&name=' . $name;
 ?>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -20,26 +21,24 @@
                 <ul class="dropdown-menu">
                  <!--  <li class="nav-header">Basic</li> -->
 				<li <?php if ($page == "files") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-resources.php?page=files<?php echo '&host=' . $host . '&name=' . $name; ?>"><i class="icon-book"></i> Files</a></li>
-              	<li <?php if ($page == "sym") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-sym.php?page=sym<?php echo '&host=' . $host . '&name=' . $name; ?>"><i class="icon-resize-horizontal"></i> Symbolic Links</a></li>
+              	<a href="index-instance-resources.php?page=files<?php echo $url ?>"><i class="icon-book"></i> Files</a></li>
               	<li <?php if ($page == "sub") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-subscriptions.php?page=sub<?php echo '&host=' . $host . '&name=' . $name; ?>"><i class="icon-magnet"></i> Subscriptions</a></li>
+              	<a href="index-instance-subscriptions.php?page=sub<?php echo $url ?>"><i class="icon-magnet"></i> Subscriptions</a></li>
               	<li <?php if ($page == "JSON") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-JSON.php?page=JSON<?php echo '&host=' . $host . '&name=' . $name; ?>"><i class="icon-indent-left"></i> JSON interface</a></li>
+              	<a href="index-instance-JSON.php?page=JSON<?php echo $url ?>"><i class="icon-indent-left"></i> JSON interface</a></li>
               	<li <?php if ($page == "proc") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-processing.php?page=proc<?php echo '&host=' . $host . '&name=' . $name; ?>"><i class="icon-random"></i> Processing elements</a></li>   
+              	<a href="index-instance-processing.php?page=proc<?php echo $url ?>"><i class="icon-random"></i> Processing elements</a></li>   
                 </ul>
               </li>
                <li class="dropdown <?php if ($page == "plot" || $page == "plot-conf" || $page == "anomaly") { echo 'active'; } ?>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Analytics <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                <li <?php if ($page == "plot") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-plotter.php?page=plot<?php echo '&host=' . $host . '&name=' . $name; ?>"><i class="icon-picture"></i> Plotter Demo</a></li>
+              	<a href="index-instance-plotter.php?page=plot<?php echo $url ?>"><i class="icon-picture"></i> Plotter Demo</a></li>
               <li <?php if ($page == "plot-conf") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-plotter-conf.php?page=plot-conf<?php echo '&host=' . $host . '&name=' . $name; ?>"><i class="icon-picture"></i> Plotter</a></li>
+              	<a href="index-instance-plotter-conf.php?page=plot-conf<?php echo $url ?>"><i class="icon-picture"></i> Plotter</a></li>
               	<li <?php if ($page == "anomaly") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-anomaly.php?page=anomaly<?php echo '&host=' . $host . '&name=' . $name; ?>"><i class="icon-list"></i> Anomaly Detection</a></li>
+              	<a href="index-instance-anomaly.php?page=anomaly<?php echo $url ?>"><i class="icon-list"></i> Anomaly Detection</a></li>
                 </ul>
               </li>
             </ul>

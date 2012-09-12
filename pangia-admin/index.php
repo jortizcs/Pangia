@@ -38,20 +38,23 @@
         </div>
       </div>
     </div>
-    
+	<?php include 'nav_url_exists.php' ?>
     <div class="container">
 <div class="row-fluid">
     <div class="span12">
-    	<h1>Choose an instance:</h1><br>
+    	<p>&nbsp;</p>
       <ul class="thumbnails">
-        <li class="span3">
+        <li class="span4">
           <div class="thumbnail">
-            <a href="index-instance.php"><img src="img/oomnitza.png" alt=""></a>
+            <a href="index-instance.php?host=8.19.33.137&name=oomnitza">
+            <img src="img/oomnitza.png" alt="" align="center" width="100%"></a>
             <div class="caption">
-              <p>Status: <span class="badge badge-success">live</span></p>
+              <p>Status: <?php if (urlExists('8.19.33.137:8080') == true ) {
+              	 echo '<span class="badge badge-success">live</span>'; 
+			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
               <p><i>8.19.33.137</i></p>
 		        <div class="btn-group">
-		        	<a href="index-instance.php?host=8.19.33.137" class="btn btn-success">View </a>
+		        	<a href="index-instance.php?name=oomnitza" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
 		          <ul class="dropdown-menu">
 		            <li><a href="#">Start</a></li>
@@ -63,14 +66,16 @@
             </div>
           </div>
         </li>
-       <li class="span3">
+       <li class="span4">
           <div class="thumbnail">
-            <a href="index-instance.php"><img src="img/noveda.png" alt=""></a>
+            <a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda"><img src="img/noveda.png" alt="" align="center" width="100%"></a>
             <div class="caption">
-              <p>Status: <span class="badge badge-success">live</span></p>
+              <p>Status: <?php if (urlExists('energylens.sfsdev.is4server.com:8080') == true ) {
+              	 echo '<span class="badge badge-success">live</span>'; 
+			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
               <p><i>energylens.sfsdev.is4server.com</i></p>
 		        <div class="btn-group">
-		        	<a href="index-instance.php?host=energylens.sfsdev.is4server.com" class="btn btn-success">View </a>
+		        	<a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
 		          <ul class="dropdown-menu">
 		            <li><a href="#">Start</a></li>
@@ -83,9 +88,9 @@
           </div>
         </li>
 
-        <li class="span3">
+        <li class="span4">
           <div class="thumbnail">
-            <a href="#"><img src="img/add.png" alt="Add Instance"></a>
+            <a href="#"><img src="img/add.png" alt="Add Instance" align="center" width="100%"></a>
             <div class="caption">
               <h3 style="text-align: center">Add an instance</h3>
               <p>&nbsp;</p>
@@ -94,7 +99,6 @@
 </div>
 <div class="row-fluid">
       <hr>
-
       <footer>
         <p>&copy; Pangia 2012</p>
       </footer>

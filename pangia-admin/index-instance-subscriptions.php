@@ -23,7 +23,7 @@
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 <script>
 $(document).ready(function(){ 
-	getSub('default','/sub/*');
+	getSub('<?php $host = $_GET['host']; echo $host; ?>','/sub/*');
 });
 </script>
 	<?php include "nav_bar.php" ?>

@@ -35,15 +35,14 @@ function createSymlink(){
 		reqInput.path = parent_;
 		reqInput.target = target_;
 		reqInput.linkname = name;
-		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, symlinkCreateResp);
-	}
-}
-function symlinkCreateResp(data){
-	var dataJson = JSON.parse(data);
-	if(dataJson.status == "success"){
-		parent.menu.location.reload();
-	} else {
-		alert("Could not create symlink");
+		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
+			var dataJson = JSON.parse(data);
+			if(dataJson.status == "success"){
+				parent.menu.location.reload();
+			} else {
+				alert("Could not create symlink");
+			}
+		});
 	}
 }
 /* ===== Anything subscription page related is below ====== */ 
@@ -148,7 +147,7 @@ function deleteSub(type, body){
 	}
 }
 /* ===== Processing elements related page code  ====== */
-function getProc (host,path) {
+function getProc (host, path, flag) {
 	if (host == 'default'){
 		host = 'energylens.sfsprod.is4server.com'; 
 	};
@@ -160,15 +159,46 @@ function getProc (host,path) {
 		reqInput.path = path;
 		reqInput.method = "get_path";
 		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
-			if ((path == 'proc') || 'proc/' || 'proc/*' || 'proc*'){
+			if (flag == 'table') {
 	     		var obj = JSON.parse(data);
-	     		tableSub(obj);
-	     } else {
-	     	return obj;
+	     		tableProc(obj);
+	     } else if (flag == 'edit') {
+	     	var obj = JSON.parse(data);
+	     	editProc(obj);
 	     }
 	   });
 	}
 }
+function editProc(obj) { 
+	$('[rel=popover]').popover('hide');
+	var procJSON = JSON.stringify(obj.properties.script.func);
+	var temp = procJSON.substring(1,procJSON.length -1);
+	var prettyCode = js_beautify(temp);
+	document.getElementById("editProc").value = prettyCode;
+}
+function tableProc(obj) {
+      $.each(obj['/proc/'].children, function() {
+	      if(this == "all"){
+	      	//skip all response
+	      } else {
+	      var proc_child = obj['/proc/' + this + '/'];
+	      var procJSON = JSON.stringify(proc_child,null,4);
+	      var edit ='onclick="getProc(\'default\',\'/proc/'+ this + '\',\'edit\')"';
+	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' 
+	      	  + '<strong>click edit to see the rest: </strong>' + procJSON.substring(0,720) + '  <a' + edit + '>[...]</a>'
+		      + '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> Edit</a>' 
+		      + ' <a class="btn"' + 'onclick="deleteProc(\'modal\',\'' + this + '\' )"' + '><i class="icon-trash"></i> Delete</a>'
+	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Processing ID: ' + this + '">' + this + '</a></td>' + '</tr>';
+	      
+	      //document.getElementById(this).setAttribute('value', procJSON);
+	      //append the proc ids to #JSONtable
+	      $('#JSONtable tbody').append(output);
+	      //append popover element with streamfs output and edit and delete buttons
+	      $('[rel=popover]').popover({trigger: 'click', content: popover_data, })
+	      
+	      };
+      });
+};
 /* ===== Related to Footer response handling  ====== */
 function footerResp(host) {
 	if (host == 'default'){
@@ -185,17 +215,20 @@ function footerResp(host) {
 		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
 			dataJSON = JSON.parse(data);
 			prettyPrint = JSON.stringify(dataJSON, null, 4);
-			$('#msgs pre').replaceWith('<div id="msgs"><pre class="span12">' + prettyPrint + '</pre>&nbsp;</div>');
+			$('#msgs pre').empty();
+			$('#msgs pre').append(prettyPrint);
 		});
 	}
 };
+$(document).ready(function(){ 
 	$("#toggle").toggle(function(){
 	    $("#toggle i").replaceWith('<i class="icon-chevron-down"></i>');
 	    $('footer').animate({height:600},200);
 	    $('footer .well').animate({height:600},200);
-	    $('footer #msgs pre').animate({height:545},200);
+	    $('footer #msgs pre').height(545);
 	  },function(){
 	  	$("#toggle i").replaceWith('<i class="icon-chevron-up"></i>');
 	    $('footer #msgs pre').animate({height:200},200);
 	    $('footer').animate({height:245},200);
   });
+ });

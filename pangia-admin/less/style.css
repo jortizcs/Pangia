@@ -8647,8 +8647,11 @@ input[type="color"]:focus,
   box-shadow: inset 0 1px 1px #B2DE4B, 0 0 8px #B2DE4B;
 }
 .popover {
-  width: 400px;
+  width: 600px;
   z-index: 0;
+}
+.popover-content {
+  max-height: 200px;
 }
 footer {
   position: fixed;

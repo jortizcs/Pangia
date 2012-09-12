@@ -99,7 +99,6 @@
 </div>
 <div class="row-fluid">
       <hr>
-
       <footer>
         <p>&copy; Pangia 2012</p>
       </footer>

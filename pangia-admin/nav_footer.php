@@ -1,4 +1,4 @@
-<footer>
+<footer class="visible-desktop">
       	<div class="row-fluid">
       		<center><button class="btn" type="button" id="toggle"><i class="icon-chevron-up"></i></button></center>
       		<div class="well">

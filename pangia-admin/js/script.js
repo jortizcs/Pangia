@@ -162,19 +162,33 @@ function getProc (host, path, flag) {
 			if (flag == 'table') {
 	     		var obj = JSON.parse(data);
 	     		tableProc(obj);
-	     } else if (flag == 'edit') {
+	     } else {
 	     	var obj = JSON.parse(data);
-	     	editProc(obj);
+	     	editProc(obj, flag);
 	     }
 	   });
 	}
 }
-function editProc(obj) { 
+function editProc(obj, flag) { 
 	$('[rel=popover]').popover('hide');
-	var procJSON = JSON.stringify(obj.properties.script.func);
-	var temp = procJSON.substring(1,procJSON.length -1);
-	var prettyCode = js_beautify(temp);
-	document.getElementById("editProc").value = prettyCode;
+	
+	if (flag=="code") {
+		var procJSON = JSON.stringify(obj.properties.script.func);
+		//remove the outside "" so that code beautification works
+		var temp = procJSON.substring(1,procJSON.length -1);
+		//call beautify library
+		var prettyCode = js_beautify(temp);
+		//instantiate CodeMirror editor
+		var editor = CodeMirror.fromTextArea(document.getElementById("editProc"), {
+	    	lineNumbers: true
+		});
+		editor.setOption("theme", "ambiance");
+		editor.setValue(prettyCode);
+	} else {
+		//Don't use code mirror and just display raw JSON
+		var procJSON = JSON.stringify(obj,null,4);
+		document.getElementById("editProc").value = procJSON;
+	}
 }
 function tableProc(obj) {
       $.each(obj['/proc/'].children, function() {
@@ -184,9 +198,10 @@ function tableProc(obj) {
 	      var proc_child = obj['/proc/' + this + '/'];
 	      var procJSON = JSON.stringify(proc_child,null,4);
 	      var edit ='onclick="getProc(\'default\',\'/proc/'+ this + '\',\'edit\')"';
+	      var editCode ='onclick="getProc(\'default\',\'/proc/'+ this + '\',\'code\')"';
 	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' 
-	      	  + '<strong>click edit to see the rest: </strong>' + procJSON.substring(0,720) + '  <a' + edit + '>[...]</a>'
-		      + '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> Edit</a>' 
+	      	  + '' + procJSON.substring(0,720) + '  [...]  <br><br>Click <strong>Edit</strong> to see full JSON or <strong>Edit Code</strong> to modify the code'
+		      + '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> Edit</a> <a class="btn"' + editCode + '><i class="icon-list-alt"></i> Edit Code</a>' 
 		      + ' <a class="btn"' + 'onclick="deleteProc(\'modal\',\'' + this + '\' )"' + '><i class="icon-trash"></i> Delete</a>'
 	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Processing ID: ' + this + '">' + this + '</a></td>' + '</tr>';
 	      

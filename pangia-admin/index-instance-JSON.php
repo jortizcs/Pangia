@@ -48,15 +48,17 @@
       
     </div><!--/.fluid-container-->
     <?php include "nav_footer.php" ?>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script
+src="js/libs/jquery-1.7.2.min.js"><\/script>')</script-->
+<script>window.jQuery || document.write('<script src="js/libs/jquery.js"><\/script>')</script>
 
-<script src="js/libs/bootstrap/bootstrap.min.js"></script>
+<!--script src="js/libs/bootstrap/bootstrap.min.js"></script-->
 
 <script src="js/script.js"></script>
-<script src="js/libs/jquery.jstree.min.js"></script>
 <script src="js/libs/jquery.cookie.js"></script>
 <script src="js/libs/jquery.hotkeys.js"></script>
+<script src="js/libs/jquery.jstree.js"></script>
 <script type="text/javascript" src="js/sfs-console-tree.js"></script>
 <script>
 	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];

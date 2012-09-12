@@ -8,7 +8,8 @@ var last_hovered_nodeId;
 var create_data = null;
 //var sfs_host = document.getElementById("host_field_id").value;
 //var sfs_port = document.getElementById("port_field_id").value;
-var sfs_host = "";
+//var sfs_host = "energylens.sfsdev.is4server.com";
+var sfs_host = "energylens.sfsdev.is4server.com";
 var sfs_port = "8080";
 /*var sfs_info_elt = parent.content.document.getElementById("sfs_host_info");
 sfs_info_elt.innerHTML = sfs_host + ":" + sfs_port;*/

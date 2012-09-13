@@ -23,14 +23,14 @@ jQuery.extend({
     }
 });
 /* ===== Anything Files page related is below ====== */ 
-function createSymlink(){
-	var parent_ = document.getElementById("symlink_parent").value;
-	var target_ = document.getElementById("symlink_target").value;
-	var name = document.getElementById("symlink_name").value;
+function createSymlink(host){
+	var parent_ = document.getElementById("addSymSource").value;
+	var target_ = document.getElementById("addSymTarget").value;
+	var name = document.getElementById("addSymLink").value;
 	if(parent_.length>0 && target_.length>0 && name.length>0){
 		var reqInput = new Object();
-		reqInput.sfs_host = parent.menu.sfs_host;
-		reqInput.sfs_port = parent.menu.sfs_port;
+		reqInput.sfs_host = host;
+		reqInput.sfs_port = '8080';
 		reqInput.method = "create_symlink";
 		reqInput.path = parent_;
 		reqInput.target = target_;
@@ -38,7 +38,7 @@ function createSymlink(){
 		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
 			var dataJson = JSON.parse(data);
 			if(dataJson.status == "success"){
-				parent.menu.location.reload();
+				alert('Symlink created');
 			} else {
 				alert("Could not create symlink");
 			}
@@ -182,7 +182,6 @@ function editProc(obj, flag) {
 		var editor = CodeMirror.fromTextArea(document.getElementById("editProc"), {
 	    	lineNumbers: true
 		});
-		editor.setOption("theme", "ambiance");
 		editor.setValue(prettyCode);
 	} else {
 		//Don't use code mirror and just display raw JSON

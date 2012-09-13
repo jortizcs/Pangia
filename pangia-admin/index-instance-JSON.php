@@ -39,8 +39,8 @@
 		<div class="span9">
 			<div class="well">
 	            <p>Don't forget {} and ''</p>
-	            <textarea rows="12"></textarea> 
-	            <a class="btn" href=""><i class="icon-ok-sign"></i> Execute</a>
+	            <textarea id="user-json" rows="12"></textarea> 
+	            <a id="json-execute-btn" class="btn" href=""><i class="icon-ok-sign"></i> Execute</a>
 			</div>
 		</div>	
       </div><!--/row-->

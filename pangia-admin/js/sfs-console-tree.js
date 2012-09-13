@@ -1,5 +1,18 @@
 (function () {
 
+var lastnode = undefined;
+
+$('#json-execute-btn').bind('click', function(e) {
+    if (!lastnode) {
+        alert('Please select a node before executing.');
+    } else {
+        //alert(node.attr('id') + node.attr('type') + $('#user-json')[0].value);
+        alert('woot: ' + lastnode);
+        alert(lastnode.attr('id'));
+        alert(lastnode.attr('type'));
+    }
+});
+
 var fileGets = new Array();
 var jsonTree=null;
 var last_selected_nodeId = "";
@@ -117,6 +130,7 @@ function loadTree() {
             var node  = data.rslt.obj;  
             var nodeId = data.rslt.obj.attr('id');
             var nodetype = data.rslt.obj.attr('type');
+            lastnode = node;
             
             //var nodeId = jQuery.data(data.rslt.obj[0], "jstree").id;
             //alert(nodeId);
@@ -124,8 +138,10 @@ function loadTree() {
             var timestamp = date.getUTCFullYear() + "-" + date.getUTCMonth() + "-" + date.getUTCDay() + "T"
                         + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds() + "-" 
                         + date.getTimezoneOffset();
+
+            /*
             var is4event_win = top.content.document.getElementById("sfs_reqlog_id");
-            
+
             last_selected_nodeId = nodeId;
             if(fileGets[nodeId] == null || nodeId == "/time/" || nodetype == "stream"){
                 is4event_win.value += timestamp + ": GET " + nodeId + "\n";
@@ -183,6 +199,7 @@ function loadTree() {
 
             }
             is4event_win.scrollTop = is4event_win.scrollHeight;
+            */
         }
     );
 

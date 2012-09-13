@@ -34,7 +34,6 @@
                 <div id="update_props_button"></div>
                 <div id="output_id"></div>
                 <div id="viewer"></div>
-	            Folder hierarchy here
 			</div>
 		</div>
 		<div class="span9">

@@ -100,6 +100,7 @@ function loadTree() {
     console.log("load tree!");
     viewerObj.jstree({ 
         json_data : jsonTree,
+        "themes" : { "icons" : false, "dots" : false },
         unique:{
             error_callback: function(n, p, f){
                 alert("duplicate file names not allowed");

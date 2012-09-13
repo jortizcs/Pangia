@@ -23,8 +23,8 @@
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 <script>
 $(document).ready(function(){ 
-	getSub('<?php $host = $_GET['host']; echo $host; ?>','/sub/*');
-	footerResp('default');
+	getSub('<?php global $host; $host = $_GET['host']; echo $host; ?>','/sub/*');
+	footerResp('<?php echo $host; ?>');
 });
 </script>
 	<?php include "nav_bar.php" ?>
@@ -70,7 +70,7 @@ $(document).ready(function(){
 						  </div>
 						  <div class="control-group">
 						    <div class="controls">
-						      <button class="btn" onClick="createSub()"><i class="icon-plus"></i> Add</button>
+						      <button class="btn" type="button" onClick="createSub()"><i class="icon-plus"></i> Add</button>
 						    </div>
 						  </div>
 						</form>
@@ -91,7 +91,7 @@ $(document).ready(function(){
 						  </div>
 						  <div class="control-group">
 						    <div class="controls">
-						      <button class="btn"><i class="icon-ok"></i> Save</button>
+						      <button class="btn" type="button"><i class="icon-ok"></i> Save</button>
 						    </div>
 						  </div>
 						</form>

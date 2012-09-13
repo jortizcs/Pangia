@@ -1,5 +1,6 @@
 <?php
 	/* gets the page and host values from the links */
+	global $page, $host, $name;
 	$page = $_GET['page'];	
 	$host = $_GET['host'];
 	$name = $_GET['name'];

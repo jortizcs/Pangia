@@ -18,7 +18,12 @@
 </head>
 <body>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-
+<?php 
+	global $oomnitzaUrl; 
+	$oomnitzaUrl = '8.19.33.137';
+	global $novedaUrl; 
+	$novedaUrl = "energylens.sfsprod.is4server.com"; 
+?>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -46,15 +51,16 @@
       <ul class="thumbnails">
         <li class="span4">
           <div class="thumbnail">
-            <a href="index-instance.php?host=8.19.33.137&name=oomnitza">
+            <a href="index-instance.php?host=<?php echo $oomnitzaUrl; ?>&name=oomnitza">
             <img src="img/oomnitza.png" alt="" align="center" width="100%"></a>
+            <center>
             <div class="caption">
-              <p>Status: <?php if (urlExists('8.19.33.137:8080') == true ) {
+              <p>Status: <?php if (urlExists($oomnitzaUrl.':8080') == true ) {
               	 echo '<span class="badge badge-success">live</span>'; 
 			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
-              <p><i>8.19.33.137</i></p>
+              <p><i><?php echo $oomnitzaUrl; ?></i></p>
 		        <div class="btn-group">
-		        	<a href="index-instance.php?name=oomnitza" class="btn btn-success">View </a>
+		        	<a href="index-instance.php?host=<?php echo $oomnitzaUrl; ?>?name=oomnitza" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
 		          <ul class="dropdown-menu">
 		            <li><a href="#">Start</a></li>
@@ -64,18 +70,20 @@
 		          </ul>
 		        </div><!-- /btn-group -->
             </div>
+            </center>
           </div>
         </li>
        <li class="span4">
           <div class="thumbnail">
-            <a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda"><img src="img/noveda.png" alt="" align="center" width="100%"></a>
+            <a href="index-instance.php?host=<?php echo $novedaUrl; ?>&name=Noveda"><img src="img/noveda.png" alt="" align="center" width="100%"></a>
+            <center>
             <div class="caption">
-              <p>Status: <?php if (urlExists('energylens.sfsdev.is4server.com:8080') == true ) {
+              <p>Status: <?php if (urlExists($novedaUrl.':8080') == true ) {
               	 echo '<span class="badge badge-success">live</span>'; 
 			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
-              <p><i>energylens.sfsdev.is4server.com</i></p>
+              <p><i><?php echo $novedaUrl; ?></i></p>
 		        <div class="btn-group">
-		        	<a href="index-instance.php?host=energylens.sfsdev.is4server.com&name=Noveda" class="btn btn-success">View </a>
+		        	<a href="index-instance.php?host=<?php echo $novedaUrl; ?>&name=Noveda" class="btn btn-success">View </a>
 		          <button class="btn dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></button>
 		          <ul class="dropdown-menu">
 		            <li><a href="#">Start</a></li>
@@ -85,6 +93,7 @@
 		          </ul>
 		        </div><!-- /btn-group -->
             </div>
+            </center>
           </div>
         </li>
 

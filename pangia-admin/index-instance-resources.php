@@ -16,13 +16,13 @@
 	<link rel="stylesheet" href="less/style.css">
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 </head>
 <body>
 <script>
-$(document).ready(function(){ 	
-	footerResp('default');
-}
+<?php global $host; $host = $_GET['host']; ?>
+$(document).ready(function(){ 
+	footerResp('<?php echo $host; ?>');
+});
 </script>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 <input type="hidden" name="context" value="raw" id="context_field_id">
@@ -45,17 +45,17 @@ $(document).ready(function(){
 				<div class="tabbable"> <!-- Only required for left/right tabs -->
 				  <ul class="nav nav-tabs">
 				    <li class="active"><a href="#tab1" data-toggle="tab">Edit Resource</a></li>
-				    <li><a href="#tab2" data-toggle="tab">Create Resource</a></li>
+				    <li><a href="#tab2" data-toggle="tab">Create Files</a></li>
 				    <li><a href="#tab3" data-toggle="tab">Create Symlink</a></li>
 				  </ul>
 				  <div class="tab-content">
 				    <div class="tab-pane active" id="tab1">
-				      <textarea rows="12"></textarea>
+				      <textarea rows="12" placeholder="Select a file from the left"></textarea>
 				      <a class="btn" href=""><i class="icon-ok-sign"></i> Save</a>
 				    </div>
 				    <div class="tab-pane " id="tab2">
-						  <form class="form-horizontal">
-						  <div class="control-group">
+<!--						  <form class="form-horizontal">
+ 						  <div class="control-group">
 						    <label class="control-label" for="fileInputTitle">Title:</label>
 						    <div class="controls">
 							    <input type="text" id="fileInputTitle" placeholder="Title"><br>
@@ -75,58 +75,29 @@ $(document).ready(function(){
 								<label class="radio inline">
 								  <input type="radio" name="fileRadio" id="fileRadioStreaming" value="streaming"> Streaming
 								</label><br>
-							</div><br>	
-								<label class="control-label" for="fileInputChildTitle2">Child #2 Title:</label>
-						    <div class="controls">
-							    <input type="text" id="fileInputChildTitle2" placeholder="Child Title"><br>
-							      <label class="radio inline">
-								  <input type="radio" name="fileRadio" id="fileRadioRegular" value="regular" checked> Regular
-								</label>
-								<label class="radio inline">
-								  <input type="radio" name="fileRadio" id="fileRadioStreaming" value="streaming"> Streaming
-								</label>
-						    </div><br>
-						    
-						    <label class="control-label" for="fileInputChildTitle3">Child #3 Title:</label>
-						    <div class="controls">
-							    <input type="text" id="fileInputChildTitle3" placeholder="Child Title"><br>
-							      <label class="radio inline">
-								  <input type="radio" name="fileRadio" id="fileRadioRegular" value="regular" checked> Regular
-								</label>
-								<label class="radio inline">
-								  <input type="radio" name="fileRadio" id="fileRadioStreaming" value="streaming"> Streaming
-								</label>
-						    </div><br>	
-						    <label class="control-label" for="fileInputChildTitle4">Child #4 Title:</label>
-						    <div class="controls">
-							    <input type="text" id="fileInputChildTitle4" placeholder="Child Title"><br>
-							      <label class="radio inline">
-								  <input type="radio" name="fileRadio" id="fileRadioRegular" value="regular" checked> Regular
-								</label>
-								<label class="radio inline">
-								  <input type="radio" name="fileRadio" id="fileRadioStreaming" value="streaming"> Streaming
-								</label><br><br>
-								 <a class="btn" href=""><i class="icon-ok-sign"></i> Add Child</a>
-						    </div><br>							
+							</div><br>						
 						    </div>						    						    						  
-						  </div>
-						  </form>
-				      <a class="btn" href=""><i class="icon-ok-sign"></i> Save</a>
+						  </div> 
+						  </form>-->
+						  <textarea rows="12" id="fileCreate" Placeholder="Bulk create files with the following format: path type; e.g., /temp/one/two/stream3 stream; one command per line"></textarea>
+						 <input type="text" placeholder="or upload a formatted file instead"> 
+						  
+				      <button class="btn" type="button" href=""><i class="icon-plus"></i> Add</button>
 				    </div>
 				    <div class="add tab-pane" id="tab3">
 				      <form class="form-horizontal">
+						 <div class="control-group">
+						    <label class="control-label" for="addSymLink">Link name:</label>
+						    <div class="controls">
+						      <input type="text" id="addSymLink" placeholder="Link Name">
+						    </div>
+						  </div>	
 						  <div class="control-group">
 						    <label class="control-label" for="addSymSource">Source:</label>
 						    <div class="controls">
 						      <input type="text" id="addSymSource" placeholder="Source">
 						    </div>
-						  </div>
-						  <div class="control-group">
-						    <label class="control-label" for="addSymLink">Link name:</label>
-						    <div class="controls">
-						      <input type="text" id="addSymLink" placeholder="Link Name">
-						    </div>
-						  </div>						  
+						  </div>					  
 						  <div class="control-group">
 						    <label class="control-label" for="addSymTarget">Destination:</label>
 						    <div class="controls">
@@ -135,7 +106,7 @@ $(document).ready(function(){
 						  </div>
 						  <div class="control-group">
 						    <div class="controls">
-						      <button class="btn" onClick="createSub()"><i class="icon-plus"></i> Add</button>
+						      <button class="btn" type="button" onClick="createSymlink('<?php echo $host; ?>')"><i class="icon-plus"></i> Add</button>
 						    </div>
 						  </div>
 						</form>

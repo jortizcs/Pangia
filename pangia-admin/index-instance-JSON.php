@@ -26,7 +26,7 @@
 		<?php include "nav_menu.php" ?>
 		
 		<div class="span3">
-			<div class="well">
+			<div class="well" style="margin-bottom:300px;">
                 <div id="props_display_id"></div>
                 <div id="props_label_context"></div>
                 <div id="props_edit_id"></div>

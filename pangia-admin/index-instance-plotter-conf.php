@@ -13,7 +13,6 @@
 	<link rel="stylesheet" href="less/style.css">
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="http://is4server.com:3000/socket.io/socket.io.js"></script>
     <script language="javascript" type="text/javascript" src="http://people.iola.dk/olau/flot/jquery.flot.js"></script>
 	<script src="js/plotter.js"></script>
 </head>
@@ -26,39 +25,27 @@
 		<?php include "nav_menu.php" ?>
 		<div class="span12">
 			<div class="well">
-				<table class="table table-hover" style="">
-				  <thead>
-				  	<th>Anomaly ID</th>
-				  	<th>Status</th>
-					<th>Found where?</th>
-					<th>First occured when?</th>
-					<th>Time since last occurance?</th>
-				  </thead>
-				  <tbody>
-				  	<tr>
-				  		<td>1</td>
-				  		<td><span class="badge badge-success">inactive</span></td>
-				  		<td>/jorge/acme2208/true_power/</td>
-				  		<td>August 30, 10:25pm</td>
-				  		<td>2 days</td>
-				  	</tr>
-			  		<tr>
-				  		<td>2</td>
-				  		<td><span class="badge badge-warning">active</span></td>
-				  		<td>/jorge/acme2200/true_power/</td>
-				  		<td>August 30, 10:25pm</td>
-				  		<td>10 seconds</td>				  		
-				  	</tr>
-				  </tbody>
-				</table>            
-			</div>
-		</div>	
-      </div><!--/row-->
-      <div class="row-fluid">
-		<div class="span12">
-			<div class="well" style="margin-bottom:300px;">
+								<form class="form-horizontal">
+				  <div class="control-group">
+				    <label class="control-label" for="plotterStartDate">Start Date:</label>
+				    <div class="controls">
+				      <input type="text" id="plotterStartData" placeholder="Source">
+				    </div>
+				  </div>
+				  <div class="control-group">
+				    <label class="control-label" for="plotterEndData">End Date:</label>
+				    <div class="controls">
+				      <input type="text" id="plotterEndData" placeholder="Destination">
+				    </div>
+				  </div>
+				  <div class="control-group">
+				    <div class="controls">
+				      <button class="btn" type="button" onClick=""><i class="icon-picture"></i> Plot</button>
+				    </div>
+				  </div>
+				</form><br>
 				<!-- <a class="btn" href="#" onclick="javascript: toggleChat();"><i class="icon-ok-sign"></i> Stop refresh</a> -->
-	            <div id="placeholder" style="width:100%;height:400px;"></div> 
+	            <div id="placeholder" style="width:100%;height:350px;margin-bottom:300px"></div> 
 	            <div>
         		<!-- <p class="chat-title">StreamFS Information Bus</p> -->
     			</div>	
@@ -66,6 +53,7 @@
 			</div>
 		</div>	
       </div><!--/row-->
+      
     </div><!--/.fluid-container-->
 <?php include "nav_footer.php" ?>
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>

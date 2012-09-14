@@ -15,6 +15,12 @@ body {
 @btnSuccessBackgroundHighlight:darken(@PangiaGreen, 20%); 
 @successText: @PangiaGreen;
  
+.box-shadow {    
+    border-color: @PangiaGreen;
+    .box-shadow(~"inset 0 1px 1px #B2DE4B, 0 0 8px #B2DE4B");
+}
+ 
+ 
 a {color: @black;
   &:hover {color:@gray}
 }
@@ -53,10 +59,11 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   &:focus {
-    border-color: @PangiaGreen;
-    .box-shadow(~"inset 0 1px 1px #B2DE4B, 0 0 8px #B2DE4B");
+    .box-shadow;
   }
 }
+//Anomaly stuff
+table.table-hover {background:white}
 
 //Popover
 .popover {width:600px;z-index:0;}

@@ -1,4 +1,7 @@
 (function () {
+var sfs_host = "energylens.sfsdev.is4server.com";
+var sfs_port = "8080";
+var sfs_path = "sfslib/php/sfs_marshaller.php"
 
 var lastnode = undefined;
 
@@ -7,9 +10,45 @@ $('#json-execute-btn').bind('click', function(e) {
         alert('Please select a node before executing.');
     } else {
         //alert(node.attr('id') + node.attr('type') + $('#user-json')[0].value);
-        alert('woot: ' + lastnode);
-        alert(lastnode.attr('id'));
-        alert(lastnode.attr('type'));
+        //alert('woot: ' + lastnode);
+        //alert(lastnode.attr('type'));
+        var user_json = $('#user-json')[0].value;
+        var reqInput = {
+            method: "create",
+            path: lastnode.attr('id'),
+            sfs_host: sfs_host,
+            sfs_port: sfs_port,
+            //rname: lastnode.attr('id'),
+            rname: user_json,
+            ntype: "genpub",
+        };
+        jQuery.post(sfs_path, reqInput, createNodeResp);
+        /*
+            reqInput.method = "create";
+            //reqInput.path = last_hovered_nodeId;
+            reqInput.path = nodeId;
+            reqInput.sfs_host = sfs_host;
+            reqInput.sfs_port = sfs_port;
+            reqInput.rname= data.rslt.name;
+            if(globalNodeType == "stream"){
+                reqInput.ntype = "genpub";
+            } else {
+                reqInput.ntype = "default";
+            }
+            if(data.rslt.name.indexOf(" ")>0 || data.rslt.name.indexOf("/")>0 || data.rslt.name.indexOf("\\")>0){
+                $.jstree.rollback(data.rlbk);
+                alert("No spaces!\nname=" + data.rslt.name);
+            } else {
+                //$.jstree.rollback(data.rlbk);
+                var date = new Date();
+                var timestamp = date.getUTCFullYear() + "-" + date.getUTCMonth() + "-" + date.getUTCDay() + "T"
+                        + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds() + "-" 
+                        + date.getTimezoneOffset();
+                var is4event_win = top.content.document.getElementById("sfs_reqlog_id");
+                jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, createNodeResp);
+                is4event_win.value += timestamp + ": POST " + nodeId + "\n";
+                fileGets = new Array();
+      */
     }
 });
 
@@ -22,8 +61,6 @@ var create_data = null;
 //var sfs_host = document.getElementById("host_field_id").value;
 //var sfs_port = document.getElementById("port_field_id").value;
 //var sfs_host = "energylens.sfsdev.is4server.com";
-var sfs_host = "energylens.sfsdev.is4server.com";
-var sfs_port = "8080";
 /*var sfs_info_elt = parent.content.document.getElementById("sfs_host_info");
 sfs_info_elt.innerHTML = sfs_host + ":" + sfs_port;*/
 //used by body.php to set properties
@@ -101,11 +138,11 @@ function createNodeResp(data){
 //dom reference to viewer div
 var viewerObj = $("#viewer");
 //send request for loading nodes
-var reqInput = new Object();
+var reqInput = {}
 reqInput.method="get_all_resources";
 reqInput.sfs_host = sfs_host;
 reqInput.sfs_port = sfs_port;
-jQuery.post("sfslib/php/sfs_marshaller.php",reqInput,resourceList);
+jQuery.post(sfs_path,reqInput,resourceList);
 
 var stagedlist = new Array();
 var streamlist = new Array();

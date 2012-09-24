@@ -17,7 +17,7 @@
           <a class="brand" href="index.php">PANGIA</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="dropdown <?php if ($page == "files" || $page == "sub" || $page == "JSON" || $page == "proc") { echo 'active'; } ?>">
+              <li class="dropdown <?php if ($page == "files" || $page == "sub" || $page == "JSON") { echo 'active'; } ?>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Modify instance <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                  <!--  <li class="nav-header">Basic</li> -->
@@ -27,13 +27,14 @@
               	<a href="index-instance-subscriptions.php?page=sub<?php echo $url ?>"><i class="icon-magnet"></i> Subscriptions</a></li>
               	<li <?php if ($page == "JSON") { echo 'class="active"'; } ?>>
               	<a href="index-instance-JSON.php?page=JSON<?php echo $url ?>"><i class="icon-indent-left"></i> JSON interface</a></li>
-              	<li <?php if ($page == "proc") { echo 'class="active"'; } ?>>
-              	<a href="index-instance-processing.php?page=proc<?php echo $url ?>"><i class="icon-random"></i> Processing elements</a></li>   
+              	
                 </ul>
               </li>
-               <li class="dropdown <?php if ($page == "plot" || $page == "plot-conf" || $page == "anomaly") { echo 'active'; } ?>">
+               <li class="dropdown <?php if ($page == "proc" || $page == "plot" || $page == "plot-conf" || $page == "anomaly") { echo 'active'; } ?>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Analytics <b class="caret"></b></a>
                 <ul class="dropdown-menu">
+               <li <?php if ($page == "proc") { echo 'class="active"'; } ?>>
+              	<a href="index-instance-processing.php?page=proc<?php echo $url ?>"><i class="icon-random"></i> Processing elements</a></li>   
                <li <?php if ($page == "plot") { echo 'class="active"'; } ?>>
               	<a href="index-instance-plotter.php?page=plot<?php echo $url ?>"><i class="icon-picture"></i> Plotter Demo</a></li>
               <li <?php if ($page == "plot-conf") { echo 'class="active"'; } ?>>

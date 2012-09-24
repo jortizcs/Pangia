@@ -55,7 +55,7 @@
             <img src="img/oomnitza.png" alt="" align="center" width="100%"></a>
             <center>
             <div class="caption">
-              <p>Status: <?php if (urlExists($oomnitzaUrl.':8080') == true ) {
+              <p>Status: <?php if (urlExists($oomnitzaUrl.':8080/time/') == true ) {
               	 echo '<span class="badge badge-success">live</span>'; 
 			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
               <p><i><?php echo $oomnitzaUrl; ?></i></p>
@@ -78,7 +78,7 @@
             <a href="index-instance.php?host=<?php echo $novedaUrl; ?>&name=Noveda"><img src="img/noveda.png" alt="" align="center" width="100%"></a>
             <center>
             <div class="caption">
-              <p>Status: <?php if (urlExists($novedaUrl.':8080') == true ) {
+              <p>Status: <?php if (urlExists($novedaUrl.':8080/time/') == true ) {
               	 echo '<span class="badge badge-success">live</span>'; 
 			  } else {echo '<span class="badge badge-warning">down</span>'; } ?> </p>
               <p><i><?php echo $novedaUrl; ?></i></p>

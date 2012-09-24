@@ -214,6 +214,18 @@ if(!empty($sfs_host) && !empty($sfs_port) && !empty($method)){
 			$r["status"] = "fail";
 			echo json_encode($r);
 		}
+	} elseif(strcmp($method, "create_proc")==0){
+		$name = $_REQUEST["name"];
+		$script = $_REQUEST["script"];
+		$r = array();
+		if(!empty($name) && !empty($script)){
+			$slreply = $sfsconn->createProc($name, $script);
+			$r["status"]="success";
+			echo json_encode($r);
+		} else {
+			$r["status"] = "fail";
+			echo json_encode($r);
+		}
 	} elseif(strcmp($method, "test")==0){
 		$r = array();
 		$r["status"]="success";

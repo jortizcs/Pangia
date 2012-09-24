@@ -84,7 +84,7 @@ $(document).ready(function(){
 						  	<label>Options:</label>
 						  	<input class="span3" type="text" id="procWin" class="inline" placeholder="Winsize">
 							<input class="span3" type="text" id="procTime" placeholder="TimeOut">
-							<select id="materialize" class="span3">
+							<select id="procMaterialize" class="span3">
 							  <optgroup label="Materialize?">
 							  <option>True</option>
 							  <option>False</option>
@@ -96,7 +96,7 @@ $(document).ready(function(){
 						  	<textarea rows="14" id="addProc"></textarea><br>
 						  </div> 
 						  <div class="control-group">
-						      <button class="btn" type="button" onClick="createSub()"><i class="icon-plus"></i> Add</button>
+						      <button class="btn" type="button" onClick="createProc()"><i class="icon-plus"></i> Add</button>
 						  </div>
 						</form>
 				    </div>

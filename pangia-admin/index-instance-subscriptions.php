@@ -70,7 +70,7 @@ $(document).ready(function(){
 						  </div>
 						  <div class="control-group">
 						    <div class="controls">
-						      <button class="btn" type="button" onClick="createSub()"><i class="icon-plus"></i> Add</button>
+						      <button class="btn" type="button" onClick="createSub('<?php echo $host; ?>')"><i class="icon-plus"></i> Add</button>
 						    </div>
 						  </div>
 						</form>

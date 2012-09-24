@@ -110,14 +110,14 @@ function tableSub(obj) {
 	      };
       });
 };
-function createSub(){
+function createSub(host){
 	var parent_ = document.getElementById("addSubSource").value;
 	var target_ = document.getElementById("addSubTarget").value;
 	//alert(parent_ + target_);
 	
 	if(parent_.length>0 && target_.length>0){
 		var reqInput = new Object();
-		reqInput.sfs_host = "http://energylens.sfsprod.is4server.com";
+		reqInput.sfs_host = host;
 		reqInput.sfs_port = "8080";
 		reqInput.method = "create_sub";
 		reqInput.path = parent_;
@@ -192,8 +192,51 @@ function getProc (host, path, flag) {
 	   });
 	}
 }
+function createProc(host, path) {
+	var name="", winsize="", timeout="", materialize="", script="";
+	
+	name = document.getElementById("procName").value ;
+	winsize = document.getElementById("procWin").value;
+	timeout = document.getElementById("procTime").value;
+	materialize = document.getElementById("procMaterialize").value;
+	script = document.getElementById("addProc").value;
+	
+	if(name.length>0 && script.length>0 && timeout.length>0 && winsize.length>0){
+		var reqInput = new Object();
+		reqInput.sfs_host = host;
+		reqInput.sfs_port = "8080";
+		reqInput.method = "create_proc";
+		reqInput.operation = "save_proc"
+		reqInput.name = name;
+		reqInput.winsize = winsize;
+		reqInput.materialize = materialize;
+		reqInput.script = script;
+		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
+			var dataJson = JSON.parse(data);
+			if(dataJson.status == "success"){
+				alert("Processing Element created: " + dataJson);
+				//location.reload();
+				//parent.reload();
+				//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
+				//alert('it worked dude');
+				//$('body').append(alert);
+			} else {
+				alert("Could not create Processing Element: " + dataJson);
+			}
+		});
+	} else {
+		alert("Please input all fields");
+	}
+}
 function editProc(obj, flag) { 
 	$('[rel=popover]').popover('hide');
+	
+	$('li.add').removeClass('active');
+	$('div.add').removeClass('active');
+	$('li.edit').addClass('active');
+	$('li.edit').removeClass('disabled');
+	$('div.edit').addClass('active');
+	
 	
 	if (flag=="code") {
 		var procJSON = JSON.stringify(obj.properties.script.func);

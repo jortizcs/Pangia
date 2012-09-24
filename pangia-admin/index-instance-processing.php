@@ -64,13 +64,52 @@ $(document).ready(function(){
 				</tbody>
 				</table>
 			</div>
-			<div style="margin-bottom: 300px"></div>
+			<div class="footer-margin"></div>
 		</div>
 		<div class="span9">
 			<div class="well">
-	            <textarea rows="14" id="editProc"></textarea><br> 
-	            <a class="btn" href=""><i class="icon-ok-sign"></i> Save</a>
+				<div class="tabbable"> <!-- Only required for left/right tabs -->
+				  <ul class="nav nav-tabs">
+				    <li class="add active"><a href="#tabAdd" data-toggle="tab">Add</a></li>
+				    <li class="edit disabled"><a href="#tabEdit" data-toggle="tab">Edit</a></li>
+				  </ul>
+				  <div class="tab-content">
+				    <div class="add tab-pane active" id="tabAdd">
+				      <form class="form-horizontal">
+						  <div class="control-group">
+						    <label>Name:</label>
+						      <input type="text" id="procName" placeholder="Name">
+						  </div>
+						  	<div class="controls-row">
+						  	<label>Options:</label>
+						  	<input class="span3" type="text" id="procWin" class="inline" placeholder="Winsize">
+							<input class="span3" type="text" id="procTime" placeholder="TimeOut">
+							<select id="materialize" class="span3">
+							  <optgroup label="Materialize?">
+							  <option>True</option>
+							  <option>False</option>
+							  </optgroup>
+							</select>	
+						  </div><br> 
+						  <div class="control-group">
+						  	<label>Script:</label>
+						  	<textarea rows="14" id="addProc"></textarea><br>
+						  </div> 
+						  <div class="control-group">
+						      <button class="btn" type="button" onClick="createSub()"><i class="icon-plus"></i> Add</button>
+						  </div>
+						</form>
+				    </div>
+				    <div class="edit tab-pane" id="tabEdit">
+				      	<form class="form-horizontal">
+				            <textarea rows="14" id="editProc"></textarea><br> 
+				            <button class="btn" type="button"><i class="icon-ok-sign"></i> Save</a>
+						</form>
+				    </div>
+				  </div>
+				</div>
 			</div>
+			<div class="footer-margin"></div>
 		</div>	
       </div><!--/row-->
      

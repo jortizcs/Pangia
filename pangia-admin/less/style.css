@@ -8611,6 +8611,9 @@ a {
 a:hover {
   color: #555555;
 }
+.footer-margin {
+  padding-bottom: 200px;
+}
 .thumbnail:hover {
   box-shadow: 0 0 45px #b2de4b;
   -webkit-box-shadow: 0 0 45px #b2de4b;
@@ -8670,6 +8673,7 @@ footer {
   bottom: 0px;
   margin-right: 20px;
   width: 100%;
+  z-index: 9999999;
 }
 footer #toggle {
   margin-bottom: -20px;

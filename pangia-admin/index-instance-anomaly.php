@@ -13,11 +13,14 @@
 	<link rel="stylesheet" href="less/style.css">
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="http://is4server.com:3000/socket.io/socket.io.js"></script>
-    <script language="javascript" type="text/javascript" src="http://people.iola.dk/olau/flot/jquery.flot.js"></script>
-	<script src="js/plotter.js"></script>
 </head>
 <body>
+	<script>
+	$(document).ready(function(){ 
+		var obj = '<tr>	<td>4</td><td><span class="badge badge-success">inactive</span></td><td>/jorge/acme1208/true_power/</td><td>August 30, 10:25pm</td><td>2 days</td></tr>'
+		$("table tbody").animate('slow').append(obj).delay(5000);
+	});
+	</script>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<?php include "nav_bar.php" ?>
     <div class="container-fluid">
@@ -49,23 +52,19 @@
 				  		<td>August 30, 10:25pm</td>
 				  		<td>10 seconds</td>				  		
 				  	</tr>
+				  	<tr>
+				  		<td>3</td>
+				  		<td><span class="badge badge-warning">active</span></td>
+				  		<td>/jorge/acme2200/true_power/</td>
+				  		<td>August 30, 10:25pm</td>
+				  		<td>10 seconds</td>				  		
+				  	</tr>
 				  </tbody>
 				</table>            
 			</div>
 		</div>	
       </div><!--/row-->
-      <div class="row-fluid">
-		<div class="span12">
-			<div class="well" style="margin-bottom:300px;">
-				<!-- <a class="btn" href="#" onclick="javascript: toggleChat();"><i class="icon-ok-sign"></i> Stop refresh</a> -->
-	            <div id="placeholder" style="width:100%;height:400px;"></div> 
-	            <div>
-        		<!-- <p class="chat-title">StreamFS Information Bus</p> -->
-    			</div>	
-	            
-			</div>
-		</div>	
-      </div><!--/row-->
+      
     </div><!--/.fluid-container-->
 <?php include "nav_footer.php" ?>
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>

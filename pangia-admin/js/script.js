@@ -23,6 +23,29 @@ jQuery.extend({
     }
 });
 /* ===== Anything Files page related is below ====== */ 
+function createBulkFile(host){
+	var textarea = document.getElementById("fileCreate").value;
+	
+	if(textarea.length>0){
+		var reqInput = new Object();
+		reqInput.sfs_host = host;
+		reqInput.sfs_port = '8080';
+		reqInput.method = "create_bulk_file";
+		reqInput.json = '{"operation":"create_resources","list":[' 
+		+ JSONtext
+		+ ']}';
+		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
+			var dataJson = JSON.parse(data);
+			if(dataJson.status == "success"){
+				alert('Files were created!');
+			} else {
+				alert("Could not create files:" + dataJson);
+			}
+		});
+	} else {
+		alert('Please enter some values');
+	}
+}
 function createSymlink(host){
 	var parent_ = document.getElementById("addSymSource").value;
 	var target_ = document.getElementById("addSymTarget").value;
@@ -40,7 +63,7 @@ function createSymlink(host){
 			if(dataJson.status == "success"){
 				alert('Symlink created');
 			} else {
-				alert("Could not create symlink");
+				alert("Could not create symlink" + dataJson);
 			}
 		});
 	}
@@ -102,14 +125,14 @@ function createSub(){
 		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
 			var dataJson = JSON.parse(data);
 			if(dataJson.status == "success"){
-				alert("works: " + data);
+				alert("Subscription created: " + dataJson);
 				//location.reload();
 				//parent.reload();
 				//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
 				//alert('it worked dude');
 				//$('body').append(alert);
 			} else {
-				alert("Could not create subscription: " + data);
+				alert("Could not create subscription: " + dataJson);
 			}
 		});
 	}

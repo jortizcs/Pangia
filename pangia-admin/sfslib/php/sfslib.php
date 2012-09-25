@@ -214,17 +214,39 @@ class SFSConnection{
 		}
 		return $res;
 	}
-	// public function deleteSubscription($source, $target){
-		// global $host, $port;
-		// $request = array();
-		// $url = "http://".$host.":".$port."/sub/";
-		// $res = put(json_encode($request),$url);
-		// if(empty($res)){
-			// return 0;
-		// }
-		// return $res;
-	// }
-
+	public function deleteSubscription($id){
+		global $host, $port;
+		
+		$url = "http://".$host.":".$port."/sub/".$id;
+		$res = delete($url);
+		
+		if(empty($res)){
+			return 0;
+		 }
+		 return $res;
+	 }
+	public function createProc($operation, $name, $script){
+		global $host, $port;
+		$request = array();
+		$request["operation"] = $operation;
+		$request["name"] = $name;
+		$request["script"] = $script;
+		$url = "http://".$host.":".$port."/proc/";
+		$res = put(json_encode($request),$url);
+		if(empty($res)){
+			return 0;
+		}
+		return $res;
+	}
+	public function deleteProc($name){
+		global $host, $port;
+		$url = "http://".$host.":".$port."/proc/".$name;
+		$res = delete($url);
+		if(empty($res)){
+			return 0;
+		}
+		return $res;
+	}
 }
 
 ?>

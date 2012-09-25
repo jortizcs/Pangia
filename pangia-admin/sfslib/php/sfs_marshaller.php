@@ -214,22 +214,42 @@ if(!empty($sfs_host) && !empty($sfs_port) && !empty($method)){
 			$r["status"] = "fail";
 			echo json_encode($r);
 		}
-	} elseif(strcmp($method, "create_proc")==0){
-		$name = $_REQUEST["name"];
-		$script = $_REQUEST["script"];
+	} elseif(strcmp($method, "delete_sub")==0){
+		$name = $_REQUEST["id"];	
 		$r = array();
-		if(!empty($name) && !empty($script)){
-			$slreply = $sfsconn->createProc($name, $script);
+		if(!empty($id)){
+			$slreply = $sfsconn->deleteSubscription($id);
 			$r["status"]="success";
 			echo json_encode($r);
 		} else {
 			$r["status"] = "fail";
 			echo json_encode($r);
 		}
-	} elseif(strcmp($method, "test")==0){
+	} elseif(strcmp($method, "create_proc")==0){
+		$name = $_REQUEST["name"];
+		$script = $_REQUEST["script"];
+		$script["func"] = stripslashes(str_replace("\"","'",str_replace("\n","",$script["func"])));
+		$operation = $_REQUEST["operation"];
 		$r = array();
-		$r["status"]="success";
-		echo json_encode($r);
+		if(!empty($name) && !empty($script) && !empty($operation)){
+			$slreply = $sfsconn->createProc($operation, $name, $script);
+			$r["status"]="success";
+			echo json_encode($r);
+		} else {
+			$r["status"] = "fail";
+			echo json_encode($r);
+		}
+	} elseif(strcmp($method, "delete_proc")==0){
+		$name = $_REQUEST["name"];	
+		$r = array();
+		if(!empty($name)){
+			$slreply = $sfsconn->deleteProc($name);
+			$r["status"]="success";
+			echo json_encode($r);
+		} else {
+			$r["status"] = "fail";
+			echo json_encode($r);
+		}
 	}
 }
 

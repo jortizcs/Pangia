@@ -1,6 +1,6 @@
 /* Author: Michael Heinrich */
 /* ===== extending jQuery to include PUT and DELETE ====== */ 
-function _ajax_request(url, data, callback, type, method) {
+function _ajax_request(url, data, callback, method) {
     if (jQuery.isFunction(data)) {
         callback = data;
         data = {};
@@ -9,17 +9,16 @@ function _ajax_request(url, data, callback, type, method) {
         type: method,
         url: url,
         data: data,
-        success: callback,
-        dataType: type
+        success: callback
         });
 }
 
 jQuery.extend({
-    put: function(url, data, callback, type) {
-        return _ajax_request(url, data, callback, type, 'PUT');
+    put: function(url, data, callback) {
+        return _ajax_request(url, data, callback, 'PUT');
     },
-    delete_: function(url, data, callback, type) {
-        return _ajax_request(url, data, callback, type, 'DELETE');
+    delete_: function(url, data, callback) {
+        return _ajax_request(url, data, callback, 'DELETE');
     }
 });
 /* ===== Anything Files page related is below ====== */ 
@@ -83,14 +82,14 @@ function getSub (host,path) {
 		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
 			if ((path == 'sub') || 'sub/' || 'sub/*' || 'sub*'){
 	     		var obj = JSON.parse(data);
-	     		tableSub(obj);
+	     		tableSub(host, obj);
 	     } else {
 	     	return obj;
 	     }
 	   });
 	}
 }
-function tableSub(obj) {
+function tableSub(host, obj) {
       $.each(obj['/sub/'].children, function() {
 	      if(this == "all"){
 	      	//skip all response
@@ -100,7 +99,7 @@ function tableSub(obj) {
 	      var subJSON = JSON.stringify(sub_child,null,4);
 	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' + subJSON + 
 		      '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> Edit</a>' + 
-		      ' <a class="btn"' + 'onclick="deleteSub(\'modal\',\'' + this + '\' )"' + '><i class="icon-trash"></i> Delete</a>';
+		      ' <a class="btn"' + 'onclick="deleteSub(\'' + host + '\',\'' + this + '\' )"' + '><i class="icon-trash"></i> Delete</a>';
 	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Subscription ID: ' + this + '">' + this + '</a></td>' + '</tr>';
 	      
 	      //append the subscription ids to #JSONtable
@@ -125,7 +124,7 @@ function createSub(host){
 		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
 			var dataJson = JSON.parse(data);
 			if(dataJson.status == "success"){
-				alert("Subscription created: " + dataJson);
+				alert("Subscription created!");
 				//location.reload();
 				//parent.reload();
 				//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
@@ -154,19 +153,23 @@ function editSub(source,destination){
 	document.getElementById("editSubSource").value = parent_;
 	document.getElementById("editSubTarget").value = target_;	
 };
-function deleteSub(type, body){
-	if (type == 'modal') {
-		$('[rel=popover]').popover('hide');
-		$('#deleteModal').modal();
-		$('#deleteModal .modal-body p').replaceWith('<p>Delete the Subscription ID <strong>' + body + '</strong>?');
-	} else if (type == 'delete') {
+function deleteSub(host, id){
+	// if (type == 'modal') {
+		// $('[rel=popover]').popover('hide');
+		// $('#deleteModal').modal();
+		// $('#deleteModal .modal-body p').replaceWith('<p>Delete the Subscription ID <strong>' + body + '</strong>?');
+	var r=confirm("Delete the subscription ID: " + id + "?");
+	if (r==true) {
 		var reqInput = new Object();
-		reqInput.sfs_host = "http://energylens.sfsprod.is4server.com";
+		reqInput.sfs_host = host;
 		reqInput.sfs_port = "8080";
 		reqInput.method = "delete_sub";
-		reqInput.path = parent_;
-		reqInput.target = target_;
-		jQuery.delete("sfslib/php/sfs_marshaller.php", reqInput, createSubResp);
+		jQuery.delete_("sfslib/php/sfs_marshaller.php", reqInput, function(data){
+			var dataJson = JSON.parse(data);
+			if(dataJson.status == "success"){
+				location.reload(true);
+			}
+		});
 	}
 }
 /* ===== Processing elements related page code  ====== */
@@ -184,48 +187,86 @@ function getProc (host, path, flag) {
 		jQuery.get("sfslib/php/sfs_marshaller.php", reqInput, function (data) {
 			if (flag == 'table') {
 	     		var obj = JSON.parse(data);
-	     		tableProc(obj);
+	     		tableProc(host, obj);
 	     } else {
 	     	var obj = JSON.parse(data);
 	     	editProc(obj, flag);
 	     }
 	   });
 	}
+	// var editorAdd = CodeMirror.fromTextArea(document.getElementById("addProc"), {
+	    	// lineNumbers: true,
+	    	// mode: "javascript"
+	// });
 }
-function createProc(host, path) {
+function createProc(host) {
 	var name="", winsize="", timeout="", materialize="", script="";
-	
 	name = document.getElementById("procName").value ;
 	winsize = document.getElementById("procWin").value;
 	timeout = document.getElementById("procTime").value;
 	materialize = document.getElementById("procMaterialize").value;
 	script = document.getElementById("addProc").value;
 	
-	if(name.length>0 && script.length>0 && timeout.length>0 && winsize.length>0){
-		var reqInput = new Object();
-		reqInput.sfs_host = host;
-		reqInput.sfs_port = "8080";
-		reqInput.method = "create_proc";
-		reqInput.operation = "save_proc"
-		reqInput.name = name;
-		reqInput.winsize = winsize;
-		reqInput.materialize = materialize;
-		reqInput.script = script;
+	//if(name.length>0 && script.length>0 && timeout.length>0 && winsize.length>0){
+		var reqInput = {
+			sfs_host : host,
+			sfs_port : "8080",
+			method: "create_proc",
+			operation : "save_proc",
+			name : name,
+			script: {
+				winsize : winsize,
+				timeout : timeout,
+				materialize : materialize,
+				func : script
+			}
+		};
 		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
 			var dataJson = JSON.parse(data);
 			if(dataJson.status == "success"){
-				alert("Processing Element created: " + dataJson);
-				//location.reload();
+				alert("Processing Element created!");
+				location.reload(true);
 				//parent.reload();
 				//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
 				//alert('it worked dude');
 				//$('body').append(alert);
 			} else {
-				alert("Could not create Processing Element: " + dataJson);
+				alert("Could not create Processing Element: " + JSON.stringify(dataJson, null, 4));
 			}
 		});
-	} else {
-		alert("Please input all fields");
+	// } else {
+		// alert("Please input all fields");
+	// }
+}
+function deleteProc(host, name){
+		/*$('[rel=popover]').popover('hide');
+		$('#deleteModal').modal();
+		$('#deleteModal .modal-body p').replaceWith('<p>Delete the Processing ID <strong>' + body + '</strong>?');*/
+	var r=confirm("Delete the processing ID: " + name + "?");
+	if (r==true) {
+		var reqInput = {
+			sfs_host : host,
+			sfs_port : "8080",
+			method: "delete_proc",
+			name: name,
+		};
+		$.ajax({
+		   type: "DELETE",
+		   url: "sfslib/php/sfs_marshaller.php",
+		   data: reqInput,
+		   cache: false,
+		   success: function(data){
+			var dataJson = JSON.parse(data);
+			if(dataJson.status == "success"){
+				//alert("Processing Element deleted!");
+				location.reload();
+				//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
+				//$('body').append(alert);
+			} else {
+				alert("Could not delete Processing Element: " + JSON.stringify(dataJson, null, 4));
+			}
+	  	}
+	 	});
 	}
 }
 function editProc(obj, flag) { 
@@ -237,37 +278,40 @@ function editProc(obj, flag) {
 	$('li.edit').removeClass('disabled');
 	$('div.edit').addClass('active');
 	
-	
 	if (flag=="code") {
+		document.getElementById("procNameEdit").value = obj.properties.name;
+		document.getElementById("procWinEdit").value = obj.properties.script.winsize;
+		document.getElementById("procTimeEdit").value = obj.properties.script.timeout;
+		document.getElementById("procMaterializeEdit").value = obj.properties.script.materialize; 
+		
 		var procJSON = JSON.stringify(obj.properties.script.func);
 		//remove the outside "" so that code beautification works
 		var temp = procJSON.substring(1,procJSON.length -1);
 		//call beautify library
 		var prettyCode = js_beautify(temp);
 		//instantiate CodeMirror editor
-		var editor = CodeMirror.fromTextArea(document.getElementById("editProc"), {
+		var editorEdit = CodeMirror.fromTextArea(document.getElementById("editProc"), {
 	    	lineNumbers: true
 		});
-		editor.setValue(prettyCode);
+		editorEdit.setValue(prettyCode);
 	} else {
 		//Don't use code mirror and just display raw JSON
 		var procJSON = JSON.stringify(obj,null,4);
 		document.getElementById("editProc").value = procJSON;
 	}
 }
-function tableProc(obj) {
+function tableProc(host, obj) {
       $.each(obj['/proc/'].children, function() {
 	      if(this == "all"){
 	      	//skip all response
 	      } else {
 	      var proc_child = obj['/proc/' + this + '/'];
 	      var procJSON = JSON.stringify(proc_child,null,4);
-	      var edit ='onclick="getProc(\'default\',\'/proc/'+ this + '\',\'edit\')"';
-	      var editCode ='onclick="getProc(\'default\',\'/proc/'+ this + '\',\'code\')"';
+	      var editCode ='onclick="getProc(\'' + host + '\',\'/proc/'+ this + '\',\'code\')"';
 	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' 
-	      	  + '' + procJSON.substring(0,720) + '  [...]  <br><br>Click <strong>Edit</strong> to see full JSON or <strong>Edit Code</strong> to modify the code'
-		      + '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> Edit</a> <a class="btn"' + editCode + '><i class="icon-list-alt"></i> Edit Code</a>' 
-		      + ' <a class="btn"' + 'onclick="deleteProc(\'modal\',\'' + this + '\' )"' + '><i class="icon-trash"></i> Delete</a>'
+	      	  + '' + procJSON.substring(0,720) + '  [...]  <br><br>Click <strong>Edit Code</strong> to modify the function'
+		      + '<br><hr><a class="btn"' + editCode + '><i class="icon-list-alt"></i> Edit Code</a>' 
+		      + ' <a class="btn"' + 'onclick="deleteProc(\'' + host + '\',\'' + this + '\')"' + '><i class="icon-trash"></i> Delete</a>'
 	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Processing ID: ' + this + '">' + this + '</a></td>' + '</tr>';
 	      
 	      //document.getElementById(this).setAttribute('value', procJSON);

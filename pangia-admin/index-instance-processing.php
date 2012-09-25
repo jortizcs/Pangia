@@ -86,8 +86,8 @@ $(document).ready(function(){
 							<input class="span3" type="text" id="procTime" placeholder="TimeOut">
 							<select id="procMaterialize" class="span3">
 							  <optgroup label="Materialize?">
-							  <option>True</option>
-							  <option>False</option>
+							  <option>true</option>
+							  <option>false</option>
 							  </optgroup>
 							</select>	
 						  </div><br> 
@@ -96,14 +96,34 @@ $(document).ready(function(){
 						  	<textarea rows="14" id="addProc"></textarea><br>
 						  </div> 
 						  <div class="control-group">
-						      <button class="btn" type="button" onClick="createProc()"><i class="icon-plus"></i> Add</button>
+						      <button class="btn" type="button" onClick="createProc('<?php $host = $_GET['host']; echo $host; ?>')"><i class="icon-plus"></i> Add</button>
 						  </div>
 						</form>
 				    </div>
 				    <div class="edit tab-pane" id="tabEdit">
 				      	<form class="form-horizontal">
-				            <textarea rows="14" id="editProc"></textarea><br> 
-				            <button class="btn" type="button"><i class="icon-ok-sign"></i> Save</a>
+						  <div class="control-group">
+						    <label>Name:</label>
+						      <input type="text" id="procNameEdit" placeholder="Name">
+						  </div>
+						  	<div class="controls-row">
+						  	<label>Options:</label>
+						  	<input class="span3" type="text" id="procWinEdit" class="inline" placeholder="Winsize">
+							<input class="span3" type="text" id="procTimeEdit" placeholder="TimeOut">
+							<select id="procMaterializeEdit" class="span3">
+							  <optgroup label="Materialize?">
+							  <option>true</option>
+							  <option>false</option>
+							  </optgroup>
+							</select>	
+						  </div><br> 
+						  <div class="control-group">
+						  	<label>Script:</label>
+						  	<textarea rows="14" id="editProc"></textarea><br>
+						  </div> 
+						  <div class="control-group">
+						      <button class="btn" type="button" onClick="editProc('<?php $host = $_GET['host']; echo $host; ?>')"><i class="icon-ok-sign"></i> Save</button>
+						  </div>
 						</form>
 				    </div>
 				  </div>
@@ -112,7 +132,19 @@ $(document).ready(function(){
 			<div class="footer-margin"></div>
 		</div>	
       </div><!--/row-->
-     
+<!--      <div class="modal hide fade" id="deleteModal">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h3>Delete confirmation</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p></p>
+		  </div>
+		  <div class="modal-footer">
+		    <a href="#" class="btn">Yes</a>
+		    <a href="#" class="btn btn-primary" data-dismiss="modal">No</a>
+		  </div>
+		</div> -->
     </div><!--/.fluid-container-->
 <?php include "nav_footer.php" ?>
 

@@ -73,15 +73,11 @@ $(document).ready(function(){
 				  <div class="tab-content">
 				    <div class="add tab-pane active" id="tabAdd">
 				      <form class="form-horizontal">
-						  <div class="control-group">
-						    <label>Name:</label>
-						      <input type="text" id="procName" placeholder="Name">
-						  </div>
 						  	<div class="controls-row">
-						  	<label>Options:</label>
-						  	<input class="span3" type="text" id="procWin" class="inline" placeholder="Winsize">
-							<input class="span3" type="text" id="procTime" placeholder="TimeOut">
-							<select id="procMaterialize" class="span3">
+						  		<input type="text" class="span5" id="procName" placeholder="Name">
+						  	<input class="span2" type="text" id="procWin" class="inline" placeholder="Winsize">
+							<input class="span2" type="text" id="procTime" placeholder="TimeOut">
+							<select id="procMaterialize" class="span2">
 							  <optgroup label="Materialize?">
 							  <option>true</option>
 							  <option>false</option>
@@ -99,15 +95,11 @@ $(document).ready(function(){
 				    </div>
 				    <div class="edit tab-pane" id="tabEdit">
 				      	<form class="form-horizontal">
-						  <div class="control-group">
-						    <label>Name:</label>
-						      <input type="text" id="procNameEdit" placeholder="Name">
-						  </div>
 						  	<div class="controls-row">
-						  	<label>Options:</label>
-						  	<input class="span3" type="text" id="procWinEdit" class="inline" placeholder="Winsize">
-							<input class="span3" type="text" id="procTimeEdit" placeholder="TimeOut">
-							<select id="procMaterializeEdit" class="span3">
+						  	<input type="text" class="span5" id="procNameEdit" placeholder="Name">
+						  	<input class="span2" type="text" id="procWinEdit" class="inline" placeholder="Winsize">
+							<input class="span2" type="text" id="procTimeEdit" placeholder="TimeOut">
+							<select id="procMaterializeEdit" class="span2">
 							  <optgroup label="Materialize?">
 							  <option>true</option>
 							  <option>false</option>

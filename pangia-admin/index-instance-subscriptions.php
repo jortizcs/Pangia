@@ -51,7 +51,7 @@ $(document).ready(function(){
 				<div class="tabbable"> <!-- Only required for left/right tabs -->
 				  <ul class="nav nav-tabs">
 				    <li class="add active"><a href="#tabAdd" data-toggle="tab">Add Subscription</a></li>
-				    <li class="edit disabled"><a href="#tabEdit" data-toggle="tab">Edit subscription</a></li>
+				    <li class="edit disabled"><a href="#tabEdit" data-toggle="tab">View subscription</a></li>
 				  </ul>
 				  <div class="tab-content">
 				    <div class="add tab-pane active" id="tabAdd">
@@ -90,9 +90,9 @@ $(document).ready(function(){
 						    </div>
 						  </div>
 						  <div class="control-group">
-						    <div class="controls">
+						    <!-- <div class="controls">
 						      <button class="btn" type="button"><i class="icon-ok"></i> Save</button>
-						    </div>
+						    </div> -->
 						  </div>
 						</form>
 				    </div>

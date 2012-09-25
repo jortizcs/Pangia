@@ -68,7 +68,7 @@ $(document).ready(function(){
 				<div class="tabbable"> <!-- Only required for left/right tabs -->
 				  <ul class="nav nav-tabs">
 				    <li class="add active"><a href="#tabAdd" data-toggle="tab">Add</a></li>
-				    <li class="edit disabled"><a href="#tabEdit" data-toggle="tab">Edit</a></li>
+				    <li class="edit disabled"><a href="#tabEdit" data-toggle="tab">View</a></li>
 				  </ul>
 				  <div class="tab-content">
 				    <div class="add tab-pane active" id="tabAdd">
@@ -107,12 +107,11 @@ $(document).ready(function(){
 							</select>	
 						  </div><br> 
 						  <div class="control-group">
-						  	<label>Script:</label>
 						  	<div id="editProc" class="span8" style="margin-left:0px;"></div>
 						  	<div style="margin-bottom:400px"></div>
 						  </div> 
 						  <div class="control-group">
-						      <button class="btn" type="button" onClick="editProc('<?php $host = $_GET['host']; echo $host; ?>')"><i class="icon-ok-sign"></i> Save</button>
+						      <!-- <button class="btn" type="button" onClick="editProc('<?php $host = $_GET['host']; echo $host; ?>')"><i class="icon-ok-sign"></i> Save</button> -->
 						  </div>
 						</form>
 				    </div>

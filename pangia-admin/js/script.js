@@ -98,7 +98,7 @@ function tableSub(host, obj) {
 	      var edit ='onclick="editSub(\'' + sub_child.sourcePath + '\',\'' + sub_child.destination + '\')"';
 	      var subJSON = JSON.stringify(sub_child,null,4);
 	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' + subJSON + 
-		      '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> Edit</a>' + 
+		      '<br><hr><a class="btn"' + edit + '><i class="icon-edit"></i> View</a>' + 
 		      ' <a class="btn"' + 'onclick="deleteSub(\'' + host + '\',\'' + this + '\' )"' + '><i class="icon-trash"></i> Delete</a>';
 	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Subscription ID: ' + this + '">' + this + '</a></td>' + '</tr>';
 	      
@@ -312,7 +312,7 @@ function tableProc(host, obj) {
 	      var procJSON = JSON.stringify(proc_child,null,4);
 	      var editCode ='onclick="getProc(\'' + host + '\',\'/proc/'+ this + '\',\'code\')"';
 	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' 
-	      	  + '' + procJSON.substring(0,720) + '  [...]  <br><br>Click <strong>Edit Code</strong> to modify the function'
+	      	  + '' + procJSON.substring(0,720) + '  [...]  <br><br>Click <strong>View Code</strong> to modify the function'
 		      + '<br><hr><a class="btn"' + editCode + '><i class="icon-list-alt"></i> Edit Code</a>' 
 		      + ' <a class="btn"' + 'onclick="deleteProc(\'' + host + '\',\'' + this + '\')"' + '><i class="icon-trash"></i> Delete</a>'
 	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Processing ID: ' + this + '">' + this + '</a></td>' + '</tr>';

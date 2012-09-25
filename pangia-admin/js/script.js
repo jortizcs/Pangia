@@ -205,8 +205,7 @@ function createProc(host) {
 	winsize = document.getElementById("procWin").value;
 	timeout = document.getElementById("procTime").value;
 	materialize = document.getElementById("procMaterialize").value;
-	script = document.getElementById("addProc").value;
-	
+	script = editor.getValue();
 	//if(name.length>0 && script.length>0 && timeout.length>0 && winsize.length>0){
 		var reqInput = {
 			sfs_host : host,
@@ -290,10 +289,14 @@ function editProc(obj, flag) {
 		//call beautify library
 		var prettyCode = js_beautify(temp);
 		//instantiate CodeMirror editor
-		var editorEdit = CodeMirror.fromTextArea(document.getElementById("editProc"), {
-	    	lineNumbers: true
-		});
-		editorEdit.setValue(prettyCode);
+		// var editorEdit = CodeMirror.fromTextArea(document.getElementById("editProc"), {
+	    	// lineNumbers: true
+		// });
+		// editorEdit.setValue(prettyCode);
+	    var editor = ace.edit("editProc");
+	    editor.setValue(prettyCode);
+	    editor.setTheme("ace/theme/chrome");
+	    editor.getSession().setMode("ace/mode/javascript");
 	} else {
 		//Don't use code mirror and just display raw JSON
 		var procJSON = JSON.stringify(obj,null,4);

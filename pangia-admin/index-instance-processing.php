@@ -13,13 +13,9 @@
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="less/style.css">
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
-	
-	<script src="js/libs/js-beautify/codemirror2/lib/codemirror.js"></script>
-    <script src="js/libs/js-beautify/codemirror2/mode/javascript/javascript.js"></script>
-    <link rel="stylesheet" href="js/libs/js-beautify/codemirror2/lib/codemirror.css">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-<script src="js/libs/js-beautify/beautify.js"></script>
+	<script src="js/libs/js-beautify/beautify.js"></script>
 <script src="js/libs/js-beautify/beautify.js"></script>
 <script src="js/libs/js-beautify/beautify-css.js"></script>
 <script src="js/libs/js-beautify/beautify-html.js"></script>
@@ -34,9 +30,9 @@
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 <style>
 .popover {z-index:10000000}
-.CodeMirror-scroll {
-  height: 400px;
+#addProc, #editProc {
   overflow-x: auto;
+  height: 400px;
   background:white;
 }
 </style>
@@ -47,6 +43,7 @@ $(document).ready(function(){
 	footerResp('<?php $host = $_GET['host']; echo $host; ?>');
 });
 </script>
+
 	<?php include "nav_bar.php" ?>
     <div class="container-fluid">
 	<?php include "nav_breadcrumb.php" ?>
@@ -93,7 +90,7 @@ $(document).ready(function(){
 						  </div><br> 
 						  <div class="control-group">
 						  	<label>Script:</label>
-						  	<textarea rows="14" id="addProc"></textarea><br>
+						  	<div id="addProc" class="span8" style="margin-left:0px;"></div><div style="margin-bottom:400px"></div>
 						  </div> 
 						  <div class="control-group">
 						      <button class="btn" type="button" onClick="createProc('<?php $host = $_GET['host']; echo $host; ?>')"><i class="icon-plus"></i> Add</button>
@@ -119,7 +116,8 @@ $(document).ready(function(){
 						  </div><br> 
 						  <div class="control-group">
 						  	<label>Script:</label>
-						  	<textarea rows="14" id="editProc"></textarea><br>
+						  	<div id="editProc" class="span8" style="margin-left:0px;"></div>
+						  	<div style="margin-bottom:400px"></div>
 						  </div> 
 						  <div class="control-group">
 						      <button class="btn" type="button" onClick="editProc('<?php $host = $_GET['host']; echo $host; ?>')"><i class="icon-ok-sign"></i> Save</button>
@@ -147,7 +145,12 @@ $(document).ready(function(){
 		</div> -->
     </div><!--/.fluid-container-->
 <?php include "nav_footer.php" ?>
-
+<script src="js/libs/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("addProc");
+    editor.setTheme("ace/theme/chrome");
+    editor.getSession().setMode("ace/mode/javascript");
+</script>
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 
 <script src="js/script.js"></script>

@@ -25,6 +25,13 @@ import sys
 import json
 import re
 
+def getJSONFromArg():
+	if len(sys.argv) != 2:
+		print "You must provide exactly one argument, which is your parsing JSON object."
+		return None
+
+	return sys.argv[1]
+
 def getMapFromRawJSON(rawjson):
 	m = json.loads(rawjson)['map']
 	newobj = []
@@ -66,10 +73,15 @@ def main():
 	Main.
 	'''
 
+	jsonstr = getJSONFromArg()
+	if not jsonstr:
+		return 0
+
 	#testjson = '{"map":[{"regex":"(.*),(.*)", "ts": 0, "pubid":1},{"regex":"(.*):(.*)","ts":1,"pubid":2}]}'
 	# for test-datasource.txt provided by Jorge
-	testjson = r'{"map":[{"regex":".* \\| ([0-9].*) \\| .* \\| (.*)","ts": 0, "pubid":1}]}'
-	applyParsers(testjson)
+	#testjson = r'{"map":[{"regex":".* \\| ([0-9].*) \\| .* \\| (.*)","ts": 0, "pubid":1}]}'
+
+	applyParsers(jsonstr)
 
 	return 0
 

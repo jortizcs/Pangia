@@ -228,7 +228,8 @@ if(!empty($sfs_host) && !empty($sfs_port) && !empty($method)){
 	} elseif(strcmp($method, "create_proc")==0){
 		$name = $_REQUEST["name"];
 		$script = $_REQUEST["script"];
-		$script["func"] = stripslashes(str_replace("\"","'",str_replace("\n","",$script["func"])));
+		//make sure there are no special characters in the string that is posted to streamFS
+		$script["func"] = trim(stripslashes(str_replace("\t","",str_replace("\"","'",str_replace("\n","",$script["func"])))));
 		$operation = $_REQUEST["operation"];
 		$r = array();
 		if(!empty($name) && !empty($script) && !empty($operation)){

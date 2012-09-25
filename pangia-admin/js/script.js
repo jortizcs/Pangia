@@ -205,7 +205,14 @@ function createProc(host) {
 	winsize = document.getElementById("procWin").value;
 	timeout = document.getElementById("procTime").value;
 	materialize = document.getElementById("procMaterialize").value;
-	script = editor.getValue();
+	script = editor.getValue()
+	alert(script.charAt(script.length - 1));
+	if (script.charAt(script.length - 1) == ";"){ 
+		formatedScript = script.substring(script.indexOf("function"), script.length - 1); 
+		} else { 
+		formatedScript = script.substring(script.indexOf("function"), script.length);
+	};
+	
 	//if(name.length>0 && script.length>0 && timeout.length>0 && winsize.length>0){
 		var reqInput = {
 			sfs_host : host,
@@ -217,7 +224,7 @@ function createProc(host) {
 				winsize : winsize,
 				timeout : timeout,
 				materialize : materialize,
-				func : script
+				func : formatedScript
 			}
 		};
 		jQuery.post("sfslib/php/sfs_marshaller.php", reqInput, function(data){
@@ -287,7 +294,7 @@ function editProc(obj, flag) {
 		//remove the outside "" so that code beautification works
 		var temp = procJSON.substring(1,procJSON.length -1);
 		//call beautify library
-		var prettyCode = js_beautify(temp);
+		var prettyCode = "var func = \r\n" + js_beautify(temp) +";";
 		//instantiate CodeMirror editor
 		// var editorEdit = CodeMirror.fromTextArea(document.getElementById("editProc"), {
 	    	// lineNumbers: true
@@ -298,7 +305,7 @@ function editProc(obj, flag) {
 	    editor.setTheme("ace/theme/chrome");
 	    editor.getSession().setMode("ace/mode/javascript");
 	} else {
-		//Don't use code mirror and just display raw JSON
+		//Don't use script editor and just display raw JSON
 		var procJSON = JSON.stringify(obj,null,4);
 		document.getElementById("editProc").value = procJSON;
 	}
@@ -312,8 +319,8 @@ function tableProc(host, obj) {
 	      var procJSON = JSON.stringify(proc_child,null,4);
 	      var editCode ='onclick="getProc(\'' + host + '\',\'/proc/'+ this + '\',\'code\')"';
 	      var popover_data = '<button class="close" style="margin-top:-40px" onclick="$(\'#'+this+'\').popover(\'hide\')">&times;</button>' 
-	      	  + '' + procJSON.substring(0,720) + '  [...]  <br><br>Click <strong>View Code</strong> to modify the function'
-		      + '<br><hr><a class="btn"' + editCode + '><i class="icon-list-alt"></i> Edit Code</a>' 
+	      	  + '' + procJSON.substring(0,720) + '  [...]  <br><br>Click <strong>View Code</strong> to view the function'
+		      + '<br><hr><a class="btn"' + editCode + '><i class="icon-list-alt"></i> View Code</a>' 
 		      + ' <a class="btn"' + 'onclick="deleteProc(\'' + host + '\',\'' + this + '\')"' + '><i class="icon-trash"></i> Delete</a>'
 	      var output = '<tr>' + '<td><a style="width:200px;cursor:pointer;" rel="popover" id="'+this+'" title="Processing ID: ' + this + '">' + this + '</a></td>' + '</tr>';
 	      

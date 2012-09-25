@@ -86,7 +86,9 @@ $(document).ready(function(){
 						  </div><br> 
 						  <div class="control-group">
 						  	<label>Script:</label>
-						  	<div id="addProc" class="span8" style="margin-left:0px;"></div><div style="margin-bottom:400px"></div>
+<div id="addProc" class="span8" style="margin-left:0px;">var func = function (buffer, state) {
+	
+};</div><div style="margin-bottom:400px"></div>
 						  </div> 
 						  <div class="control-group">
 						      <button class="btn" type="button" onClick="createProc('<?php $host = $_GET['host']; echo $host; ?>')"><i class="icon-plus"></i> Add</button>

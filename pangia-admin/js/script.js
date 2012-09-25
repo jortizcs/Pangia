@@ -354,7 +354,12 @@ function footerResp(host) {
 		});
 	}
 };
+function hideFooter() {
+  	$("footer").animate({height:40},200);
+  	$("#toggle i").replaceWith('<i class="icon-chevron-up"></i>');
+  };
 $(document).ready(function(){ 
+
 	$("#toggle").toggle(function(){
 	    $("#toggle i").replaceWith('<i class="icon-chevron-down"></i>');
 	    $('footer').animate({height:600},200);
@@ -365,4 +370,5 @@ $(document).ready(function(){
 	    $('footer #msgs pre').animate({height:200},200);
 	    $('footer').animate({height:245},200);
   });
+
  });

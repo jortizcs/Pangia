@@ -54,7 +54,7 @@ def matchLine(regexmap, line):
 	return None, None, None
 
 def dataToString(data):
-	str = '"data":['
+	str = '['
 
 	for (ts, v) in data:
 		str = str + '{"value":' + v + ',"ts":' + ts + '},'
@@ -85,8 +85,7 @@ def applyParsers(jsonmap):
 		pubids[pubid].append((ts, v))
 
 	for pubid in pubids:
-		print pubid
-		print dataToString(pubids[pubid])
+		print str(pubid) + "," + dataToString(pubids[pubid])
 
 def main():
 	'''

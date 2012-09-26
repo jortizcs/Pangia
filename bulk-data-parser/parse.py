@@ -49,9 +49,19 @@ def matchLine(regexmap, line):
 			# Return a tuple of the pair, the timestamp, and the value.
 			# Note that the 'ts' property of the pair specifies which grouping in the
 			# match is the timestamp.
-			return p, m.groups()[p['ts']], m.groups()[1 - p['ts']]
+			return p['pubid'], m.groups()[p['ts']], m.groups()[1 - p['ts']]
 
 	return None, None, None
+
+def dataToString(data):
+	str = '"data":['
+
+	for (ts, v) in data:
+		str = str + '{"value":' + v + ',"ts":' + ts + '},'
+
+	str = str.rstrip(',') + ']'
+
+	return str
 
 def applyParsers(jsonmap):
 	# Generate map of regexes
@@ -59,14 +69,24 @@ def applyParsers(jsonmap):
 	#	For each regex:
 	#		If regex matches, publish timestamp,value pair and break
 	regexmap = getMapFromRawJSON(jsonmap)
+	pubids = {}
 
 	line = sys.stdin.readline()
 	while line:
-		p,ts,v = matchLine(regexmap, line)
-		if ts:
-			# TODO publish to pubid here
-			print "timestamp: " + ts + ", value: " + v
+		pubid,ts,v = matchLine(regexmap, line)
 		line = sys.stdin.readline()
+
+		if not ts:
+			continue
+
+		if not (pubid in pubids):
+			pubids[pubid] = []
+
+		pubids[pubid].append((ts, v))
+
+	for pubid in pubids:
+		print pubid
+		print dataToString(pubids[pubid])
 
 def main():
 	'''

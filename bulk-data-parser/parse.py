@@ -99,6 +99,7 @@ def main():
 	#testjson = '{"map":[{"regex":"(.*),(.*)", "ts": 0, "pubid":1},{"regex":"(.*):(.*)","ts":1,"pubid":2}]}'
 	# for test-datasource.txt provided by Jorge
 	#testjson = r'{"map":[{"regex":".* \\| ([0-9].*) \\| .* \\| (.*)","ts": 0, "pubid":1}]}'
+	#jsonstr = testjson
 
 	applyParsers(jsonstr)
 

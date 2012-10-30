@@ -19,5 +19,6 @@ npm-debug.log
 
 .project
 
-/bulk-data-parser/re2
+/bulk-data-parser/re2-source
 /bulk-data-parser/re2-20121029.tgz
+/bulk-data-parser/parse

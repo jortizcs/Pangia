@@ -126,9 +126,8 @@ int main(int argc, const char *argv[]) {
 
     //testjson = '{"map":[{"regex":"(.*),(.*)", "ts": 0, "pubid":1},{"regex":"(.*):(.*)","ts":1,"pubid":2}]}'
     // for test-datasource.txt provided by Jorge
-    string testjson("{\"map\":[{\"regex\":\".* \\\\| ([0-9].*) \\\\| .* \\\\| (.*)\",\"ts\": 0, \"pubid\":1}]}");
-    //testjson = r'{"map":[{"regex":".* \\| ([0-9].*) \\| .* \\| (.*)","ts": 0, "pubid":1}]}'
-    jsonstr = testjson;
+    //tring testjson("{\"map\":[{\"regex\":\".* \\\\| ([0-9].*) \\\\| .* \\\\| (.*)\",\"ts\": 0, \"pubid\":1}]}");
+    //jsonstr = testjson;
 
     applyParsers(jsonstr);
 

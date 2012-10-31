@@ -57,7 +57,7 @@ def dataToString(data):
 	str = '['
 
 	for (ts, v) in data:
-		str = str + '{"value":' + v + ',"ts":' + ts + '},'
+		str = str + '{"value":"' + v + '","ts":"' + ts + '"},'
 
 	str = str.rstrip(',') + ']'
 

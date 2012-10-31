@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 
-#include <stdlib.h>
-
 #include "json_spirit/json_spirit.h"
 #include "re2/re2.h"
 
@@ -43,10 +41,43 @@ void getMapFromRawJSON(string& rawjson, vector<re2::RE2*>& regexv,
 bool matchLine(string& line,
                vector<re2::RE2*>& regexv, vector<int>& tsv, vector<int>& pubidv,
                int& pubid, string& ts, string& v) {
-    //cout << "matching line!" << endl;
     for (int i = 0; i < regexv.size(); i++) {
+        re2::RE2& re = (*regexv[i]);
+        string m1, m2;
+
+        if (!RE2::PartialMatch(line, re, &m1, &m2)) {
+            continue;
+        }
+
+        if (tsv[i] == 0) {
+            ts = m1;
+            v = m2;
+        } else {
+            ts = m2;
+            v = m1;
+        }
+
+        pubid = pubidv[i];
+
+        return true;
     }
     return false;
+}
+
+string dataToString(vector<pair<string, string> >& data) {
+    string outstr = "[";
+
+    for (vector<pair<string, string> >::iterator it = data.begin();
+         it != data.end(); it++) {
+        string ts = (*it).first;
+        string v = (*it).second;
+
+        outstr = outstr + "{\"value\":\"" + v + "\",\"ts\":\"" + ts + "\"},";
+    }
+
+    outstr = outstr.substr(0, outstr.size() - 1) + "]";
+
+    return outstr;
 }
 
 void applyParsers(string& jsonmap) {
@@ -69,14 +100,23 @@ void applyParsers(string& jsonmap) {
     string value;
     string line;
 
+    map<int, vector<pair<string, string> > > pubids;
+
     getline(cin, line);
     while(!cin.eof()) {
-        matchLine(line, regexv, tsv, pubidv, pubid, ts, value);
+        if (matchLine(line, regexv, tsv, pubidv, pubid, ts, value)) {
+            pubids[pubid].push_back(pair<string, string>(ts, value));
+        }
 
         getline(cin, line);
     }
 
     freeREVector(regexv);
+
+    for (map<int, vector<pair<string, string> > >::iterator it = pubids.begin();
+         it != pubids.end(); it++) {
+        cout << (*it).first << "," << dataToString((*it).second);
+    }
 }
 
 int main(int argc, const char *argv[]) {

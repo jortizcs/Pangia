@@ -125,7 +125,7 @@ function createSub(host){
 			var dataJson = JSON.parse(data);
 			if(dataJson.status == "success"){
 				alert("Subscription created!");
-				//location.reload();
+				location.reload();
 				//parent.reload();
 				//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
 				//alert('it worked dude');
@@ -265,7 +265,7 @@ function deleteProc(host, name){
 			var dataJson = JSON.parse(data);
 			if(dataJson.status == "success"){
 				//alert("Processing Element deleted!");
-				location.reload();
+				location.reload(true);
 				//var alert = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>it worked</strong>        </div>';
 				//$('body').append(alert);
 			} else {

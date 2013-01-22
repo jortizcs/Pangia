@@ -6834,6 +6834,10 @@ a.badge:hover {
 .affix {
   position: fixed;
 }
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
 /*!
  * Bootstrap Responsive v2.1.0
  *
@@ -8588,10 +8592,6 @@ a.badge:hover {
     height: auto !important;
     overflow: visible !important;
   }
-}
-body {
-  padding-top: 60px;
-  padding-bottom: 40px;
 }
 /* ===== Primary Styles ========================================================
    Author: Michael Heinrich

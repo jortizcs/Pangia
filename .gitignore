@@ -6,6 +6,9 @@ lib-cov
 *.out
 *.pid
 *.gz
+.DS_Store
+__pycache__
+*.pyc
 
 pids
 logs

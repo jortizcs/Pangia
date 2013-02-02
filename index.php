@@ -14,16 +14,16 @@
 	<!-- end: Mobile Specific -->
 	
 	<!-- start: CSS -->
-	<link id="bootstrap-style" href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/bootstrap-responsive.css" rel="stylesheet">
-	<link id="base-style" href="css/style.css" rel="stylesheet">
-	<link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
+	<link id="bootstrap-style" href="lib/css/bootstrap.css" rel="stylesheet">
+	<link href="lib/css/bootstrap-responsive.css" rel="stylesheet">
+	<link id="base-style" href="lib/css/style.css" rel="stylesheet">
+	<link id="base-style-responsive" href="lib/css/style-responsive.css" rel="stylesheet">
 	
 	<!--[if lt IE 7 ]>
-	<link id="ie-style" href="css/style-ie.css" rel="stylesheet">
+	<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
 	<![endif]-->
 	<!--[if IE 8 ]>
-	<link id="ie-style" href="css/style-ie.css" rel="stylesheet">
+	<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
 	<![endif]-->
 	<!--[if IE 9 ]>
 	<![endif]-->
@@ -37,11 +37,11 @@
 	<![endif]-->
 
 	<!-- start: Favicon -->
-	<link rel="shortcut icon" href="img/favicon.ico">
+	<link rel="shortcut icon" href="lib/img/favicon.ico">
 	<!-- end: Favicon -->
 	
 			<style type="text/css">
-			body { background: url(img/bg-login.jpg) !important; }
+			body { background: url(lib/img/bg-login.jpg) !important; }
 		</style>
 		
 		
@@ -95,50 +95,50 @@
 
 	<!-- start: JavaScript-->
 
-		<script src="js/jquery-1.7.2.min.js"></script>
-	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+		<script src="lib/js/jquery-1.7.2.min.js"></script>
+	<script src="lib/js/jquery-ui-1.8.21.custom.min.js"></script>
 	
-		<script src="js/bootstrap.js"></script>
+		<script src="lib/js/bootstrap.js"></script>
 	
-		<script src="js/jquery.cookie.js"></script>
+		<script src="lib/js/jquery.cookie.js"></script>
 	
-		<script src='js/fullcalendar.min.js'></script>
+		<script src='lib/js/fullcalendar.min.js'></script>
 	
-		<script src='js/jquery.dataTables.min.js'></script>
+		<script src='lib/js/jquery.dataTables.min.js'></script>
 
-		<script src="js/excanvas.js"></script>
-	<script src="js/jquery.flot.min.js"></script>
-	<script src="js/jquery.flot.pie.min.js"></script>
-	<script src="js/jquery.flot.stack.js"></script>
-	<script src="js/jquery.flot.resize.min.js"></script>
+		<script src="lib/js/excanvas.js"></script>
+	<script src="lib/js/jquery.flot.min.js"></script>
+	<script src="lib/js/jquery.flot.pie.min.js"></script>
+	<script src="lib/js/jquery.flot.stack.js"></script>
+	<script src="lib/js/jquery.flot.resize.min.js"></script>
 	
-		<script src="js/jquery.chosen.min.js"></script>
+		<script src="lib/js/jquery.chosen.min.js"></script>
 	
-		<script src="js/jquery.uniform.min.js"></script>
+		<script src="lib/js/jquery.uniform.min.js"></script>
 		
-		<script src="js/jquery.cleditor.min.js"></script>
+		<script src="lib/js/jquery.cleditor.min.js"></script>
 	
-		<script src="js/jquery.noty.js"></script>
+		<script src="lib/js/jquery.noty.js"></script>
 	
-		<script src="js/jquery.elfinder.min.js"></script>
+		<script src="lib/js/jquery.elfinder.min.js"></script>
 	
-		<script src="js/jquery.raty.min.js"></script>
+		<script src="lib/js/jquery.raty.min.js"></script>
 	
-		<script src="js/jquery.iphone.toggle.js"></script>
+		<script src="lib/js/jquery.iphone.toggle.js"></script>
 	
-		<script src="js/jquery.uploadify-3.1.min.js"></script>
+		<script src="lib/js/jquery.uploadify-3.1.min.js"></script>
 	
-		<script src="js/jquery.gritter.min.js"></script>
+		<script src="lib/js/jquery.gritter.min.js"></script>
 	
-		<script src="js/jquery.imagesloaded.js"></script>
+		<script src="lib/js/jquery.imagesloaded.js"></script>
 	
-		<script src="js/jquery.masonry.min.js"></script>
+		<script src="lib/js/jquery.masonry.min.js"></script>
 	
-		<script src="js/jquery.knob.js"></script>
+		<script src="lib/js/jquery.knob.js"></script>
 	
-		<script src="js/jquery.sparkline.min.js"></script>
+		<script src="lib/js/jquery.sparkline.min.js"></script>
 
-		<script src="js/custom.js"></script>
+		<script src="lib/js/custom.js"></script>
 		<!-- end: JavaScript-->
 	
 </body>

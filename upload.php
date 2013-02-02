@@ -14,11 +14,12 @@
 	<!-- end: Mobile Specific -->
 	
 	<!-- start: CSS -->
+	<link rel="stylesheet" type="text/css" href="lib/fineuploader_3.2/fineuploader-3.2.css">
 	<link id="bootstrap-style" href="lib/css/bootstrap.css" rel="stylesheet">
 	<link href="lib/css/bootstrap-responsive.css" rel="stylesheet">
 	<link id="base-style" href="lib/css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="lib/css/style-responsive.css" rel="stylesheet">
-	<!-- <link rel="stylesheet" type="text/css" href="lib/css/uploadify.css"> -->
+
 	
 	
 	<!--[if lt IE 7 ]>
@@ -41,8 +42,29 @@
 	<!-- start: Favicon -->
 	<link rel="shortcut icon" href="lib/img/favicon.ico">
 	<!-- end: Favicon -->
-	
-		
+	<style>
+      /* Fine Uploader
+      -------------------------------------------------- */
+      .qq-upload-list {
+        text-align: left;
+      }
+ 
+      /* For bootstrap */
+      li.alert-success {
+        background-color: #DFF0D8;
+      }
+ 
+      li.alert-error {
+        background-color: #F2DEDE;
+      }
+ 
+      .alert-error .qq-upload-failed-text {
+        display: inline;
+      }
+      .qq-upload-button {
+      	
+      }
+    </style>	
 		
 		
 </head>
@@ -184,26 +206,26 @@
 								
 							  </div>
 							</div>
-							<div class="control-group">
+							<!-- <div class="control-group">
 							  <label class="control-label" for="typeahead">Tags </label>
 							  <div class="controls">
 								<input type="text" class="span6 typeahead" id="typeahead"  data-provide="typeahead" data-items="4" data-source='["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
 								
 							  </div>
-							</div>
+							</div> -->
 							
 
 							<div class="control-group">
 							  <label class="control-label" for="fileInput">File input</label>
 							  <div class="controls">
-								<input class="input-file uniform_on" name="fileInput" id="fileInput" type="file">
+								<div id="bootstrapped-fine-uploader"></div>
 							  </div>
 							</div>          
 							
 							<div class="form-actions">
-							  <button class="btn btn-primary noty" data-noty-options='{"text":"File was successfully uploaded. You will receive an email as soon as it is done processing. You can also check the status from the dashboard","layout":"top","type":"information"}'>Start Processing</button>
+							  <a id="triggerUpload" class="btn btn-large btn-primary">Start Processing</a>
 							 
-							  <button type="reset" class="btn">Cancel</button>
+							  <!-- <button type="reset" class="btn">Cancel</button> -->
 							</div>
 						  </fieldset>
 						</form>   
@@ -265,32 +287,18 @@
 	<script src="lib/js/jquery.flot.resize.min.js"></script>
 	
 		<script src="lib/js/jquery.chosen.min.js"></script>
-	
 		<script src="lib/js/jquery.uniform.min.js"></script>
-		
 		<script src="lib/js/jquery.cleditor.min.js"></script>
-	
 		<script src="lib/js/jquery.noty.js"></script>
-	
-		<script src="lib/js/jquery.elfinder.min.js"></script>
-	
 		<script src="lib/js/jquery.raty.min.js"></script>
-	
 		<script src="lib/js/jquery.iphone.toggle.js"></script>
-	
-		<script src="lib/js/jquery.uploadify.min.js"></script>
-	
 		<script src="lib/js/jquery.gritter.min.js"></script>
-	
 		<script src="lib/js/jquery.imagesloaded.js"></script>
-	
 		<script src="lib/js/jquery.masonry.min.js"></script>
-	
 		<script src="lib/js/jquery.knob.js"></script>
-	
 		<script src="lib/js/jquery.sparkline.min.js"></script>
-
 		<script src="lib/js/custom.js"></script>
+		
 
 	<script type="text/javascript">	
 	function message_welcome1(){
@@ -316,16 +324,60 @@
 		
 	});			
 	</script>
-	<script type="text/javascript">
-	$(function() {
-    $('#fileInput').uploadify({
-        'swf'      : 'lib/uploadify/uploadify.swf',
-        'uploader' : 'lib/uploadify/uploadify.php',
-        'checkScript'  : 'lib/uploadify/check-exists.php'
-        // Put your options here
-	    });
-	});
-	</script>
+    <script src="lib/fineuploader_3.2/jquery.fineuploader-3.2.min.js"></script>
+    <script>
+function createUploader() {
+        var uploader = new qq.FineUploader({
+      element: document.getElementById('bootstrapped-fine-uploader'),
+      request: {
+        endpoint: 'server/php/uploader.php'
+      },
+      chunking: {
+      	enabled: true
+	   },
+	   resume: {
+	   	enabled: true
+	   },
+	  //don't allow multiple file uploads
+	  multiple: false,
+	  //only allow files of specific type
+      validation: {
+        allowedExtensions: ['csv', 'txt'],
+      },
+      autoUpload: false,
+      text: {
+            uploadButton: '<i class="icon-upload"></i> Select File'
+          },
+          template: '<div class="row-fluid"><div class="qq-uploader span6">' +
+                      '<pre class="qq-upload-drop-area span6"><span>{dragZoneText}</span></pre>' +
+                      '<div class="qq-upload-button btn" style="width: auto;">{uploadButtonText}</div>' +
+                      '<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+                      '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul>' +
+                    '</div></div>',
+      classes: {
+            success: 'alert alert-success',
+            fail: 'alert alert-error',
+            info: 'alert alert-info'
+          },
+      showMessage: function(message) {
+        // Using Twitter Bootstrap's classes and jQuery selector and method
+        $('#bootstrapped-fine-uploader').append('<div class="row-fluid"><div class="alert alert-error span6">' + message + '</div><div class="span6">&nbsp;</div></div>');
+      },
+      failedUploadTextDisplay: {
+        mode: 'custom',
+        maxChars: 140,
+        responseProperty: 'error',
+        enableTooltip: true
+      },
+      debug: true
+    });
+        
+    $('#triggerUpload').click(function() {
+      uploader.uploadStoredFiles();
+    });
+ };
+ window.onload = createUploader;
+    </script>
 		<!-- end: JavaScript-->
 	
 </body>

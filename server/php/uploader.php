@@ -32,7 +32,7 @@ $uploader = new qqFileUploader();
 $uploader->allowedExtensions = array();
 
 // Specify max file size in bytes.
-$uploader->sizeLimit = 10 * 1024 * 1024;
+//$uploader->sizeLimit = 10 * 1024 * 1024;
 
 // Specify the input name set in the javascript.
 $uploader->inputName = 'qqfile';
@@ -44,7 +44,7 @@ $uploader->chunksFolder = 'chunks';
 $result = $uploader->handleUpload('uploads');
 
 // To save the upload with a specified name, set the second parameter.
-// $result = $uploader->handleUpload('uploads/', md5(mt_rand()).'_'.$uploader->getName());
+//$result = $uploader->handleUpload('uploads/', md5(mt_rand()).'_'.$uploader->getName());
 
 // To return a name used for uploaded file you can use the following line.
 $result['uploadName'] = $uploader->getUploadName();

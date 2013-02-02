@@ -65,6 +65,7 @@
     font-size: 14px;
     background-color: #EEEEEE;
     border: 1px #adadad solid;
+    text-align:left;
 }
 .qq-upload-file, .qq-upload-spinner, .qq-upload-size, .qq-upload-cancel, .qq-upload-retry, .qq-upload-failed-text, .qq-upload-finished {
     margin-right: 12px;

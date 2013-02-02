@@ -249,7 +249,7 @@
 						  </thead>   
 						  <tbody>
 							<tr>
-								<td>aUTokyo CS Building</td>
+								<td>UTokyo CS Building</td>
 								<td class="center">2012/01/01</td>
 								<td class="center"><span class="label label-important">High</span></td>
 								<td class="center">5</td>
@@ -261,13 +261,11 @@
 									<a class="btn btn-info" href="#">
 										<i class="icon-edit icon-white"></i>  
 									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-									</a>
 								</td>
 							</tr>
+							
 							<tr>
-								<td>Temp</td>
+								<td>UC Berkeley</td>
 								<td class="center">2012/01/01</td>
 								<td class="center"><span class="label label-warning">Medium</span></td>
 								<td>4</td>
@@ -279,67 +277,12 @@
 									<a class="btn btn-info" href="#">
 										<i class="icon-edit icon-white"></i>  
 									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-									</a>
 								</td>
 							</tr>
-							<tr>
-								<td>Temp</td>
-								<td class="center">2012/01/01</td>
-								<td class="center"><span class="label">Low</span></td>
-								<td>3</td>
-								<td class="center">Temp</td>
-								<td class="center">
-									<a class="btn btn-success" href="chart.php">
-										<i class="icon-zoom-in icon-white"></i>  
-									</a>
-									<a class="btn btn-info" href="#">
-										<i class="icon-edit icon-white"></i>  
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>Temp</td>
-								<td class="center">2012/01/01</td>
-								<td class="center"><span class="label">Low</span></td>
-								<td>3</td>
-								<td class="center">Temp</td>
-								<td class="center">
-									<a class="btn btn-success" href="chart.php">
-										<i class="icon-zoom-in icon-white"></i>  
-									</a>
-									<a class="btn btn-info" href="#">
-										<i class="icon-edit icon-white"></i>  
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>Temp</td>
-								<td class="center">2012/01/01</td>
-								<td class="center"><span class="label">Low</span></td>
-								<td>3</td>
-								<td class="center">Temp</td>
-								<td class="center">
-									<a class="btn btn-success" href="chart.php">
-										<i class="icon-zoom-in icon-white"></i>  
-									</a>
-									<a class="btn btn-info" href="#">
-										<i class="icon-edit icon-white"></i>  
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-									</a>
-								</td>
-							</tr>																					
+										
 						</tbody>
 					</table>
+					
 				</div>
 				</div> 
 			

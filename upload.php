@@ -276,7 +276,7 @@
 	
 		<script src="lib/js/jquery.iphone.toggle.js"></script>
 	
-		<script src="lib/js/jquery.uploadify-3.1.min.js"></script>
+		<script src="lib/js/jquery.uploadify.min.js"></script>
 	
 		<script src="lib/js/jquery.gritter.min.js"></script>
 	

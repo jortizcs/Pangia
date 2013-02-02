@@ -18,6 +18,8 @@
 	<link href="lib/css/bootstrap-responsive.css" rel="stylesheet">
 	<link id="base-style" href="lib/css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="lib/css/style-responsive.css" rel="stylesheet">
+	<!-- <link rel="stylesheet" type="text/css" href="lib/css/uploadify.css"> -->
+	
 	
 	<!--[if lt IE 7 ]>
 	<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
@@ -194,7 +196,7 @@
 							<div class="control-group">
 							  <label class="control-label" for="fileInput">File input</label>
 							  <div class="controls">
-								<input class="input-file uniform_on" id="fileInput" type="file">
+								<input class="input-file uniform_on" name="fileInput" id="fileInput" type="file">
 							  </div>
 							</div>          
 							
@@ -289,8 +291,8 @@
 		<script src="lib/js/jquery.sparkline.min.js"></script>
 
 		<script src="lib/js/custom.js"></script>
-				<script type="text/javascript">
-	
+
+	<script type="text/javascript">	
 	function message_welcome1(){
 		var unique_id = $.gritter.add({
 			// (string | mandatory) the heading of the notification
@@ -313,6 +315,16 @@
 		setTimeout("message_welcome1()",2000);
 		
 	});			
+	</script>
+	<script type="text/javascript">
+	$(function() {
+    $('#fileInput').uploadify({
+        'swf'      : 'lib/uploadify/uploadify.swf',
+        'uploader' : 'lib/uploadify/uploadify.php',
+        'checkScript'  : 'lib/uploadify/check-exists.php'
+        // Put your options here
+	    });
+	});
 	</script>
 		<!-- end: JavaScript-->
 	

@@ -55,11 +55,11 @@
 			<div class="row-fluid">
 				<div class="login-box">
 					<div class="icons">
-						<a href="dashboard.html"><i class="icon-home"></i></a>
+						<a href="dashboard.php"><i class="icon-home"></i></a>
 						<a href="#"><i class="icon-cog"></i></a>
 					</div>
 					<h2>Login to your account</h2>
-					<form class="form-horizontal" action="form.html" method="post">
+					<form class="form-horizontal" action="upload.php" method="post">
 						<fieldset>
 							
 							<div class="input-prepend" title="Username">

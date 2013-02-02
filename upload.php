@@ -65,7 +65,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span class="hidden-phone">PANGIA</span></a>
+				<a class="brand" href="index.php"><span class="hidden-phone">PANGIA</span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -132,8 +132,8 @@
 			<div class="span2 main-menu-span">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="dashboard.html"><i class="icon-home icon-white"></i><span class="hidden-tablet"> Dashboard</span></a></li>
-						<li><a href="form.html"><i class="icon-edit icon-white"></i><span class="hidden-tablet"> New Report</span></a></li>
+						<li><a href="dashboard.php"><i class="icon-home icon-white"></i><span class="hidden-tablet"> Dashboard</span></a></li>
+						<li><a href="upload.php"><i class="icon-edit icon-white"></i><span class="hidden-tablet"> New Report</span></a></li>
 					</ul>
 				</div><!--/.well -->
 			</div><!--/span-->
@@ -153,7 +153,7 @@
 				<hr>
 				<ul class="breadcrumb">
 					<li>
-						<a href="dashboard.html">Home</a> <span class="divider">/</span>
+						<a href="dashboard.php">Home</a> <span class="divider">/</span>
 					</li>
 					<li>
 						<a href="#">New Report</a>

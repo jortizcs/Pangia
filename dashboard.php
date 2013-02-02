@@ -65,7 +65,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span class="hidden-phone">PANGIA</span></a>
+				<a class="brand" href="index.php"><span class="hidden-phone">PANGIA</span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -132,8 +132,8 @@
 			<div class="span2 main-menu-span">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="index2.html"><i class="icon-home icon-white"></i><span class="hidden-tablet"> Dashboard</span></a></li>
-						<li><a href="form.html"><i class="icon-edit icon-white"></i><span class="hidden-tablet"> New Report</span></a></li>
+						<li><a href="dashboard.php"><i class="icon-home icon-white"></i><span class="hidden-tablet"> Dashboard</span></a></li>
+						<li><a href="upload.php"><i class="icon-edit icon-white"></i><span class="hidden-tablet"> New Report</span></a></li>
 					</ul>
 				</div><!--/.well -->
 			</div><!--/span-->
@@ -255,7 +255,7 @@
 								<td class="center">5</td>
 								<td class="center">Utokyo</td>
 								<td class="center">
-									<a class="btn btn-success" href="chart.html">
+									<a class="btn btn-success" href="chart.php">
 										<i class="icon-zoom-in icon-white"></i>  
 									</a>
 									<a class="btn btn-info" href="#">
@@ -273,7 +273,7 @@
 								<td>4</td>
 								<td class="center">Temp</td>
 								<td class="center">
-									<a class="btn btn-success" href="chart.html">
+									<a class="btn btn-success" href="chart.php">
 										<i class="icon-zoom-in icon-white"></i>  
 									</a>
 									<a class="btn btn-info" href="#">
@@ -291,7 +291,7 @@
 								<td>3</td>
 								<td class="center">Temp</td>
 								<td class="center">
-									<a class="btn btn-success" href="chart.html">
+									<a class="btn btn-success" href="chart.php">
 										<i class="icon-zoom-in icon-white"></i>  
 									</a>
 									<a class="btn btn-info" href="#">
@@ -309,7 +309,7 @@
 								<td>3</td>
 								<td class="center">Temp</td>
 								<td class="center">
-									<a class="btn btn-success" href="chart.html">
+									<a class="btn btn-success" href="chart.php">
 										<i class="icon-zoom-in icon-white"></i>  
 									</a>
 									<a class="btn btn-info" href="#">
@@ -327,7 +327,7 @@
 								<td>3</td>
 								<td class="center">Temp</td>
 								<td class="center">
-									<a class="btn btn-success" href="chart.html">
+									<a class="btn btn-success" href="chart.php">
 										<i class="icon-zoom-in icon-white"></i>  
 									</a>
 									<a class="btn btn-info" href="#">

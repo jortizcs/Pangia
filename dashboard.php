@@ -39,11 +39,26 @@
 	<!-- start: Favicon -->
 	<link rel="shortcut icon" href="lib/img/favicon.ico">
 	<!-- end: Favicon -->
-	
-		
-		
-		
+			
 </head>
+<?php 
+	//Getting user name
+	global $user; 
+	$user = $_POST['username'];
+	$pass = $_POST['password'];
+	
+	//Setting up PDO connection
+	// try {
+    // $dbh = new PDO('mysql:host=localhost;dbname=pangia', $user, $pass);
+    // foreach($dbh->query('SELECT * from Pangia') as $row) {
+        // print_r($row);
+    // }
+    // $dbh = null;
+	// } catch (PDOException $e) {
+	    // print "Error!: " . $e->getMessage() . "<br/>";
+	    // die();
+	// }
+?>
 
 <body>
 		<div id="overlay">
@@ -149,90 +164,27 @@
 			<div id="content" class="span10">
 			<!-- start: Content -->
 			
-			<div>
+			<!-- <div>
 				<hr>
 				<ul class="breadcrumb">
 					<li>
-						<a href="#">Home</a> <span class="divider">/</span>
+						<a href="#">Home</a> <!-- <span class="divider">/</span> 
 					</li>
 					<li>
 						<a href="#">Dashboard</a>
 					</li>
 				</ul>
 				<hr>
-			</div>
+			</div> -->
 			
-<!-- 			<div class="row-fluid">
-				
-				
-				<div class="circleStats">
-                    
-					<div class="span2" onTablet="span4" onDesktop="span2">
-                    	<div class="circleStatsItem red">
-							<i class="fa-icon-thumbs-up"></i>
-							<span class="plus">+</span>
-							<span class="percent">%</span>
-                        	<input type="text" value="58" class="orangeCircle" />
-                    	</div>
-						<div class="box-small-title">User satisfaction</div>
-					</div>
-					<div class="span2" onTablet="span4" onDesktop="span2">
-                    	<div class="circleStatsItem blue">
-                        	<i class="fa-icon-bullhorn"></i>
-							<span class="plus">+</span>
-							<span class="percent">%</span>
-                        	<input type="text" value="8" class="blueCircle" />
-                    	</div>
-						<div class="box-small-title">Popularity</div>
-					</div>
-					<div class="span2" onTablet="span4" onDesktop="span2">
-						<div class="circleStatsItem yellow">
-                        	<i class="fa-icon-user"></i>
-							<span class="plus">+</span>
-							<span class="percent">%</span>
-                        	<input type="text" value="12" class="yellowCircle" />
-                    	</div>
-						<div class="box-small-title">New users</div>
-					</div>
-					<div class="noMargin span2" onTablet="span4" onDesktop="span2">
-						<div class="circleStatsItem pink">
-                        	<i class="fa-icon-globe"></i>
-							<span class="plus">+</span>
-							<span class="percent">%</span>
-                        	<input type="text" value="23" class="pinkCircle" />
-                    	</div>
-						<div class="box-small-title">Visits</div>
-					</div>
-					<div class="span2" onTablet="span4" onDesktop="span2">
-                    	<div class="circleStatsItem green">
-                        	<i class="fa-icon-bar-chart"></i>
-							<span class="plus">+</span>
-							<span class="percent">%</span>
-                        	<input type="text" value="34" class="greenCircle" />
-                    	</div>
-						<div class="box-small-title">Income</div>
-					</div>
-					<div class="span2" onTablet="span4" onDesktop="span2">
-						<div class="circleStatsItem lightorange">
-                        	<i class="fa-icon-shopping-cart"></i>
-							<span class="plus">+</span>
-							<span class="percent">%</span>
-                        	<input type="text" value="42" class="lightOrangeCircle" />
-                    	</div>
-						<div class="box-small-title">Sales</div>
-					</div>
-
-                </div>
-			
-			</div>-->
 			<div class="row-fluid sortable">		
-				<div class="box span12">
+				<div class="box span9">
 					<div class="box-header" data-original-title>
 						<h2><i class="icon-tasks"></i><span class="break"></span>Finished Reports</h2>
 						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+							<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->
 							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+							<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->
 						</div>
 					</div>
 					<div class="box-content">
@@ -284,17 +236,15 @@
 					</table>
 					
 				</div>
-				</div> 
-			
-			<div class="row-fluid">
 				
-			<div class="box span4" onTablet="span6" onDesktop="span4">
+				</div><!-- end box --> 
+				<div class="box span3">
 					<div class="box-header">
 						<h2><i class="icon-tasks"></i><span class="break"></span>Reports in Progress</h2>
 						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+							<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->
 							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+							<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->
 						</div>
 					</div>
 					<div class="box-content">
@@ -316,6 +266,9 @@
 						</div>
 					</div>
 				</div>
+			<div class="row-fluid">
+				
+
 				
 			</div>
 			

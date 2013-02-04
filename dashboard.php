@@ -250,19 +250,7 @@
 					<div class="box-content">
 						<div class="progressBarValue">
 							<span>Soda Hall</span> <span class="progressCustomValueVal">20</span>
-							<div class="progressSlim progressCustomValue progressRed"></div>
-						</div>
-						<div class="progressBarValue">
-							<span>Knight Management Center</span> <span class="progressCustomValueVal">40</span>
-							<div class="progressSlim progressCustomValue progressOrange"></div>
-						</div>
-						<div class="progressBarValue">
-							<span>Cory Hall</span> <span class="progressCustomValueVal">60</span>
-							<div class="progressSlim progressCustomValue progressYellow"></div>
-						</div>
-						<div class="progressBarValue">
-							<span>Gates Building</span> <span class="progressCustomValueVal">80</span>
-							<div class="progressSlim progressCustomValue progressGreen"></div>
+							<div class="progressSlim progressCustomValue progress"></div>
 						</div>
 					</div>
 				</div>

@@ -191,9 +191,9 @@
 					<div class="box-header" data-original-title>
 						<h2><i class="icon-edit"></i><span class="break"></span>Generate New Anomaly Report</h2>
 						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+							<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
 							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+							<a href="#" class="btn-close"><i class="icon-remove"></i></a> -->
 						</div>
 					</div>
 					<div class="box-content">

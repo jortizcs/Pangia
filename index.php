@@ -55,22 +55,23 @@
 			<div class="row-fluid">
 				<div class="login-box">
 					<div class="icons">
-						<a href="dashboard.php"><i class="icon-home"></i></a>
-						<a href="#"><i class="icon-cog"></i></a>
+						<!-- <a href="dashboard.php"><i class="icon-home"></i></a>
+						<a href="#"><i class="icon-cog"></i></a> -->
+						<img src="lib/img/logo.png" align="left" style="padding:10px 0 20px 10px;"/><br>					
 					</div>
-					<h2>Login to your account</h2>
-					<form class="form-horizontal" action="upload.php" method="post">
+					<!-- <h2>Login</h2> -->
+					<form class="form-horizontal" action="dashboard.php" method="post">
 						<fieldset>
 							
 							<div class="input-prepend" title="Username">
 								<span class="add-on"><i class="icon-user"></i></span>
-								<input class="input-large span10" name="username" id="username" type="text" placeholder="type username"/>
+								<input class="input-large span10" name="username" id="username" type="text" placeholder="type username" value="root"/>
 							</div>
 							<div class="clearfix"></div>
 
 							<div class="input-prepend" title="Password">
 								<span class="add-on"><i class="icon-lock"></i></span>
-								<input class="input-large span10" name="password" id="password" type="password" placeholder="type password"/>
+								<input class="input-large span10" name="password" id="password" type="password" placeholder="password" value="temp123"/>
 							</div>
 							<div class="clearfix"></div>
 							
@@ -140,6 +141,5 @@
 
 		<script src="lib/js/custom.js"></script>
 		<!-- end: JavaScript-->
-	
 </body>
 </html>

@@ -41,24 +41,7 @@
 	<!-- end: Favicon -->
 			
 </head>
-<?php 
-	//Getting user name
-	global $user; 
-	$user = $_POST['username'];
-	$pass = $_POST['password'];
-	
-	//Setting up PDO connection
-	// try {
-    // $dbh = new PDO('mysql:host=localhost;dbname=pangia', $user, $pass);
-    // foreach($dbh->query('SELECT * from Pangia') as $row) {
-        // print_r($row);
-    // }
-    // $dbh = null;
-	// } catch (PDOException $e) {
-	    // print "Error!: " . $e->getMessage() . "<br/>";
-	    // die();
-	// }
-?>
+
 
 <body>
 		<div id="overlay">

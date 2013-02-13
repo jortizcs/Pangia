@@ -71,7 +71,7 @@
 
 							<div class="input-prepend" title="Password">
 								<span class="add-on"><i class="icon-lock"></i></span>
-								<input class="input-large span10" name="password" id="password" type="password" placeholder="password" value="temp123"/>
+								<input class="input-large span10" name="password" id="password" type="password" placeholder="password" value="root"/>
 							</div>
 							<div class="clearfix"></div>
 							

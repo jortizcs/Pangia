@@ -2,7 +2,7 @@
 Reads a text file containing data in the form, "timestamp value",
 and copy the data to opentsdb using the given metric and tags.
 
-usage example: python2 txt2otsdb.py pangia-todai 8080  kwh "bldg=EngBldg2 customer=todai device=EHP" EngBldg2/http__fiap-gw.gutp.ic.i.u-tokyo.ac.jp_EngBldg2_10F_EHP_*.dat
+usage example: python2 txt2otsdb.py pangia-todai 8080  sbs.test.0 "" EngBldg2/http__fiap-gw.gutp.ic.i.u-tokyo.ac.jp_EngBldg2_10F_EHP_*.dat
 """
 
 import os

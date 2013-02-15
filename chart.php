@@ -232,6 +232,21 @@
 					<div class="box-content">
 						<img src="lib/img/an-5.png"/>
 					</div>
+				</div>	
+			
+					<div class="box">
+					<div class="box-header">
+						<h2><i class="icon-list-alt"></i><span class="break"></span>Test</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<div id="sincos"  class="center" style="height:300px;" ></div>
+						<p id="hoverdata">Mouse position at (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
+					</div>
 				</div>				
 			</div><!--/row-->
 

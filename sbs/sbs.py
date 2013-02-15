@@ -8,6 +8,9 @@ It then flags deviations from the model as abnormal.
 """
 
 
+#Notice:
+#   - the number of sensors shouldn't change over time..
+
 import scipy as sp;
 import numpy as np;
 import matplotlib.pyplot as plt;

@@ -244,7 +244,8 @@
 						</div>
 					</div>
 					<div class="box-content">
-						<div id="sincos"  class="center" style="height:300px;" ></div>
+						<div id="pairPart1"  class="center" style="height:150px;" ></div>
+						<div id="pairPart2" class="center" style="height:150px"></div>
 						<p id="hoverdata">Mouse position at (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
 					</div>
 				</div>				

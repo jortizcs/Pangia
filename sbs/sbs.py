@@ -11,18 +11,18 @@ It then flags deviations from the model as abnormal.
 #Notice:
 #   - the number of sensors shouldn't change over time..
 
+###!!! NEEDED for python 2.x ?
+#from __future__ import division
+
 import scipy as sp;
 import numpy as np;
-import matplotlib.pyplot as plt;
+#import matplotlib.pyplot as plt;
 
 from scipy import interpolate;
 from scipy.signal import butter;
 from scipy.signal import filtfilt
 
 from collections import deque
-
-###!!! NEEDED for python 2.x ?
-#from __future__ import division
 
 
 class SBS:
@@ -123,6 +123,13 @@ class SBS:
     """
     #print("bind...{0}".format(np.shape(self.filteredData)))
     
+    #Completely falt signals (no data at all...) are
+    #troublesome for the computation of the correlation...
+    #Workaround: add one random point
+    for sen in range(0,len(self.filteredSensors)):
+      if not np.any(self.filteredData[sen,:]):
+        self.filteredData[sen,int(np.random.rand()*(len(self.filteredData[sen,:])-1))]=np.random.rand();
+    
     self.currBehavior = np.corrcoef(self.filteredData);
     self.currBehavior[np.isnan(self.currBehavior)]=0
     self.currBehavior[np.diag_indices_from(self.currBehavior)]=1
@@ -169,7 +176,7 @@ class SBS:
               # Compare the behavior change with past behaviors
               if l_it > thres:
                 #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail+(t-self.histBehaviorSize)*self.windowSize,self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize,t))
-                alarms.append({"id":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "div":l_it})
+                alarms.append({"label":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "div":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c)})
             
             
         print("Bootstrap done!")
@@ -189,7 +196,7 @@ class SBS:
         l_i = self.histBehaviorChange[sen]
         if l_it > np.median(l_i)+self.detectionThreshold*(np.median(abs(l_i-np.median(l_i)))/c):
           #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail,self.windowTail+self.windowSize,self.nbIter))
-          alarms.append({"id":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "div":l_it})
+          alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "div":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c)})
         # Store the behavior change
         self.histBehaviorChange[sen].append(l_it)    
       

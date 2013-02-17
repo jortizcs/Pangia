@@ -21,7 +21,7 @@ def sendData(server, port, metric, tags, input):
   for line in fp:
     dat = line.split()
     finalTags = tags+" label="+input.split("/")[-1]
-    s.send("put {0} {1} {2} {3}\n".format(metric, dat[0], dat[1], finalTags))
+    s.send("put {0} {1} {2} {3}\n".format(metric, int(dat[0]), float(dat[1]), finalTags))
     
   s.close()
   fp.close()

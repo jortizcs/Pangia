@@ -18,7 +18,8 @@ class GetAlarms{
 
     function getDataAlarms($user, $id){
 
-        $alarms = getAlarms($user, $id);
+        $alarms = $this->getAlarms($user, $id);
+        //echo count($alarms);
 
         for($i=0; $i<count($alarms); $i++){
             $start = $alarms[$i]["start"];
@@ -26,19 +27,28 @@ class GetAlarms{
             $label1 = $alarms[$i]["label01"];
             $label2 = $alarms[$i]["label02"];
 
+            //echo "start=".$start.",end=".$end.",label1=".$label1.",label2=".$label2."\n";
+            $start_dt = new DateTime($start, new DateTimeZone('America/Los_Angeles'));
+            $end_dt = new DateTime($end, new DateTimeZone('America/Los_Angeles'));
+
             //for each alarm, extend the start time and end time
-            $new_start = $start - 2*($end-$start);
-            $new_end = $end + 2*($ned-$start);
+            $diff = 2*($end_dt->getTimestamp()-$start_dt->getTimestamp());
+            $new_start = $start_dt->getTimestamp() - $diff;
+            $new_end = $end_dt->getTimestamp() + $diff;
+
+            //echo "new_start=".$new_start.",new_end=".$new_end."\n";
             
             //fetch the data for the new alarm time and end time
             $data4_label1 = getTsData($new_start, $new_end, $label1);
             $data4_label2 = getTsData($new_start, $new_end, $label2);
+            //$data4_label1 = [];
+            //$data4_label2 = [];
 
             //populate data and alarms array
             $alarm_set = array();
             $data_array = array();
 
-            $pair = array($start, $end);;
+            $pair = array($start_dt->getTimestamp(), $end_dt->getTimestamp());
             array_push($alarm_set, $pair);
 
             $data_obj1 = array("label" => $label1, "data" => $data4_label1);
@@ -51,9 +61,9 @@ class GetAlarms{
             //add alarms
             array_push($data_array, $alarm_set);
 
-            //construct the return json object and return it
-            return json_encode($data_array);
         }
+        //construct the return json object and return it
+        return json_encode($data_array);
     }
 
     function getTsData($user, $id, $st, $et, $label){
@@ -84,14 +94,14 @@ class GetAlarms{
     function getAlarms($user, $id){
         //query the alarms table
         $query = "select start, end, label01, label02 from alarms where username= :username and id= :id";
-        $dsn  = 'mysql:dbname=sbs;host='.$mysql_host;
+        $dsn  = 'mysql:dbname=sbs;host='.$this->mysql_host;
 
         try {
             $dbh = new PDO($dsn, "root", "root");
             $sth = $dbh->prepare($query);
             if($sth->execute(array(':username'=>$user, ':id'=>$id))){
                 $rows = $sth->fetchAll();
-                print_r($rows);
+                //print_r($rows);
                 return $rows;
             }
         } catch(PDOException $e){

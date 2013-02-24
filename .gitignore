@@ -6,7 +6,7 @@ lib-cov
 *.out
 *.pid
 *.gz
-.DS_Store
+*.DS_Store
 __pycache__
 *.pyc
 
@@ -16,3 +16,6 @@ results
 
 node_modules
 npm-debug.log
+
+test
+*.swp

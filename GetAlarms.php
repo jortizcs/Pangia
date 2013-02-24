@@ -1,5 +1,5 @@
 <?php
-class DisplayAlarms{
+class GetAlarms{
     public $mysql_host = "localhost";
     public $otsdb_host= "localhost";
     public $otsdb_port = 1338;

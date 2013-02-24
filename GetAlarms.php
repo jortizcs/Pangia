@@ -56,15 +56,27 @@ class GetAlarms{
         }
     }
 
-    function getTsData($st, $et, $label){
+    function getTsData($user, $id, $st, $et, $label){
+        //echo "start=".$st."\tend=".$et."\n";
+        //the time zone is ignored
         $st_date = new DateTime("@$st", new DateTimeZone('America/Los_Angeles'));
-        $st_format = $st_date->format("Y/m/d-H:i:s");
+        $st_format = $st_date->format("Y/m/d H:i:s");
+        $st_date2 = new DateTime($st_format, new DateTimeZone('UTC'));
+        $st_date2->setTimezone(new DateTimeZone('America/Los_Angeles'));
+        $st_format = $st_date2->format("Y/m/d-H:i:s");
 
+        //the time zone is ignored
         $et_date = new DateTime("@$et", new DateTimeZone('America/Los_Angeles'));
-        $et_format = $et_date->format("Y/m/d-H:i:s");
-        $url = "http://".$this->otsdb_host.":".$this->ostdb_port."/q?start=".$st_format."&end=".$et_format."&label=".$label;
+        $et_format = $et_date->format("Y/m/d H:i:s");
+        $et_date2 = new DateTime($et_format, new DateTimeZone('UTC'));
+        $et_date2->setTimezone(new DateTimeZone('America/Los_Angeles'));
+        $et_format = $et_date2->format("Y/m/d-H:i:s");
+
+
+        $url = "http://".$this->otsdb_host.":".$this->ostdb_port."/q?start=".$st_format."&end=".$et_format."&label=".$label."&m=sum:sbs.".$user.".".$id;
         //echo 'url='.$url."\n";
         $tsdata_str = file_get_contents($url);
+        //echo $tsdata_str;
         $tsdata = json_decode($tsdata_str);
         return $tsdata;
     }
@@ -84,6 +96,18 @@ class GetAlarms{
             }
         } catch(PDOException $e){
             echo 'Connection failed '. $e->getMessage();
+        }
+    }
+
+    function getAlarms2($user, $id){
+        $query = "select start, end, label01, label02 from alarms where username= '%s' and id= %d";
+        $conn = mysql_connect("localhost", "root", "root");
+        if(!$conn){
+            die("Error::".mysql_error()."\n");
+        }
+        $db_selected=mysql_select_db("sbs", $conn);
+        if (!$db_selected) {
+            die ('Can\'t use sbs : ' . mysql_error());
         }
     }
 }

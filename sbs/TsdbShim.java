@@ -132,7 +132,7 @@ public class TsdbShim implements Container {
                     String tsStr = tokenizer.nextToken();
                     String valStr = tokenizer.nextToken();
                     String hostStr = tokenizer.nextToken();
-                    String labelStr = tokenizer.nextToken();
+                    //String labelStr = tokenizer.nextToken();
 
                     long thisTs = Long.parseLong(tsStr);
                     double val = Double.parseDouble(valStr);
@@ -150,7 +150,8 @@ public class TsdbShim implements Container {
             e.printStackTrace();
         } finally {
             try {
-                reader.close();
+                if(reader!=null)
+                    reader.close();
             } catch(Exception e){
                 e.printStackTrace();
             }

@@ -2,7 +2,7 @@
 Reads a text file containing data in the form, "timestamp value",
 and copy the data to opentsdb using the given metric and tags.
 
-usage example: python2 txt2otsdb.py pangia-todai 8080  sbs.test.0 "" EngBldg2/http__fiap-gw.gutp.ic.i.u-tokyo.ac.jp_EngBldg2_10F_EHP_*.dat
+usage example: python2 txt2otsdb.py pangia-todai 4242  sbs.test.0 "" EngBldg2/http__fiap-gw.gutp.ic.i.u-tokyo.ac.jp_EngBldg2_10F_EHP_*.dat
 """
 
 import os
@@ -21,7 +21,7 @@ def sendData(server, port, metric, tags, input):
   for line in fp:
     dat = line.split()
     finalTags = tags+" label="+input.split("/")[-1]
-    s.send("put {0} {1} {2} {3}\n".format(metric, int(dat[0]), float(dat[1]), finalTags))
+    s.send("put {0} {1} {2} {3}\n".format(metric, int(float(dat[0])), float(dat[1]), finalTags))
     
   s.close()
   fp.close()

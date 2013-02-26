@@ -183,7 +183,7 @@ class SBS:
               # Compare the behavior change with past behaviors
               if l_it > thres:
                 #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail+(t-self.histBehaviorSize)*self.windowSize,self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize,t))
-                alarms.append({"label":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "div":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
+                alarms.append({"label":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
             
             
         print("Bootstrap done!")
@@ -211,7 +211,7 @@ class SBS:
         l_i = self.histBehaviorChange[sen]
         if l_it > np.median(l_i)+self.detectionThreshold*(np.median(abs(l_i-np.median(l_i)))/c):
           #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail,self.windowTail+self.windowSize,self.nbIter))
-          alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "div":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
+          alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
         # Store the behavior change
         self.histBehaviorChange[sen].append(l_it)    
       

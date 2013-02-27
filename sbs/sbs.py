@@ -39,7 +39,7 @@ class SBS:
     self.windowTail = -1;
     self.windowStep = self.windowSize;
     self.samplingRate = 300;
-    self.ratioFilledBuffer = 0.5;  # Detect abnormalities when at least ratioFilledBuffer*100% of the sensors provided enough data
+    self.ratioFilledBuffer = 0.7;  # Detect abnormalities when at least ratioFilledBuffer*100% of the sensors provided enough data
     
     # used only for log
     self.nbIter = 0;
@@ -123,7 +123,7 @@ class SBS:
     """
     #print("bind...{0}".format(np.shape(self.filteredData)))
     
-    #Completely falt signals (no data at all...) are
+    #Completely flat signals (no data at all...) are
     #troublesome for the computation of the correlation...
     #Workaround: add one random point
     for sen in range(0,len(self.filteredSensors)):
@@ -159,8 +159,15 @@ class SBS:
             #Compute the behavior change (l_it) for the current correlation matrix
             l_it=.0
             Ri = float(sum(R[i,:]))
-            for j in range(len(self.histBehavior[t])):
-              l_it += np.power((R[i,j]/ Ri)*(self.histBehavior[t][i,j]-R[i,j]),self.lnorm)
+            peerLabel = ""
+            peerDev  = 0
+            for jLabel, j in self.filteredSensors.items():
+              tmp = np.power((R[i,j]/ Ri)*(self.histBehavior[t][i,j]-R[i,j]),self.lnorm)
+              l_it += tmp
+          
+              if peerDev < tmp and i!=j:
+                peerLabel = jLabel
+                peerDev = tmp
             
             l_it = np.power(l_it,1.0/self.lnorm)
             self.histBehaviorChange[sen].append(l_it)
@@ -176,7 +183,7 @@ class SBS:
               # Compare the behavior change with past behaviors
               if l_it > thres:
                 #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail+(t-self.histBehaviorSize)*self.windowSize,self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize,t))
-                alarms.append({"label":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "div":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c)})
+                alarms.append({"label":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
             
             
         print("Bootstrap done!")
@@ -186,8 +193,16 @@ class SBS:
         #Compute the behavior change (l_it) for the current correlation matrix
         l_it=.0
         Ri = float(sum(R[i,:]))
-        for j in range(len(self.currBehavior)):
-          l_it += np.power((R[i,j]/ Ri)*(self.currBehavior[i,j]-R[i,j]),self.lnorm)
+        peerLabel = ""
+        peerDev  = 0
+        for jLabel, j in self.filteredSensors.items():
+          tmp = np.power((R[i,j]/ Ri)*(self.currBehavior[i,j]-R[i,j]),self.lnorm)
+          l_it += tmp
+          
+          if peerDev < tmp and i!=j:
+            peerLabel = jLabel
+            peerDev = tmp
+            
         
         l_it = np.power(l_it,1/self.lnorm)
         
@@ -196,7 +211,7 @@ class SBS:
         l_i = self.histBehaviorChange[sen]
         if l_it > np.median(l_i)+self.detectionThreshold*(np.median(abs(l_i-np.median(l_i)))/c):
           #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail,self.windowTail+self.windowSize,self.nbIter))
-          alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "div":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c)})
+          alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
         # Store the behavior change
         self.histBehaviorChange[sen].append(l_it)    
       
@@ -205,15 +220,16 @@ class SBS:
     
   ############### OTHERS  ############### 
    
-  def addSample(self, sample):
+  def addSample(self, sample,tsdb=False):
     """
     Add the given samples to the current time window.
     If the time window is completed the SBS method is executed.
     
     Parameters
     ----------
-    sample : list
-      List of tuples containing the new samples. Each tuple is in the form (sensorID, timestamp, value).
+    sample : list or OpenTSDB result
+      List: List of tuples containing the new samples. Each tuple is in the form (sensorID, timestamp, value).
+      OpenTSDB data: timestamp, value, label
 
     Returns
     -------
@@ -222,18 +238,28 @@ class SBS:
       Each alarm is a tuple in the form (sensorID, start-time, end-time, divergence); the timestamp is the begining of the last analyzed time window and the divergence correspond to the distance from the normal behavior of the sensor sensorID. Larger distance means severe misbehavior.
     """
     
-        
-    # Initialize the window tail for the first added sample 
-    if self.windowTail == -1:
-      self.windowTail = min([samp[1] for samp in sample])
-    
     
     # Add the new samples to the buffer
-    for sen, time, val in sample:
-      if not sen in self.buffer:
-        self.buffer[sen] = deque()
-      self.buffer[sen].append( (time,val) )
-    
+    if tsdb:
+      for line in sample:
+        point = line.split()
+        time = int(point[1])
+        val = float(point[2])
+        sen =point[3].split("=")[1]
+        if not sen in self.buffer:
+          if self.windowTail == -1:
+            self.windowTail = time
+          self.buffer[sen] = deque()
+        self.buffer[sen].append( (time,val) )
+    else:
+      for sen, time, val in sample:
+        if not sen in self.buffer:
+          # Initialize the window tail for the first added sample 
+          if self.windowTail == -1:
+            self.windowTail = min([samp[1] for samp in sample])
+          self.buffer[sen] = deque()
+        self.buffer[sen].append( (time,val) )
+      
     nbFilledBuffer=0
     for sen, dat in self.buffer.items():
       if dat[-1][0] > self.windowTail+self.windowSize:

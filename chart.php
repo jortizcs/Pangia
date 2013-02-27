@@ -281,7 +281,7 @@
 							svg.append("rect")
 							   .attr("x", alarmStart)
 							   .attr("y", 0)
-							   .attr("width", 100)
+							   .attr("width", parseDate(alarmEnd-alarmStart))
 							   .attr("height", height)
 							   .attr("class", "rect");
 							

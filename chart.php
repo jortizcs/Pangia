@@ -4,7 +4,7 @@
 	
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title>Perfectum Dashboard - Perfect Bootstrap Admin Template</title>
+	<title>Pangia :: Anomaly Report</title>
 	<meta name="description" content="Perfectum Dashboard Bootstrap Admin Template.">
 	<meta name="author" content="Łukasz Holeczek">
 	<!-- end: Meta -->
@@ -42,33 +42,7 @@
 	<!-- end: Favicon -->
 			<script src="lib/js/jquery-1.7.2.min.js"></script>
 			<script src="lib/js/jquery-ui-1.8.21.custom.min.js"></script>
-			<script src="http://d3js.org/d3.v3.min.js"></script>
-<style>
-
-body {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-</style>
-		
-		
+			<script src="http://d3js.org/d3.v3.min.js"></script>		
 		
 </head>
 
@@ -225,7 +199,7 @@ body {
 				if(!empty($dat)){
 					$datobj = json_decode($dat);
 				
-				$max = count($datobj["alarms"]);
+					$max = count($datobj["alarms"]);
 					if($max>10)
 						$max = 10;
 					for ($i = 1; $i<=$max;$i++){ //$max
@@ -244,90 +218,96 @@ body {
 						;
 						//closing the HTML, end of box
 						echo '</div></div>';
-						echo '<script>';
-						echo 'var dataAndAlarms = '.$dat.'</script>';
 					}
-				//}
+				}
+						//sending PHP JSON obnect to javascript
+						echo '<script> var dataAndAlarms = '.$dat.'</script>';
 				?>
 				<script>
 
-					createGraphs();
+				createGraphs();
 					//alert(dataAndAlarms);
-					
+				    
 					function createGraphs(){
-						for (var i=1;i<3;i++){
+						//loop through the JSON object, make sure this is consistent with the loop in PHP above so that the ids for the svg append will match
+						for (var i = 1;i < dataAndAlarms.length; i++) { 
+							//Create multiple graphs here depending on however many data key, value pairs we have, likely never more than 3 
+							for (var j=1;j < dataAndAlarms.all_data.length; j++){
 							
-						var margin = {top: 20, right: 20, bottom: 30, left: 50},
-						    width = 960 - margin.left - margin.right,
-						    height = 200 - margin.top - margin.bottom;
+							//This needs to eventually be made into responsive widths and heights and not absolute values	
+							var margin = {top: 20, right: 20, bottom: 30, left: 50},
+							    width = 960 - margin.left - margin.right,
+							    height = 200 - margin.top - margin.bottom;
+							
+							//Change this date Parser depending on whatever the timeformat is that we get from MySQL, in this case UTC
+							var parseDate = d3.time.format.utc("%d-%b-%y");
+							//define timestamp in our JSON object
+							var timestamp = parseDate(dataAndAlarms.all_data.data[j][0]);
+							//define value associated with timestamp in our JSON object
+							var value = dataAndAlarms.all_data.data[j][1];   
+							
+							var x = d3.time.scale()
+							    .range([0, width]);
+							
+							var y = d3.scale.linear()
+							    .range([height, 0]);
+							
+							var xAxis = d3.svg.axis()
+							    .scale(x)
+							    .orient("bottom");
+							
+							var yAxis = d3.svg.axis()
+							    .scale(y)
+							    .orient("left");
+							
+							var line = d3.svg.line()
+							    .x(x(timestamp))
+							    .y(y(value));								  
+							
+							//scale the x and y axes here 	  
+							 x.domain(d3.extent(timestamp));
+	 						 y.domain(d3.extent(value));
 						
-						var parseDate = d3.time.format("%d-%b-%y").parse;      
-						
-						var x = d3.time.scale()
-						    .range([0, width]);
-						
-						var y = d3.scale.linear()
-						    .range([height, 0]);
-						
-						var xAxis = d3.svg.axis()
-						    .scale(x)
-						    .orient("bottom");
-						
-						var yAxis = d3.svg.axis()
-						    .scale(y)
-						    .orient("left");
-						
-						var line = d3.svg.line()
-						    .x(function(d) { return x(d.date); })
-						    .y(function(d) { return y(d.close); });
-						
-
-						 //d3.json("data.json", function(error, data) {
-							//   if (error) return console.warn(error);
-// 							 
-							  // for (var i=0; i<5;i++) {
-							  // data.date[i] = parseDate(data.date[i]);
-							  // };
-						  
-							  d3.tsv("data.txt", function(error, data) {
-							  data.forEach(function(d) {
-							    d.date = parseDate(d.date);
-							    d.close = +d.close;
-							    
-							  });  
-							  
-							  
-						 x.domain(d3.extent(data, function(d) { return d.date; }));
- 						 y.domain(d3.extent(data, function(d) { return d.close; }));
-					
-					
-					//Insert SVG graphs into dynamically generated Anomaly Container
-						var svg = d3.selectAll(".box-content").append("svg")
-						    .attr("height", height + margin.top + margin.bottom)
-						  .append("g")
-						    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-						    .attr("viewBox","0 0 50 50"); 
-						
-						  svg.append("g")
-						      .attr("class", "x axis")
-						      .attr("transform", "translate(0," + height + ")")
-						      .call(xAxis);
-						
-						  svg.append("g")
-						      .attr("class", "y axis")
-						      .call(yAxis)
-						    .append("text")
-						      .attr("transform", "rotate(-90)")
-						      .attr("y", 6)
-						      .attr("dy", ".71em")
-						      .style("text-anchor", "end")
-						      .text("Price ($)");
-						
-						  svg.append("path")
-						      .datum(data)
-						      .attr("class", "line")
-						      .attr("d", line);
-						});
+						//Insert SVG graph into PHP dynamically generated Anomaly Container of id i
+							var svg = d3.select("#" + i).append("svg")
+							    .attr("height", height + margin.top + margin.bottom)
+							    .append("g")
+							    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+							    .attr("viewBox","0 0 50 50"); 
+							
+							//This is the alarm highlight rectangle, needs to be updated with the alarm start time and end time for it's x and width values
+							var alarmStart = dataAndAlarms.alarms[j][0];
+							var alarmEnd = dataAndAlarms.alarms[j][1];
+							svg.append("rect")
+							   .attr("x", alarmStart)
+							   .attr("y", 0)
+							   .attr("width", 100)
+							   .attr("height", height)
+							   .attr("class", "rect");
+							
+							  svg.append("g")
+							      .attr("class", "x axis")
+							      .attr("transform", "translate(0," + height + ")")
+							      .call(xAxis);
+							
+							  svg.append("g")
+							      .attr("class", "y axis")
+							      .call(yAxis)
+							      .append("text")
+							      .attr("transform", "rotate(-90)")
+							      .attr("y", 6)
+							      .attr("dy", ".71em")
+							      .style("text-anchor", "end")
+							      //set the y axis label here
+							      .text(dataAndAlarms.all_data[j].label);
+							
+							  svg.append("path")
+							      .datum(dataAndAlarms.all_data[i])
+							      .attr("class", "line")
+							      .attr("d", line);
+							      
+							});
+							}
 						}
 					}
 				</script>

@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* =================+========================================================
+   Author: Michael Heinrich
+   ========================================================================== */
+.tagTableContainer {
+  right: 0px;
+  top: 90px;
+  position: fixed;
+  z-index: 99999;
+  border: 1px solid white;
+  padding: 10px;
+  background: black;
+  color: white;
+}
+.tagTableContainer .tagTable {
+  margin-bottom: 5px;
+}
+.tagTableContainer .tagTable td {
+  width: 50%;
+  text-align: right;
+}

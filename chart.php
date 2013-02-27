@@ -18,6 +18,7 @@
 	<link href="lib/css/bootstrap-responsive.css" rel="stylesheet">
 	<link id="base-style" href="lib/css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="lib/css/style-responsive.css" rel="stylesheet">
+	<link href="lib/css/custom.css" rel="stylesheet">
 	
 	<!--[if lt IE 7 ]>
 	<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
@@ -39,13 +40,62 @@
 	<!-- start: Favicon -->
 	<link rel="shortcut icon" href="lib/img/favicon.ico">
 	<!-- end: Favicon -->
-	
+			<script src="lib/js/jquery-1.7.2.min.js"></script>
+			<script src="lib/js/jquery-ui-1.8.21.custom.min.js"></script>
+			<script src="http://d3js.org/d3.v3.min.js"></script>
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
 		
 		
 		
 </head>
 
 <body>
+		<div class ="tagTableContainer pull-right">
+			<div style="margin-bottom:10px">
+			<i class="icon-tag icon-white"></i><span class="hidden-tablet"> Tag your graphs</span>
+			</div>
+			<table class="tagTable">
+				<tr valign="top">
+					<td class="span1" >
+						<a class="btn btn-small btn-danger btn-block inactive">Heating</a>
+						<a class="btn btn-small btn-danger">Temperature</a>
+					</td>
+					<td class="span1"><a class="btn btn-small btn-block">Ventilation</a></td>
+				</tr>
+				<tr>
+					<td><button class="btn btn-mini btn-info btn-block">AC</button></td>
+					<td><button class="btn btn-mini btn-warning btn-block">Lighting</button></td>
+				</tr>
+			
+				<tr>
+					<td><button class="btn btn-mini btn-inverse btn-block">Type</button></td>
+					<td></td>
+				</tr>							
+			</table>
+		</div>
 		<div id="overlay">
 		<ul>
 		  <li class="li1"></li>
@@ -134,6 +184,8 @@
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li><a href="dashboard.php"><i class="icon-home icon-white"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a href="upload.php"><i class="icon-edit icon-white"></i><span class="hidden-tablet"> New Report</span></a></li>
+						
+						
 					</ul>
 				</div><!--/.well -->
 			</div><!--/span-->
@@ -163,77 +215,123 @@
 			</div>
 
 			<div class="row-fluid sortable">
+				<?php
+				global $user, $id; 
+				$user = $_POST['username'];
+				$id = $_POST['id'];
 				
-				<div class="box">
-					<div class="box-header">
-						<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #1</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
-							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<img src="lib/img/an-1.png"/>
-					</div>
-				</div>
+				$dat = file_get_contents('GetAlarms.php?user='.$user."$id=".$id);
+				echo "datdata=".$dat."<br>";
+				if(!empty($dat)){
+					$datobj = json_decode($dat);
 				
-				<div class="box">
-					<div class="box-header">
-						<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #2</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
-							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<img src="lib/img/an-2.png"/>
-					</div>
-				</div>
-				
-				<div class="box">
-					<div class="box-header">
-						<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #3</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
-							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<img src="lib/img/an-3.png"/>
-					</div>
-				</div>
-				
-				<div class="box">
-					<div class="box-header">
-						<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #4</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
-							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<img src="lib/img/an-4.png"/>
-					</div>
-				</div>
+				$max = count($datobj["alarms"]);
+					if($max>10)
+						$max = 10;
+					for ($i = 1; $i<=$max;$i++){ //$max
+						echo '<div class="box">' 
+							.'<div class="box-header">' 
+							.'<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #' . $i .'</h2>' 
+							.'<div class="box-icon">' 
+							. '<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->'
+							. '<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>'
+							. '<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->'
+							. '</div>'
+						. '</div>'
+						. '<div class="box-content" id="'. $i . '">'
+						//For demo purposes uncomment the next line if you are not quite done with the graphs implementation
+						//. '<img src="lib/img/an-'.$i.'.png"/>'
+						;
+						//closing the HTML, end of box
+						echo '</div></div>';
+						echo '<script>';
+						echo 'var dataAndAlarms = '.$dat.'</script>';
+					}
+				//}
+				?>
+				<script>
 
-				<div class="box">
-					<div class="box-header">
-						<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #5</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
-							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<img src="lib/img/an-5.png"/>
-					</div>
-				</div>	
-			
+					createGraphs();
+					//alert(dataAndAlarms);
+					
+					function createGraphs(){
+						for (var i=1;i<3;i++){
+							
+						var margin = {top: 20, right: 20, bottom: 30, left: 50},
+						    width = 960 - margin.left - margin.right,
+						    height = 200 - margin.top - margin.bottom;
+						
+						var parseDate = d3.time.format("%d-%b-%y").parse;      
+						
+						var x = d3.time.scale()
+						    .range([0, width]);
+						
+						var y = d3.scale.linear()
+						    .range([height, 0]);
+						
+						var xAxis = d3.svg.axis()
+						    .scale(x)
+						    .orient("bottom");
+						
+						var yAxis = d3.svg.axis()
+						    .scale(y)
+						    .orient("left");
+						
+						var line = d3.svg.line()
+						    .x(function(d) { return x(d.date); })
+						    .y(function(d) { return y(d.close); });
+						
+
+						 //d3.json("data.json", function(error, data) {
+							//   if (error) return console.warn(error);
+// 							 
+							  // for (var i=0; i<5;i++) {
+							  // data.date[i] = parseDate(data.date[i]);
+							  // };
+						  
+							  d3.tsv("data.txt", function(error, data) {
+							  data.forEach(function(d) {
+							    d.date = parseDate(d.date);
+							    d.close = +d.close;
+							    
+							  });  
+							  
+							  
+						 x.domain(d3.extent(data, function(d) { return d.date; }));
+ 						 y.domain(d3.extent(data, function(d) { return d.close; }));
+					
+					
+					//Insert SVG graphs into dynamically generated Anomaly Container
+						var svg = d3.selectAll(".box-content").append("svg")
+						    .attr("height", height + margin.top + margin.bottom)
+						  .append("g")
+						    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+						    .attr("viewBox","0 0 50 50"); 
+						
+						  svg.append("g")
+						      .attr("class", "x axis")
+						      .attr("transform", "translate(0," + height + ")")
+						      .call(xAxis);
+						
+						  svg.append("g")
+						      .attr("class", "y axis")
+						      .call(yAxis)
+						    .append("text")
+						      .attr("transform", "rotate(-90)")
+						      .attr("y", 6)
+						      .attr("dy", ".71em")
+						      .style("text-anchor", "end")
+						      .text("Price ($)");
+						
+						  svg.append("path")
+						      .datum(data)
+						      .attr("class", "line")
+						      .attr("d", line);
+						});
+						}
+					}
+				</script>
+			<!--If you want to reuse flow in the future, uncomment this
 					<div class="box">
 					<div class="box-header">
 						<h2><i class="icon-list-alt"></i><span class="break"></span>Test</h2>
@@ -248,7 +346,7 @@
 						<div id="pairPart2" class="center" style="height:150px"></div>
 						<p id="hoverdata">Mouse position at (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
 					</div>
-				</div>				
+				</div>-->				
 			</div><!--/row-->
 
 		
@@ -257,7 +355,7 @@
 			<!-- end: Content -->
 			</div><!--/#content.span10-->
 				</div><!--/fluid-row-->
-				
+
 		<div class="modal hide fade" id="myModal">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">×</button>
@@ -273,7 +371,7 @@
 		</div>
 		
 		<div class="clearfix"></div>
-		
+				
 		<footer>
 			<p>
 				<span style="text-align:left;float:left">&copy; <a href="http://clabs.co" target="_blank">Pangia</a> 2012</span>
@@ -285,8 +383,7 @@
 
 	<!-- start: JavaScript-->
 
-		<script src="lib/js/jquery-1.7.2.min.js"></script>
-	<script src="lib/js/jquery-ui-1.8.21.custom.min.js"></script>
+
 	
 		<script src="lib/js/bootstrap.js"></script>
 	
@@ -316,8 +413,6 @@
 	
 		<script src="lib/js/jquery.iphone.toggle.js"></script>
 	
-		<script src="lib/js/jquery.uploadify-3.1.min.js"></script>
-	
 		<script src="lib/js/jquery.gritter.min.js"></script>
 	
 		<script src="lib/js/jquery.imagesloaded.js"></script>
@@ -329,6 +424,7 @@
 		<script src="lib/js/jquery.sparkline.min.js"></script>
 
 		<script src="lib/js/custom.js"></script>
+		
 		<!-- end: JavaScript-->
 	
 </body>

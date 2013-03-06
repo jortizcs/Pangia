@@ -24,12 +24,15 @@ class GetAlarms{
         for($i=0; $i<count($alarms); $i++){
             $start = $alarms[$i]["start"];
             $end = $alarms[$i]["end"];
+            #echo "start=$start, end=$end\n";
             $label1 = $alarms[$i]["label01"];
             $label2 = $alarms[$i]["label02"];
 
             //echo "start=".$start.",end=".$end.",label1=".$label1.",label2=".$label2."\n";
-            $start_dt = new DateTime($start, new DateTimeZone('America/Los_Angeles'));
-            $end_dt = new DateTime($end, new DateTimeZone('America/Los_Angeles'));
+            /*$start_dt = new DateTime($start, new DateTimeZone('America/Los_Angeles'));
+            $end_dt = new DateTime($end, new DateTimeZone('America/Los_Angeles'));*/
+            $start_dt = DateTime::createFromFormat('Y-m-d H:i:s', $start, new DateTimeZone('America/Los_Angeles'));
+            $end_dt = DateTime::createFromFormat('Y-m-d H:i:s', $end, new DateTimeZone('America/Los_Angeles'));
 
             //for each alarm, extend the start time and end time
             $diff = 2*($end_dt->getTimestamp()-$start_dt->getTimestamp());
@@ -39,8 +42,8 @@ class GetAlarms{
             //echo "new_start=".$new_start.",new_end=".$new_end."\n";
             
             //fetch the data for the new alarm time and end time
-            $data4_label1 = getTsData($new_start, $new_end, $label1);
-            $data4_label2 = getTsData($new_start, $new_end, $label2);
+            $data4_label1 = $this->getTsData($user, $id, $new_start, $new_end, $label1);
+            $data4_label2 = $this->getTsData($user, $id,$new_start, $new_end, $label2);
             //$data4_label1 = [];
             //$data4_label2 = [];
 
@@ -84,7 +87,7 @@ class GetAlarms{
 
 
         $url = "http://".$this->otsdb_host.":".$this->ostdb_port."/q?start=".$st_format."&end=".$et_format."&label=".$label."&m=sum:sbs.".$user.".".$id;
-        //echo 'url='.$url."\n";
+        #echo 'url='.$url."\n";
         $tsdata_str = file_get_contents($url);
         //echo $tsdata_str;
         $tsdata = json_decode($tsdata_str);

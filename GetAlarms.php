@@ -1,8 +1,11 @@
 <?php
 class GetAlarms{
+    //public $mysql_host = "localhost";
+    //public $otsdb_host= "localhost";
+    //public $otsdb_port = 1338;
     public $mysql_host = "localhost";
-    public $otsdb_host= "localhost";
-    public $otsdb_port = 1338;
+    public $otsdb_host= "166.78.31.162";
+    public $otsdb_port = 4242;
 
     function __construct($mysql, $otsdb){
         if(!empty($mysql)){
@@ -13,7 +16,8 @@ class GetAlarms{
             $this->otsdb_host = $otsdb;
         }
 
-        $this->ostdb_port = 1338;
+        //$this->ostdb_port = 1338;
+        $this->ostdb_port = 4242;
     }
 
     function getDataAlarms($user, $id){

@@ -193,8 +193,8 @@
 				global $user, $id; 
 				$user = $_POST['username'];
 				$id = $_POST['id'];
-				
-				$dat = file_get_contents('GetAlarms.php?user='.$user."$id=".$id);
+
+				$dat = file_get_contents('GetAlarms.php?user='.$user."&id=".$id);
 				echo "datdata=".$dat."<br>";
 				if(!empty($dat)){
 					$datobj = json_decode($dat);

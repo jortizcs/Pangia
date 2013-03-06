@@ -19,3 +19,22 @@
   width: 50%;
   text-align: right;
 }
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.x.axis path {
+  display: none;
+}
+.line {
+  fill: none;
+  stroke: #686868;
+  stroke-width: 2px;
+}
+.rect {
+  fill: #FA5833;
+  opacity: 0.6;
+  shape-rendering: crispEdges;
+}

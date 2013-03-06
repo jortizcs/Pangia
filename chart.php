@@ -191,18 +191,26 @@
 			<div class="row-fluid sortable">
 				<?php
 				global $user, $id; 
-				$user = $_POST['username'];
-				$id = $_POST['id'];
+				//$user = $_POST['username'];
+				//$id = $_POST['id'];
+                $user = "root";
+                $id = 1;
 
-				$dat = file_get_contents('GetAlarms.php?user='.$user."&id=".$id);
-				echo "datdata=".$dat."<br>";
+				//$dat = file_get_contents('GetAlarms.php?user='.$user."&id=".$id);
+                //echo json_encode($disAlarms->getDataAlarms($user, $id));
+                include_once("GetAlarms.php");
+                $disAlarms = new GetAlarms("localhost", "166.78.31.162");
+                $dat = $disAlarms->getDataAlarms($user, $id);
+				echo "<br><br><br><br><br>datdata=".$dat."<br>";
+                //echo "label 1 = " . $dat[0]->label . "<br";
 				if(!empty($dat)){
 					$datobj = json_decode($dat);
 				
-					$max = count($datobj["alarms"]);
+					//$max = count($datobj["alarms"]);
+                    $max = count($datobj);
 					if($max>10)
 						$max = 10;
-					for ($i = 1; $i<=$max;$i++){ //$max
+					for ($i = 0; $i<$max;$i++){ //$max
 						echo '<div class="box">' 
 							.'<div class="box-header">' 
 							.'<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #' . $i .'</h2>' 

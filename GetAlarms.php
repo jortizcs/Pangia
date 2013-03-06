@@ -2,10 +2,9 @@
 class GetAlarms{
     //public $mysql_host = "localhost";
     //public $otsdb_host= "localhost";
-    //public $otsdb_port = 1338;
     public $mysql_host = "localhost";
     public $otsdb_host= "166.78.31.162";
-    public $otsdb_port = 4242;
+    public $otsdb_port = 1338;
 
     function __construct($mysql, $otsdb){
         if(!empty($mysql)){
@@ -16,14 +15,15 @@ class GetAlarms{
             $this->otsdb_host = $otsdb;
         }
 
-        //$this->ostdb_port = 1338;
-        $this->ostdb_port = 4242;
+        $this->ostdb_port = 1338;
     }
 
     function getDataAlarms($user, $id){
 
         $alarms = $this->getAlarms($user, $id);
         //echo count($alarms);
+
+        $data_alarms = array();
 
         for($i=0; $i<count($alarms); $i++){
             $start = $alarms[$i]["start"];
@@ -68,9 +68,11 @@ class GetAlarms{
             //add alarms
             array_push($data_array, $alarm_set);
 
+            array_push($data_alarms, $data_array);
+
         }
         //construct the return json object and return it
-        return json_encode($data_array);
+        return json_encode($data_alarms);
     }
 
     function getTsData($user, $id, $st, $et, $label){

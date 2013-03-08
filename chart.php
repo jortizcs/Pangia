@@ -267,8 +267,8 @@
 						    width = 960 - margin.left - margin.right,
 						    height = 200 - margin.top - margin.bottom;
 
-						var alarmStart = alarms[i][2][0];
-						var alarmEnd = alarms[i][2][1];
+						var alarmStart = alarms[i][2][0][0];
+						var alarmEnd = alarms[i][2][0][1];
 
 						// For each dataset in the alarm (of which there will
 						// always be exactly two), create a graph.
@@ -311,7 +311,6 @@
 							//y.domain(d3.extent(value));
 
 							//Insert SVG graph into PHP dynamically generated Anomaly Container of id i
-							console.log(i);
 							var svg = d3.select("#anomaly" + i).append("svg")
 								.attr("height", height + margin.top + margin.bottom)
 								.append("g")
@@ -325,6 +324,7 @@
 							   .attr("x", alarmStart)
 							   .attr("y", 0)
 							   //.attr("width", parseDate(alarmEnd-alarmStart))
+							   .attr("width", alarmEnd - alarmStart)
 							   .attr("height", height)
 							   .attr("class", "rect");
 							

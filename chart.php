@@ -197,17 +197,17 @@
                 $id = 1;
 
 				//$dat = file_get_contents('GetAlarms.php?user='.$user."&id=".$id);
-                //echo json_encode($disAlarms->getDataAlarms($user, $id));
-                include_once("GetAlarms.php");
-                $disAlarms = new GetAlarms("localhost", "166.78.31.162");
-                $dat = $disAlarms->getDataAlarms($user, $id);
-				echo "<br><br><br><br><br>datdata=".$dat."<br>";
-                //echo "label 1 = " . $dat[0]->label . "<br";
+				//echo json_encode($disAlarms->getDataAlarms($user, $id));
+				include_once("GetAlarms.php");
+				$disAlarms = new GetAlarms("localhost", "166.78.31.162");
+				$dat = $disAlarms->getDataAlarms($user, $id);
+				//echo "<br><br><br><br><br>datdata=".$dat."<br>";
+				//echo "label 1 = " . $dat[0]->label . "<br";
 				if(!empty($dat)){
 					$datobj = json_decode($dat);
 				
 					//$max = count($datobj["alarms"]);
-                    $max = count($datobj);
+					$max = count($datobj);
 					if($max>10)
 						$max = 10;
 					for ($i = 0; $i<$max;$i++){ //$max
@@ -215,12 +215,19 @@
 							.'<div class="box-header">' 
 							.'<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #' . $i .'</h2>' 
 							.'<div class="box-icon">' 
-							. '<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->'
-							. '<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>'
-							. '<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->'
 							. '</div>'
-						. '</div>'
-						. '<div class="box-content" id="'. $i . '">'
+							. '</div>'
+							. '<div class="box-content" id="anomaly'. $i . '">'
+						//echo '<div class="box">' 
+						//	.'<div class="box-header">' 
+						//	.'<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #' . $i .'</h2>' 
+						//	.'<div class="box-icon">' 
+						//	. '<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->'
+						//	. '<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>'
+						//	. '<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->'
+						//	. '</div>'
+						//	. '</div>'
+						//	. '<div class="box-content" id=anomaly"'. $i . '">'
 						//For demo purposes uncomment the next line if you are not quite done with the graphs implementation
 						//. '<img src="lib/img/an-'.$i.'.png"/>'
 						;
@@ -229,95 +236,122 @@
 					}
 				}
 						//sending PHP JSON obnect to javascript
-						echo '<script> var dataAndAlarms = '.$dat.'</script>';
+						echo '<script> var alarms = '.$dat.';</script>';
 				?>
 				<script>
 
 				createGraphs();
-					//alert(dataAndAlarms);
 				    
-					function createGraphs(){
-						//loop through the JSON object, make sure this is consistent with the loop in PHP above so that the ids for the svg append will match
-						for (var i = 1;i < dataAndAlarms.length; i++) { 
-							//Create multiple graphs here depending on however many data key, value pairs we have, likely never more than 3 
-							for (var j=1;j < dataAndAlarms.all_data.length; j++){
-							
-							//This needs to eventually be made into responsive widths and heights and not absolute values	
-							var margin = {top: 20, right: 20, bottom: 30, left: 50},
-							    width = 960 - margin.left - margin.right,
-							    height = 200 - margin.top - margin.bottom;
-							
-							//Change this date Parser depending on whatever the timeformat is that we get from MySQL, in this case UTC
-							var parseDate = d3.time.format.utc("%d-%b-%y");
-							//define timestamp in our JSON object
-							var timestamp = parseDate(dataAndAlarms.all_data.data[j][0]);
-							//define value associated with timestamp in our JSON object
-							var value = dataAndAlarms.all_data.data[j][1];   
-							
+				function createGraphs(){
+					/*
+					 * Loop through the JSON object.
+					 * The structure of the object is:
+					 *	[
+					 *		[
+					 *			{
+					 *				label: label of graph,
+					 *				data: [ [datum 1, datum 2] ... ],
+					 *			},
+					 *			{
+					 *				label: label of graph,
+					 *				data: [ [datum 1, datum 2] ... ],
+					 *			},
+					 *			[ int start of alarm, int end of alarm ]
+					 *		]
+					 *		...
+					 *	]
+					 */
+					for (var i = 0; i < alarms.length; i++) {
+						//This needs to eventually be made into responsive widths and heights and not absolute values	
+						var margin = {top: 20, right: 20, bottom: 30, left: 50},
+						    width = 960 - margin.left - margin.right,
+						    height = 200 - margin.top - margin.bottom;
+
+						var alarmStart = alarms[i][2][0];
+						var alarmEnd = alarms[i][2][1];
+
+						// For each dataset in the alarm (of which there will
+						// always be exactly two), create a graph.
+						for (var j = 0; j < 2; j++) {
+							var set = alarms[i][j];
+
+							var timestamp = [];
+							var data = [];
+							for (var k = 0; k < set.data.length; k++) {
+							}
+
 							var x = d3.time.scale()
-							    .range([0, width]);
-							
+								.range([0, width]);
+
 							var y = d3.scale.linear()
-							    .range([height, 0]);
+								.range([height, 0]);
 							
 							var xAxis = d3.svg.axis()
-							    .scale(x)
-							    .orient("bottom");
+								.scale(x)
+								.orient("bottom");
 							
 							var yAxis = d3.svg.axis()
-							    .scale(y)
-							    .orient("left");
+								.scale(y)
+								.orient("left");
 							
-							var line = d3.svg.line()
-							    .x(x(timestamp))
-							    .y(y(value));								  
-							
+							//var line = d3.svg.line()
+							//	.x(x(timestamp))
+							//	.y(y(value));								  
+
+							// Create graph values for all the data in the set
+							for (var k = 0; k < set.data.length; k++) {
+								// Change this date Parser depending on whatever the timeformat is that we get from MySQL, in this case UTC
+								//var parseDate = d3.time.format.utc("%d-%b-%y");
+								//var timestamp = parseDate(set.data[0]);
+								//var value = set.data[1];
+							}
+
 							//scale the x and y axes here 	  
-							 x.domain(d3.extent(timestamp));
-	 						 y.domain(d3.extent(value));
-						
-						//Insert SVG graph into PHP dynamically generated Anomaly Container of id i
-							var svg = d3.select("#" + i).append("svg")
-							    .attr("height", height + margin.top + margin.bottom)
-							    .append("g")
-							    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-							    .attr("viewBox","0 0 50 50"); 
+							//x.domain(d3.extent(timestamp));
+							//y.domain(d3.extent(value));
+
+							//Insert SVG graph into PHP dynamically generated Anomaly Container of id i
+							console.log(i);
+							var svg = d3.select("#anomaly" + i).append("svg")
+								.attr("height", height + margin.top + margin.bottom)
+								.append("g")
+								.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+								.attr("viewBox","0 0 50 50"); 
 							
 							//This is the alarm highlight rectangle, needs to be updated with the alarm start time and end time for it's x and width values
-							var alarmStart = dataAndAlarms.alarms[j][0];
-							var alarmEnd = dataAndAlarms.alarms[j][1];
+							//var alarmStart = dataAndAlarms.alarms[j][0];
+							//var alarmEnd = dataAndAlarms.alarms[j][1];
 							svg.append("rect")
 							   .attr("x", alarmStart)
 							   .attr("y", 0)
-							   .attr("width", parseDate(alarmEnd-alarmStart))
+							   //.attr("width", parseDate(alarmEnd-alarmStart))
 							   .attr("height", height)
 							   .attr("class", "rect");
 							
 							  svg.append("g")
-							      .attr("class", "x axis")
-							      .attr("transform", "translate(0," + height + ")")
-							      .call(xAxis);
+								  .attr("class", "x axis")
+								  .attr("transform", "translate(0," + height + ")")
+								  .call(xAxis);
 							
 							  svg.append("g")
-							      .attr("class", "y axis")
-							      .call(yAxis)
-							      .append("text")
-							      .attr("transform", "rotate(-90)")
-							      .attr("y", 6)
-							      .attr("dy", ".71em")
-							      .style("text-anchor", "end")
-							      //set the y axis label here
-							      .text(dataAndAlarms.all_data[j].label);
-							
+								  .attr("class", "y axis")
+								  .call(yAxis)
+								  .append("text")
+								  .attr("transform", "rotate(-90)")
+								  .attr("y", 6)
+								  .attr("dy", ".71em")
+								  .style("text-anchor", "end")
+								  //set the y axis label here
+								  .text(set.label);
+							/*
 							  svg.append("path")
-							      .datum(dataAndAlarms.all_data[i])
-							      .attr("class", "line")
-							      .attr("d", line);
-							      
-							});
-							}
+								  .datum(set.data)
+								  .attr("class", "line")
+								  .attr("d", line);
+							*/
 						}
 					}
+				}
 				</script>
 			<!--If you want to reuse flow in the future, uncomment this
 					<div class="box">

@@ -47,6 +47,10 @@
 </head>
 
 <body>
+		<!-- TODO UNCOMMENT FOLLOWING SECTION (Note that it is commented out
+		right now because it floats in a very annoying fashion. We should fix
+		that before uncommenting and committing.) -->
+		<!--
 		<div class ="tagTableContainer pull-right">
 			<div style="margin-bottom:10px">
 			<i class="icon-tag icon-white"></i><span class="hidden-tablet"> Tag your graphs</span>
@@ -70,6 +74,7 @@
 				</tr>							
 			</table>
 		</div>
+		-->
 		<div id="overlay">
 		<ul>
 		  <li class="li1"></li>
@@ -273,10 +278,11 @@
 						// For each dataset in the alarm (of which there will
 						// always be exactly two), create a graph.
 						for (var j = 0; j < 2; j++) {
+							// The data is set.data
 							var set = alarms[i][j];
+							var getx = function (d) { return d[0]; };
+							var gety = function (d) { return d[1]; };
 
-							var timestamp = [];
-							var data = [];
 							for (var k = 0; k < set.data.length; k++) {
 							}
 
@@ -294,21 +300,28 @@
 								.scale(y)
 								.orient("left");
 							
+							var line = d3.svg.line()
+								.x(function (d) { return x(d[0]); })
+								.y(function (d) { return y(d[1]); });
+								//.x(x(set.data, getx))
+								//.y(y(set.data, gety));
 							//var line = d3.svg.line()
 							//	.x(x(timestamp))
 							//	.y(y(value));								  
 
 							// Create graph values for all the data in the set
+							/*
 							for (var k = 0; k < set.data.length; k++) {
-								// Change this date Parser depending on whatever the timeformat is that we get from MySQL, in this case UTC
-								//var parseDate = d3.time.format.utc("%d-%b-%y");
-								//var timestamp = parseDate(set.data[0]);
-								//var value = set.data[1];
+								 Change this date Parser depending on whatever the timeformat is that we get from MySQL, in this case UTC
+								var parseDate = d3.time.format.utc("%d-%b-%y");
+								var timestamp = parseDate(set.data[0]);
+								var value = set.data[1];
 							}
+							*/
 
 							//scale the x and y axes here 	  
-							//x.domain(d3.extent(timestamp));
-							//y.domain(d3.extent(value));
+							x.domain(d3.extent(set.data, getx));
+							y.domain(d3.extent(set.data, gety));
 
 							//Insert SVG graph into PHP dynamically generated Anomaly Container of id i
 							var svg = d3.select("#anomaly" + i).append("svg")
@@ -343,12 +356,11 @@
 								  .style("text-anchor", "end")
 								  //set the y axis label here
 								  .text(set.label);
-							/*
+							
 							  svg.append("path")
 								  .datum(set.data)
 								  .attr("class", "line")
 								  .attr("d", line);
-							*/
 						}
 					}
 				}

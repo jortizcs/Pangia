@@ -93,8 +93,8 @@ class GetAlarms{
         $et_format = $et_date2->format("Y/m/d-H:i:s");
 
 
-        $url = "http://".$this->otsdb_host.":".$this->ostdb_port."/q?start=".$st_format."&end=".$et_format."&label=".$label."&m=sum:sbs.".$user.".".$id;
-        #echo 'url='.$url."\n";
+        $url = "http://".$this->otsdb_host.":".$this->ostdb_port."/q?start=".$st_format."&end=".$et_format."&m=sum:sbs.".$user.".".$id."{label=".$label."}";
+        //echo 'url='.$url."\n";
         $tsdata_str = file_get_contents($url);
         //echo $tsdata_str;
         $tsdata = json_decode($tsdata_str);

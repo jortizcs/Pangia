@@ -22,6 +22,9 @@ class GetAlarms{
 
         $alarms = $this->getAlarms($user, $id);
         //echo count($alarms);
+        //populate data and alarms array
+        $alarm_set = array();
+        $data_array = array();
 
         $data_alarms = array();
 
@@ -51,9 +54,7 @@ class GetAlarms{
             //$data4_label1 = [];
             //$data4_label2 = [];
 
-            //populate data and alarms array
-            $alarm_set = array();
-            $data_array = array();
+            
 
             $pair = array($start_dt->getTimestamp(), $end_dt->getTimestamp());
             array_push($alarm_set, $pair);
@@ -78,6 +79,12 @@ class GetAlarms{
     function getTsData($user, $id, $st, $et, $label){
         //echo "start=".$st."\tend=".$et."\n";
         //the time zone is ignored
+
+        // opentsdb issue
+        // https://groups.google.com/forum/?fromgroups=#!topic/opentsdb/-Gy3MWpqAjo
+        $st+=28800; //add 8 hours -- opentsdb issue
+        $et+=28800; //add 8 hours -- opentsdb issue
+
         $st_date = new DateTime("@$st", new DateTimeZone('America/Los_Angeles'));
         $st_format = $st_date->format("Y/m/d H:i:s");
         $st_date2 = new DateTime($st_format, new DateTimeZone('UTC'));
@@ -92,8 +99,8 @@ class GetAlarms{
         $et_format = $et_date2->format("Y/m/d-H:i:s");
 
 
-        $url = "http://".$this->otsdb_host.":".$this->ostdb_port."/q?start=".$st_format."&end=".$et_format."&label=".$label."&m=sum:sbs.".$user.".".$id;
-        #echo 'url='.$url."\n";
+        $url = "http://".$this->otsdb_host.":".$this->ostdb_port."/q?start=".$st_format."&end=".$et_format."&m=sum:sbs.".$user.".".$id."{label=".$label."}";
+        //echo 'url='.$url."\n";
         $tsdata_str = file_get_contents($url);
         //echo $tsdata_str;
         $tsdata = json_decode($tsdata_str);

@@ -42,7 +42,8 @@
 	<!-- end: Favicon -->
 			<script src="lib/js/jquery-1.7.2.min.js"></script>
 			<script src="lib/js/jquery-ui-1.8.21.custom.min.js"></script>
-			<script src="http://d3js.org/d3.v3.min.js"></script>		
+			<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
+			<script src="lib/js/d3.v3.min.js"></script>
 		
 </head>
 
@@ -206,8 +207,10 @@
 				include_once("GetAlarms.php");
 				$disAlarms = new GetAlarms("localhost", "166.78.31.162");
 				$dat = $disAlarms->getDataAlarms($user, $id);
-				//echo "<br><br><br><br><br>datdata=".$dat."<br>";
-				//echo "label 1 = " . $dat[0]->label . "<br";
+				// The following two lines are for testing
+				//$dat = "[[{\"label\":\"p1\",\"data\":[]}, {\"label\":\"p2\",\"data\":[]},[[1361512800,1361513700]]],  [   {\"label\":\"p1\",\"data\":[[1361491200,0.582155816257],[1361492100,1.8082648515701],[1361493000,0.4484276920557]]},{\"label\":\"p2\",\"data\":[[1361491200,0.582155816257],[1361492100,1.8082648515701],[1361493000,0.4484276920557]]},[[1361516400,1361518200]]]]";
+				//$dat = "[[{\"label\":\"p1\",\"data\":[]}, {\"label\":\"p2\",\"data\":[]},[[1361512800000,1361513700]]],  [ {\"label\":\"p1\",\"data\":[[1361491200000,0.582155816257],[1361492100000,1.8082648515701],[1361493000000,0.4484276920557]]},{\"label\":\"p2\",\"data\":[[1361491200000,0.582155816257],[1361492100000,1.8082648515701],[1361493000000,0.4484276920557]]},[[13615164000000,1361518200]]]]";
+
 				if(!empty($dat)){
 					$datobj = json_decode($dat);
 				
@@ -280,13 +283,10 @@
 						for (var j = 0; j < 2; j++) {
 							// The data is set.data
 							var set = alarms[i][j];
-							var getx = function (d) { return d[0]; };
-							var gety = function (d) { return d[1]; };
 
-							for (var k = 0; k < set.data.length; k++) {
-							}
+							var parseDate = d3.time.format.utc("%d-%b-%y");
 
-							var x = d3.time.scale()
+							var x = d3.time.scale.utc()
 								.range([0, width]);
 
 							var y = d3.scale.linear()
@@ -303,11 +303,6 @@
 							var line = d3.svg.line()
 								.x(function (d) { return x(d[0]); })
 								.y(function (d) { return y(d[1]); });
-								//.x(x(set.data, getx))
-								//.y(y(set.data, gety));
-							//var line = d3.svg.line()
-							//	.x(x(timestamp))
-							//	.y(y(value));								  
 
 							// Create graph values for all the data in the set
 							/*
@@ -320,8 +315,8 @@
 							*/
 
 							//scale the x and y axes here 	  
-							x.domain(d3.extent(set.data, getx));
-							y.domain(d3.extent(set.data, gety));
+							x.domain(d3.extent(set.data, function (d) { return d[0]; }));
+							y.domain(d3.extent(set.data, function (d) { return d[1]; }));
 
 							//Insert SVG graph into PHP dynamically generated Anomaly Container of id i
 							var svg = d3.select("#anomaly" + i).append("svg")
@@ -331,14 +326,16 @@
 								.attr("viewBox","0 0 50 50"); 
 							
 							//This is the alarm highlight rectangle, needs to be updated with the alarm start time and end time for it's x and width values
-							//var alarmStart = dataAndAlarms.alarms[j][0];
-							//var alarmEnd = dataAndAlarms.alarms[j][1];
 							svg.append("rect")
-							   .attr("x", alarmStart)
-							   .attr("y", 0)
+							   //.attr("x", alarmStart)
+							   //.attr("y", 0)
+							   .attr("x", x(alarmStart))
+							   .attr("y", y(0))
 							   //.attr("width", parseDate(alarmEnd-alarmStart))
-							   .attr("width", alarmEnd - alarmStart)
+							   //.attr("width", alarmEnd - alarmStart)
+							   .attr("width", 100)
 							   .attr("height", height)
+							   .attr("fill", "orange")
 							   .attr("class", "rect");
 							
 							  svg.append("g")

@@ -216,21 +216,15 @@
 					for ($i = 0; $i<$max;$i++){ //$max
 						echo '<div class="box">' 
 							.'<div class="box-header">' 
-							.'<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #' . $i .'</h2>' 
+							.'<h2><i class="icon-list-alt box-icon"></i><span class="break"></span>'
 							.'<div class="box-icon">' 
+							. '<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->'
+							. '<a href="#" class="btn-minimize" id="btn-minimize-' . $i .'"><i class="icon-chevron-down"></i></a>'
+							. '<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->'
 							. '</div>'
+							. 'Anomaly #' . $i .'</h2>' 
 							. '</div>'
 							. '<div class="box-content" id="anomaly'. $i . '">'
-						//echo '<div class="box">' 
-						//	.'<div class="box-header">' 
-						//	.'<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #' . $i .'</h2>' 
-						//	.'<div class="box-icon">' 
-						//	. '<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->'
-						//	. '<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>'
-						//	. '<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->'
-						//	. '</div>'
-						//	. '</div>'
-						//	. '<div class="box-content" id=anomaly"'. $i . '">'
 						//For demo purposes uncomment the next line if you are not quite done with the graphs implementation
 						//. '<img src="lib/img/an-'.$i.'.png"/>'
 						;
@@ -243,9 +237,7 @@
 				?>
 				<script>
 
-				createGraphs();
-				    
-				function createGraphs(){
+				function createGraphs() {
 					/*
 					 * Loop through the JSON object.
 					 * The structure of the object is:
@@ -358,6 +350,11 @@
 						}
 					}
 				}
+
+				$(document).ready(function () {
+					createGraphs();
+				});
+
 				</script>
 			<!--If you want to reuse flow in the future, uncomment this
 					<div class="box">

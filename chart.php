@@ -296,7 +296,6 @@
 							var xAxis = d3.svg.axis()
 								.scale(x)
 								.orient("bottom")
-								//.tickFormat(d3.time.format.utc("%d-%b-%y-%X"));
 								.tickFormat(d3.time.format.utc("%X"));
 							
 							var yAxis = d3.svg.axis()
@@ -320,47 +319,47 @@
 							
 							//This is the alarm highlight rectangle, needs to be updated with the alarm start time and end time for it's x and width values
 							svg.append("rect")
-							   .attr("x", x(alarmStart))
-							   .attr("y", 0)
-							   .attr("width", x(alarmEnd) - x(alarmStart))
-							   .attr("height", height)
-							   .attr("fill", "orange")
-							   .attr("class", "rect");
+								.attr("x", x(alarmStart))
+								.attr("y", 0)
+								.attr("width", x(alarmEnd) - x(alarmStart))
+								.attr("height", height)
+								.attr("class", "rect");
 							
-							  svg.append("g")
-								  .attr("class", "x axis")
-								  .attr("transform", "translate(0," + height + ")")
-								  .call(xAxis)
-								  .selectAll("text")  
-								  .style("text-anchor", "end")
-								  .attr("dx", "-.8em")
-								  .attr("dy", ".15em")
-								  .attr("transform", function(d) {
-									return "rotate(-65)";
-								  });
+							svg.append("g")
+								.attr("class", "x axis")
+								.attr("transform", "translate(0," + height + ")")
+								.call(xAxis)
+								.selectAll("text")  
+								.style("text-anchor", "end")
+								.attr("dx", "-.8em")
+								.attr("dy", ".15em")
+								.attr("transform", function(d) {
+								  return "rotate(-65)";
+								});
 							
-							  svg.append("g")
-								  .attr("class", "y axis")
-								  .call(yAxis)
-								  .append("text")
-								  .attr("transform", "rotate(-90)")
-								  .attr("y", 6)
-								  .attr("dy", ".71em")
-								  .style("text-anchor", "end")
-								  //set the y axis label here
-								  .text(set.label);
+							svg.append("g")
+								.attr("class", "y axis")
+								.call(yAxis)
+								.append("text")
+								.attr("transform", "rotate(-90)")
+								.attr("y", 6)
+								.attr("dy", ".71em")
+								.style("text-anchor", "end")
+								//set the y axis label here
+								.text(set.label);
 							
+							svg.append("text")
+								.attr("class", "x label")
+								.attr("text-anchor", "end")
+								.attr("x", width)
+								.attr("y", height - 6)
+								.text(d3.time.format.utc("%Y-%b-%d")(startDate));
+
 							  svg.append("path")
 								  .datum(set.data)
 								  .attr("class", "line")
 								  .attr("d", line);
 
-							  svg.append("text")
-							      .attr("class", "x label")
-							      .attr("text-anchor", "end")
-							      .attr("x", width)
-							      .attr("y", height - 6)
-								  .text(d3.time.format.utc("%d-%b-%y")(startDate));
 						}
 					}
 				}
@@ -428,10 +427,11 @@
 		<script src='lib/js/jquery.dataTables.min.js'></script>
 
 		<script src="lib/js/excanvas.js"></script>
-	<script src="lib/js/jquery.flot.min.js"></script>
-	<script src="lib/js/jquery.flot.pie.min.js"></script>
-	<script src="lib/js/jquery.flot.stack.js"></script>
-	<script src="lib/js/jquery.flot.resize.min.js"></script>
+
+		<script src="lib/js/jquery.flot.min.js"></script>
+		<script src="lib/js/jquery.flot.pie.min.js"></script>
+		<script src="lib/js/jquery.flot.stack.js"></script>
+		<script src="lib/js/jquery.flot.resize.min.js"></script>
 	
 		<script src="lib/js/jquery.chosen.min.js"></script>
 	

@@ -271,9 +271,9 @@
 					 */
 					for (var i = 0; i < alarms.length; i++) {
 						//This needs to eventually be made into responsive widths and heights and not absolute values	
-						var margin = {top: 20, right: 20, bottom: 30, left: 50},
+						var margin = {top: 20, right: 20, bottom: 120, left: 50},
 						    width = 960 - margin.left - margin.right,
-						    height = 200 - margin.top - margin.bottom;
+						    height = 300 - margin.top - margin.bottom;
 
 						// All the time values are given in seconds, so we
 						// convert them to milliseconds.
@@ -285,8 +285,7 @@
 						for (var j = 0; j < 2; j++) {
 							// The data is set.data
 							var set = alarms[i][j];
-
-							//var parseDate = d3.time.format.utc("%d-%b-%y");
+							var startDate = new Date(set.data[0][0] * 1000);
 
 							var x = d3.time.scale.utc()
 								.range([0, width]);
@@ -296,7 +295,9 @@
 							
 							var xAxis = d3.svg.axis()
 								.scale(x)
-								.orient("bottom");
+								.orient("bottom")
+								//.tickFormat(d3.time.format.utc("%d-%b-%y-%X"));
+								.tickFormat(d3.time.format.utc("%X"));
 							
 							var yAxis = d3.svg.axis()
 								.scale(y)
@@ -305,16 +306,6 @@
 							var line = d3.svg.line()
 								.x(function (d) { return x(d[0] * 1000); })
 								.y(function (d) { return y(d[1]); });
-
-							// Create graph values for all the data in the set
-							/*
-							for (var k = 0; k < set.data.length; k++) {
-								 Change this date Parser depending on whatever the timeformat is that we get from MySQL, in this case UTC
-								var parseDate = d3.time.format.utc("%d-%b-%y");
-								var timestamp = parseDate(set.data[0]);
-								var value = set.data[1];
-							}
-							*/
 
 							//scale the x and y axes here 	  
 							x.domain(d3.extent(set.data, function (d) { return d[0] * 1000; }));
@@ -339,7 +330,14 @@
 							  svg.append("g")
 								  .attr("class", "x axis")
 								  .attr("transform", "translate(0," + height + ")")
-								  .call(xAxis);
+								  .call(xAxis)
+								  .selectAll("text")  
+								  .style("text-anchor", "end")
+								  .attr("dx", "-.8em")
+								  .attr("dy", ".15em")
+								  .attr("transform", function(d) {
+									return "rotate(-65)";
+								  });
 							
 							  svg.append("g")
 								  .attr("class", "y axis")
@@ -356,6 +354,13 @@
 								  .datum(set.data)
 								  .attr("class", "line")
 								  .attr("d", line);
+
+							  svg.append("text")
+							      .attr("class", "x label")
+							      .attr("text-anchor", "end")
+							      .attr("x", width)
+							      .attr("y", height - 6)
+								  .text(d3.time.format.utc("%d-%b-%y")(startDate));
 						}
 					}
 				}

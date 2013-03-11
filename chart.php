@@ -48,10 +48,6 @@
 </head>
 
 <body>
-		<!-- TODO UNCOMMENT FOLLOWING SECTION (Note that it is commented out
-		right now because it floats in a very annoying fashion. We should fix
-		that before uncommenting and committing.) -->
-		<!--
 		<div class ="tagTableContainer pull-right">
 			<div style="margin-bottom:10px">
 			<i class="icon-tag icon-white"></i><span class="hidden-tablet"> Tag your graphs</span>
@@ -75,7 +71,6 @@
 				</tr>							
 			</table>
 		</div>
-		-->
 		<div id="overlay">
 		<ul>
 		  <li class="li1"></li>

@@ -275,8 +275,10 @@
 						    width = 960 - margin.left - margin.right,
 						    height = 200 - margin.top - margin.bottom;
 
-						var alarmStart = alarms[i][2][0][0];
-						var alarmEnd = alarms[i][2][0][1];
+						// All the time values are given in seconds, so we
+						// convert them to milliseconds.
+						var alarmStart = alarms[i][2][0][0] * 1000;
+						var alarmEnd = alarms[i][2][0][1] * 1000;
 
 						// For each dataset in the alarm (of which there will
 						// always be exactly two), create a graph.
@@ -284,7 +286,7 @@
 							// The data is set.data
 							var set = alarms[i][j];
 
-							var parseDate = d3.time.format.utc("%d-%b-%y");
+							//var parseDate = d3.time.format.utc("%d-%b-%y");
 
 							var x = d3.time.scale.utc()
 								.range([0, width]);
@@ -301,7 +303,7 @@
 								.orient("left");
 							
 							var line = d3.svg.line()
-								.x(function (d) { return x(d[0]); })
+								.x(function (d) { return x(d[0] * 1000); })
 								.y(function (d) { return y(d[1]); });
 
 							// Create graph values for all the data in the set
@@ -315,7 +317,7 @@
 							*/
 
 							//scale the x and y axes here 	  
-							x.domain(d3.extent(set.data, function (d) { return d[0]; }));
+							x.domain(d3.extent(set.data, function (d) { return d[0] * 1000; }));
 							y.domain(d3.extent(set.data, function (d) { return d[1]; }));
 
 							//Insert SVG graph into PHP dynamically generated Anomaly Container of id i
@@ -327,13 +329,9 @@
 							
 							//This is the alarm highlight rectangle, needs to be updated with the alarm start time and end time for it's x and width values
 							svg.append("rect")
-							   //.attr("x", alarmStart)
-							   //.attr("y", 0)
 							   .attr("x", x(alarmStart))
-							   .attr("y", y(0))
-							   //.attr("width", parseDate(alarmEnd-alarmStart))
-							   //.attr("width", alarmEnd - alarmStart)
-							   .attr("width", 100)
+							   .attr("y", 0)
+							   .attr("width", x(alarmEnd) - x(alarmStart))
 							   .attr("height", height)
 							   .attr("fill", "orange")
 							   .attr("class", "rect");

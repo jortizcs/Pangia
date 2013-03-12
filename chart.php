@@ -48,10 +48,6 @@
 </head>
 
 <body>
-		<!-- TODO UNCOMMENT FOLLOWING SECTION (Note that it is commented out
-		right now because it floats in a very annoying fashion. We should fix
-		that before uncommenting and committing.) -->
-		<!--
 		<div class ="tagTableContainer pull-right">
 			<div style="margin-bottom:10px">
 			<i class="icon-tag icon-white"></i><span class="hidden-tablet"> Tag your graphs</span>
@@ -75,7 +71,6 @@
 				</tr>							
 			</table>
 		</div>
-		-->
 		<div id="overlay">
 		<ul>
 		  <li class="li1"></li>
@@ -221,21 +216,15 @@
 					for ($i = 0; $i<$max;$i++){ //$max
 						echo '<div class="box">' 
 							.'<div class="box-header">' 
-							.'<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #' . $i .'</h2>' 
+							.'<h2><i class="icon-list-alt box-icon"></i><span class="break"></span>'
 							.'<div class="box-icon">' 
+							. '<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->'
+							. '<a href="#" class="btn-minimize" id="btn-minimize-' . $i .'"><i class="icon-chevron-down"></i></a>'
+							. '<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->'
 							. '</div>'
+							. 'Anomaly #' . $i .'</h2>' 
 							. '</div>'
 							. '<div class="box-content" id="anomaly'. $i . '">'
-						//echo '<div class="box">' 
-						//	.'<div class="box-header">' 
-						//	.'<h2><i class="icon-list-alt"></i><span class="break"></span>Anomaly #' . $i .'</h2>' 
-						//	.'<div class="box-icon">' 
-						//	. '<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->'
-						//	. '<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>'
-						//	. '<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->'
-						//	. '</div>'
-						//	. '</div>'
-						//	. '<div class="box-content" id=anomaly"'. $i . '">'
 						//For demo purposes uncomment the next line if you are not quite done with the graphs implementation
 						//. '<img src="lib/img/an-'.$i.'.png"/>'
 						;
@@ -248,9 +237,7 @@
 				?>
 				<script>
 
-				createGraphs();
-				    
-				function createGraphs(){
+				function createGraphs() {
 					/*
 					 * Loop through the JSON object.
 					 * The structure of the object is:
@@ -296,7 +283,6 @@
 							var xAxis = d3.svg.axis()
 								.scale(x)
 								.orient("bottom")
-								//.tickFormat(d3.time.format.utc("%d-%b-%y-%X"));
 								.tickFormat(d3.time.format.utc("%X"));
 							
 							var yAxis = d3.svg.axis()
@@ -320,50 +306,56 @@
 							
 							//This is the alarm highlight rectangle, needs to be updated with the alarm start time and end time for it's x and width values
 							svg.append("rect")
-							   .attr("x", x(alarmStart))
-							   .attr("y", 0)
-							   .attr("width", x(alarmEnd) - x(alarmStart))
-							   .attr("height", height)
-							   .attr("fill", "orange")
-							   .attr("class", "rect");
+								.attr("x", x(alarmStart))
+								.attr("y", 0)
+								.attr("width", x(alarmEnd) - x(alarmStart))
+								.attr("height", height)
+								.attr("class", "rect");
 							
-							  svg.append("g")
-								  .attr("class", "x axis")
-								  .attr("transform", "translate(0," + height + ")")
-								  .call(xAxis)
-								  .selectAll("text")  
-								  .style("text-anchor", "end")
-								  .attr("dx", "-.8em")
-								  .attr("dy", ".15em")
-								  .attr("transform", function(d) {
-									return "rotate(-65)";
-								  });
+							svg.append("g")
+								.attr("class", "x axis")
+								.attr("transform", "translate(0," + height + ")")
+								.call(xAxis)
+								.selectAll("text")  
+								.style("text-anchor", "end")
+								.attr("dx", "-.8em")
+								.attr("dy", ".15em")
+								.attr("transform", function(d) {
+								  return "rotate(-65)";
+								});
 							
-							  svg.append("g")
-								  .attr("class", "y axis")
-								  .call(yAxis)
-								  .append("text")
-								  .attr("transform", "rotate(-90)")
-								  .attr("y", 6)
-								  .attr("dy", ".71em")
-								  .style("text-anchor", "end")
-								  //set the y axis label here
-								  .text(set.label);
+							svg.append("g")
+								.attr("class", "y axis")
+								.call(yAxis)
+								.append("text")
+								.attr("transform", "rotate(-90)")
+								.attr("y", 6)
+								.attr("dy", ".71em")
+								.style("text-anchor", "end")
+								//set the y axis label here
+								.text(set.label);
 							
+							svg.append("text")
+								.attr("class", "x label")
+								.attr("text-anchor", "end")
+								//.attr("x", width)
+								.attr("x", 75)
+								.attr("y", height - 6)
+								.text(d3.time.format.utc("%Y-%b-%d")(startDate));
+
 							  svg.append("path")
 								  .datum(set.data)
 								  .attr("class", "line")
 								  .attr("d", line);
 
-							  svg.append("text")
-							      .attr("class", "x label")
-							      .attr("text-anchor", "end")
-							      .attr("x", width)
-							      .attr("y", height - 6)
-								  .text(d3.time.format.utc("%d-%b-%y")(startDate));
 						}
 					}
 				}
+
+				$(document).ready(function () {
+					createGraphs();
+				});
+
 				</script>
 			<!--If you want to reuse flow in the future, uncomment this
 					<div class="box">
@@ -428,10 +420,11 @@
 		<script src='lib/js/jquery.dataTables.min.js'></script>
 
 		<script src="lib/js/excanvas.js"></script>
-	<script src="lib/js/jquery.flot.min.js"></script>
-	<script src="lib/js/jquery.flot.pie.min.js"></script>
-	<script src="lib/js/jquery.flot.stack.js"></script>
-	<script src="lib/js/jquery.flot.resize.min.js"></script>
+
+		<script src="lib/js/jquery.flot.min.js"></script>
+		<script src="lib/js/jquery.flot.pie.min.js"></script>
+		<script src="lib/js/jquery.flot.stack.js"></script>
+		<script src="lib/js/jquery.flot.resize.min.js"></script>
 	
 		<script src="lib/js/jquery.chosen.min.js"></script>
 	

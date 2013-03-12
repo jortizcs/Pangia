@@ -338,7 +338,8 @@
 							svg.append("text")
 								.attr("class", "x label")
 								.attr("text-anchor", "end")
-								.attr("x", width)
+								//.attr("x", width)
+								.attr("x", 75)
 								.attr("y", height - 6)
 								.text(d3.time.format.utc("%Y-%b-%d")(startDate));
 

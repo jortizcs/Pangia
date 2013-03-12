@@ -23,8 +23,6 @@ class GetAlarms{
         $alarms = $this->getAlarms($user, $id);
         //echo count($alarms);
         //populate data and alarms array
-        $alarm_set = array();
-        $data_array = array();
 
         $data_alarms = array();
 
@@ -57,11 +55,13 @@ class GetAlarms{
             
 
             $pair = array($start_dt->getTimestamp(), $end_dt->getTimestamp());
+            $alarm_set = array();
             array_push($alarm_set, $pair);
 
             $data_obj1 = array("label" => $label1, "data" => $data4_label1);
             $data_obj2 = array("label" => $label2, "data" => $data4_label2);
 
+            $data_array = array();
             //add data
             array_push($data_array, $data_obj1);
             array_push($data_array, $data_obj2);

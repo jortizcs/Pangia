@@ -402,6 +402,20 @@
 
 					$('.box').droppable({
 						drop: function (e, ui) {
+							// Make sure that the tag isn't already present
+							var tagHolder = $(this).find('.tagHolder');
+							var spans = tagHolder.find('span');
+							var tagText = ui.draggable.text().trim();
+							var i;
+
+							for (i = 0; i < spans.length; i++) {
+								var s = $(spans[i]);
+								if (s.text().trim() == tagText) {
+									// This tag is already present, so abort.
+									return;
+								}
+							}
+
 							$(this).find('.tagHolder').append(ui.draggable.clone());
 						}
 					});

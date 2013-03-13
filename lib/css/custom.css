@@ -11,14 +11,18 @@
   padding: 10px;
   background: black;
   color: white;
+  width: 250px;
 }
-.tagTableContainer .tagTable {
+.tagTable {
   margin-bottom: 5px;
 }
-.tagTableContainer .tagTable td {
-  width: 50%;
-  text-align: right;
+.tagTable li {
+  display: inline;
 }
+.tagTable li span {
+  width: 70px;
+}
+
 .axis path,
 .axis line {
   fill: none;

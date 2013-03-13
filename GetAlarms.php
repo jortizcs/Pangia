@@ -27,6 +27,8 @@ class GetAlarms{
         $data_alarms = array();
 
         for($i=0; $i<count($alarms); $i++){
+        	$alarm_set = array();
+        	$data_array = array();
             $start = $alarms[$i]["start"];
             $end = $alarms[$i]["end"];
             #echo "start=$start, end=$end\n";

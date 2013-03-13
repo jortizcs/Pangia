@@ -40,11 +40,57 @@
 	<!-- start: Favicon -->
 	<link rel="shortcut icon" href="lib/img/favicon.ico">
 	<!-- end: Favicon -->
-			<script src="lib/js/jquery-1.7.2.min.js"></script>
-			<script src="lib/js/jquery-ui-1.8.21.custom.min.js"></script>
-			<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
-			<script src="lib/js/d3.v3.min.js"></script>
+
+	<!-- start: JavaScript-->
+	
+	<script src="lib/js/jquery-1.7.2.min.js"></script>
+	<script src="lib/js/jquery-ui-1.8.21.custom.min.js"></script>
+	<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
+	<script src="lib/js/d3.v3.min.js"></script>
 		
+	<script src="lib/js/bootstrap.js"></script>
+
+	<script src="lib/js/jquery.cookie.js"></script>
+
+	<script src='lib/js/fullcalendar.min.js'></script>
+
+	<script src='lib/js/jquery.dataTables.min.js'></script>
+
+	<script src="lib/js/excanvas.js"></script>
+
+	<script src="lib/js/jquery.flot.min.js"></script>
+	<script src="lib/js/jquery.flot.pie.min.js"></script>
+	<script src="lib/js/jquery.flot.stack.js"></script>
+	<script src="lib/js/jquery.flot.resize.min.js"></script>
+
+	<script src="lib/js/jquery.chosen.min.js"></script>
+
+	<script src="lib/js/jquery.uniform.min.js"></script>
+	
+	<script src="lib/js/jquery.cleditor.min.js"></script>
+
+	<script src="lib/js/jquery.noty.js"></script>
+
+	<script src="lib/js/jquery.elfinder.min.js"></script>
+
+	<script src="lib/js/jquery.raty.min.js"></script>
+
+	<script src="lib/js/jquery.iphone.toggle.js"></script>
+
+	<script src="lib/js/jquery.gritter.min.js"></script>
+
+	<script src="lib/js/jquery.imagesloaded.js"></script>
+
+	<script src="lib/js/jquery.masonry.min.js"></script>
+
+	<script src="lib/js/jquery.knob.js"></script>
+
+	<script src="lib/js/jquery.sparkline.min.js"></script>
+
+	<script src="lib/js/custom.js"></script>
+	
+	<!-- end: JavaScript-->
+	
 </head>
 
 <body>
@@ -52,24 +98,16 @@
 			<div style="margin-bottom:10px">
 			<i class="icon-tag icon-white"></i><span class="hidden-tablet"> Tag your graphs</span>
 			</div>
-			<table class="tagTable">
-				<tr valign="top">
-					<td class="span1" >
-						<a class="btn btn-small btn-danger btn-block inactive">Heating</a>
-						<a class="btn btn-small btn-danger">Temperature</a>
-					</td>
-					<td class="span1"><a class="btn btn-small btn-block">Ventilation</a></td>
-				</tr>
-				<tr>
-					<td><button class="btn btn-mini btn-info btn-block">AC</button></td>
-					<td><button class="btn btn-mini btn-warning btn-block">Lighting</button></td>
-				</tr>
-			
-				<tr>
-					<td><button class="btn btn-mini btn-inverse btn-block">Type</button></td>
-					<td></td>
-				</tr>							
-			</table>
+			<ul class="tagTable">
+				<li> <span class="btn btn-small">Heating</span></li>
+				<li><span class="btn btn-small">Temperature</span></li>
+				<br />
+				<li><span class="btn btn-small">Ventilation</span></li>
+				<li><span class="btn btn-small">AC</span></li>
+				<br />
+				<li><span class="btn btn-small">Lighting</span></li>
+				<li><span class="btn btn-small">Type</span></li>
+			</ul>
 		</div>
 		<div id="overlay">
 		<ul>
@@ -225,6 +263,7 @@
 							. 'Anomaly #' . $i .'</h2>' 
 							. '</div>'
 							. '<div class="box-content" id="anomaly'. $i . '">'
+							. '<ul class="tagHolder tagTable"></ul>'
 						//For demo purposes uncomment the next line if you are not quite done with the graphs implementation
 						//. '<img src="lib/img/an-'.$i.'.png"/>'
 						;
@@ -232,7 +271,7 @@
 						echo '</div></div>';
 					}
 				}
-						//sending PHP JSON obnect to javascript
+						//sending PHP JSON object to javascript
 						echo '<script> var alarms = '.$dat.';</script>';
 				?>
 				<script>
@@ -354,25 +393,21 @@
 
 				$(document).ready(function () {
 					createGraphs();
+
+					$('.tagTableContainer').draggable();
+
+					$('.tagTable li').draggable({
+						helper: 'clone'
+					});
+
+					$('.box').droppable({
+						drop: function (e, ui) {
+							$(this).find('.tagHolder').append(ui.draggable.clone());
+						}
+					});
 				});
 
 				</script>
-			<!--If you want to reuse flow in the future, uncomment this
-					<div class="box">
-					<div class="box-header">
-						<h2><i class="icon-list-alt"></i><span class="break"></span>Test</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
-							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<div id="pairPart1"  class="center" style="height:150px;" ></div>
-						<div id="pairPart2" class="center" style="height:150px"></div>
-						<p id="hoverdata">Mouse position at (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
-					</div>
-				</div>-->				
 			</div><!--/row-->
 
 		
@@ -407,52 +442,5 @@
 				
 	</div><!--/.fluid-container-->
 
-	<!-- start: JavaScript-->
-
-
-	
-		<script src="lib/js/bootstrap.js"></script>
-	
-		<script src="lib/js/jquery.cookie.js"></script>
-	
-		<script src='lib/js/fullcalendar.min.js'></script>
-	
-		<script src='lib/js/jquery.dataTables.min.js'></script>
-
-		<script src="lib/js/excanvas.js"></script>
-
-		<script src="lib/js/jquery.flot.min.js"></script>
-		<script src="lib/js/jquery.flot.pie.min.js"></script>
-		<script src="lib/js/jquery.flot.stack.js"></script>
-		<script src="lib/js/jquery.flot.resize.min.js"></script>
-	
-		<script src="lib/js/jquery.chosen.min.js"></script>
-	
-		<script src="lib/js/jquery.uniform.min.js"></script>
-		
-		<script src="lib/js/jquery.cleditor.min.js"></script>
-	
-		<script src="lib/js/jquery.noty.js"></script>
-	
-		<script src="lib/js/jquery.elfinder.min.js"></script>
-	
-		<script src="lib/js/jquery.raty.min.js"></script>
-	
-		<script src="lib/js/jquery.iphone.toggle.js"></script>
-	
-		<script src="lib/js/jquery.gritter.min.js"></script>
-	
-		<script src="lib/js/jquery.imagesloaded.js"></script>
-	
-		<script src="lib/js/jquery.masonry.min.js"></script>
-	
-		<script src="lib/js/jquery.knob.js"></script>
-	
-		<script src="lib/js/jquery.sparkline.min.js"></script>
-
-		<script src="lib/js/custom.js"></script>
-		
-		<!-- end: JavaScript-->
-	
 </body>
 </html>

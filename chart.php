@@ -263,7 +263,6 @@
 							. 'Anomaly #' . $i .'</h2>' 
 							. '</div>'
 							. '<div class="box-content" id="anomaly'. $i . '">'
-							. '<ul class="tagHolder tagTable"></ul>'
 						//For demo purposes uncomment the next line if you are not quite done with the graphs implementation
 						//. '<img src="lib/img/an-'.$i.'.png"/>'
 						;
@@ -336,6 +335,8 @@
 							x.domain(d3.extent(set.data, function (d) { return d[0] * 1000; }));
 							y.domain(d3.extent(set.data, function (d) { return d[1]; }));
 
+							//Insert a holder for tags before the chart.
+							$('#anomaly' + i).append($('<ul class="tagHolder tagTable"></ul>'));
 							//Insert SVG graph into PHP dynamically generated Anomaly Container of id i
 							var svg = d3.select("#anomaly" + i).append("svg")
 								.attr("height", height + margin.top + margin.bottom)
@@ -400,10 +401,10 @@
 						helper: 'clone'
 					});
 
-					$('.box').droppable({
+					$('svg').droppable({
 						drop: function (e, ui) {
 							// Make sure that the tag isn't already present
-							var tagHolder = $(this).find('.tagHolder');
+							var tagHolder = $(this).prev();
 							var spans = tagHolder.find('span');
 							var tagText = ui.draggable.text().trim();
 							var i;
@@ -416,7 +417,7 @@
 								}
 							}
 
-							$(this).find('.tagHolder').append(ui.draggable.clone());
+							tagHolder.append(ui.draggable.clone());
 						}
 					});
 				});

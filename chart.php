@@ -99,14 +99,12 @@
 			<i class="icon-tag icon-white"></i><span class="hidden-tablet"> Tag your graphs</span>
 			</div>
 			<ul class="tagTable">
-				<li> <span class="btn btn-small">Heating</span></li>
-				<li><span class="btn btn-small">Temperature</span></li>
-				<br />
-				<li><span class="btn btn-small">Ventilation</span></li>
-				<li><span class="btn btn-small">AC</span></li>
-				<br />
-				<li><span class="btn btn-small">Lighting</span></li>
-				<li><span class="btn btn-small">Type</span></li>
+				<li class="tag"> <span class="btn btn-small">Heating</span></li>
+				<li class="tag"><span class="btn btn-small">Temperature</span></li>
+				<li class="tag"><span class="btn btn-small">Ventilation</span></li>
+				<li class="tag"><span class="btn btn-small">AC</span></li>
+				<li class="tag"><span class="btn btn-small">Lighting</span></li>
+				<li class="tag"><span class="btn btn-small">Type</span></li>
 			</ul>
 		</div>
 		<div id="overlay">
@@ -257,7 +255,7 @@
 							.'<h2><i class="icon-list-alt box-icon"></i><span class="break"></span>'
 							.'<div class="box-icon">' 
 							. '<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->'
-							. '<a href="#" class="btn-minimize" id="btn-minimize-' . $i .'"><i class="icon-chevron-down"></i></a>'
+							. '<a href="#" class="btn-minimize" id="btn-minimize-' . $i .'"><i class="icon-chevron-up"></i></a>'
 							. '<!-- <a href="#" class="btn-close"><i class="icon-remove"></i></a> -->'
 							. '</div>'
 							. 'Anomaly #' . $i .'</h2>' 
@@ -403,12 +401,17 @@
 
 					$('svg').droppable({
 						drop: function (e, ui) {
-							// Make sure that the tag isn't already present
 							var tagHolder = $(this).prev();
 							var spans = tagHolder.find('span');
 							var tagText = ui.draggable.text().trim();
 							var i;
 
+							// If the dragged item is *not* a tag, ignore it.
+							if (!$(ui.draggable).hasClass('tag')) {
+								return;
+							}
+
+							// Make sure that the tag isn't already present
 							for (i = 0; i < spans.length; i++) {
 								var s = $(spans[i]);
 								if (s.text().trim() == tagText) {

@@ -39,6 +39,8 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/dashboard', routes.dashboard);
+app.post('/dashboard', routes.dashboard);
+app.get('/upload', routes.upload);
 app.get('/users', user.list);
 
 http.createServer(app).listen(app.get('port'), function(){

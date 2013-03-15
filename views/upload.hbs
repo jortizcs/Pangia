@@ -1,75 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	
-	<!-- start: Meta -->
-	<meta charset="utf-8">
-	<title>Pangia - Generate New Report</title>
-	<meta name="description" content="Perfectum Dashboard Bootstrap Admin Template.">
-	<meta name="author" content="Łukasz Holeczek">
-	<!-- end: Meta -->
-	
-	<!-- start: Mobile Specific -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- end: Mobile Specific -->
-	
-	<!-- start: CSS -->
-	<link rel="stylesheet" type="text/css" href="lib/fineuploader_3.2/fineuploader-3.2.css">
-	<link id="bootstrap-style" href="lib/css/bootstrap.css" rel="stylesheet">
-	<link href="lib/css/bootstrap-responsive.css" rel="stylesheet">
-	<link id="base-style" href="lib/css/style.css" rel="stylesheet">
-	<link id="base-style-responsive" href="lib/css/style-responsive.css" rel="stylesheet">
-
-	
-	
-	<!--[if lt IE 7 ]>
-	<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
-	<![endif]-->
-	<!--[if IE 8 ]>
-	<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
-	<![endif]-->
-	<!--[if IE 9 ]>
-	<![endif]-->
-	
-	<!-- end: CSS -->
-	
-
-	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-
-	<!-- start: Favicon -->
-	<link rel="shortcut icon" href="lib/img/favicon.ico">
-	<!-- end: Favicon -->
-	<style>
-      /* Fine Uploader
-      -------------------------------------------------- */
-      .qq-upload-list {
-        text-align: left;
-      }
- 
-      /* For bootstrap */
-      li.alert-success {
-        background-color: #DFF0D8;
-      }
- 
-      li.alert-error {
-        background-color: #F2DEDE;
-      }
- 
-      .alert-error .qq-upload-failed-text {
-        display: inline;
-      }
-      .qq-upload-button {
-      	
-      }
-    </style>	
-		
-		
-</head>
-
-<body>
 		<div id="overlay">
 		<ul>
 		  <li class="li1"></li>
@@ -89,7 +18,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.php"><span class="hidden-phone">PANGIA</span></a>
+				<a class="brand" href="/"><span class="hidden-phone">PANGIA</span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -156,8 +85,8 @@
 			<div class="span2 main-menu-span">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="dashboard.php"><i class="icon-home icon-white"></i><span class="hidden-tablet"> Dashboard</span></a></li>
-						<li><a href="upload.php"><i class="icon-edit icon-white"></i><span class="hidden-tablet"> New Report</span></a></li>
+						<li><a href="dashboard"><i class="icon-home icon-white"></i><span class="hidden-tablet"> Dashboard</span></a></li>
+						<li><a href="upload"><i class="icon-edit icon-white"></i><span class="hidden-tablet"> New Report</span></a></li>
 					</ul>
 				</div><!--/.well -->
 			</div><!--/span-->
@@ -177,7 +106,7 @@
 				<hr>
 				<ul class="breadcrumb">
 					<li>
-						<a href="dashboard.php">Home</a> <span class="divider">/</span>
+						<a href="dashboard">Home</a> <span class="divider">/</span>
 					</li>
 					<li>
 						<a href="#">New Report</a>
@@ -324,13 +253,12 @@
 		
 	});			
 	</script>
-    <script src="lib/fineuploader_3.2/jquery.fineuploader-3.2.min.js"></script>
     <script>
 function createUploader() {
         var uploader = new qq.FineUploader({
       element: document.getElementById('bootstrapped-fine-uploader'),
       request: {
-        endpoint: 'server/php/uploader.php'
+        endpoint: 'server/uploader'
       },
       chunking: {
       	enabled: true
@@ -379,6 +307,3 @@ function createUploader() {
  window.onload = createUploader;
     </script>
 		<!-- end: JavaScript-->
-	
-</body>
-</html>

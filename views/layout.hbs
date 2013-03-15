@@ -1,5 +1,13 @@
 <html lang="en">
 	<head>
+		<!-- start: Meta -->
+		<meta charset="utf-8"></meta>
+		<!-- start extra meta -->
+		{{#each extrameta}}
+		<meta name="{{{this.description}}}" content="{{{this.content}}}"></meta>
+		{{/each}}
+		<!-- end: Meta -->
+	
 		<title>{{title}}</title>
 
 		<!-- start: CSS -->
@@ -15,6 +23,7 @@
 		<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
 		<![endif]-->
 		<!--[if IE 9 ]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		
 		<!-- end: CSS -->

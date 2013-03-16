@@ -33,7 +33,7 @@ exports.getDataAlarms = function(user, id, done) {
 
 	var eachAlarm = function (alarms, i) {
 		if (alarms.length == i) {
-			done(JSON.stringify(data_alarms));
+			done(data_alarms);
 			return;
 		}
 

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<!-- start: Meta -->
@@ -37,6 +38,10 @@
 		<!-- end: Favicon -->
 
 		<!-- start extra CSS -->
+		{{#each extracss}}
+		<link href="{{{this}}}" rel="stylesheet"></link>
+		{{/each}}
+
 		{{#each extrastyle}}
 		<style type="text/css">{{{this}}}</style>
 		{{/each}}

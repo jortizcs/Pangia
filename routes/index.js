@@ -24,8 +24,36 @@ exports.dashboard = function(req, res) {
 };
 
 exports.alarmshim = function(req, res) {
-	getalarms.getDataAlarms('root', 1, function (alarms) {
-		res.send(alarms);
+	getalarms.getDataAlarms('root', 1, function(data) {
+		res.send(JSON.stringify(data));
+	});
+};
+
+exports.chart = function(req, res) {
+	getalarms.getDataAlarms('root', 1, function(data) {
+		var len = (data.length > 10) ? 10 : data.length;
+		var i;
+		var indexes = [];
+
+		for (i = 0; i < len; i++) {
+			indexes.push(i);
+		}
+
+		res.render('chart', {
+			title: 'Pangia - Anomaly Report',
+			extrameta: [
+				{ name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
+				{ name: 'author', content: 'Łukasz Holeczek' }
+			],
+			extracss: [
+				'lib/css/custom.css'
+			],
+			extrascripts: [
+				'lib/js/d3.v3.min.js'
+			],
+			data: JSON.stringify(data),
+			indexes: indexes
+		});
 	});
 };
 
@@ -47,7 +75,7 @@ exports.upload = function(req, res) {
 			'.alert-error .qq-upload-failed-text { display: inline; }',
 			'.qq-upload-button { }',
 		],
-		extrascript: [
+		extrascripts: [
 			'lib/fineuploader_3.2/jquery.fineuploader-3.2.min.js'
 		]
 	});

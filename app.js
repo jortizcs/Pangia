@@ -39,6 +39,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/alarmshim', routes.alarmshim);
+app.get('/chart', routes.chart);
 app.get('/dashboard', routes.dashboard);
 app.post('/dashboard', routes.dashboard);
 app.get('/upload', routes.upload);

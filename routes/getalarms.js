@@ -54,7 +54,7 @@ exports.getDataAlarms = function(user, id, done) {
 		var new_start = start - diff;
 		var new_end = end + diff;
 
-		//fetch the data for the new alarm time and end time
+		//fetch the data for the new alarm start time and end time
 		getTsData(user, id, new_start, new_end, label1,
 		  function(data4_label1) {
 			getTsData(user, id, new_start, new_end, label2,
@@ -68,7 +68,10 @@ exports.getDataAlarms = function(user, id, done) {
 					'data': data4_label2
 				};
 
-				var pair = [start, end];
+				// We add 8 hours because of some messed up time zone
+				// conversions
+				var pair = [ start_dt.getTime() / 1000 + 28800,
+					end_dt.getTime() / 1000 + 28800 ];
 				alarm_set = [];
 				alarm_set.push(pair);
 
@@ -105,22 +108,22 @@ function getTsData(user, id, st, et, label, done) {
 
 	// opentsdb issue
 	// https://groups.google.com/forum/?fromgroups=#!topic/opentsdb/-Gy3MWpqAjo
-
-	st += 28800000; //add 8 hours -- opentsdb issue
-	et += 28800000; //add 8 hours -- opentsdb issue
+	//add 8 hours -- opentsdb issue, but only for matching times in the database
+	st += 28800000;
+	et += 28800000;
 
 	var st_date = new timezoneJS.Date(st, 'America/Los_Angeles');
 	// We want a date in the format: "Y/m/d-H:i:s", and opentsdb does some
 	// funky stuff with timezones.
-	var st_format = formattedDateString(
-		new timezoneJS.Date(st_date.getTime(), 'Etc/UTC'));
+	//var st_format = formattedDateString(
+	//	new timezoneJS.Date(st_date.getTime(), 'Etc/UTC'));
 	var st_format = formattedDateString(st_date);
 
 	// See above comments
 	var et_date = new timezoneJS.Date(et, 'America/Los_Angeles');
-	var et_format = formattedDateString(
-		new timezoneJS.Date(et_date.getTime(), 'Etc/UTC'));
-	//var et_format = formattedDateString(et_date);
+	//var et_format = formattedDateString(
+	//	new timezoneJS.Date(et_date.getTime(), 'Etc/UTC'));
+	var et_format = formattedDateString(et_date);
 
 	var query = 'http://' + otsdb_host + ':' + otsdb_port 
 		+ '/q?start=' + st_format + '&end=' + et_format

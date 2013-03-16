@@ -2,6 +2,7 @@
 /*
  * GET home page.
  */
+var getalarms = require('./getalarms');
 
 exports.index = function(req, res) {
 	res.render('index', {
@@ -18,9 +19,13 @@ exports.dashboard = function(req, res) {
 		extrameta: [
 			{ name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
 			{ name: 'author', content: 'Łukasz Holeczek' },
-			// Mobile specific:
-			{ name: 'viewport', content: 'width=device-width, initial-scale=1' }
 		]
+	});
+};
+
+exports.alarmshim = function(req, res) {
+	getalarms.getDataAlarms('root', 1, function (alarms) {
+		res.send(alarms);
 	});
 };
 

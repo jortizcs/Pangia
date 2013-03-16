@@ -20,7 +20,10 @@
   display: inline;
 }
 .tagTable li span {
-  width: 70px;
+  width: 85px;
+}
+.tagRemove {
+	float: right;
 }
 
 .axis path,

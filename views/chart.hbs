@@ -3,7 +3,7 @@
 		<i class="icon-tag icon-white"></i><span class="hidden-tablet"> Tag your graphs</span>
 		</div>
 		<ul class="tagTable">
-			<li class="tag"> <span class="btn btn-small">Heating</span></li>
+			<li class="tag"><span class="btn btn-small">Heating</span></li>
 			<li class="tag"><span class="btn btn-small">Temperature</span></li>
 			<li class="tag"><span class="btn btn-small">Ventilation</span></li>
 			<li class="tag"><span class="btn btn-small">AC</span></li>
@@ -283,6 +283,7 @@
 						var tagHolder = $(this).prev();
 						var spans = tagHolder.find('span');
 						var tagText = ui.draggable.text().trim();
+						var clone, tagremove;
 						var i;
 
 						// If the dragged item is *not* a tag, ignore it.
@@ -298,8 +299,15 @@
 								return;
 							}
 						}
-
-						tagHolder.append(ui.draggable.clone());
+						// Create a clone then add the remove button
+						clone = ui.draggable.clone();
+						tagremove = $('<a href="#" class="tagRemove btn-close"><i class="icon-remove"></i></a>');
+						// Remove the tag when the remove button is clicked.
+						tagremove.click(function (e) {
+							$(e.target).parents('li').remove();
+						});
+						clone.find('span').append(tagremove);
+						tagHolder.append(clone);
 					}
 				});
 			});

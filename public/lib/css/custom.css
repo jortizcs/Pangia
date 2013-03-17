@@ -25,6 +25,9 @@
 .tagRemove {
 	float: right;
 }
+.tagAdd {
+	float: right;
+}
 
 .axis path,
 .axis line {

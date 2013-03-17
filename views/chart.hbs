@@ -17,7 +17,7 @@
 <div class ="tagTableContainer pull-right">
 		<div style="margin-bottom:10px">
 		<i class="icon-tag icon-white"></i><span class="hidden-tablet">
-			Tag your graphs<a id="addTag" class="btn" href="#" style="float: right"><i class="icon-plus-sign"></i></a>
+			Tag your graphs<a id="tagAdd" class="tagAdd btn btn-small" href="#"><i class="icon-plus-sign"></i></a>
 		</span></div>
 		<ul id="tagTable" class="tagTable">
 			<li class="tag"><span class="btn btn-small">Heating</span></li>
@@ -342,7 +342,7 @@
 					}
 				});
 
-				$('#addTag').click(function () {
+				$('#tagAdd').click(function () {
 					errorbox.hide();
 					modal.modal('show');
 				});

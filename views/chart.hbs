@@ -1,8 +1,25 @@
+<div id="tagModal" class="modal hide">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3>Add new tag</h3>
+	</div>
+	<div class="modal-body">
+		<p class="text-error hide">hoo ha</p>
+		<p>New tag name:</p>
+		<input type="text"></input>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal"><p>Cancel</p></a>
+		<a href="#" class="btn btn-primary"><p>Add Tag</p></a>
+	</div>
+</div>
+
 <div class ="tagTableContainer pull-right">
 		<div style="margin-bottom:10px">
-		<i class="icon-tag icon-white"></i><span class="hidden-tablet"> Tag your graphs</span>
-		</div>
-		<ul class="tagTable">
+		<i class="icon-tag icon-white"></i><span class="hidden-tablet">
+			Tag your graphs<a id="addTag" class="btn" href="#" style="float: right"><i class="icon-plus-sign"></i></a>
+		</span></div>
+		<ul id="tagTable" class="tagTable">
 			<li class="tag"><span class="btn btn-small">Heating</span></li>
 			<li class="tag"><span class="btn btn-small">Temperature</span></li>
 			<li class="tag"><span class="btn btn-small">Ventilation</span></li>
@@ -310,6 +327,26 @@
 						tagHolder.append(clone);
 					}
 				});
+
+				var modal = $('#tagModal');
+				var newtagname = modal.find('input');
+				var errorbox = modal.find('.text-error');
+				modal.find('.modal-footer').children('.btn-primary').click(function() {
+					var n = newtagname.val();
+					if (n === "") {
+						errorbox.show();
+					} else {
+						$('#tagTable').append($('<li class="tag"><span class="btn btn-small">'
+						  + n + '</span></li>').draggable({ helper: 'clone' }));
+						modal.modal('hide');
+					}
+				});
+
+				$('#addTag').click(function () {
+					errorbox.hide();
+					modal.modal('show');
+				});
+
 			});
 
 			</script>

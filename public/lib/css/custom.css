@@ -19,14 +19,14 @@
 .tagTable li {
   display: inline;
 }
-.tagTable li span {
-  width: 85px;
+.tagTable li button {
+  width: 100px;
 }
 .tagRemove {
-	float: right;
+  float: right;
 }
 .tagAdd {
-	float: right;
+  float: right;
 }
 
 .axis path,

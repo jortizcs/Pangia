@@ -49,7 +49,8 @@ exports.chart = function(req, res) {
 				'lib/css/custom.css'
 			],
 			extrascripts: [
-				'lib/js/d3.v3.min.js'
+				'lib/js/d3.v3.min.js',
+				'pages/chart.js'
 			],
 			data: JSON.stringify(data),
 			indexes: indexes

@@ -21,7 +21,7 @@ function createGraphs() {
 	 */
 	for (var i = 0; i < alarms.length; i++) {
 		//This needs to eventually be made into responsive widths and heights and not absolute values	
-		var margin = {top: 20, right: 20, bottom: 120, left: 50},
+		var margin = {top: 0, bottom: 40, right: 20, left: 50},
 			width = 960 - margin.left - margin.right,
 			height = 300 - margin.top - margin.bottom;
 
@@ -70,7 +70,7 @@ function createGraphs() {
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 				.attr("viewBox","0 0 50 50"); 
 			
-			//This is the alarm highlight rectangle, needs to be updated with the alarm start time and end time for it's x and width values
+			//This is the alarm highlight rectangle
 			svg.append("rect")
 				.attr("x", x(alarmStart))
 				.attr("y", 0)

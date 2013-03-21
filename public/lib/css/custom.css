@@ -6,45 +6,38 @@
   right: 0px;
   top: 90px;
   position: fixed;
-  z-index: 10;
+  z-index: 99999;
   border: 1px solid white;
   padding: 10px;
   background: black;
   color: white;
-  width: 250px;
 }
-.tagTable {
+.tagTableContainer .tagTable {
   margin-bottom: 5px;
 }
-.tagTable li {
-  display: inline;
+.tagTableContainer .tagTable td {
+  width: 50%;
+  text-align: right;
 }
-.tagTable li button {
-  width: 100px;
-}
-.tagRemove {
-  float: right;
-}
-.tagAdd {
-  float: right;
-}
-
 .axis path,
 .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.x.axis path {
+.y.axis path {
   display: none;
 }
 .line {
   fill: none;
-  stroke: #686868;
-  stroke-width: 2px;
+  stroke: #CCCCCC;
+  stroke-width: 6px;
 }
 .rect {
-  fill: #FA5833;
-  opacity: 0.6;
+  fill: #FFCC00;
+  opacity: 0.25;
   shape-rendering: crispEdges;
+}
+.y.axis label {
+  margin-top: 50px;
 }

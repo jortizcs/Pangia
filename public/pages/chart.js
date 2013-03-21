@@ -20,11 +20,10 @@ function createGraphs() {
 	 *	]
 	 */
 	for (var i = 0; i < alarms.length; i++) {
-		//This needs to eventually be made into responsive widths and heights and not absolute values	
-		var margin = {top: 0, bottom: 40, right: 20, left: 50},
-			width = 960 - margin.left - margin.right,
-			height = 300 - margin.top - margin.bottom;
-
+		var margin = {top: 0, bottom: 0, right: 20, left: 63},
+				width = 960 - margin.left - margin.right,
+				height = 220 - margin.top - margin.bottom;
+				
 		// All the time values are given in seconds, so we
 		// convert them to milliseconds.
 		var alarmStart = alarms[i][2][0][0] * 1000;
@@ -34,6 +33,16 @@ function createGraphs() {
 		// always be exactly two), create a graph.
 		for (var j = 0; j < 2; j++) {
 			// The data is set.data
+			
+			//If it's the first graph, remove the bottom margin and don't display anything
+			if (j == 0) {
+			//This needs to eventually be made into responsive widths and heights and not absolute values	
+			var margin = {top: 0, bottom: 0, right: 20, left: 63}
+			} else {
+			//This needs to eventually be made into responsive widths and heights and not absolute values	
+			var margin = {top: 0, bottom: 40, right: 20, left: 63}
+			};
+			
 			var set = alarms[i][j];
 			var startDate = new Date(set.data[0][0] * 1000);
 
@@ -46,10 +55,12 @@ function createGraphs() {
 			var xAxis = d3.svg.axis()
 				.scale(x)
 				.orient("bottom")
-				.tickFormat(d3.time.format.utc("%X"));
+				.ticks(9)
+				.tickFormat(d3.time.format.utc("%H:%M"));
 			
 			var yAxis = d3.svg.axis()
 				.scale(y)
+				.ticks(8)
 				.orient("left");
 			
 			var line = d3.svg.line()
@@ -84,31 +95,50 @@ function createGraphs() {
 				.call(xAxis)
 				.selectAll("text")  
 				.style("text-anchor", "end")
-				.attr("dx", "-.8em")
-				.attr("dy", ".15em")
-				.attr("transform", function(d) {
-				  return "rotate(-65)";
-				});
+				.attr("dx", "1.3em")
+				.attr("dy", "1em")
+				// .attr("transform", function(d) {
+				  // return "rotate(-65)";
+				// });
 			
 			svg.append("g")
 				.attr("class", "y axis")
 				.call(yAxis)
 				.append("text")
+				//.attr("transform","translate(" + -30 + ",0)")
+				
+			//y-axis label
+			svg.append("text")
+				.attr("class", "y label")
 				.attr("transform", "rotate(-90)")
-				.attr("y", 6)
-				.attr("dy", ".71em")
+				.attr("y", -42)
+				.attr("x", 0)
+				//.attr("dy", ".71em")
 				.style("text-anchor", "end")
 				//set the y axis label here
 				.text(set.label);
-			
+					
+			//x-axis label
 			svg.append("text")
 				.attr("class", "x label")
 				.attr("text-anchor", "end")
 				//.attr("x", width)
-				.attr("x", 75)
-				.attr("y", height - 6)
-				.text(d3.time.format.utc("%Y-%b-%d")(startDate));
-
+				.attr("x", 68)
+				.attr("y", height + 25)
+				.text(d3.time.format.utc("%b-%d %Y")(startDate));
+			
+			// Draw Y-axis grid lines
+			svg.selectAll("line.y")
+			  .data(y.ticks(8))
+			  .enter().append("line")
+			  .attr("class", "y")
+			  .attr("x1", 0)
+			  .attr("x2", width)
+			  .attr("y1", y)
+			  .attr("y2", y)
+			  .style("stroke", "#CCC")
+			  .style("stroke-dasharray", "2,2");
+  
 			  svg.append("path")
 				  .datum(set.data)
 				  .attr("class", "line")

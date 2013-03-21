@@ -38,6 +38,10 @@
   opacity: 0.25;
   shape-rendering: crispEdges;
 }
-.y.axis label {
-  margin-top: 50px;
+text.y.label {
+  font-size: 18px;
+  font-weight: bold;
+}
+text.x.label {
+  font-size: 18px;
 }

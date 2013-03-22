@@ -34,7 +34,7 @@ function createGraphs() {
 		for (var j = 0; j < 2; j++) {
 			// The data is set.data
 			
-			//If it's the first graph, remove the bottom margin and don't display anything
+			//If it's the first graph, remove the bottom margin so that it's visually better looking and we don't repeat the x-axis
 			if (j == 0) {
 			//This needs to eventually be made into responsive widths and heights and not absolute values	
 			var margin = {top: 0, bottom: 0, right: 20, left: 63}
@@ -144,6 +144,12 @@ function createGraphs() {
 				  .attr("class", "line")
 				  .attr("d", line);
 
+			//Set the Anomaly Chart tiltles to somthing more descriptive
+			if (j==0){
+				$("#anomaly-title"+i).append('Anomaly ' + (i+1) + ": " + set.label);
+			} else {
+				$("#anomaly-title"+i).append(' - ' + set.label);
+			}
 		}
 	}
 }

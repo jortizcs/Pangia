@@ -45,3 +45,6 @@ text.y.label {
 text.x.label {
   font-size: 18px;
 }
+#graph ul {
+  list-style-type: none !important;
+}

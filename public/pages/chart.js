@@ -40,7 +40,7 @@ function createGraphs() {
 			var margin = {top: 0, bottom: 0, right: 20, left: 63}
 			} else {
 			//This needs to eventually be made into responsive widths and heights and not absolute values	
-			var margin = {top: 0, bottom: 40, right: 20, left: 63}
+			var margin = {top: 0, bottom: 60, right: 20, left: 63}
 			};
 			
 			var set = alarms[i][j];
@@ -123,8 +123,8 @@ function createGraphs() {
 				.attr("class", "x label")
 				.attr("text-anchor", "end")
 				//.attr("x", width)
-				.attr("x", 68)
-				.attr("y", height + 25)
+				.attr("x", 86)
+				.attr("y", height + 50)
 				.text(d3.time.format.utc("%b-%d %Y")(startDate));
 			
 			// Draw Y-axis grid lines

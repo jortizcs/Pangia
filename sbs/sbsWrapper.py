@@ -14,6 +14,7 @@ import datetime;
 
 import MySQLdb as mdb;
 import sbs;
+import sendEmail;
 
 #Remove the alarms that are "symmetric"
 def rmSymetricAlarms(alarms):
@@ -86,8 +87,12 @@ for currentDate in daterange(startDate, endDate):
   for alarm in alarms:
     sys.stderr.write("SBS: Found {0} alarms\n".format(len(alarms)))
     print "INSERT INTO alarms(batch.id, username, start, end, label1, label2, deviation) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username, alarm["start"], alarm["end"], alarm["label"], alarm["peer"], alarm["dev"])
-    SQLcur.execute("INSERT INTO `alarms`(`batch.id`, `username`, `starttime`, `endtime`, `label1`, `label2`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username, alarm["start"], alarm["end"], alarm["label"], alarm["peer"], alarm["dev"]))
+    SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label1`, `label2`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username, alarm["start"], alarm["end"], alarm["label"], alarm["peer"], alarm["dev"]))
       
 sys.stderr.write("Closing the connections...")
 SQLconn.commit()
 SQLconn.close()
+
+
+## Send the notification email:
+sendEmail.sendReport("user@corporate.com", "http://greenpangia.com?id={0}".format(id))

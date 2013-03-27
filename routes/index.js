@@ -2,7 +2,9 @@
 /*
  * GET home page.
  */
-var getalarms = require('./getalarms');
+var getalarms = require('./getalarms')
+  ,  mv = require('mv');
+
 
 exports.index = function(req, res) {
 	res.render('index', {
@@ -59,25 +61,54 @@ exports.chart = function(req, res) {
 };
 
 exports.upload = function(req, res) {
-	res.render('upload', {
-		title: 'Pangia - Generate New Report',
-		extrameta: [
-			{ name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
-			{ name: 'author', content: 'Łukasz Holeczek' },
-			// Mobile specific:
-			{ name: 'viewport', content: 'width=device-width, initial-scale=1' }
-		],
-		extrastyle: [
-			// Fine Uploader
-			'.qq-upload-list { text-align: left; }',
-			// Bootstrap
-			'li.alert-success { background-color: #DFF0D8; }',
-			'li.alert-error { background-color: #F2DEDE; }',
-			'.alert-error .qq-upload-failed-text { display: inline; }',
-			'.qq-upload-button { }',
-		],
-		extrascripts: [
-			'lib/fineuploader_3.2/jquery.fineuploader-3.2.min.js'
-		]
-	});
+        res.render('upload', {
+                title: 'Pangia - Generate New Report',
+                extrameta: [
+                        { name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
+                        { name: 'author', content: 'Łukasz Holeczek' },
+                        // Mobile specific:
+                        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+                ],
+                extrastyle: [
+                        // Fine Uploader
+                        '.qq-upload-list { text-align: left; }',
+                        // Bootstrap
+                        'li.alert-success { background-color: #DFF0D8; }',
+                        'li.alert-error { background-color: #F2DEDE; }',
+                        '.alert-error .qq-upload-failed-text { display: inline; }',
+                        '.qq-upload-button { }',
+                ],
+                extrascripts: [
+                        'lib/fineuploader_3.2/jquery.fineuploader-3.2.min.js'
+                ]
+        });
+};
+
+
+exports.uploader = function(req, res) {
+        
+        console.log(req);
+        // TODO check if the file already exists?
+        mv(req.files.qqfile.path,'sbs/files/' + Math.random(), function(err){
+          var response = { };
+          response.file = req.files;
+          if(!err){
+            response.success = true; 
+          }
+          else{
+            response.err = err;
+            response.success = false;
+          }
+          res.end(JSON.stringify(response));
+          }
+        )
+  
+        //create TSDB metric
+        
+        
+        //Copy the data to TSDB
+        
+        //Run SBS
+        
+        
 };

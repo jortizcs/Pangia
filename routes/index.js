@@ -2,8 +2,11 @@
 /*
  * GET home page.
  */
-var getalarms = require('./getalarms')
-  ,  mv = require('mv');
+var  dataMng = require('./data')
+  ,  getalarms = require('./getalarms')
+  ,  mv = require('mv')
+  ,  sys   = require('sys')
+  ,  exec  = require('child_process').exec;
 
 
 exports.index = function(req, res) {
@@ -87,28 +90,52 @@ exports.upload = function(req, res) {
 
 exports.uploader = function(req, res) {
         
-        console.log(req);
-        // TODO check if the file already exists?
-        mv(req.files.qqfile.path,'sbs/files/' + Math.random(), function(err){
-          var response = { };
-          response.file = req.files;
-          if(!err){
-            response.success = true; 
-          }
-          else{
-            response.err = err;
-            response.success = false;
-          }
-          res.end(JSON.stringify(response));
-          }
-        )
+        //console.log(req);
   
-        //create TSDB metric
+        // Move the file to a more appropriate place
+        // TODO check if the file already exists?
+//         mv(req.files.qqfile.path,'sbs/files/' + Math.random(), function(err){
+//           var response = { };
+//           response.file = req.files;
+//           if(!err){
+//             response.success = true; 
+//           }
+//           else{
+//             response.err = err;
+//             response.success = false;
+//           }
+//           res.end(JSON.stringify(response));
+//           }
+//         )
         
+  
+        var user = 'root';  //TODO get the user ID
         
-        //Copy the data to TSDB
+        // TODO parse the file to check if it's in the correct form
+        // Register the file in Mysql and copy the data to tsdb 
+        var id = dataMng.copyData(user,req.files.qqfile.path);
+
+        var response = { };
+        response.file = req.files;
+        response.success = true; 
+        res.end(JSON.stringify(response));
+        
         
         //Run SBS
-        
+        var child = exec('python sbs/sbsWrapper.py localhost 4242 localhost root root sbs '+id+' '+user+' 0 1388502000', 
+          function (error, stdout, stderr) {
+            if (error !== null) {
+              console.log('exec error: ' + error);
+            }else{
+              var child2 = exec('python sbs/sendEmail.py romain.fontugne@gmail.com http://http://166.78.31.162/Pangia/dashboard.php', 
+               function (error, stdout, stderr) {
+                  if (error !== null) {
+                    console.log('exec error: ' + error);
+                  };
+                }
+              )
+            }
+          }
+        );
         
 };

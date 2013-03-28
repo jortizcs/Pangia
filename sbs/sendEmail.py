@@ -1,6 +1,7 @@
 #!/usr/bin/python2
 import smtplib
- 
+import sys
+
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
  
@@ -59,5 +60,10 @@ def sendReport(recipient, reportURL):
   session.quit()
   
 if __name__ == "__main__":
-  ## Only for testing:
-  sendReport("romain.fontugne@gmail.com", "http://greenpangia.com")
+  
+  if len(sys.argv) < 3:
+    print("usage: {0} emailAddress reportURL".format(sys.argv[0]));
+    quit();
+  
+  
+  sendReport(sys.argv[1], sys.argv[2])

@@ -4,7 +4,7 @@
  */
 var  dataMng = require('./data')
   ,  getalarms = require('./getalarms')
-  ,  mv = require('mv')
+//  ,  mv = require('mv')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec;
 
@@ -113,7 +113,7 @@ exports.uploader = function(req, res) {
         
         // TODO parse the file to check if it's in the correct form
         // Register the file in Mysql and copy the data to tsdb 
-        var id = dataMng.copyData(user,req.files.qqfile.path);
+        var dataInfo = dataMng.copyData(user,req.files.qqfile.path);
 
         var response = { };
         response.file = req.files;
@@ -122,12 +122,12 @@ exports.uploader = function(req, res) {
         
         
         //Run SBS
-        var child = exec('python sbs/sbsWrapper.py localhost 4242 localhost root root sbs '+id+' '+user+' 0 1388502000', 
+        var child = exec('python sbs/sbsWrapper.py localhost 4242 localhost root root sbs '+dataInfo.id+' '+user+' '+dataInfo.start+' '+dataInfo.end , 
           function (error, stdout, stderr) {
             if (error !== null) {
               console.log('exec error: ' + error);
             }else{
-              var child2 = exec('python sbs/sendEmail.py romain.fontugne@gmail.com http://http://166.78.31.162/Pangia/dashboard.php', 
+              var child2 = exec('python sbs/sendEmail.py info@greenpangia.com http://166.78.31.162/Pangia/dashboard.php', 
                function (error, stdout, stderr) {
                   if (error !== null) {
                     console.log('exec error: ' + error);

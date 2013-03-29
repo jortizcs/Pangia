@@ -27,23 +27,27 @@ exports.copyData = function(user, filename) {
   var id = stmt.lastInsertIdSync();
   
   //create the TSDB metric and copy the data
+  var ts;
   var child = exec('tsdb mkmetric sbs.' + user + '.' + id , 
     function (error, stdout, stderr) {
       if (error !== null) {
         console.log('exec error: ' + error);
       }else{
-        copyFile2Tsdb(user, id, filename);
+        ts = copyFile2Tsdb(user, id, filename);
       }
     }
    );
   
-  return id;
+  return {id: id, start: ts.start, end: ts.end};
 }
 
 
 // Copy the data to OTSDB
 function copyFile2Tsdb(user, id, filename) {
-       
+    
+  var startTS = 0;
+  var endTS;
+  
   // Connect to the tsdb server
   var client = new net.Socket();
   client.connect(otsdb_port, otsdb_host,
@@ -51,9 +55,21 @@ function copyFile2Tsdb(user, id, filename) {
       // Send the data
       // TODO parse/validate the file format
       // TODO raise and error if something went wrong
-      fs.readFileSync(filename).toString().split('\n').forEach(
+      fs.readFileSync(filename).toString().split('\n').forEach( //TODO change readFileSync to read files bigger than 1GB? (or get chunked files?)
       function (line) { 
           var elem = line.replace(/\s+/g, '').split(',');
+          var ts = int();
+          if(startTS == 0){
+            startTS = dat
+          }
+          else{
+            if(startTS>ts){
+              startTS=ts;
+            }
+            if(endTS<ts){
+              endTS=ts;
+            }
+          }
           client.write('put sbs.'+user+'.'+id+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
           }
       );
@@ -65,4 +81,7 @@ function copyFile2Tsdb(user, id, filename) {
     // TODO raise and error if something went wrong
     console.log(data.toString());
   });
+  
+  return {start: startTS, end: endTS};
+  
 }

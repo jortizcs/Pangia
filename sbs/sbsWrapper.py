@@ -68,8 +68,8 @@ req = "sum:1m-avg:sbs."+username+"."+id+"{label=*}"
 
 # Feed SBS with slices of data of 1 hour-long. This is not related to SBS window size (it should be bigger than the OpenTSDB slices? 10 minutes?)
 dateFormat = "%Y/%m/%d-%H:%M:%S"
-startDate = datetime.datetime.strptime(start,dateFormat)
-endDate = datetime.datetime.strptime(end,dateFormat)
+startDate = datetime.datetime.fromtimestamp(start) #strptime(start,dateFormat)
+endDate = datetime.datetime.fromtimestamp(end) #.strptime(end,dateFormat)
 for currentDate in daterange(startDate, endDate):
   TSDBparams = urllib.urlencode({'m': req, 'start': datetime.datetime.strftime(currentDate,dateFormat), 'end': datetime.datetime.strftime(currentDate+datetime.timedelta(1),dateFormat), 'ascii': 0})
   sys.stderr.write("Requesting data: http://{0}:{1}/q?{2}\n".format(TSDBserver,TSDBport, TSDBparams))

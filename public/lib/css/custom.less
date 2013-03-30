@@ -4,10 +4,20 @@
    Author: Michael Heinrich
    ========================================================================== */
 
-.tagTableContainer{  right:0px;top:90px;position:fixed;z-index:99999; border:1px solid white; padding:10px; background:black; color:white;
+.tagTableContainer{  right:0px;top:90px;position:fixed;z-index:10; border:1px solid white; padding:10px; background:black; color:white; width: 250px;
   .tagTable { margin-bottom:5px;
-    td {width:50%;text-align:right;}
+    li {display: inline; width:50%;text-align:right;
+	  button { width: 100px; }
+	}
   }
+}
+
+.tagRemove {
+  float: right;
+}
+
+.tagAdd {
+  float: right;
 }
 
 //D3 & Graph Styles

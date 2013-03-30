@@ -2,7 +2,7 @@
 /*
  * GET home page.
  */
-var  dataMng = require('./data')
+var  dataMng = require('./sbs')
   ,  getalarms = require('./getalarms')
 //  ,  mv = require('mv')
   ,  sys   = require('sys')
@@ -119,23 +119,5 @@ exports.uploader = function(req, res) {
         response.file = req.files;
         response.success = true; 
         res.end(JSON.stringify(response));
-        
-        
-        //Run SBS
-        var child = exec('python sbs/sbsWrapper.py localhost 4242 localhost root root sbs '+dataInfo.id+' '+user+' '+dataInfo.start+' '+dataInfo.end , 
-          function (error, stdout, stderr) {
-            if (error !== null) {
-              console.log('exec error: ' + error);
-            }else{
-              var child2 = exec('python sbs/sendEmail.py info@greenpangia.com http://166.78.31.162/Pangia/dashboard.php', 
-               function (error, stdout, stderr) {
-                  if (error !== null) {
-                    console.log('exec error: ' + error);
-                  };
-                }
-              )
-            }
-          }
-        );
         
 };

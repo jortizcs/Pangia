@@ -4,11 +4,29 @@
    Author: Michael Heinrich
    ========================================================================== */
 
-.tagTableContainer{  right:0px;top:90px;position:fixed;z-index:10; border:1px solid white; padding:10px; background:black; color:white; width: 250px;
-  .tagTable { margin-bottom:5px;
-    li {display: inline; width:50%;text-align:right;
-	  button { width: 100px; }
-	}
+.tagTableContainer {
+  right: 0px;
+  top: 90px;
+  position: fixed;
+  z-index: 10;
+  border: 1px solid white;
+  padding: 10px;
+  background: black;
+  color:white;
+  width: 250px;
+
+  .tagTable {
+    margin-bottom:5px;
+
+    li {
+      display: inline;
+      width: 50%;
+      text-align: right;
+
+      button {
+        width: 100px;
+      }
+    }
   }
 }
 
@@ -22,6 +40,7 @@
 
 //D3 & Graph Styles
 .axis path,
+
 .axis line {
   fill: none;
   stroke: #000;
@@ -38,15 +57,22 @@
   stroke-width: 6px;
   //use this for dashed line >> stroke-dasharray: 2,3;
 }
+
 .rect {
   fill: #FFCC00;
   opacity: 0.25;
   shape-rendering: crispEdges;
 }
-text.y.label {font-size: 18px; font-weight:bold;}
+
+text.y.label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 text.x.label {
   font-size:18px;
 }
+
 #graph {
   ul { list-style-type: none !important;}
 }

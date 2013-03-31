@@ -10,7 +10,12 @@ var  dataMng = require('./sbs')
 
 
 exports.index = function(req, res) {
-	res.render('index', {
+	// For now, we just redirect the index to the dashboard.
+	res.redirect('/dashboard');
+};
+
+exports.login = function(req, res) {
+	res.render('login', {
 		title: 'Pangia',
 		extrastyle: [
 			'body { background: url(lib/img/bg-login.jpg) !important; }'

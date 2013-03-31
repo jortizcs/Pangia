@@ -29,6 +29,8 @@ public class TsdbShim implements Container {
     private String bindAddress = "166.78.31.162";
     private static int localport = 1338;
     private static final String rootPath = "/";
+    public static boolean createdMetric = false;
+    private String metric = "sfs.ts_data.raw";
 
     protected static Connection connection = null;
     //protected static Connection connectionHttps = null;
@@ -67,6 +69,36 @@ public class TsdbShim implements Container {
         //executor.execute(t);
     }
 
+    public void createMetric() throws Exception{
+        if(!createdMetric){
+            String openTsdbPath=null;
+            try {
+                openTsdbPath = System.getenv().get("OPENTSDB_HOME");
+                if(openTsdbPath!=null){
+                    StringBuffer cmd = new StringBuffer().append(openTsdbPath).
+                        append("/build/tsdb mkmetric ").append(metric);
+                    System.out.println("+++Executing: " + cmd);
+                    Process p = Runtime.getRuntime().exec(cmd.toString());
+                    System.out.println(p);
+                    BufferedReader in = new BufferedReader(
+                                           new InputStreamReader(p.getInputStream()) );
+                    String line = null;
+                    while ((line = in.readLine()) != null) 
+                        System.out.println(line);
+                    in.close();
+                    p.waitFor();
+                    System.out.println("done");
+                    createdMetric = true;
+                    return;
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        //System.out.println("create metric throwing e");
+        throw new Exception("OPENTSDB_HOME not set");
+    }
+
     public class AsyncTask implements Runnable{
         private Request request = null;
         private Response response = null;
@@ -95,8 +127,22 @@ public class TsdbShim implements Container {
         JSONArray data = new JSONArray();
         try {
             String path = request.getPath().getPath();
-
+            
             Query query  = request.getQuery();
+            //logger.info("fixed=" + query.toString().replace("label", "{label"));
+            String queryStr = URLDecoder.decode(query.toString(), "UTF-8");
+            int labelidx = queryStr.indexOf("label=");
+            if(labelidx>0){
+                String labelPair = queryStr.substring(labelidx, queryStr.indexOf("&",labelidx));
+                logger.info("label=  " + labelPair);
+                /*
+                char t = queryStr.charAt(queryStr.indexOf("&", labelidx)-1);
+                String q1=queryStr.replace(new StringBuffer().append(t).toString(), new StringBuffer().append(t).append('}').toString()); */
+                queryStr = queryStr.replace(labelPair, new StringBuffer().append("{").append(labelPair).append("}").toString());
+                //logger.info("request_query=" + q1.replace("label=", "{label="));
+                logger.info("request_query=" + queryStr);
+                //System.exit(1);
+            }
 
             String startTimeStr = query.get("start");
             String endTimeStr = query.get("end");
@@ -110,7 +156,7 @@ public class TsdbShim implements Container {
             long end = endTime.getTime()/1000;
 
             StringBuffer tsdbRestQueryBuf = new StringBuffer().append(tsdbUrl).append(path).append("?").
-                append(query.toString());
+                append(queryStr);
             if(!query.containsKey("ascii"))
                 tsdbRestQueryBuf.append("&ascii");
             String tsdbRestQuery = tsdbRestQueryBuf.toString();

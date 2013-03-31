@@ -11,6 +11,8 @@
 	"timezone-js": "*",
 	"mysql-libmysqlclient": "*",
 	"lazy": "*",
-	"less": "*"
+	"less": "*",
+	"passport": "*",
+	"passport-local": "*"
   }
 }

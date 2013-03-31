@@ -51,7 +51,7 @@ exports.chart = function(req, res) {
 				{ name: 'author', content: 'Łukasz Holeczek' }
 			],
 			extracss: [
-				'lib/css/custom.css'
+				'lib/css/custom/custom.css'
 			],
 			extrascripts: [
 				'lib/js/d3.v3.min.js',

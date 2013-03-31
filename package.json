@@ -10,6 +10,7 @@
 	"express-hbs": "*",
 	"timezone-js": "*",
 	"mysql-libmysqlclient": "*",
-	"lazy": "*"
+	"lazy": "*",
+	"less": "*"
   }
 }

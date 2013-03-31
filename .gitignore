@@ -10,6 +10,8 @@ lib-cov
 __pycache__
 *.pyc
 
+public/lib/css/custom/*.css
+
 pids
 logs
 results

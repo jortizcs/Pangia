@@ -9,6 +9,7 @@ lib-cov
 *.DS_Store
 __pycache__
 *.pyc
+test_*
 
 public/lib/css/custom/*.css
 

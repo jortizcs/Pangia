@@ -131,13 +131,15 @@ public class TsdbShim implements Container {
             Query query  = request.getQuery();
             //logger.info("fixed=" + query.toString().replace("label", "{label"));
             String queryStr = URLDecoder.decode(query.toString(), "UTF-8");
+            logger.info("queryStr = " + queryStr);
+            //System.exit(1);
             int labelidx = queryStr.indexOf("label=");
-            if(labelidx>0){
+            if(labelidx>0 && queryStr.charAt(labelidx-1)!='{'){
                 String labelPair = queryStr.substring(labelidx, queryStr.indexOf("&",labelidx));
                 logger.info("label=  " + labelPair);
-                /*
-                char t = queryStr.charAt(queryStr.indexOf("&", labelidx)-1);
-                String q1=queryStr.replace(new StringBuffer().append(t).toString(), new StringBuffer().append(t).append('}').toString()); */
+                
+                //char t = queryStr.charAt(queryStr.indexOf("&", labelidx)-1);
+                //String q1=queryStr.replace(new StringBuffer().append(t).toString(), new StringBuffer().append(t).append('}').toString()); 
                 queryStr = queryStr.replace(labelPair, new StringBuffer().append("{").append(labelPair).append("}").toString());
                 //logger.info("request_query=" + q1.replace("label=", "{label="));
                 logger.info("request_query=" + queryStr);

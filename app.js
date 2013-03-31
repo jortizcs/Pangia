@@ -83,8 +83,8 @@ var findUserByUsername = function(username, done) {
 
 var passportCheck = function() {
   return passport.authenticate('local', {
-    successRedirect: '/dashboard',
-	failureRedirect: '/index'
+    successRedirect: '/index',
+	failureRedirect: '/login'
   });
 };
 
@@ -92,26 +92,36 @@ var ensureAuth = function(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/index');
+  res.redirect('/login');
 };
 
 // Currently, these are the login page. We should change this later so there is
 // an explicit login page.
-app.get('/', routes.index);
-app.get('/index', routes.index);
-app.post('/index', passportCheck(), routes.index);
+app.get('/login', routes.login);
+// The passport check is done here to verify the login credentials.
+app.post('/login', passportCheck(), routes.login);
 
-// Make sure to *always* include a middleware 'ensureAuth' check!
-// TODO Make a function that generates GETs and POSTs that automatically
-// includes the ensureAuth middleware check.
-app.get('/alarmshim', ensureAuth, routes.alarmshim);
-app.get('/chart', ensureAuth, routes.chart);
-app.get('/dashboard', ensureAuth, routes.dashboard);
-app.post('/dashboard', ensureAuth, routes.dashboard);
-app.get('/upload', ensureAuth, routes.upload);
-app.get('/users', ensureAuth, user.list);
+// These two helper functions should ALWAYS be used to create new paths (with
+// very, very few exceptions) as they ensure that the user is authenticated.
+// They do this by creating the get or post route with an ensureAuth middleware
+// check.
+var getpath = function(path, route) {
+  app.get(path, ensureAuth, route);
+};
 
-app.post('/uploader', routes.uploader);
+var postpath = function(path, route) {
+  app.post(path, ensureAuth, route);
+};
+
+getpath('/', routes.index);
+getpath('/index', routes.index);
+getpath('/alarmshim', routes.alarmshim);
+getpath('/chart', routes.chart);
+getpath('/dashboard', routes.dashboard);
+postpath('/dashboard', routes.dashboard);
+getpath('/upload', routes.upload);
+getpath('/users', user.list);
+postpath('/uploader', routes.uploader);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

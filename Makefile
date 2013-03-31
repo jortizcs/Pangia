@@ -1,9 +1,11 @@
 LESSSRC= \
 	public/lib/css/custom/custom.less
 LESSCSS=$(LESSSRC:.less=.css)
-LESSCMD := node_modules/less/bin/lessc
+LESSCMD=node_modules/less/bin/lessc
 
-NPMINSTALL := npm install
+NPMINSTALL=npm install
+
+RUNSERVER=node app.js
 
 .PHONY: all
 all: install css
@@ -16,3 +18,7 @@ css: $(LESSCSS)
 
 %.css: $(LESSSRC)
 	$(LESSCMD) $(@:.css=.less) $@
+
+.PHONY: server
+server: install css
+	$(RUNSERVER)

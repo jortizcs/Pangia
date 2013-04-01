@@ -10,6 +10,8 @@ var express = require('express')
   , path = require('path')
   , hbs = require('express-hbs')
   , auth = require('./auth');
+  , passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
 

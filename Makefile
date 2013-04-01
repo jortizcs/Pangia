@@ -7,6 +7,8 @@ NPMINSTALL=npm install
 
 RUNSERVER=node app.js
 
+PYTHONDEP=python pythonDep.py
+
 .PHONY: all
 all: install css
 
@@ -19,6 +21,9 @@ css: $(LESSCSS)
 %.css: $(LESSSRC)
 	$(LESSCMD) $(@:.css=.less) $@
 
+python: 
+	$(PYTHONDEP)
+
 .PHONY: server
-server: install css
+server: install css python
 	$(RUNSERVER)

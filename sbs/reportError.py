@@ -54,4 +54,4 @@ if __name__ == "__main__":
     quit();
   
   
-  sendReport(sys.argv[1], sys.argv[2])
+  sendError(sys.argv[1], sys.argv[2])

@@ -2,7 +2,7 @@
 /*
  * GET home page.
  */
-var  dataMng = require('./sbs')
+var  sbs = require('./sbs')
   ,  getalarms = require('./getalarms')
 //  ,  mv = require('mv')
   ,  sys   = require('sys')
@@ -99,26 +99,27 @@ exports.uploader = function(req, res) {
   
         // Move the file to a more appropriate place
         // TODO check if the file already exists?
-//         mv(req.files.qqfile.path,'sbs/files/' + Math.random(), function(err){
-//           var response = { };
-//           response.file = req.files;
-//           if(!err){
-//             response.success = true; 
-//           }
-//           else{
-//             response.err = err;
-//             response.success = false;
-//           }
-//           res.end(JSON.stringify(response));
-//           }
-//         )
+        var filename = 'sbs/files/' + Math.random();
+        mv(req.files.qqfile.path, filename, function(err){
+          var response = { };
+          response.file = req.files;
+          if(!err){
+            response.success = true; 
+          }
+          else{
+            response.err = err;
+            response.success = false;
+          }
+          res.end(JSON.stringify(response));
+          }
+        )
         
   
         var user = 'root';  //TODO get the user ID
         
         // TODO parse the file to check if it's in the correct form
         // Register the file in Mysql and copy the data to tsdb 
-        var dataInfo = dataMng.copyData(user,req.files.qqfile.path);
+        var dataInfo = sbs.copyData(user,filename);
 
         var response = { };
         response.file = req.files;

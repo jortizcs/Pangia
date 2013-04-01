@@ -40,7 +40,9 @@ exports.alarmshim = function(req, res) {
 };
 
 exports.chart = function(req, res) {
-	getalarms.getDataAlarms('root', 1, function(data) {
+        var id = req.query('id');
+        var user = req.query('user');
+	getalarms.getDataAlarms(user, id, function(data) {
 		var len = (data.length > 10) ? 10 : data.length;
 		var i;
 		var indexes = [];

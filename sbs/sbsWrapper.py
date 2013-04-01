@@ -14,7 +14,7 @@ import datetime;
 
 import MySQLdb as mdb;
 import sbs;
-import sendEmail;
+#import sendEmail;
 
 #Remove the alarms that are "symmetric"
 def rmSymetricAlarms(alarms):

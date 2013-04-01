@@ -32,7 +32,7 @@ app.configure(function(){
   app.use(express.session({ secret: 'mysecret' }));
   // Does Passport initialization
   auth.init(app);
-  app.use(app.router);
+//   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
 

@@ -4,7 +4,7 @@
  */
 var  sbs = require('./sbs')
   ,  getalarms = require('./getalarms')
-//  ,  mv = require('mv')
+  ,  mv = require('mv')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec;
 

@@ -74,7 +74,9 @@ getpath('/dashboard', routes.dashboard);
 postpath('/dashboard', routes.dashboard);
 getpath('/upload', routes.upload);
 getpath('/users', user.list);
-postpath('/uploader', routes.uploader);
+// postpath('/uploader', routes.uploader);
+
+app.post('/uploader',routes.uploader);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

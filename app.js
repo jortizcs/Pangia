@@ -10,8 +10,6 @@ var express = require('express')
   , path = require('path')
   , hbs = require('express-hbs')
   , auth = require('./auth');
-  , passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
 
@@ -46,8 +44,12 @@ app.configure('development', function(){
 // Registers all the passport authorization callbacks
 auth.setup();
 
-// Currently, these are the login page. We should change this later so there is
-// an explicit login page.
+// The logout and login (GET request) pages are some of the very few exceptions
+// to the requirement that all pages should require an ensureAuth check.
+app.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
 app.get('/login', routes.login);
 // The passport check is done here to verify the login credentials.
 app.post('/login', auth.passportCheck(), routes.login);

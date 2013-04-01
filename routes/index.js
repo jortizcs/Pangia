@@ -34,7 +34,7 @@ exports.dashboard = function(req, res) {
 };
 
 exports.alarmshim = function(req, res) {
-	getalarms.getDataAlarms('root', 44, function(data) {
+	getalarms.getDataAlarms('root', 1, function(data) {
 		res.send(JSON.stringify(data));
 	});
 };

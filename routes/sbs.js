@@ -70,7 +70,7 @@ function copyFile2Tsdb(user, id, filename) {
         
       });
       
-      fr.lines.forEach( //TODO change to read files bigger than 500MB? (or get chunked files?)
+      fr.lines.forEach(
       function (line) { 
           var elem = line.toString().replace(/\s+/g, '').split(',');
           var ts = parseInt(parseFloat(elem[0]));

@@ -6,7 +6,8 @@ var  sbs = require('./sbs')
   ,  getalarms = require('./getalarms')
   ,  mv = require('mv')
   ,  sys   = require('sys')
-  ,  exec  = require('child_process').exec;
+  ,  exec  = require('child_process').exec
+  ,  fs = require('fs');
 
 
 exports.index = function(req, res) {
@@ -99,10 +100,12 @@ exports.uploader = function(req, res) {
         
         //console.log(req);
   
-        // Move the file to a more appropriate place
-        // TODO check if the file already exists?
-        var filename = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.random()*1000;
-        mv(req.files.qqfile.path, filename, function(err){
+        // Move the file to the appropriate place
+        var pathFile = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.random()*1000000;
+        while(fs.existsSync(pathFile)){
+          pathFile = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.random()*1000000;
+        }
+        mv(req.files.qqfile.path, pathFile, function(err){
           var response = { };
           if(!err){
             response.success = true; 
@@ -111,7 +114,7 @@ exports.uploader = function(req, res) {
           
             // TODO parse the file to check if it's in the correct form
             // Register the file in Mysql and copy the data to tsdb 
-            sbs.copyData(user,filename);
+            sbs.copyData(user,pathFile);
             
           }
           else{

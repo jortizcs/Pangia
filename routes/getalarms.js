@@ -21,8 +21,8 @@ var http = require('http');
 var mysql = require('mysql-libmysqlclient');
 
 var mysql_host = 'localhost';
-var otsdb_host = '166.78.31.162';
-var otsdb_port = 1338;
+var otsdb_host = 'localhost';
+var otsdb_port = 4242;
 
 var conn = mysql.createConnectionSync();
 conn.connectSync('localhost', 'root', 'root', 'sbs');
@@ -126,9 +126,9 @@ function getTsData(user, id, st, et, label, done) {
 	var et_format = formattedDateString(et_date);
 
 	var query = 'http://' + otsdb_host + ':' + otsdb_port 
-		+ '/q?json&start=' + st_format + '&end=' + et_format
+		+ '/q?json?start=' + st_format + '&end=' + et_format
 		+ '&m=sum:sbs.' + user + '.' + id + '{label=' + label + '}';
-
+console.log(query)
 	http.get(query, function (res) {
 		res.on('data', function (data) {
 			done(JSON.parse(data));

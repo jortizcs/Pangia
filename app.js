@@ -69,13 +69,14 @@ var postpath = function(path, route) {
 getpath('/', routes.index);
 getpath('/index', routes.index);
 getpath('/alarmshim', routes.alarmshim);
-getpath('/chart', routes.chart);
+// getpath('/chart', routes.chart);
 getpath('/dashboard', routes.dashboard);
 postpath('/dashboard', routes.dashboard);
 getpath('/upload', routes.upload);
 getpath('/users', user.list);
 // postpath('/uploader', routes.uploader);
 
+app.post('/chart', routes.chart);
 app.post('/uploader',routes.uploader);
 
 http.createServer(app).listen(app.get('port'), function(){

@@ -126,7 +126,7 @@ function getTsData(user, id, st, et, label, done) {
 	var et_format = formattedDateString(et_date);
 
 	var query = 'http://' + otsdb_host + ':' + otsdb_port 
-		+ '/q?json?start=' + st_format + '&end=' + et_format
+		+ '/q?json&start=' + st_format + '&end=' + et_format
 		+ '&m=sum:sbs.' + user + '.' + id + '{label=' + label + '}';
 console.log(query)
 	http.get(query, function (res) {

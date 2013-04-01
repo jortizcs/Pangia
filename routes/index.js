@@ -99,7 +99,7 @@ exports.uploader = function(req, res) {
   
         // Move the file to a more appropriate place
         // TODO check if the file already exists?
-        var filename = 'sbs/files/'+ req.files.qqfile.path + '.' + Math.random()*1000;
+        var filename = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.random()*1000;
         mv(req.files.qqfile.path, filename, function(err){
           var response = { };
           response.file = req.files;

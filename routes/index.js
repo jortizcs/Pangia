@@ -102,9 +102,15 @@ exports.uploader = function(req, res) {
         var filename = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.random()*1000;
         mv(req.files.qqfile.path, filename, function(err){
           var response = { };
-          response.file = req.files;
           if(!err){
             response.success = true; 
+            
+            var user = 'root';  //TODO get the user ID
+          
+            // TODO parse the file to check if it's in the correct form
+            // Register the file in Mysql and copy the data to tsdb 
+            sbs.copyData(user,filename);
+            
           }
           else{
             response.err = err;
@@ -113,17 +119,4 @@ exports.uploader = function(req, res) {
           res.end(JSON.stringify(response));
           }
         )
-        
-  
-        var user = 'root';  //TODO get the user ID
-        
-        // TODO parse the file to check if it's in the correct form
-        // Register the file in Mysql and copy the data to tsdb 
-        var dataInfo = sbs.copyData(user,filename);
-
-        var response = { };
-        response.file = req.files;
-        response.success = true; 
-        res.end(JSON.stringify(response));
-        
 };

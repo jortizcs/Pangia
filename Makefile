@@ -9,6 +9,12 @@ RUNSERVER=node app.js
 
 PYTHONDEP=python pythonDep.py
 
+DEBDEPS= \
+	libmysqlclient-dev \
+	python-numpy \
+	python-scipy \
+	python-mysqldb
+
 .PHONY: all
 all: install css
 
@@ -16,13 +22,19 @@ all: install css
 install:
 	$(NPMINSTALL)
 
+.PHONY: css
 css: $(LESSCSS)
 
 %.css: $(LESSSRC)
 	$(LESSCMD) $(@:.css=.less) $@
 
+.PHONY: python
 python: 
 	$(PYTHONDEP)
+
+.PHONY: debian-deps
+debian-deps:
+	sudo apt-get install $(DEBDEPS)
 
 .PHONY: server
 server: install css python

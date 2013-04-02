@@ -151,11 +151,12 @@
 							  </div>
 							</div>          
 							
-							<div class="form-actions">
+							<div class="form-actions" id="form-btn">
 							  <a id="triggerUpload" class="btn btn-large btn-primary">Start Processing</a>
 							 
 							  <!-- <button type="reset" class="btn">Cancel</button> -->
 							</div>
+							<div id="message"></div>
 						  </fieldset>
 						</form>   
 
@@ -298,6 +299,14 @@ function createUploader() {
         enableTooltip: true
       },
       debug: true
+      callbacks: {
+        onComplete: function(id, fileName, responseJSON) {
+          if (responseJSON.success) {
+            $('#form-btn').style.visibility='hidden';
+            $('#message').append("We are now processing your data. We'll send you an email when it is done.")
+          }
+        }
+      }
     });
         
     $('#triggerUpload').click(function() {

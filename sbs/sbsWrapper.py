@@ -90,6 +90,7 @@ dateFormat = "%Y/%m/%d-%H:%M:%S"
 dateFormatMySQL = "%Y-%m-%d %H:%M:%S"
 startDate = datetime.datetime.fromtimestamp(float(start)) #strptime(start,dateFormat)
 endDate = datetime.datetime.fromtimestamp(float(end)) #.strptime(end,dateFormat)
+allAlarms = []
 for currentDate in daterange(startDate, endDate):
   TSDBparams = urllib.urlencode({'m': req, 'start': datetime.datetime.strftime(currentDate,dateFormat), 'end': datetime.datetime.strftime(currentDate+datetime.timedelta(1),dateFormat), 'ascii': 0})
   TSDBdata = urllib.urlopen("http://{0}:{1}/q?{2}".format(TSDBserver,TSDBport, TSDBparams))
@@ -101,14 +102,15 @@ for currentDate in daterange(startDate, endDate):
   #Filter out the symmetric alarms
   alarms = rmSymetricAlarms(alarms)
   
-  #Aggregate consecutive alarms
-  alarms = aggConsecAlarms(alarms)
+  allAlarms.extend(alarms)
   
-  print alarms
-  ##Insert the alarms in the MySQL database
-  for alarm in alarms:
-    sys.stderr.write("SBS: Found {0} alarms\n".format(len(alarms)))
-    SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
-      
+#Aggregate consecutive alarms
+alarms = aggConsecAlarms(allAlarms)
+
+##Insert the alarms in the MySQL database
+sys.stderr.write("SBS: Found {0} anomalies in total\n".format(len(allAlarms)))
+for alarm in allAlarms:
+  SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
+    
 SQLconn.commit()
 SQLconn.close()

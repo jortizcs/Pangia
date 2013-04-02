@@ -11,7 +11,7 @@ var otsdb_port = 4242;
 var mysql_host = 'localhost';
 
 var conn = mysql.createConnectionSync();
-conn.connectSync('localhost', 'root', 'root', 'sbs');
+conn.connectSync(mysql_host, 'root', 'root', 'sbs');
 
 // Record the upload in the Mysql db
 // Create the corresponding metric in OTSDB
@@ -104,8 +104,8 @@ function copyFile2Tsdb(user, id, filename) {
 
 
 // Run SBS and sends an email when it is done
-exports.runSBS = function(user, id, start, end){
-      var child = exec('python sbs/sbsWrapper.py localhost 4242 localhost root root sbs '+id+' '+user+' '+start+' '+end , 
+function runSBS(user, id, start, end){
+      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mysql_host+' root root sbs '+id+' '+user+' '+start+' '+end , 
           function (error, stdout, stderr) {
             if (error !== null) {
               console.log('exec error: ' + error);

@@ -104,7 +104,7 @@ function copyFile2Tsdb(user, id, filename) {
 
 
 // Run SBS and sends an email when it is done
-function runSBS(user, id, start, end){
+exports.runSBS function(user, id, start, end){
       var child = exec('python sbs/sbsWrapper.py localhost 4242 localhost root root sbs '+id+' '+user+' '+start+' '+end , 
           function (error, stdout, stderr) {
             if (error !== null) {

@@ -303,7 +303,7 @@ function createUploader() {
         onComplete: function(id, fileName, responseJSON) {
           if (responseJSON.success) {
             document.getElementById('form-btn').style.visibility='hidden';
-            document.getElementById('message').innerHTML("We are now processing your data. We'll send you an email when it is done.")
+            document.getElementById('message').innerHTML = "We are now processing your data! We'll send you an email when it is done."
           }
         }
       }

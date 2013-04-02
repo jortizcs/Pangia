@@ -107,12 +107,14 @@ function copyFile2Tsdb(user, id, filename) {
 function runSBS(user, id, start, end){
       var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mysql_host+' root root sbs '+id+' '+user+' '+start+' '+end , 
           function (error, stdout, stderr) {
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
             if (error !== null) {
               console.log('exec error: ' + error);
               //Sends an email to Romain if something went wrong...
               reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+id+'<br> user='+user+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);
               
-            }else{
+            }else{              
               var child2 = exec('python sbs/sendEmail.py info@greenpangia.com http://166.78.31.162/Pangia/chart.php?user='+user+'&id='+id, 
                function (error, stdout, stderr) {
                   if (error !== null) {

@@ -44,7 +44,8 @@ def aggConsecAlarms(alarms):
           
       else:
         res.append(alarm1)
-
+        
+   return res
 
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
@@ -97,6 +98,10 @@ for currentDate in daterange(startDate, endDate):
 
   #Filter out the symmetric alarms
   alarms = rmSymetricAlarms(alarms)
+  
+  #Aggregate consecutive alarms
+  alarms = aggConsecAlarms(alarms)
+  
   print alarms
   ##Insert the alarms in the MySQL database
   for alarm in alarms:

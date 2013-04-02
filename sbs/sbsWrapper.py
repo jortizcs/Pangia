@@ -105,7 +105,7 @@ for currentDate in daterange(startDate, endDate):
   allAlarms.extend(alarms)
   
 #Aggregate consecutive alarms
-alarms = aggConsecAlarms(allAlarms)
+allAlarms = aggConsecAlarms(allAlarms)
 
 ##Insert the alarms in the MySQL database
 sys.stderr.write("SBS: Found {0} anomalies in total\n".format(len(allAlarms)))

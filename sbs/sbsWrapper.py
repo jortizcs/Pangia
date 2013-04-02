@@ -90,8 +90,8 @@ for currentDate in daterange(startDate, endDate):
   ##Insert the alarms in the MySQL database
   for alarm in alarms:
     sys.stderr.write("SBS: Found {0} alarms\n".format(len(alarms)))
-    print "INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(alarm["start"],dateFormatMySQL), datetime.datetime.strftime(alarm["end"],dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"])
-    SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(alarm["start"],dateFormatMySQL), datetime.datetime.strftime(alarm["end"],dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
+    print "INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"])
+    SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
       
 sys.stderr.write("Closing the connections...")
 SQLconn.commit()

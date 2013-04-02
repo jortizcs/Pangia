@@ -23,8 +23,7 @@ def sendReport(recipient, reportURL):
   msg['To'] = recipient
 
   # Create the body of the message (a plain-text and an HTML version).
-  text = "Hi!\nWe thought that you would like to know that your wonderful Pangia anomaly report is ready.\nSee the full report at this address: {0} \n\nThanks for your support,\n
-      Pangia Team".format(reportURL)
+  text = "Hi!\nWe thought that you would like to know that your wonderful Pangia anomaly report is ready.\nSee the full report at this address: {0} \n\nThanks for your support,\nPangia Team".format(reportURL)
   html = """\
   <html>
     <head></head>

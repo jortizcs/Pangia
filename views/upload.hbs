@@ -304,7 +304,7 @@ function createUploader() {
           if (responseJSON.success) {
 //             document.getElementById('form-btn').style.visibility='hidden';
 //             document.getElementById('message').innerHTML = "We are now processing your data! We'll send you an email when it is done.";
-                $('#file-' + id).removeClass('alert-info')
+                document.getElementById('file-' + id).removeClass('alert-info')
                             .addClass('alert-success')
                             .html('<i class="icon-ok"></i> ' +
                                   'Successfully uploaded ' +
@@ -313,7 +313,7 @@ function createUploader() {
                         // (string | mandatory) the heading of the notification
                         title: 'Your data is being processed...',
                         // (string | mandatory) the text inside the notification
-                        text: "We are now analyzing '"+fileName+"'. We'll send you an email when it is done. You can fill in another report ",
+                        text: "We are now analyzing '"+fileName+"'. We'll send you an email when it is done.",
                         // (string | optional) the image to display on the left
                         //image: 'lib/img/avatar.jpg',
                         // (bool | optional) if you want it to fade out on its own or just sit there

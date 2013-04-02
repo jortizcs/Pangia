@@ -20,10 +20,10 @@ conn.connectSync(mysql_host, 'root', 'root', 'sbs');
 exports.copyData = function(user, filename) {
   
   // Place an entry in the mysql db
-  var query = "insert into data (username, filepath, ts) values (?, ?, ?)";
+  var query = "insert into data (username, filepath) values (?, ?)";
   var stmt = conn.initStatementSync();
   stmt.prepareSync(query);
-  stmt.bindParamsSync([ user, filename, '2013-03-01 03:31:50' ]); //TODO timestamp
+  stmt.bindParamsSync([ user, filename]);
   var ex = stmt.executeSync();
   var id = stmt.lastInsertIdSync();
   

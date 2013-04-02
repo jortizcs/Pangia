@@ -76,11 +76,9 @@ startDate = datetime.datetime.fromtimestamp(float(start)) #strptime(start,dateFo
 endDate = datetime.datetime.fromtimestamp(float(end)) #.strptime(end,dateFormat)
 for currentDate in daterange(startDate, endDate):
   TSDBparams = urllib.urlencode({'m': req, 'start': datetime.datetime.strftime(currentDate,dateFormat), 'end': datetime.datetime.strftime(currentDate+datetime.timedelta(1),dateFormat), 'ascii': 0})
-  sys.stderr.write("Requesting data: http://{0}:{1}/q?{2}\n".format(TSDBserver,TSDBport, TSDBparams))
   TSDBdata = urllib.urlopen("http://{0}:{1}/q?{2}".format(TSDBserver,TSDBport, TSDBparams))
 
   # Load the data
-  sys.stderr.write("Receiving the data...\n")
   alarms = detector.addSample(TSDBdata,tsdb=True)
   TSDBdata.close()
 

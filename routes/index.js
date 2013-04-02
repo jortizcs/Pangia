@@ -101,9 +101,9 @@ exports.uploader = function(req, res) {
         //console.log(req);
   
         // Move the file to the appropriate place
-        var pathFile = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.random()*1000000;
+        var pathFile = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.floor(Math.random()*1000000);
         while(fs.existsSync(pathFile)){
-          pathFile = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.random()*1000000;
+          pathFile = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.floor(Math.random()*1000000);
         }
         mv(req.files.qqfile.path, pathFile, function(err){
           var response = { };

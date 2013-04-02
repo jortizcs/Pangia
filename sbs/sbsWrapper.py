@@ -30,6 +30,9 @@ def rmSymetricAlarms(alarms):
       
   return res
 
+# TODO aggregate consecutive anomalies for the same device
+
+
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + datetime.timedelta(n)
@@ -68,6 +71,7 @@ req = "sum:1m-avg:sbs."+username+"."+id+"{label=*}"
 
 # Feed SBS with slices of data of 1 hour-long. This is not related to SBS window size (it should be bigger than the OpenTSDB slices? 10 minutes?)
 dateFormat = "%Y/%m/%d-%H:%M:%S"
+dateFormatMySQL = "%Y-%m-%d %H:%M:%S"
 startDate = datetime.datetime.fromtimestamp(float(start)) #strptime(start,dateFormat)
 endDate = datetime.datetime.fromtimestamp(float(end)) #.strptime(end,dateFormat)
 for currentDate in daterange(startDate, endDate):
@@ -86,8 +90,8 @@ for currentDate in daterange(startDate, endDate):
   ##Insert the alarms in the MySQL database
   for alarm in alarms:
     sys.stderr.write("SBS: Found {0} alarms\n".format(len(alarms)))
-    print "INSERT INTO alarms(id, username, start, end, label01, label02, deviation) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username, alarm["start"], alarm["end"], alarm["label"], alarm["peer"], alarm["dev"])
-    SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username, alarm["start"], alarm["end"], alarm["label"], alarm["peer"], alarm["dev"]))
+    print "INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(alarm["start"],dateFormatMySQL), datetime.datetime.strftime(alarm["end"],dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"])
+    SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(alarm["start"],dateFormatMySQL), datetime.datetime.strftime(alarm["end"],dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
       
 sys.stderr.write("Closing the connections...")
 SQLconn.commit()

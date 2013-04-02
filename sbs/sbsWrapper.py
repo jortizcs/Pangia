@@ -30,7 +30,20 @@ def rmSymetricAlarms(alarms):
       
   return res
 
-# TODO aggregate consecutive anomalies for the same device
+# Aggregate consecutive anomalies for the same device
+def aggConsecAlarms(alarms):
+  res = []
+  for i, alarm1 in enumerate(alarms):
+    for alarm2 in alarms[i+1:]:
+      # if the alarms report the same devices and their timestamps overlap
+      if (alarm1["label"]==alarm2["label"] and alarm1["peer"]==alarm2["peer"]) or (alarm1["label"]==alarm2["peer"] and alarm1["peer"]==alarm2["label"]) and (alarm1["end"]>=alarm2["start"] and alarm1["start"]<=alarm2["end"]) or (alarm2["end"]>=alarm1["start"] and alarm2["start"]<=alarm1["end"]):
+        
+        alarm2["start"] = min(alarm1["start"],alarm2["start"]);
+        alarm2["end"] = max(alarm1["end"],alarm2["end"]);
+        alarm2["dev"] += alarm1["dev"];
+          
+      else:
+        res.append(alarm1)
 
 
 def daterange(start_date, end_date):

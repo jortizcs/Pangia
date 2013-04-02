@@ -5,7 +5,7 @@ var  fs   = require('fs')
   ,  net = require('net')
   ,  lazy = require('lazy');
 
-var otsdb_host = '166.78.31.162';
+var otsdb_host = 'localhost';
 var otsdb_port = 4242;
 
 var mysql_host = 'localhost';

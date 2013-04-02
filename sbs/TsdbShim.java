@@ -26,7 +26,7 @@ public class TsdbShim implements Container {
     protected static Logger logger = Logger.getLogger("TsdbShim");
 
     //localport
-    private String bindAddress = "localhost";
+    private String bindAddress = "166.78.31.162";
     private static int localport = 1338;
     private static final String rootPath = "/";
 

@@ -21,7 +21,7 @@ var http = require('http');
 var mysql = require('mysql-libmysqlclient');
 
 var mysql_host = 'localhost';
-var otsdb_host = '166.78.31.162';
+var otsdb_host = 'localhost';
 var otsdb_port = 1338;
 
 var conn = mysql.createConnectionSync();

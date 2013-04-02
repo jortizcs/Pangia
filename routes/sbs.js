@@ -108,7 +108,6 @@ function runSBS(user, id, start, end){
       var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mysql_host+' root root sbs '+id+' '+user+' '+start+' '+end , 
           function (error, stdout, stderr) {
             console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
             if (error !== null) {
               console.log('exec error: ' + error);
               //Sends an email to Romain if something went wrong...

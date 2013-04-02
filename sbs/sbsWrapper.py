@@ -45,7 +45,7 @@ def aggConsecAlarms(alarms):
       else:
         res.append(alarm1)
         
-   return res
+  return res
 
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):

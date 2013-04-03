@@ -122,7 +122,7 @@ function getTsData(user, id, st_date, et_date, label, done) {
 	var et_format = formattedDateString(et_date);
 
 	var query = 'http://' + otsdb_host + ':' + otsdb_port +'/q?start=' + st_format + '&end=' + et_format
-		+ '&m=sum:sbs.' + user + '.' + id + '{label=' + label + '}';
+		+ '&m=sum:15m-avg:sbs.' + user + '.' + id + '{label=' + label + '}';
         var fullBody = "";
 
 	http.get(query, function (res) {

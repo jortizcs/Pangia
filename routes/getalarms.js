@@ -138,7 +138,7 @@ function getTsData(user, id, st_date, et_date, label, done) {
 }
 
 function getAlarms(user, id, done) {
-	var query = "select start, end, label01, label02 from alarms where username=? and id=?";
+	var query = "select start, end, label01, label02 from alarms where username=? and id=? order by deviation desc";
 	var stmt = conn.initStatementSync();
 	stmt.prepareSync(query);
 	stmt.bindParamsSync([ user, id ]);

@@ -39,21 +39,18 @@ exports.getDataAlarms = function(user, id, done) {
 
 		var alarm_set = [];
 		var alarm_array = [];
-		// The values we get are in seconds since epoch, but JS dates are in
-		// milliseconds since epoch, so we convert here.
-		var start = Number(alarms[i]['start']);
-		var end = Number(alarms[i]['end']);
+		// The values we get are SQL dates.
+		var start = alarms[i]['start'];
+		var end = alarms[i]['end'];
 		var label1 = alarms[i]['label01'];
 		var label2 = alarms[i]['label02'];
 		// GMT-0800 is PST
 		var start_dt = new timezoneJS.Date(start, 'America/Los_Angeles');
 		var end_dt = new timezoneJS.Date(end, 'America/Los_Angeles');
-
 		//for each alarm, extend the start time and end time
-		var diff = 2 * (end - start);
-		var new_start = start - diff;
-		var new_end = end + diff;
-
+		var diff =  end_dt.getTime() - start_dt.getTime();
+		var new_start = new timezoneJS.Date(start_dt.getTime() - diff);
+		var new_end = new timezoneJS.Date(end_dt.getTime() + diff);
 		//fetch the data for the new alarm start time and end time
 		getTsData(user, id, new_start, new_end, label1,
 		  function(data4_label1) {
@@ -95,24 +92,23 @@ function numToString(n) {
 }
 
 function formattedDateString(d) {
-	return d.getUTCFullYear() + "/"
-		+ numToString((d.getUTCMonth() + 1)) + "/"
-		+ numToString(d.getUTCDate()) + "-"
-		+ numToString(d.getUTCHours()) + ":"
-		+ numToString(d.getUTCMinutes()) + ":"
-		+ numToString(d.getUTCSeconds());
+	return d.getFullYear() + "/"
+		+ numToString((d.getMonth() + 1)) + "/"
+		+ numToString(d.getDate()) + "-"
+		+ numToString(d.getHours()) + ":"
+		+ numToString(d.getMinutes()) + ":"
+		+ numToString(d.getSeconds());
 }
 
-function getTsData(user, id, st, et, label, done) {
+function getTsData(user, id, st_date, et_date, label, done) {
 	//the time zone is ignored
-
 	// opentsdb issue
 	// https://groups.google.com/forum/?fromgroups=#!topic/opentsdb/-Gy3MWpqAjo
 	//add 8 hours -- opentsdb issue, but only for matching times in the database
-	st += 28800000;
-	et += 28800000;
+//	st_date = new timezoneJS.Date(start.getTime() , 'America/Los_Angeles');
+//	et_date = new timezoneJS.Date(end.getTime()  , 'America/Los_Angeles');
 
-	var st_date = new timezoneJS.Date(st, 'America/Los_Angeles');
+	// var st_date = new timezoneJS.Date(st, 'America/Los_Angeles');
 	// We want a date in the format: "Y/m/d-H:i:s", and opentsdb does some
 	// funky stuff with timezones.done
 	//var st_format = formattedDateString(
@@ -120,18 +116,21 @@ function getTsData(user, id, st, et, label, done) {
 	var st_format = formattedDateString(st_date);
 
 	// See above comments
-	var et_date = new timezoneJS.Date(et, 'America/Los_Angeles');
+	// var et_date = new timezoneJS.Date(et, 'America/Los_Angeles');
 	//var et_format = formattedDateString(
 	//	new timezoneJS.Date(et_date.getTime(), 'Etc/UTC'));
 	var et_format = formattedDateString(et_date);
 
-	var query = 'http://' + otsdb_host + ':' + otsdb_port 
-		+ '/q?start=' + st_format + '&end=' + et_format
+	var query = 'http://' + otsdb_host + ':' + otsdb_port +'/q?start=' + st_format + '&end=' + et_format
 		+ '&m=sum:sbs.' + user + '.' + id + '{label=' + label + '}';
+        var fullBody = "";
 
 	http.get(query, function (res) {
 		res.on('data', function (data) {
-			done(JSON.parse(data));
+			fullBody += data;
+		});
+                res.on('end', function(){
+			done(JSON.parse(fullBody));
 		});
 	}).on('error', function (e) {
 		console.log('Got an error trying to make otsdb request: ' + e.message);

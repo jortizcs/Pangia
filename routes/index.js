@@ -35,7 +35,9 @@ exports.dashboard = function(req, res) {
 };
 
 exports.alarmshim = function(req, res) {
-	getalarms.getDataAlarms('root', 1, function(data) {
+        var id = req.query.id;
+        var user = req.query.user;
+	getalarms.getDataAlarms(user, id, function(data) {
 		res.send(JSON.stringify(data));
 	});
 };

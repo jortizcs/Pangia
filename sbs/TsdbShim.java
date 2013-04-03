@@ -161,14 +161,14 @@ public class TsdbShim implements Container {
 
     public static void sendResponse(Request m_request, Response m_response, int code, String data, boolean internalCall, JSONObject internalResp){
         GZIPOutputStream gzipos = null; 
-        PrintStream body = null;
+        OutputStream body = null;
         logger.info("Sending: " + data + "\tcode=" + code);
         try{
             if(internalCall){
                 return;
             }
 
-            logger.info("Sending Response: " + data);
+            //logger.info("Sending Response: " + data);
             long time = System.currentTimeMillis();
             String enc = m_request.getValue("Accept-encoding");
             boolean gzipResp = false;
@@ -180,20 +180,28 @@ public class TsdbShim implements Container {
             m_response.setDate("Date", time);
             m_response.setDate("Last-Modified", time);
             m_response.setCode(code);
-            body = m_response.getPrintStream();
-            if(data!=null && !gzipResp)
-                body.println(data);
+	    m_response.set("Content-Length", data.length());
+            if(data!=null && !gzipResp){
+            	body = m_response.getOutputStream();
+                body.write(data.getBytes());
+		body.flush();
+		body.close();
+	    }
             else if(data!=null && gzipResp){
                 m_response.set("Content-Encoding", "gzip");
-                gzipos = new GZIPOutputStream((OutputStream)body);
+                gzipos = new GZIPOutputStream(body);
                 gzipos.write(data.getBytes());
                 gzipos.close();
             }
         } catch(Exception e) {
             logger.log(Level.WARNING, "Exception thrown while sending response, closing exchange object",e);
         } finally {
-            if(body!=null)
-                body.close();
+              try{
+                m_response.close();
+              }
+              catch(IOException e) {
+                  logger.log(Level.WARNING, "Exception thrown while closing the response",e);
+             }
         }
 
     }

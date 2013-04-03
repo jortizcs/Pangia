@@ -48,7 +48,7 @@ exports.getDataAlarms = function(user, id, done) {
 		var start_dt = new timezoneJS.Date(start, 'America/Los_Angeles');
 		var end_dt = new timezoneJS.Date(end, 'America/Los_Angeles');
 		//for each alarm, extend the start time and end time
-		var diff =  end_dt.getTime() - start_dt.getTime();
+		var diff =  2* (end_dt.getTime() - start_dt.getTime());
 		var new_start = new timezoneJS.Date(start_dt.getTime() - diff);
 		var new_end = new timezoneJS.Date(end_dt.getTime() + diff);
 		//fetch the data for the new alarm start time and end time

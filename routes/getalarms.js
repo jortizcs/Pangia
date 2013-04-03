@@ -67,8 +67,8 @@ exports.getDataAlarms = function(user, id, done) {
 
 				// First we convert to seconds, then we add 8 hours because of
 				// some messed up time zone conversions. 
-				var pair = [ start_dt.getTime() / 1000 + 28800,
-					end_dt.getTime() / 1000 + 28800 ];
+				var pair = [ start_dt.getTime() / 1000,
+					end_dt.getTime() / 1000 ];
 				alarm_set = [];
 				alarm_set.push(pair);
 

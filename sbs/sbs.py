@@ -262,7 +262,7 @@ class SBS:
       
     nbFilledBuffer=0
     for sen, dat in self.buffer.items():
-      if dat[-1][0] > self.windowTail+self.windowSize:
+      if len(dat)>0 and dat[-1][0] > self.windowTail+self.windowSize:
         nbFilledBuffer+=1
     
     # Execute Strip, Bind and Search if the buffer is full

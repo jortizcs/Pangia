@@ -81,8 +81,8 @@ end = sys.argv[10]
 
 BUFFER_SIZE = 8
 
-sys.stdout.write("[{0}] SBS: 0%, Start: id={1}, username={2}, timeStart={3}, timeEnd={4}\n".format(datetime.datetime.now(),id,username,start,end))
-
+sys.stdout.write("[{0}] 0%, Start SBS: id={1}, username={2}, timeStart={3}, timeEnd={4}\n".format(datetime.datetime.now(),id,username,start,end))
+sys.stdout.flush()
 #Initialization of SBS
 detector = sbs.SBS()
 
@@ -101,7 +101,7 @@ startDate = datetime.datetime.fromtimestamp(float(start)) #strptime(start,dateFo
 endDate = datetime.datetime.fromtimestamp(float(end)) #.strptime(end,dateFormat)
 allAlarms = []
 for currentDate in daterange(startDate, endDate):
-  sys.stdout.write("[{0}] SBS: {1} %, Analyzing data from {2}\n".format(datetime.datetime.now(),int(100*(currentDate-startDate).total_seconds()/(endDate-startDate).total_seconds()),currentDate))
+  sys.stdout.write("[{0}] {1}%, Analyzing data from {2}\n".format(datetime.datetime.now(),int(100*(currentDate-startDate).total_seconds()/(endDate-startDate).total_seconds()),currentDate))
   sys.stdout.flush()
   TSDBparams = urllib.urlencode({'m': req, 'start': datetime.datetime.strftime(currentDate,dateFormat), 'end': datetime.datetime.strftime(currentDate+datetime.timedelta(1),dateFormat), 'ascii': 0})
   TSDBdata = urllib.urlopen("http://{0}:{1}/q?{2}".format(TSDBserver,TSDBport, TSDBparams))
@@ -119,7 +119,7 @@ for currentDate in daterange(startDate, endDate):
 allAlarms = aggConsecAlarms(allAlarms)
 
 ##Insert the alarms in the MySQL database
-sys.stdout.write("[{0}] SBS: 100%, Found {1} anomalies in total\n".format(datetime.datetime.now(),len(allAlarms)))
+sys.stdout.write("[{0}] 100%, SBS found {1} anomalies in total\n".format(datetime.datetime.now(),len(allAlarms)))
 for alarm in allAlarms:
   SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
     

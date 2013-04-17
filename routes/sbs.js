@@ -10,14 +10,14 @@ var otsdb_port = 4242;
 
 var mysql_host = 'localhost';
 
-var conn = mysql.createConnectionSync();
-conn.connectSync(mysql_host, 'root', 'root', 'sbs');
 
 // Record the upload in the Mysql db
 // Create the corresponding metric in OTSDB
 // Copy the data to OTSDB
 // Return the corresponding id
 exports.copyData = function(user, filename) {
+  var conn = mysql.createConnectionSync();
+  conn.connectSync(mysql_host, 'root', 'root', 'sbs');
   
   // Place an entry in the mysql db
   var query = "insert into data (username, filepath) values (?, ?)";
@@ -26,7 +26,8 @@ exports.copyData = function(user, filename) {
   stmt.bindParamsSync([ user, filename]);
   var ex = stmt.executeSync();
   var id = stmt.lastInsertIdSync();
-  
+  conn.closeSync();  
+
   // create the TSDB metric and copy the data
   // then run SBS
   var ts;

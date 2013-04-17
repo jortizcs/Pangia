@@ -67,7 +67,7 @@ function copyFile2Tsdb(user, id, filename) {
         
         //Run SBS
         console.log('Start SBS... ('+user+', '+id+', '+startTS+', '+endTS+')\n')
-        runSBS(user, id, startTS, endTS);
+        runSBS(user, id, startTS, endTS, filename+'.log');
         
       });
       
@@ -105,12 +105,11 @@ function copyFile2Tsdb(user, id, filename) {
 
 
 // Run SBS and sends an email when it is done
-function runSBS(user, id, start, end){
-      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mysql_host+' root root sbs '+id+' '+user+' '+start+' '+end , 
+function runSBS(user, id, start, end, logfile){
+      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mysql_host+' root root sbs '+id+' '+user+' '+start+' '+end+' > '+logfile , 
           function (error, stdout, stderr) {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
             if (error !== null) {
+              console.log('stderr: ' + stderr);
               console.log('exec error: ' + error);
               //Sends an email to Romain if something went wrong...
               reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+id+'<br> user='+user+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);

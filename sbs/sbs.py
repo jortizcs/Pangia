@@ -186,7 +186,7 @@ class SBS:
                 alarms.append({"label":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
             
             
-        print("Bootstrap done!")
+        # print("Bootstrap done!")
         # End of Bootstrap, note that no alarm will be raised for the histBehaviorSize first time bins
       
       for sen, i in self.filteredSensors.items():

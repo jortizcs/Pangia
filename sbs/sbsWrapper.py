@@ -101,9 +101,10 @@ startDate = datetime.datetime.fromtimestamp(float(start)) #strptime(start,dateFo
 endDate = datetime.datetime.fromtimestamp(float(end)) #.strptime(end,dateFormat)
 allAlarms = []
 for currentDate in daterange(startDate, endDate):
-  sys.stdout.write("[{0}] {1}%, Analyzing data from {2}\n".format(datetime.datetime.now(),int(100*(currentDate-startDate).total_seconds()/(endDate-startDate).total_seconds()),currentDate))
+  nextDate = currentDate+datetime.timedelta(1)
+  sys.stdout.write("[{0}] {1}%, Analyzing data from {2} to {3}\n".format(datetime.datetime.now(),int(100*(currentDate-startDate).total_seconds()/(endDate-startDate).total_seconds()),currentDate,nextDate))
   sys.stdout.flush()
-  TSDBparams = urllib.urlencode({'m': req, 'start': datetime.datetime.strftime(currentDate,dateFormat), 'end': datetime.datetime.strftime(currentDate+datetime.timedelta(1),dateFormat), 'ascii': 0})
+  TSDBparams = urllib.urlencode({'m': req, 'start': datetime.datetime.strftime(currentDate,dateFormat), 'end': datetime.datetime.strftime(nextDate,dateFormat), 'ascii': 0})
   TSDBdata = urllib.urlopen("http://{0}:{1}/q?{2}".format(TSDBserver,TSDBport, TSDBparams))
 
   # Load the data

@@ -28,8 +28,8 @@ exports.dashboard = function(req, res) {
 	res.render('dashboard', {
 		title: 'Pangia - Dashboard',
 		extrameta: [
-			{ name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
-			{ name: 'author', content: 'Łukasz Holeczek' },
+			{ name: 'description', content: '' },
+			{ name: 'author', content: '' },
 		]
 	});
 };
@@ -57,8 +57,8 @@ exports.chart = function(req, res) {
 		res.render('chart', {
 			title: 'Pangia - Anomaly Report',
 			extrameta: [
-				{ name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
-				{ name: 'author', content: 'Łukasz Holeczek' }
+				{ name: 'description', content: 'Pangia - View Anomaly Report.' },
+				{ name: 'author', content: '' }
 			],
 			extracss: [
 				'lib/css/custom/custom.css'
@@ -77,8 +77,8 @@ exports.upload = function(req, res) {
         res.render('upload', {
                 title: 'Pangia - Generate New Report',
                 extrameta: [
-                        { name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
-                        { name: 'author', content: 'Łukasz Holeczek' },
+                        { name: 'description', content: '' },
+                        { name: 'author', content: '' },
                         // Mobile specific:
                         { name: 'viewport', content: 'width=device-width, initial-scale=1' }
                 ],

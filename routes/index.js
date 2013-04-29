@@ -7,7 +7,8 @@ var  sbs = require('./sbs')
   ,  mv = require('mv')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec
-  ,  fs = require('fs');
+  ,  fs = require('fs')
+  ,  dashboard = require('./dashboard');
 
 
 exports.index = function(req, res) {
@@ -25,13 +26,16 @@ exports.login = function(req, res) {
 };
 
 exports.dashboard = function(req, res) {
+	// Gather 
 	res.render('dashboard', {
 		title: 'Pangia - Dashboard',
 		extrameta: [
 			{ name: 'description', content: '' },
 			{ name: 'author', content: '' },
 		],
-		reports: [
+		reports: dashboard.getReports(req.user.username)
+		/*
+		[
 			{
 				name: 'UTokyo CS Building',
 				date: '2012/01/01',
@@ -47,12 +51,13 @@ exports.dashboard = function(req, res) {
 				tags: 'Temp'
 			},
 		],
+		*/
 	});
 };
 
 exports.alarmshim = function(req, res) {
 	var id = req.query.id;
-	var user = req.query.user;
+	var user = req.user.username;
 	getalarms.getDataAlarms(user, id, function(data) {
 		res.send(JSON.stringify(data));
 	});
@@ -60,7 +65,7 @@ exports.alarmshim = function(req, res) {
 
 exports.chart = function(req, res) {
 	var id = req.query.id;
-	var user = req.query.user;
+	var user = req.user.username;
 	getalarms.getDataAlarms(user, id, function(data) {
 		var len = (data.length > 10) ? 10 : data.length;
 		var i;

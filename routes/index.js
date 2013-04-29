@@ -34,24 +34,6 @@ exports.dashboard = function(req, res) {
 			{ name: 'author', content: '' },
 		],
 		reports: dashboard.getReports(req.user.username)
-		/*
-		[
-			{
-				name: 'UTokyo CS Building',
-				date: '2012/01/01',
-				severity: 'High',
-				num_alarms: 5,
-				tags: 'Utokyo'
-			},
-			{
-				name: 'UC Berkeley',
-				date: '2012/01/01',
-				severity: 'Medium',
-				num_alarms: 4,
-				tags: 'Temp'
-			},
-		],
-		*/
 	});
 };
 

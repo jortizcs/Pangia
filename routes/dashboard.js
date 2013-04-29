@@ -26,20 +26,18 @@ var countAlarmsForId = function(user, id) {
 };
 
 exports.getReports = function(user) {
-	console.log('user = ' + user);
 	var reports = [];
 	var rows = getDataRowsForUser(user);
 	var i;
 	var num_alarms;
 	for (i = 0; i < rows.length; i++) {
-		console.log(rows[i]);
-		//num_alarms = countAlarmsForId(user, id);
 		reports.push({
 			name: rows[i]['filepath'],
 			date: rows[i]['ts'],
 			severity: '--',
 			num_alarms: countAlarmsForId(user, rows[i]['id']),
-			tags: '--'
+			tags: '--',
+			id: rows[i]['id']
 		});
 	}
 

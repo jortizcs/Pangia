@@ -137,12 +137,15 @@
 						  </tr>
 					  </thead>   
 					  <tbody>
+					  <!-- This is the table where we put the report entries -->
+					  {{#each reports}}
 						<tr>
-							<td>UTokyo CS Building</td>
-							<td class="center">2012/01/01</td>
-							<td class="center"><span class="label label-important">High</span></td>
-							<td class="center">5</td>
-							<td class="center">Utokyo</td>
+							<td>{{this.name}}</td>
+							<td class="center">{{this.date}}</td>
+							<!-- td class="center"><span class="label label-important">High</span></td-->
+							<td class="center">{{this.severity}}</td>
+							<td class="center">{{this.num_alarms}}</td>
+							<td class="center">{{this.tags}}</td>
 							<td class="center">
 								<a class="btn btn-success" href="chart">
 									<i class="icon-zoom-in icon-white"></i>  
@@ -152,23 +155,7 @@
 								</a>
 							</td>
 						</tr>
-						
-						<tr>
-							<td>UC Berkeley</td>
-							<td class="center">2012/01/01</td>
-							<td class="center"><span class="label label-warning">Medium</span></td>
-							<td>4</td>
-							<td class="center">Temp</td>
-							<td class="center">
-								<a class="btn btn-success" href="chart">
-									<i class="icon-zoom-in icon-white"></i>  
-								</a>
-								<a class="btn btn-info" href="#">
-									<i class="icon-edit icon-white"></i>  
-								</a>
-							</td>
-						</tr>
-									
+					  {{/each}}
 					</tbody>
 				</table>
 				

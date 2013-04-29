@@ -30,21 +30,37 @@ exports.dashboard = function(req, res) {
 		extrameta: [
 			{ name: 'description', content: '' },
 			{ name: 'author', content: '' },
-		]
+		],
+		reports: [
+			{
+				name: 'UTokyo CS Building',
+				date: '2012/01/01',
+				severity: 'High',
+				num_alarms: 5,
+				tags: 'Utokyo'
+			},
+			{
+				name: 'UC Berkeley',
+				date: '2012/01/01',
+				severity: 'Medium',
+				num_alarms: 4,
+				tags: 'Temp'
+			},
+		],
 	});
 };
 
 exports.alarmshim = function(req, res) {
-        var id = req.query.id;
-        var user = req.query.user;
+	var id = req.query.id;
+	var user = req.query.user;
 	getalarms.getDataAlarms(user, id, function(data) {
 		res.send(JSON.stringify(data));
 	});
 };
 
 exports.chart = function(req, res) {
-        var id = req.query.id;
-        var user = req.query.user;
+	var id = req.query.id;
+	var user = req.query.user;
 	getalarms.getDataAlarms(user, id, function(data) {
 		var len = (data.length > 10) ? 10 : data.length;
 		var i;

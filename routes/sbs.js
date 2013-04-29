@@ -1,14 +1,15 @@
-var  fs   = require('fs')
+var  conf  = require('nconf')
+  ,  fs    = require('fs')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec
   ,  mysql = require('mysql-libmysqlclient')
   ,  net = require('net')
   ,  lazy = require('lazy');
 
-var otsdb_host = 'localhost';
-var otsdb_port = 4242;
+var otsdb_host = conf.get('otsdb_host');
+var otsdb_port = conf.get('otsdb_port');
 
-var mysql_host = 'localhost';
+var mysql_host = conf.get('db_host');
 
 
 // Record the upload in the Mysql db

@@ -1,5 +1,6 @@
-var fs = require('fs');
-var timezoneJS = require('timezone-js');
+var	  conf = require('nconf')
+	, fs = require('fs')
+	, timezoneJS = require('timezone-js');
 timezoneJS.timezone.zoneFileBasePath = 'tz';
 
 // From mde/timezone-js example on github (under an Apache License at
@@ -20,9 +21,9 @@ timezoneJS.timezone.init();
 var http = require('http');
 var mysql = require('mysql-libmysqlclient');
 
-var mysql_host = 'localhost';
-var otsdb_host = 'localhost';
-var otsdb_port = 1338;
+var mysql_host = conf.get('db_host');
+var otsdb_host = conf.get('otsdb_host');
+var otsdb_port = conf.get('otsdb_port');
 
 var conn = mysql.createConnectionSync();
 conn.connectSync('localhost', 'root', 'root', 'sbs');

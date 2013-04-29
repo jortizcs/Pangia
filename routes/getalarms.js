@@ -124,13 +124,14 @@ function getTsData(user, id, st_date, et_date, label, done) {
 
 	var query = 'http://' + otsdb_host + ':' + otsdb_port +'/q?start=' + st_format + '&end=' + et_format
 		+ '&m=sum:15m-avg:sbs.' + user + '.' + id + '{label=' + label + '}';
-        var fullBody = "";
+	var fullBody = "";
 
 	http.get(query, function (res) {
+		console.log('got res!');
 		res.on('data', function (data) {
 			fullBody += data;
 		});
-                res.on('end', function(){
+		res.on('end', function(){
 			done(JSON.parse(fullBody));
 		});
 	}).on('error', function (e) {

@@ -1,0 +1,7 @@
+{
+	"db_host": "localhost",
+	"db_port": 3306,
+
+	"otsdb_host": "localhost",
+	"otsdb_port": 1338
+}

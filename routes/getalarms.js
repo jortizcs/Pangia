@@ -127,7 +127,6 @@ function getTsData(user, id, st_date, et_date, label, done) {
 	var fullBody = "";
 
 	http.get(query, function (res) {
-		console.log('got res!');
 		res.on('data', function (data) {
 			fullBody += data;
 		});

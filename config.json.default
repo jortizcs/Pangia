@@ -3,5 +3,8 @@
 	"db_port": 3306,
 
 	"otsdb_host": "localhost",
-	"otsdb_port": 1338
+	"otsdb_port": 4242,
+
+	"tsdbShim_host": "localhost",
+	"tsdbShim_port": 1338
 }

@@ -13,9 +13,9 @@
     width: 105px;
     padding: 7px 0;
     text-align: center;
-    background: #880000;
+    background: #CCC;
     border-bottom: 1px solid #DDD;
-    color: #FFF;
+    color: #000;
 }
 .qq-upload-button-hover {
     background: #CC0000;

@@ -85,6 +85,9 @@ exports.upload = function(req, res) {
                         // Mobile specific:
                         { name: 'viewport', content: 'width=device-width, initial-scale=1' }
                 ],
+    			extracss: [
+				'lib/fineuploader_3.2/fineuploader-3.2.css'
+				],
                 extrastyle: [
                         // Fine Uploader
                         '.qq-upload-list { text-align: left; }',

@@ -1,7 +1,6 @@
 var mysql = require('mysql-libmysqlclient');
 var mysql_host = 'localhost';
-var conn = mysql.createConnectionSync();
-conn.connectSync('localhost', 'root', 'root', 'sbs');
+var conn;
 
 var getDataRowsForUser = function(user) {
 	query = "select * from data where username=?";
@@ -30,6 +29,10 @@ exports.getReports = function(user) {
 	var rows = getDataRowsForUser(user);
 	var i;
 	var num_alarms;
+
+	conn = mysql.createConnectionSync();
+	conn.connectSync('localhost', 'root', 'root', 'sbs');
+
 	for (i = 0; i < rows.length; i++) {
 		reports.push({
 			name: rows[i]['filepath'],
@@ -40,6 +43,7 @@ exports.getReports = function(user) {
 			id: rows[i]['id']
 		});
 	}
-
+	
+	conn.closeSync();
 	return reports;
 }

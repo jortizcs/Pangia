@@ -1,6 +1,6 @@
 var mysql = require('mysql-libmysqlclient');
 var mysql_host = 'localhost';
-var conn = mysql.createConnectionSync();
+var conn;
 
 var getDataRowsForUser = function(user) {
 	query = "select * from data where username=?";
@@ -26,11 +26,13 @@ var countAlarmsForId = function(user, id) {
 
 exports.getReports = function(user) {
 	var reports = [];
-	var rows = getDataRowsForUser(user);
 	var i;
 	var num_alarms;
 
+	conn = mysql.createConnectionSync();
 	conn.connectSync('localhost', 'root', 'root', 'sbs');
+
+	var rows = getDataRowsForUser(user);
 
 	for (i = 0; i < rows.length; i++) {
 		reports.push({

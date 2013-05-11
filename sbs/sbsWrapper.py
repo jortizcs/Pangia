@@ -25,6 +25,10 @@ import sbs;
 #Remove the alarms that are "symmetric"
 def rmSymetricAlarms(alarms):
   res = []
+
+  if alarms == None:
+    return res
+
   for i, alarm1 in enumerate(alarms):
     sym = False
     for alarm2 in alarms[i+1:]:
@@ -39,6 +43,10 @@ def rmSymetricAlarms(alarms):
 # Aggregate consecutive anomalies for the same device
 def aggConsecAlarms(alarms):
   res = []
+
+  if alarms == None:
+    return res
+
   for i, alarm1 in enumerate(alarms):
     consec = False;
     for alarm2 in alarms[i+1:]:

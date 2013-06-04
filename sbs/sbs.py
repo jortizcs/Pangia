@@ -19,8 +19,9 @@ import numpy as np;
 #import matplotlib.pyplot as plt;
 
 from scipy import interpolate;
+from scipy import linspace;
 from scipy.signal import butter;
-from scipy.signal import filtfilt
+from scipy.signal import filtfilt;
 
 from collections import deque
 
@@ -44,6 +45,7 @@ class SBS:
     # used only for log
     self.nbIter = 0;
 
+   
     # Data structures
     ## strip (signals)
     self.buffer = dict();
@@ -67,7 +69,8 @@ class SBS:
     self.lnorm = 4.0;
     self.detectionThreshold = 5.0;
     
-  
+    ## peak detector
+    self.peakDetectionThreshold = 5.0
   
   ############### STRIP ############### 
   def strip(self):
@@ -270,7 +273,11 @@ class SBS:
      
     if nbFilledBuffer > len(self.buffer)*self.ratioFilledBuffer:
       self.nbIter += 1
+     
       
+      # Peak detection: remove high values (error, obvious anomalies...)
+      self.peakDetec()
+
       #STRIP
       self.strip()
       #BIND
@@ -307,4 +314,56 @@ class SBS:
     
     # Slide the window
     self.windowTail += self.windowStep
+   
+  # Simple peak detection used both for cleaning the data and reporting peaks
+  def peakDetec(self):
     
+    for sen, dat in self.buffer.items():
+      ##sample the buffer
+      rawData = np.array(dat)
+      if not np.size(rawData,0)<2: # If the buffer is empty there is nothing to do
+            c=0.6745
+	    med = np.median(rawData)
+            mad = np.median(abs(rawData-np.median(rawData)))/c
+            thresMin = med-self.peakDetectionThreshold*mad
+            thresMax = med+self.peakDetectionThreshold*mad
+            ano = (rawData<thresMin) | (rawData>thresMax)
+
+            # Report anomalous peaks
+	    if np.any(ano):
+               alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":""})
+	    # Smooth the peaks
+               anoInd = np.where(ano)
+
+	       # Find the starting and ending point of each peak
+               anoInterval = []
+               start = None
+               prev = None
+               for i in range(len(anoInd)):
+                 if start == None:
+                   start = i
+
+                 elif i != prev+1 :
+                   anoInterval.append([start,prev])
+                   start = i
+
+                 prev = i
+
+               anoInterval.append([start,prev])
+
+	       # Get rid of the peaks using linear interpolation
+               for peak in anoInterval:
+                 if peak[0] == 0 and peak[1] == len(rawData)-1:
+                   print("Warning: The detected peak covers the whole window")
+                 if peak[0] == 0 :
+                   s = rawData(peak[1])+1
+                   e = rawData(peak[1])+1
+                 if peak[1] == len(rawData)-1:
+                   s = rawData(peak[0])-1
+                   e = rawData(peak[0])-1
+                 else:
+                   s = rawData(peak[0])-1
+                   e = rawData(peak[1])+1
+                   
+		 rawData(peak[0]:peak[1]+1) = linspace(s,e,(peak[1]+1)-peak[0])
+               

@@ -7,7 +7,7 @@ NPMINSTALL=npm install
 
 RUNSERVER=node app.js
 
-PYTHONDEP=python pythonDep.py
+PYTHONDEP=python2 pythonDep.py
 
 DEBDEPS= \
 	libmysqlclient-dev \

@@ -19,8 +19,9 @@ import numpy as np;
 #import matplotlib.pyplot as plt;
 
 from scipy import interpolate;
+from scipy import linspace;
 from scipy.signal import butter;
-from scipy.signal import filtfilt
+from scipy.signal import filtfilt;
 
 from collections import deque
 
@@ -35,7 +36,7 @@ class SBS:
     ### TODO: make a config file?
     
     # Parameters for the sliding window (the unit is seconds)
-    self.windowSize = 24*3600; # Size of the sliding time window 
+    self.windowSize = 24*3600; # Size of the sliding time window #*14
     self.windowTail = -1;
     self.windowStep = self.windowSize;
     self.samplingRate = 300;
@@ -44,6 +45,7 @@ class SBS:
     # used only for log
     self.nbIter = 0;
 
+   
     # Data structures
     ## strip (signals)
     self.buffer = dict();
@@ -63,11 +65,12 @@ class SBS:
     self.bootstrapDetection = True;
     self.histBehavior = deque();
     self.histBehaviorChange = dict();
-    self.histBehaviorSize=30;
+    self.histBehaviorSize=30; #5
     self.lnorm = 4.0;
     self.detectionThreshold = 5.0;
     
-  
+    ## peak detector
+    self.peakDetectionThreshold = 3.0
   
   ############### STRIP ############### 
   def strip(self):
@@ -270,13 +273,17 @@ class SBS:
      
     if nbFilledBuffer > len(self.buffer)*self.ratioFilledBuffer:
       self.nbIter += 1
+     
       
+      # Peak detection: remove high values (error, obvious anomalies...)
+      res = self.peakDetec()
+
       #STRIP
       self.strip()
       #BIND
       self.bind()
       #SEARCH
-      res = self.search()
+      res.extend(self.search())
       
       # Slide the time window
       self.windowSlide()
@@ -307,4 +314,58 @@ class SBS:
     
     # Slide the window
     self.windowTail += self.windowStep
-    
+  
+ 
+### Simple peak detection used both for cleaning the data and reporting peaks
+  def peakDetec(self):
+    alarms = []
+    for sen, dat in self.buffer.items():
+      ##sample the buffer
+      rawData = np.array(dat)
+      if not np.size(rawData,0)<2: # If the buffer is empty there is nothing to do
+            c=0.6745
+            med = np.median(rawData[:,1])
+            mad = np.median(abs(rawData[:,1]-med))/c
+            thresMin = med-(self.peakDetectionThreshold*mad)
+            thresMax = med+(self.peakDetectionThreshold*mad)
+            ano = (rawData[:,1]<thresMin) | (rawData[:,1]>thresMax)
+
+            if np.any(ano) and mad!=0:
+               # Smooth the peaks
+               anoInd = np.where(ano)
+
+               # Find the starting and ending point of each peak
+               anoInterval = []
+               start = None
+               prev = None
+               for i in range(len(anoInd)):
+                 if start == None:
+                   start = i
+
+                 elif i != prev+1 :
+                   anoInterval.append([start,prev])
+                   start = i
+
+                 prev = i
+
+               anoInterval.append([start,prev])
+
+	       # Get rid of the peaks using linear interpolation
+               for peak in anoInterval:
+                 if peak[0] == 0 :
+                   #s = rawData[peak[1],1]+1
+                   #e = rawData[peak[1],1]+1
+                   continue
+                 if peak[1] == len(rawData)-1:
+                   #s = rawData[peak[0],1]-1
+                   #e = rawData[peak[0],1]-1
+                   continue
+                 else:
+                   s = rawData[peak[0],1]-1
+                   e = rawData[peak[1],1]+1
+                 print("remove peak for "+sen+" from "+str(self.windowTail)+" to "+str(self.windowTail+self.windowSize))
+                 # Report anomalous peaks
+                 alarms.append({"label":sen, "start":rawData[peak[0],0], "end":rawData[peak[1],0], "dev":9999, "peer":""})
+                 rawData[peak[0]:peak[1]+1,1] = linspace(s,e,(peak[1]+1)-peak[0])
+    return alarms
+           

@@ -1,5 +1,6 @@
-var fs = require('fs');
-var timezoneJS = require('timezone-js');
+var	  conf = require('nconf')
+	, fs = require('fs')
+	, timezoneJS = require('timezone-js');
 timezoneJS.timezone.zoneFileBasePath = 'tz';
 
 // From mde/timezone-js example on github (under an Apache License at
@@ -20,12 +21,11 @@ timezoneJS.timezone.init();
 var http = require('http');
 var mysql = require('mysql-libmysqlclient');
 
-var mysql_host = 'localhost';
-var otsdb_host = 'localhost';
-var otsdb_port = 1338;
+var mysql_host = conf.get('db_host');
+var tsdbShim_host = conf.get('tsdbShim_host');
+var tsdbShim_port = conf.get('tsdbShim_port');
 
-var conn = mysql.createConnectionSync();
-conn.connectSync('localhost', 'root', 'root', 'sbs');
+var conn;
 
 exports.getDataAlarms = function(user, id, done) {
 	var alarms = getAlarms(user, id);
@@ -121,15 +121,15 @@ function getTsData(user, id, st_date, et_date, label, done) {
 	//	new timezoneJS.Date(et_date.getTime(), 'Etc/UTC'));
 	var et_format = formattedDateString(et_date);
 
-	var query = 'http://' + otsdb_host + ':' + otsdb_port +'/q?start=' + st_format + '&end=' + et_format
+	var query = 'http://' + tsdbShim_host + ':' + tsdbShim_port +'/q?start=' + st_format + '&end=' + et_format
 		+ '&m=sum:15m-avg:sbs.' + user + '.' + id + '{label=' + label + '}';
-        var fullBody = "";
+	var fullBody = "";
 
 	http.get(query, function (res) {
 		res.on('data', function (data) {
 			fullBody += data;
 		});
-                res.on('end', function(){
+		res.on('end', function(){
 			done(JSON.parse(fullBody));
 		});
 	}).on('error', function (e) {
@@ -138,12 +138,15 @@ function getTsData(user, id, st_date, et_date, label, done) {
 }
 
 function getAlarms(user, id, done) {
-	var query = "select start, end, label01, label02 from alarms where username=? and id=? order by alarms.deviation desc";
+	var query = "select start, end, label01, label02 from alarms where username=? and id=? order by alarms.deviation desc limit 0, 10";	//Only 10 alarms are shown in the "chart" page
+	conn = mysql.createConnectionSync();
+	conn.connectSync('localhost', 'root', 'root', 'sbs');
 	var stmt = conn.initStatementSync();
 	stmt.prepareSync(query);
 	stmt.bindParamsSync([ user, id ]);
 	stmt.executeSync();
 	var rows = stmt.fetchAllSync();
 	// TODO create error condition if fetchAllSync fails
+	conn.closeSync();
 	return rows;
 }

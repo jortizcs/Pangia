@@ -7,7 +7,8 @@ var  sbs = require('./sbs')
   ,  mv = require('mv')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec
-  ,  fs = require('fs');
+  ,  fs = require('fs')
+  ,  dashboard = require('./dashboard');
 
 
 exports.index = function(req, res) {
@@ -25,26 +26,28 @@ exports.login = function(req, res) {
 };
 
 exports.dashboard = function(req, res) {
+	// Gather 
 	res.render('dashboard', {
 		title: 'Pangia - Dashboard',
 		extrameta: [
-			{ name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
-			{ name: 'author', content: 'Łukasz Holeczek' },
-		]
+			{ name: 'description', content: '' },
+			{ name: 'author', content: '' },
+		],
+		reports: dashboard.getReports(req.user.username)
 	});
 };
 
 exports.alarmshim = function(req, res) {
-        var id = req.query.id;
-        var user = req.query.user;
+	var id = req.query.id;
+	var user = req.user.username;
 	getalarms.getDataAlarms(user, id, function(data) {
 		res.send(JSON.stringify(data));
 	});
 };
 
 exports.chart = function(req, res) {
-        var id = req.query.id;
-        var user = req.query.user;
+	var id = req.query.id;
+	var user = req.user.username;
 	getalarms.getDataAlarms(user, id, function(data) {
 		var len = (data.length > 10) ? 10 : data.length;
 		var i;
@@ -57,8 +60,8 @@ exports.chart = function(req, res) {
 		res.render('chart', {
 			title: 'Pangia - Anomaly Report',
 			extrameta: [
-				{ name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
-				{ name: 'author', content: 'Łukasz Holeczek' }
+				{ name: 'description', content: 'Pangia - View Anomaly Report.' },
+				{ name: 'author', content: '' }
 			],
 			extracss: [
 				'lib/css/custom/custom.css'
@@ -77,11 +80,14 @@ exports.upload = function(req, res) {
         res.render('upload', {
                 title: 'Pangia - Generate New Report',
                 extrameta: [
-                        { name: 'description', content: 'Perfectum Dashboard Bootstrap Admin Template.' },
-                        { name: 'author', content: 'Łukasz Holeczek' },
+                        { name: 'description', content: '' },
+                        { name: 'author', content: '' },
                         // Mobile specific:
                         { name: 'viewport', content: 'width=device-width, initial-scale=1' }
                 ],
+    			extracss: [
+				'lib/fineuploader_3.2/fineuploader-3.2.css'
+				],
                 extrastyle: [
                         // Fine Uploader
                         '.qq-upload-list { text-align: left; }',

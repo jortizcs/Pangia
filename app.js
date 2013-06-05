@@ -3,6 +3,18 @@
  * Module dependencies.
  */
 
+// Setup environment configuration. This should be done first so that any other
+// modules that get the configuration will get already initialized configuration
+// object.
+// This sets up nconf to use (in-order):
+//		1. Command-line arguments
+//		2. Environment variables
+//		3. A configuration file located at ./config.json
+var conf = require('nconf');
+conf.argv()
+	.env()
+	.file({ file: './config.json' });
+
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -39,7 +51,6 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
-
 
 // Registers all the passport authorization callbacks
 auth.setup();

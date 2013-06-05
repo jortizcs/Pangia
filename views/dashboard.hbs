@@ -84,8 +84,13 @@
 		<div class="span2 main-menu-span">
 			<div class="nav-collapse sidebar-nav">
 				<ul class="nav nav-tabs nav-stacked main-menu">
-					<li><a href="dashboard"><i class="icon-home icon-white"></i><span class="hidden-tablet"> Dashboard</span></a></li>
-					<li><a href="upload"><i class="icon-edit icon-white"></i><span class="hidden-tablet"> New Report</span></a></li>
+					<li style="text-align: center"><a href="dashboard">
+						<span class="hidden-tablet"><p><i class="icon-dashboard icon-white icon-3x"></i></p><p>Reports</p></span></p>
+						<i class="icon-dashboard icon-white icon-2x hidden-desktop"></i>
+						</a><br></li>
+					<li style="text-align: center"><a href="upload"><span class="hidden-tablet"><p><i class="icon-cloud-upload icon-3x"></i></p><p>New Report</p></span>
+						<i class="icon-cloud-upload icon-white icon-2x hidden-desktop"></i>
+					</a></li>
 				</ul>
 			</div><!--/.well -->
 		</div><!--/span-->
@@ -127,24 +132,27 @@
 				<div class="box-content">
 					<table class="table table-striped table-bordered bootstrap-datatable datatable">
 					  <thead>
-						  <tr>
-							  <th>Name</th>
-							  <th>Date uploaded</th>
-							  <th>Priority</th>
-							  <th>Number of Anomalies</th>
-							  <th>Tags</th>
-							  <th>Data Actions</th>
+						  <tr style="cursor: pointer">
+							  <th class="sorting">Name <i class="icon-sort"></i></th>
+							  <th class="sorting">Date uploaded <i class="icon-sort"></i></th>
+							  <th class="sorting">Priority <i class="icon-sort"></i></th>
+							  <th class="sorting">Number of Anomalies <i class="icon-sort"></i></th>
+							  <th class="sorting">Tags <i class="icon-sort"></i></th>
+							  <th class="sorting">Data Actions</th>
 						  </tr>
 					  </thead>   
 					  <tbody>
+					  <!-- This is the table where we put the report entries -->
+					  {{#each reports}}
 						<tr>
-							<td>UTokyo CS Building</td>
-							<td class="center">2012/01/01</td>
-							<td class="center"><span class="label label-important">High</span></td>
-							<td class="center">5</td>
-							<td class="center">Utokyo</td>
+							<td>{{this.name}}</td>
+							<td class="center">{{this.date}}</td>
+							<!-- td class="center"><span class="label label-important">High</span></td-->
+							<td class="center">{{this.severity}}</td>
+							<td class="center">{{this.num_alarms}}</td>
+							<td class="center">{{this.tags}}</td>
 							<td class="center">
-								<a class="btn btn-success" href="chart">
+								<a class="btn btn-success" href="chart?id={{this.id}}">
 									<i class="icon-zoom-in icon-white"></i>  
 								</a>
 								<a class="btn btn-info" href="#">
@@ -152,23 +160,7 @@
 								</a>
 							</td>
 						</tr>
-						
-						<tr>
-							<td>UC Berkeley</td>
-							<td class="center">2012/01/01</td>
-							<td class="center"><span class="label label-warning">Medium</span></td>
-							<td>4</td>
-							<td class="center">Temp</td>
-							<td class="center">
-								<a class="btn btn-success" href="chart">
-									<i class="icon-zoom-in icon-white"></i>  
-								</a>
-								<a class="btn btn-info" href="#">
-									<i class="icon-edit icon-white"></i>  
-								</a>
-							</td>
-						</tr>
-									
+					  {{/each}}
 					</tbody>
 				</table>
 				

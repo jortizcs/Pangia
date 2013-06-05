@@ -19,8 +19,11 @@ DEBDEPS= \
 all: install css
 
 .PHONY: install
-install:
+install: config.json
 	$(NPMINSTALL)
+
+config.json:
+	cp config.json.default config.json
 
 .PHONY: css
 css: $(LESSCSS)

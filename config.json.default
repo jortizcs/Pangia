@@ -7,4 +7,7 @@
 
 	"tsdbShim_host": "localhost",
 	"tsdbShim_port": 1338
+
+	"mysql_host": "localhost"
+	"mysql_port": ""
 }

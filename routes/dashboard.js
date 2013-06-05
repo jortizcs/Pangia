@@ -1,7 +1,8 @@
-var mysql = require('mysql-libmysqlclient');
-var mysql_host = 'localhost';
-var conn;
+var conf = require('nconf');
 
+var mysql = require('mysql-libmysqlclient');
+var mysql_host = conf.get('db_host');
+var conn;
 var getDataRowsForUser = function(user) {
 	query = "select * from data where username=?";
 	var stmt = conn.initStatementSync();

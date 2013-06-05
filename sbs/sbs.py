@@ -36,7 +36,7 @@ class SBS:
     ### TODO: make a config file?
     
     # Parameters for the sliding window (the unit is seconds)
-    self.windowSize = 24*3600; # Size of the sliding time window 
+    self.windowSize = 24*3600; # Size of the sliding time window #*14
     self.windowTail = -1;
     self.windowStep = self.windowSize;
     self.samplingRate = 300;
@@ -65,7 +65,7 @@ class SBS:
     self.bootstrapDetection = True;
     self.histBehavior = deque();
     self.histBehaviorChange = dict();
-    self.histBehaviorSize=30;
+    self.histBehaviorSize=30; #5
     self.lnorm = 4.0;
     self.detectionThreshold = 5.0;
     
@@ -318,22 +318,19 @@ class SBS:
  
 ### Simple peak detection used both for cleaning the data and reporting peaks
   def peakDetec(self):
-    print("sldfjas;djfasdkjlf")
     alarms = []
     for sen, dat in self.buffer.items():
       ##sample the buffer
       rawData = np.array(dat)
       if not np.size(rawData,0)<2: # If the buffer is empty there is nothing to do
             c=0.6745
-            med = np.median(rawData)
-            mad = np.median(abs(rawData-np.median(rawData)))/c
-            thresMin = med-self.peakDetectionThreshold*mad
-            thresMax = med+self.peakDetectionThreshold*mad
-            ano = (rawData<thresMin) | (rawData>thresMax)
+            med = np.median(rawData[:,1])
+            mad = np.median(abs(rawData[:,1]-med))/c
+            thresMin = med-(self.peakDetectionThreshold*mad)
+            thresMax = med+(self.peakDetectionThreshold*mad)
+            ano = (rawData[:,1]<thresMin) | (rawData[:,1]>thresMax)
 
-            # Report anomalous peaks
-            if np.any(ano):
-               alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":""})
+            if np.any(ano) and mad!=0:
                # Smooth the peaks
                anoInd = np.where(ano)
 
@@ -355,18 +352,20 @@ class SBS:
 
 	       # Get rid of the peaks using linear interpolation
                for peak in anoInterval:
-                 if peak[0] == 0 and peak[1] == len(rawData)-1:
-                   print("Warning: The detected peak covers the whole window")
                  if peak[0] == 0 :
-                   s = rawData(peak[1])+1
-                   e = rawData(peak[1])+1
+                   #s = rawData[peak[1],1]+1
+                   #e = rawData[peak[1],1]+1
+                   continue
                  if peak[1] == len(rawData)-1:
-                   s = rawData(peak[0])-1
-                   e = rawData(peak[0])-1
+                   #s = rawData[peak[0],1]-1
+                   #e = rawData[peak[0],1]-1
+                   continue
                  else:
-                   s = rawData(peak[0])-1
-                   e = rawData(peak[1])+1
+                   s = rawData[peak[0],1]-1
+                   e = rawData[peak[1],1]+1
                  print("remove peak for "+sen+" from "+str(self.windowTail)+" to "+str(self.windowTail+self.windowSize))
-                 rawData[peak[0]:peak[1]+1] = linspace(s,e,(peak[1]+1)-peak[0])
+                 # Report anomalous peaks
+                 alarms.append({"label":sen, "start":rawData[peak[0],0], "end":rawData[peak[1],0], "dev":9999, "peer":""})
+                 rawData[peak[0]:peak[1]+1,1] = linspace(s,e,(peak[1]+1)-peak[0])
     return alarms
            

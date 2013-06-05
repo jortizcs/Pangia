@@ -318,6 +318,7 @@ class SBS:
  
 ### Simple peak detection used both for cleaning the data and reporting peaks
   def peakDetec(self):
+    print("sldfjas;djfasdkjlf")
     alarms = []
     for sen, dat in self.buffer.items():
       ##sample the buffer

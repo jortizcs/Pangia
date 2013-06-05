@@ -70,7 +70,7 @@ class SBS:
     self.detectionThreshold = 5.0;
     
     ## peak detector
-    self.peakDetectionThreshold = 5.0
+    self.peakDetectionThreshold = 3.0
   
   ############### STRIP ############### 
   def strip(self):
@@ -276,14 +276,14 @@ class SBS:
      
       
       # Peak detection: remove high values (error, obvious anomalies...)
-      self.peakDetec()
+      res = self.peakDetec()
 
       #STRIP
       self.strip()
       #BIND
       self.bind()
       #SEARCH
-      res = self.search()
+      res.extend(self.search())
       
       # Slide the time window
       self.windowSlide()
@@ -314,28 +314,29 @@ class SBS:
     
     # Slide the window
     self.windowTail += self.windowStep
-   
-  # Simple peak detection used both for cleaning the data and reporting peaks
+  
+ 
+### Simple peak detection used both for cleaning the data and reporting peaks
   def peakDetec(self):
-    
+    alarms = []
     for sen, dat in self.buffer.items():
       ##sample the buffer
       rawData = np.array(dat)
       if not np.size(rawData,0)<2: # If the buffer is empty there is nothing to do
             c=0.6745
-	    med = np.median(rawData)
+            med = np.median(rawData)
             mad = np.median(abs(rawData-np.median(rawData)))/c
             thresMin = med-self.peakDetectionThreshold*mad
             thresMax = med+self.peakDetectionThreshold*mad
             ano = (rawData<thresMin) | (rawData>thresMax)
 
             # Report anomalous peaks
-	    if np.any(ano):
+            if np.any(ano):
                alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":""})
-	    # Smooth the peaks
+               # Smooth the peaks
                anoInd = np.where(ano)
 
-	       # Find the starting and ending point of each peak
+               # Find the starting and ending point of each peak
                anoInterval = []
                start = None
                prev = None
@@ -364,6 +365,7 @@ class SBS:
                  else:
                    s = rawData(peak[0])-1
                    e = rawData(peak[1])+1
-                   
-		 rawData(peak[0]:peak[1]+1) = linspace(s,e,(peak[1]+1)-peak[0])
-               
+                 print("remove peak for "+sen+" from "+str(self.windowTail)+" to "+str(self.windowTail+self.windowSize))
+                 rawData[peak[0]:peak[1]+1] = linspace(s,e,(peak[1]+1)-peak[0])
+    return alarms
+           

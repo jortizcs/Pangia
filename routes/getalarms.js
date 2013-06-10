@@ -138,7 +138,7 @@ function getTsData(user, id, st_date, et_date, label, done) {
 }
 
 function getAlarms(user, id, done) {
-	var query = "select start, end, label01, label02 from alarms where username=? and id=? order by alarms.deviation"; // desc limit 0, 10";	//Only 10 alarms are shown in the "chart" page
+	var query = "select start, end, label01, label02 from alarms where username=? and id=? order by alarms.deviation desc limit 0, 15";	//Only 10 alarms are shown in the "chart" page
 	conn = mysql.createConnectionSync();
 	conn.connectSync('localhost', 'root', 'root', 'sbs');
 	var stmt = conn.initStatementSync();

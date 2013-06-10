@@ -93,7 +93,7 @@ def daterange(start_date, end_date):
 
 
 ### Run SBS with data from a TSDB server
-def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, SQLdb, id, username, start, end)
+def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, SQLdb, id, username, start, end):
 
   sys.stdout.write("[{0}] 0%, Start SBS: id={1}, username={2}, timeStart={3}, timeEnd={4}\n".format(datetime.datetime.now(),id,username,start,end))
   sys.stdout.flush()

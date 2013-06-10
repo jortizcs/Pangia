@@ -74,7 +74,7 @@ function copyFile2Tsdb(user, id, filename) {
       
       fr.lines.forEach(
       function (line) { 
-          var elem = line.toString().replace(/\s+/g, '').replace(/{|}|\(|\)|\[|\]/g, '_').split(',');
+          var elem = line.toString().replace(/\s+/g, '').replace(/{|}|\(|\)|\[|\]|%/g, '_').split(',');
           var ts = parseInt(parseFloat(elem[0]));
           if(startTS == 0){
             startTS = ts;

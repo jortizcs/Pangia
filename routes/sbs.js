@@ -1,23 +1,24 @@
-var  fs   = require('fs')
+var  conf  = require('nconf')
+  ,  fs    = require('fs')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec
   ,  mysql = require('mysql-libmysqlclient')
   ,  net = require('net')
   ,  lazy = require('lazy');
 
-var otsdb_host = 'localhost';
-var otsdb_port = 4242;
+var otsdb_host = conf.get('otsdb_host');
+var otsdb_port = conf.get('otsdb_port');
 
-var mysql_host = 'localhost';
+var mysql_host = conf.get('db_host');
 
-var conn = mysql.createConnectionSync();
-conn.connectSync(mysql_host, 'root', 'root', 'sbs');
 
 // Record the upload in the Mysql db
 // Create the corresponding metric in OTSDB
 // Copy the data to OTSDB
 // Return the corresponding id
 exports.copyData = function(user, filename) {
+  var conn = mysql.createConnectionSync();
+  conn.connectSync(mysql_host, 'root', 'root', 'sbs');
   
   // Place an entry in the mysql db
   var query = "insert into data (username, filepath) values (?, ?)";
@@ -26,7 +27,8 @@ exports.copyData = function(user, filename) {
   stmt.bindParamsSync([ user, filename]);
   var ex = stmt.executeSync();
   var id = stmt.lastInsertIdSync();
-  
+  conn.closeSync();  
+
   // create the TSDB metric and copy the data
   // then run SBS
   var ts;
@@ -66,13 +68,13 @@ function copyFile2Tsdb(user, id, filename) {
         
         //Run SBS
         console.log('Start SBS... ('+user+', '+id+', '+startTS+', '+endTS+')\n')
-        runSBS(user, id, startTS, endTS);
+        runSBS(user, id, startTS, endTS, filename+'.log');
         
       });
       
       fr.lines.forEach(
       function (line) { 
-          var elem = line.toString().replace(/\s+/g, '').split(',');
+          var elem = line.toString().replace(/\s+/g, '').replace(/{|}|\(|\)|\[|\]|%/g, '_').split(',');
           var ts = parseInt(parseFloat(elem[0]));
           if(startTS == 0){
             startTS = ts;
@@ -104,12 +106,11 @@ function copyFile2Tsdb(user, id, filename) {
 
 
 // Run SBS and sends an email when it is done
-function runSBS(user, id, start, end){
-      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mysql_host+' root root sbs '+id+' '+user+' '+start+' '+end , 
+function runSBS(user, id, start, end, logfile){
+      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mysql_host+' root root sbs '+id+' '+user+' '+start+' '+end+' > '+logfile , 
           function (error, stdout, stderr) {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
             if (error !== null) {
+              console.log('stderr: ' + stderr);
               console.log('exec error: ' + error);
               //Sends an email to Romain if something went wrong...
               reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+id+'<br> user='+user+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);

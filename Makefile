@@ -7,7 +7,7 @@ NPMINSTALL=npm install
 
 RUNSERVER=node app.js
 
-PYTHONDEP=python pythonDep.py
+PYTHONDEP=python2 pythonDep.py
 
 DEBDEPS= \
 	libmysqlclient-dev \
@@ -19,8 +19,11 @@ DEBDEPS= \
 all: install css
 
 .PHONY: install
-install:
+install: config.json
 	$(NPMINSTALL)
+
+config.json:
+	cp config.json.default config.json
 
 .PHONY: css
 css: $(LESSCSS)

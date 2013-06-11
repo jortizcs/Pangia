@@ -35,9 +35,9 @@ class SBS:
     ### TODO: make a config file?
     
     # Parameters for the sliding window (the unit is seconds)
-    self.windowSize = 24*3600; # Size of the sliding time window 
+    self.windowSize = 14*24*3600; # Size of the sliding time window 
     self.windowTail = -1;
-    self.windowStep = self.windowSize;
+    self.windowStep = 24*3600; #self.windowSize;
     self.samplingRate = 300;
     self.ratioFilledBuffer = 0.7;  # Detect abnormalities when at least ratioFilledBuffer*100% of the sensors provided enough data
     
@@ -211,7 +211,7 @@ class SBS:
         l_i = self.histBehaviorChange[sen]
         if l_it > np.median(l_i)+self.detectionThreshold*(np.median(abs(l_i-np.median(l_i)))/c):
           #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail,self.windowTail+self.windowSize,self.nbIter))
-          alarms.append({"label":sen, "start":self.windowTail, "end":self.windowTail+self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
+          alarms.append({"label":sen, "start":(self.windowTail+self.windowSize)-self.windowStep, "end":self.windowTail+self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
         # Store the behavior change
         self.histBehaviorChange[sen].append(l_it)    
       

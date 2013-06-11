@@ -187,7 +187,7 @@ class SBS:
               # Compare the behavior change with past behaviors
               if l_it > thres:
                 #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail+(t-self.histBehaviorSize)*self.windowSize,self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize,t))
-                alarms.append({"label":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
+                alarms.append({"label":sen, "start":(self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize)-self.windowStep, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
             
             
         # print("Bootstrap done!")

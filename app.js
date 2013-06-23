@@ -21,7 +21,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , hbs = require('express-hbs')
-  , auth = require('./auth');
+  , auth = require('./auth')
+  , db = require('./db');
 
 var app = express();
 

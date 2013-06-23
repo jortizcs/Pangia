@@ -1,20 +1,63 @@
 var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+  , LocalStrategy = require('passport-local').Strategy
+  , db = require('./db')
+  , crypto = require('crypto');
 
 exports.init = function(app) {
   app.use(passport.initialize());
   app.use(passport.session());
 };
 
+function checkPassword(password, salt, hash) {
+  var gen_hash = crypto.pbkdf2Sync(password, salt, 10000, 128).toString('base64');
+  return hash === gen_hash;
+}
+
+function fetchCredentialsById(id) {
+  var query = "SELECT username, salt, hash FROM users WHERE id=?";
+  var stmt = db.conn.initStatementSync();
+  stmt.prepareSync(query);
+  stmt.bindParamsSync([ id ]);
+  stmt.executeSync();
+  var rows = stmt.fetchAllSync();
+
+  if (rows < 1) {
+    return undefined;
+  }
+
+  return rows[0];
+}
+
+function fetchCredentialsByUsername(username) {
+  var query = "SELECT id, salt, hash FROM users WHERE username=?";
+  var stmt = db.conn.initStatementSync();
+  stmt.prepareSync(query);
+  stmt.bindParamsSync([ username ]);
+  stmt.executeSync();
+  var rows = stmt.fetchAllSync();
+
+  if (rows < 1) {
+    return undefined;
+  }
+
+  return rows[0];
+}
+
 exports.setup = function() {
   // Basic user/password authentication
   passport.use(new LocalStrategy(
     function(username, password, done) {
-      if (username === 'root' && password === 'root') {
-  	  return done(null, TESTUSER);
-  	}
-    })
-  );
+      creds = fetchCredentialsByUsername(username);
+      if (creds && checkPassword(password, creds['salt'], creds['hash'])) {
+        return done(null, {
+          'id': creds['id'],
+          'username': username
+        });
+      }
+
+      var message = 'Incorrect username or password.';
+      return done(null, false, { message: message });
+    }));
   
   passport.serializeUser(function(user, done) {
     done(null, user.id);
@@ -27,22 +70,19 @@ exports.setup = function() {
   });
 };
 
-// TODO This is a fake, temporary test user that is used for testing our
-// authentication scheme. We need to add in a real DB user check at some point.
-// This test user allows you to login with username 'root' and password 'root'.
-var TESTUSER = { 'id': 1, 'username': 'root' };
-
 var findUserById = function(id, done) {
-  if (id === 1) {
-    done(null, TESTUSER);
+  var creds = fetchCredentialsById(id);
+  if (creds) {
+    done(null, { 'id': id, 'username': creds['username'] });
   } else {
     done(new Error('User ID ' + id + ' not found.'));
   }
 };
 
 var findUserByUsername = function(username, done) {
-  if (username === 'root') {
-    done(null, TESTUSER);
+  var creds = fetchCredentialsByUsername(username);
+  if (creds) {
+    done(null, { 'id': creds['id'], 'username': username });
   } else {
     done(new Error('Username  ' + username + ' not found.'));
   }
@@ -51,7 +91,7 @@ var findUserByUsername = function(username, done) {
 exports.passportCheck = function() {
   return passport.authenticate('local', {
     successRedirect: '/index',
-	failureRedirect: '/login'
+		failureRedirect: '/login'
   });
 };
 
@@ -61,4 +101,3 @@ exports.ensureAuth = function(req, res, next) {
   }
   res.redirect('/login');
 };
-

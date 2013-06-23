@@ -15,6 +15,7 @@
 	"passport": "*",
 	"passport-local": "*",
 	"mv": "*",
-	"nconf": "*"
+	"nconf": "*",
+	"prompt": "*"
   }
 }

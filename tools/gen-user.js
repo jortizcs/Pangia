@@ -23,22 +23,28 @@ var properties = [
   }
 ];
 
-prompt.message = 'new user';
+var run = function() {
+  prompt.message = 'new user';
+  
+  prompt.start();
+  prompt.get(properties, function (err, result) {
+    if (err) {
+      return onErr(err);
+    }
+  
+    var username = result.username;
+    var password = result.password
+    var salt = crypto.randomBytes(128).toString('base64');
+    var hash = crypto.pbkdf2Sync(password, salt, 10000, 128).toString('base64');
+  
+    db.users.update(
+      { 'username': username },
+      { '$set' : { 'salt' : salt, 'hash' : hash } },
+      { 'upsert' : true }
+    );
 
-prompt.start();
-prompt.get(properties, function (err, result) {
-  if (err) {
-    return onErr(err);
-  }
+    db.db.close();
+  });
+}
 
-  var username = result.username;
-  var password = result.password
-  var salt = crypto.randomBytes(128).toString('base64');
-  var hash = crypto.pbkdf2Sync(password, salt, 10000, 128).toString('base64');
-
-  var query = "INSERT INTO `users` (username, salt, hash) VALUES (?, ?, ?)";
-  var stmt = db.conn.initStatementSync();
-  stmt.prepareSync(query);
-  stmt.bindParamsSync([ username, salt, hash ]);
-  stmt.executeSync();
-});
+db.startDb(run);

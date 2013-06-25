@@ -11,6 +11,7 @@ PYTHONDEP=python2 pythonDep.py
 
 DEBDEPS= \
 	libmysqlclient-dev \
+	mongodb \
 	python-numpy \
 	python-scipy \
 	python-mysqldb

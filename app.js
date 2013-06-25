@@ -21,7 +21,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , hbs = require('express-hbs')
-  , auth = require('./auth');
+  , auth = require('./auth')
+	, db = require('./db');
 
 var app = express();
 
@@ -89,6 +90,8 @@ getpath('/users', user.list);
 
 app.post('/uploader',routes.uploader);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+db.startDb(function (error) {
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+  });
 });

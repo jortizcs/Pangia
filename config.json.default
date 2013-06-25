@@ -15,5 +15,8 @@
 	"sbs_port": 3306,
 	"sbs_user": "root",
 	"sbs_pwd": "root",
-	"sbs_db": "sbs"
+	"sbs_db": "sbs",
+
+	"mongo_host": "localhost",
+	"mongo_port": 27017
 }

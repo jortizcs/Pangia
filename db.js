@@ -13,6 +13,7 @@ var server = new mongo.Server(conf.get('mongo_host'),
 
 var db = new mongo.Db('pangia', server);
 
+exports.mongo = mongo;
 exports.db = db;
 exports.users = null;
 

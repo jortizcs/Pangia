@@ -13,50 +13,35 @@ function checkPassword(password, salt, hash) {
   return hash === gen_hash;
 }
 
-function fetchCredentialsById(id) {
-  var query = "SELECT username, salt, hash FROM users WHERE id=?";
-  var stmt = db.conn.initStatementSync();
-  stmt.prepareSync(query);
-  stmt.bindParamsSync([ id ]);
-  stmt.executeSync();
-  var rows = stmt.fetchAllSync();
-
-  if (rows < 1) {
-    return undefined;
-  }
-
-  return rows[0];
+function fetchCredentialsById(id, done) {
+	return db.users.findOne({ '_id' : db.mongo.ObjectID(id) },
+    function (err, result) {
+      done(result);
+    });
 }
 
-function fetchCredentialsByUsername(username) {
-  var query = "SELECT id, salt, hash FROM users WHERE username=?";
-  var stmt = db.conn.initStatementSync();
-  stmt.prepareSync(query);
-  stmt.bindParamsSync([ username ]);
-  stmt.executeSync();
-  var rows = stmt.fetchAllSync();
-
-  if (rows < 1) {
-    return undefined;
-  }
-
-  return rows[0];
+function fetchCredentialsByUsername(username, done) {
+	return db.users.findOne({ 'username' : username },
+    function (err, result) {
+      done(result);
+    });
 }
 
 exports.setup = function() {
   // Basic user/password authentication
   passport.use(new LocalStrategy(
     function(username, password, done) {
-      creds = fetchCredentialsByUsername(username);
-      if (creds && checkPassword(password, creds['salt'], creds['hash'])) {
-        return done(null, {
-          'id': creds['id'],
-          'username': username
-        });
-      }
+      fetchCredentialsByUsername(username, function(creds) {
+        if (creds && checkPassword(password, creds['salt'], creds['hash'])) {
+          return done(null, {
+            'id': creds['_id'],
+            'username': username
+          });
+        }
 
-      var message = 'Incorrect username or password.';
-      return done(null, false, { message: message });
+        var message = 'Incorrect username or password.';
+        return done(null, false, { message: message });
+      });
     }));
   
   passport.serializeUser(function(user, done) {
@@ -71,21 +56,23 @@ exports.setup = function() {
 };
 
 var findUserById = function(id, done) {
-  var creds = fetchCredentialsById(id);
-  if (creds) {
-    done(null, { 'id': id, 'username': creds['username'] });
-  } else {
-    done(new Error('User ID ' + id + ' not found.'));
-  }
+  fetchCredentialsById(id, function(creds) {
+    if (creds) {
+      done(null, creds);
+    } else {
+      done(new Error('User ID ' + id + ' not found.'));
+    }
+  });
 };
 
 var findUserByUsername = function(username, done) {
-  var creds = fetchCredentialsByUsername(username);
-  if (creds) {
-    done(null, { 'id': creds['id'], 'username': username });
-  } else {
-    done(new Error('Username  ' + username + ' not found.'));
-  }
+  fetchCredentialsByUsername(username, function (creds) {
+    if (creds) {
+      done(null, creds);
+    } else {
+      done(new Error('Username  ' + username + ' not found.'));
+    }
+  });
 };
 
 exports.passportCheck = function() {

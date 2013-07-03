@@ -12,7 +12,7 @@ var server = new mongo.Server(conf.get('mongo_host'),
                               conf.get('mongo_port'),
                               {});
 
-var db = new mongo.Db(conf.get('db_name'), server);
+var db = new mongo.Db(conf.get('db_name'), server, { safe: true });
 
 exports.mongo = mongo;
 exports.db = db;

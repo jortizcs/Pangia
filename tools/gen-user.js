@@ -40,8 +40,12 @@ var run = function() {
     db.users.update(
       { 'username': username },
       { '$set' : { 'salt' : salt, 'hash' : hash } },
-      { 'upsert' : true }
-    );
+      { 'upsert' : true },
+    function(err,result){
+        if(err!=null){
+            console.log(err)
+        }
+    });
 
     db.db.close();
   });

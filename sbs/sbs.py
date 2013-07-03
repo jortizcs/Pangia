@@ -39,7 +39,7 @@ class SBS:
 
     self.windowSize = 14*24*3600; # Size of the sliding time window 
     self.windowTail = -1;
-    self.windowStep = 24*3600; #self.windowSize;
+    self.windowStep = 7*24*3600; #self.windowSize;
     self.samplingRate = 300;
     self.ratioFilledBuffer = 0.7;  # Detect abnormalities when at least ratioFilledBuffer*100% of the sensors provided enough data
     
@@ -66,7 +66,7 @@ class SBS:
     self.bootstrapDetection = True;
     self.histBehavior = deque();
     self.histBehaviorChange = dict();
-    self.histBehaviorSize=30; #5
+    self.histBehaviorSize=5; #5
     self.lnorm = 4.0;
     self.detectionThreshold = 5.0;
     

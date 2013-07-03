@@ -9,9 +9,10 @@ var conn = mysql.createConnectionSync(conf.get('sbs_host'),
 exports.conn = conn;
 
 var server = new mongo.Server(conf.get('mongo_host'),
-                              conf.get('mongo_port'));
+                              conf.get('mongo_port'),
+                              {});
 
-var db = new mongo.Db('pangia', server);
+var db = new mongo.Db(conf.get('db_name'), server, { safe: true });
 
 exports.mongo = mongo;
 exports.db = db;

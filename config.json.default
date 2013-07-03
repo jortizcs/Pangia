@@ -17,6 +17,7 @@
 	"sbs_pwd": "root",
 	"sbs_db": "sbs",
 
+  "db_name": "pangia",
 	"mongo_host": "localhost",
 	"mongo_port": 27017
 }

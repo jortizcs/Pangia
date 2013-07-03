@@ -16,6 +16,8 @@ var db = new mongo.Db('pangia', server);
 exports.mongo = mongo;
 exports.db = db;
 exports.users = null;
+exports.alarms= null;
+exports.data  = null;
 
 exports.startDb = function (done) {
 	db.open(function(error, connection) {
@@ -23,8 +25,18 @@ exports.startDb = function (done) {
 			if (!error) {
 				exports.users = collection;
 			}
-
-			done(error);
 		});
+		connection.createCollection('alarms', function (error, collection) {
+			if (!error) {
+				exports.alarms = collection;
+			}
+		});
+		connection.createCollection('data', function (error, collection) {
+			if (!error) {
+				exports.data = collection;
+			}
+		});
+		done(error);
 	});
+
 };

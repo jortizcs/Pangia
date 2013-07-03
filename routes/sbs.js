@@ -4,12 +4,13 @@ var  conf  = require('nconf')
   ,  exec  = require('child_process').exec
   ,  mysql = require('mysql-libmysqlclient')
   ,  net = require('net')
-  ,  lazy = require('lazy');
+  ,  lazy = require('lazy')
+  ,  db   = require('../db');
 
 var otsdb_host = conf.get('otsdb_host');
 var otsdb_port = conf.get('otsdb_port');
 
-var mysql_host = conf.get('db_host');
+// var mysql_host = conf.get('db_host');
 
 
 // Record the upload in the Mysql db
@@ -17,34 +18,38 @@ var mysql_host = conf.get('db_host');
 // Copy the data to OTSDB
 // Return the corresponding id
 exports.copyData = function(user, filename) {
-  var conn = mysql.createConnectionSync();
-  conn.connectSync(mysql_host, 'root', 'root', 'sbs');
-  
-  // Place an entry in the mysql db
-  var query = "insert into data (username, filepath) values (?, ?)";
-  var stmt = conn.initStatementSync();
-  stmt.prepareSync(query);
-  stmt.bindParamsSync([ user, filename]);
-  var ex = stmt.executeSync();
-  var id = stmt.lastInsertIdSync();
-  conn.closeSync();  
+//   var conn = mysql.createConnectionSync();
+//   conn.connectSync(mysql_host, 'root', 'root', 'sbs');
+//   
+//   // Place an entry in the mysql db
+//   var query = "insert into data (username, filepath) values (?, ?)";
+//   var stmt = conn.initStatementSync();
+//   stmt.prepareSync(query);
+//   stmt.bindParamsSync([ user, filename]);
+//   var ex = stmt.executeSync();
+//   var id = stmt.lastInsertIdSync();
+//   conn.closeSync();  
 
-  // create the TSDB metric and copy the data
-  // then run SBS
-  var ts;
-  var child = exec('tsdb mkmetric sbs.' + user + '.' + id , 
-    function (error, stdout, stderr) {
-      if (error !== null) {
-        console.log('exec error: ' + error);
-      }else{
-        console.log('Copying data to otsdb... ('+user+', '+id+', '+filename+')\n')
-        copyFile2Tsdb(user, id, filename);
-        
-      }
-    }
-   );
-  
-  return id;
+	db.data.save({ "username": user, "filepath": filename },
+		function(err, data){
+		
+			// create the TSDB metric and copy the data
+			// then run SBS
+			var ts;
+			var child = exec('tsdb mkmetric sbs.' + data.username + '.' + data._id , 
+			function (error, stdout, stderr) {
+				if (error !== null) {
+					console.log('exec error: ' + error);
+				}else{
+					console.log('Copying data to otsdb... ('+data.username+', '+data._id+', '+data.filepath+')\n')
+					copyFile2Tsdb(data.username, data._id, data.filepath);
+				}
+			}
+			);
+			
+		}
+	);
+//   return id;
 }
 
 

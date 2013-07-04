@@ -5,4 +5,5 @@ Check if needed libraries are available
 
 import numpy;
 import scipy;
-import MySQLdb as mdb;
+#import MySQLdb as mdb;
+import pymongo;

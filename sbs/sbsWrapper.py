@@ -2,9 +2,9 @@
 """
 
 Librairies needed: 
- -MySQLdb (mysql-python)
- -numpy
+  -numpy
  -scipy
+ -mongopy
 
 Requirements:
  -At least one month of data to do the bootstrap
@@ -94,7 +94,7 @@ def daterange(start_date, end_date):
 
 
 ### Run SBS with data from a TSDB server
-def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, SQLdb, id, username, start, end):
+def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, username, start, end):
 
   sys.stdout.write("[{0}] 0%, Start SBS: id={1}, username={2}, timeStart={3}, timeEnd={4}\n".format(datetime.datetime.now(),id,username,start,end))
   sys.stdout.flush()
@@ -135,7 +135,7 @@ def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, SQLdb, id, userna
   if SQLserver != None:
     ##Initialization of the connection to the MySQL databse
     client = MongoClient()
-    alarmsColl = client.sbs.alarms
+    alarmsColl = client[dbname].alarms 
     
     #SQLconn = mdb.connect(SQLserver, SQLuser, SQLpwd, SQLdb)
     #SQLcur = SQLconn.cursor()
@@ -152,7 +152,7 @@ def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, SQLdb, id, userna
 
 if __name__ == "__main__":
   if len(sys.argv) < 11:
-    print("usage: {0} TSDBserver TSDBport SQLserver SQLuser SQLpwd SQLdb id username timeStart timeEnd".format(sys.argv[0]))
+    print("usage: {0} TSDBserver TSDBport SQLserver SQLuser SQLpwd dbname id username timeStart timeEnd".format(sys.argv[0]))
     exit()
 
 
@@ -163,11 +163,11 @@ if __name__ == "__main__":
   SQLserver = sys.argv[3]
   SQLuser = sys.argv[4]
   SQLpwd = sys.argv[5]
-  SQLdb = sys.argv[6]
+  dbname = sys.argv[6]
 
   id = sys.argv[7]
   username = sys.argv[8]
   start = sys.argv[9]
   end = sys.argv[10]
 
-  TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, SQLdb, id, username, start, end)
+  TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, username, start, end)

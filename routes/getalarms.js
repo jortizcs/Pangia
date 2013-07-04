@@ -25,11 +25,14 @@ var tsdbShim_host = conf.get('tsdbShim_host');
 var tsdbShim_port = conf.get('tsdbShim_port');
 
 exports.getDataAlarms = function(user, id, done) {
-	var data_alarms = [];
-	var alarms = getAlarms(user, id, function(alarms){
-		
-		alarms.each( function(err,data){
-			if(data!=null){
+    var data_alarms = [];
+	getAlarms(user, id, function(alarms){
+        alarms.toArray(function(err,documents){
+            if(err!=null){
+                console.log(err)
+            }
+    		for(i=0;i<documents.length;i++){
+                var data = documents[i];
 				var alarm_set = [];
 				var alarm_array = [];
 				// The values we get are SQL dates.
@@ -69,13 +72,19 @@ exports.getDataAlarms = function(user, id, done) {
 						data_array.push(data_obj1);
 						data_array.push(data_obj2);
 						data_array.push(alarm_set);
-						data_alarms.push(data_array);
+						//pushAlarm(data_array);
+                        data_alarms.push(data_array);
+                        if(data_alarms.length>=documents.length){
+                            done(data_alarms);
+                        }
 					});
 				});
-			}
-		})
-		done(data_alarms);
-	});
+            }
+            if(documents.length==0){
+                done(data_alarms);
+            }
+	    });
+    });
 }
 
 // Given a timezoneJS.Date object, returns a string of the date in the
@@ -131,9 +140,9 @@ function getTsData(user, id, st_date, et_date, label, done) {
 }
 
 function getAlarms(user, id, done) {
-	db.alarms.find({"$query": {"username":name, "id":id}, "$orderby": {"deviation": -1}, "$maxScan": 15}, 
+	db.alarms.find({"$query": {"username":user, "id":id}, "$orderby": {"deviation": -1}}, 
 	function (err, result) {
-		done(result);
+		done(result.limit(15));
 	});
 // 	var query = "select start, end, label01, label02 from alarms where username=? and id=? order by alarms.deviation desc limit 0, 15";	//Only 10 alarms are shown in the "chart" page
 // 	var stmt = db.conn.initStatementSync();

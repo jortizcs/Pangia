@@ -10,6 +10,7 @@ var  conf  = require('nconf')
 var otsdb_host = conf.get('otsdb_host');
 var otsdb_port = conf.get('otsdb_port');
 
+var db_name = conf.get('db_name');
 // var mysql_host = conf.get('db_host');
 
 
@@ -36,13 +37,13 @@ exports.copyData = function(user, filename) {
 			// create the TSDB metric and copy the data
 			// then run SBS
 			var ts;
-			var child = exec('tsdb mkmetric sbs.' + data.username + '.' + data._id , 
+			var child = exec('tsdb mkmetric sbs.' + data.username + '.' + data._id.toString() , 
 			function (error, stdout, stderr) {
 				if (error !== null) {
 					console.log('exec error: ' + error);
 				}else{
-					console.log('Copying data to otsdb... ('+data.username+', '+data._id+', '+data.filepath+')\n')
-					copyFile2Tsdb(data.username, data._id, data.filepath);
+					console.log('Copying data to otsdb... ('+data.username+', '+data._id.toString()+', '+data.filepath+')\n')
+					copyFile2Tsdb(data.username, data._id.toString(), data.filepath);
 				}
 			}
 			);
@@ -112,7 +113,7 @@ function copyFile2Tsdb(user, id, filename) {
 
 // Run SBS and sends an email when it is done
 function runSBS(user, id, start, end, logfile){
-      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mysql_host+' root root sbs '+id+' '+user+' '+start+' '+end+' > '+logfile , 
+      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' TOREMOVE root root '+db_name+' '+id+' '+user+' '+start+' '+end+' > '+logfile , 
           function (error, stdout, stderr) {
             if (error !== null) {
               console.log('stderr: ' + stderr);

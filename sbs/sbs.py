@@ -37,7 +37,7 @@ class SBS:
     
     # Parameters for the sliding window (the unit is seconds)
 
-    self.windowSize = 14*24*3600; # Size of the sliding time window 
+    self.windowSize = 24*3600; # Size of the sliding time window 
     self.windowTail = -1;
     self.windowStep = 7*24*3600; #self.windowSize;
     self.samplingRate = 300;
@@ -187,8 +187,8 @@ class SBS:
               # Compare the behavior change with past behaviors
               if l_it > thres:
                 #print("Time bin {3}: {0}: from {1} to {2}".format(sen,self.windowTail+(t-self.histBehaviorSize)*self.windowSize,self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize,t))
-                alarms.append({"label":sen, "start":(self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize)-self.windowStep, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
-            
+                alarms.append({"label":sen, "start":self.windowTail+(t-self.histBehaviorSize)*self.windowSize, "end":self.windowTail+(1+t-self.histBehaviorSize)*self.windowSize, "dev":abs(l_it-np.median(l_i))/float(np.median(abs(l_i-np.median(l_i)))/c), "peer":peerLabel})
+           
             
         # print("Bootstrap done!")
         # End of Bootstrap, note that no alarm will be raised for the histBehaviorSize first time bins

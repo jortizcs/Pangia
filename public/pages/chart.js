@@ -239,4 +239,8 @@ $(document).ready(function () {
 		modal.modal('show');
 	});
 
+  $(".anomaly-useful").find('a').click(function() {
+    var btn = $(this);
+    // TODO fill DB with 'useful' categorization for this anomaly
+  });
 });

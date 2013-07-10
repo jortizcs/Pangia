@@ -14,7 +14,8 @@ DEBDEPS= \
 	mongodb \
 	python-numpy \
 	python-scipy \
-	python-mysqldb
+	python-mysqldb \
+	python-pymongo
 
 .PHONY: all
 all: install css

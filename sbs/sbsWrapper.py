@@ -19,7 +19,8 @@ import urllib;
 import datetime;
 
 #import MySQLdb as mdb;
-from pymongo import MongoClient
+from pymongo import MongoClient;
+import bson;
 import sbs;
 #import sendEmail;
 
@@ -139,10 +140,12 @@ def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, usern
     
     #SQLconn = mdb.connect(SQLserver, SQLuser, SQLpwd, SQLdb)
     #SQLcur = SQLconn.cursor()
+    
+    bid = bson.objectid.ObjectId(id)
 
     ##Insert the alarms in the MySQL database
     for alarm in allAlarms:
-      alarmsColl.insert({"id":id, "username":username, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
+      alarmsColl.insert({"id":bid, "username":username, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
       #SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
         
     #SQLconn.commit()

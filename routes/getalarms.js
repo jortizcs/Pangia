@@ -1,7 +1,8 @@
 var	  conf = require('nconf')
 	, db = require('../db')
 	, fs = require('fs')
-	, timezoneJS = require('timezone-js');
+	, timezoneJS = require('timezone-js')
+	, ObjectID = require('mongodb').ObjectID;
 timezoneJS.timezone.zoneFileBasePath = 'tz';
 
 // From mde/timezone-js example on github (under an Apache License at
@@ -140,7 +141,8 @@ function getTsData(user, id, st_date, et_date, label, done) {
 }
 
 function getAlarms(user, id, done) {
-	db.alarms.find({"$query": {"username":user, "id":id}, "$orderby": {"deviation": -1}}, 
+	var bid = new ObjectId(id);
+	db.alarms.find({"$query": {"username":user, "id":bid}, "$orderby": {"deviation": -1}}, 
 	function (err, result) {
 		done(result.limit(15));
 	});

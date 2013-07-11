@@ -43,7 +43,7 @@ exports.copyData = function(user, filename) {
 					console.log('exec error: ' + error);
 				}else{
 					console.log('Copying data to otsdb... ('+data.username+', '+data._id.toString()+', '+data.filepath+')\n')
-					copyFile2Tsdb(data.username, data._id.toString(), data.filepath);
+					copyFile2Tsdb(data.username, data._id, data.filepath);
 				}
 			}
 			);
@@ -73,7 +73,7 @@ function copyFile2Tsdb(user, id, filename) {
         //client.end();
         
         //Run SBS
-        console.log('Start SBS... ('+user+', '+id+', '+startTS+', '+endTS+')\n')
+        console.log('Start SBS... ('+user+', '+id.toString()+', '+startTS+', '+endTS+')\n')
         runSBS(user, id, startTS, endTS, filename+'.log');
         
       });
@@ -94,7 +94,7 @@ function copyFile2Tsdb(user, id, filename) {
               endTS=ts;
             }
           }
-          client.write('put sbs.'+user+'.'+id+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
+          client.write('put sbs.'+user+'.'+id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
           }
       );
       
@@ -113,16 +113,16 @@ function copyFile2Tsdb(user, id, filename) {
 
 // Run SBS and sends an email when it is done
 function runSBS(user, id, start, end, logfile){
-      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' TOREMOVE root root '+db_name+' '+id+' '+user+' '+start+' '+end+' > '+logfile , 
+      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' TOREMOVE root root '+db_name+' '+id.toString()+' '+user+' '+start+' '+end+' > '+logfile , 
           function (error, stdout, stderr) {
             if (error !== null) {
               console.log('stderr: ' + stderr);
               console.log('exec error: ' + error);
               //Sends an email to Romain if something went wrong...
-              reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+id+'<br> user='+user+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);
+              reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+id.toString()+'<br> user='+user+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);
               
             }else{              
-              var child2 = exec('python sbs/sendEmail.py info@greenpangia.com "http://166.78.31.162/Pangia/chart.php?user='+user+'&id='+id+'"', 
+              var child2 = exec('python sbs/sendEmail.py info@greenpangia.com "http://166.78.31.162/Pangia/chart.php?user='+user+'&id='+id.toString()+'"', 
                function (error, stdout, stderr) {
                   if (error !== null) {
                     console.log('exec error: ' + error);

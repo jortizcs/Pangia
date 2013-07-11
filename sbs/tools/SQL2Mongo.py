@@ -24,8 +24,8 @@ SQLcur1 = SQLconn.cursor()
 SQLcur1.execute("SELECT id, username, filepath, ts from data");
 
 
-for dataIn in SQLcur1.fetchall();
-	mId = dataColl.insert({"username":data[1], "filepath":data[2], "ts":data[3]});
+for dataIn in SQLcur1.fetchall():
+	mId = dataColl.insert({"username":dataIn[1], "filepath":dataIn[2], "ts":dataIn[3]});
 
 	SQLcur2 = SQLconn.cursor();
 	SQLcur2.execute("SELECT username, start, end, label01, label02, deviation from alarms where id=%s",(dataIn[0],))

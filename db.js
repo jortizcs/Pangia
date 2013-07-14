@@ -19,6 +19,7 @@ exports.db = db;
 exports.users = null;
 exports.alarms= null;
 exports.data  = null;
+exports.bldgs = null;
 
 exports.startDb = function (done) {
 	db.open(function(error, connection) {
@@ -35,6 +36,11 @@ exports.startDb = function (done) {
 		connection.createCollection('data', function (error, collection) {
 			if (!error) {
 				exports.data = collection;
+			}
+		});
+		connection.createCollection('bldgs', function (error, collection) {
+			if (!error) {
+				exports.bldgs = collection;
 			}
 		});
 		done(error);

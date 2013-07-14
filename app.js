@@ -87,6 +87,7 @@ postpath('/dashboard', routes.dashboard);
 getpath('/upload', routes.upload);
 getpath('/users', user.list);
 // postpath('/uploader', routes.uploader);
+getpath('/bldgs', routes.bldgs);
 
 app.post('/uploader',routes.uploader);
 

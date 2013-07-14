@@ -8,12 +8,13 @@ var  sbs = require('./sbs')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec
   ,  fs = require('fs')
-  ,  dashboard = require('./dashboard');
+  ,  dashboard = require('./dashboard')
+  ,  bldgs = require('./bldgs');
 
 
 exports.index = function(req, res) {
-	// For now, we just redirect the index to the dashboard.
-	res.redirect('/dashboard');
+	// For now, we just redirect the index to the buildings view.
+	res.redirect('/bldgs');
 };
 
 exports.login = function(req, res) {
@@ -132,4 +133,17 @@ exports.uploader = function(req, res) {
           res.end(JSON.stringify(response));
           }
         )
+};
+
+
+exports.bldgs = function(req, res) {
+	// Gather 
+	res.render('bldgs', {
+		title: 'Pangia - Dashboard',
+		extrameta: [
+			{ name: 'description', content: '' },
+			{ name: 'author', content: '' },
+		],
+		bldgs: bldgs.getBldgs(req.user.id)
+	});
 };

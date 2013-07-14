@@ -141,8 +141,8 @@ function getTsData(user, id, st_date, et_date, label, done) {
 }
 
 function getAlarms(user, id, done) {
-	var bid = new ObjectId(id);
-	db.alarms.find({"$query": {"username":user, "id":bid}, "$orderby": {"deviation": -1}}, 
+	var bid = new ObjectID(id);
+	db.alarms.find({"$query": {"bldg_id":bid}, "$orderby": {"deviation": -1}}, 
 	function (err, result) {
 		done(result.limit(15));
 	});

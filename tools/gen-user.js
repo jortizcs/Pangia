@@ -20,6 +20,9 @@ var properties = [
   {
     name: 'password',
     hidden: true
+  },
+  {
+    name: 'email',
   }
 ];
 
@@ -33,12 +36,13 @@ var run = function() {
     }
   
     var username = result.username;
-    var password = result.password
+    var password = result.password;
+    var email = result.email;
     var salt = crypto.randomBytes(128).toString('base64');
     var hash = crypto.pbkdf2Sync(password, salt, 10000, 128).toString('base64');
   
     db.users.update(
-      { 'username': username },
+      { 'username': username, 'email': email},
       { '$set' : { 'salt' : salt, 'hash' : hash } },
       { 'upsert' : true },
     function(err,result){

@@ -88,6 +88,7 @@ getpath('/upload', routes.upload);
 getpath('/users', user.list);
 // postpath('/uploader', routes.uploader);
 getpath('/bldgs', routes.bldgs);
+getpath('/streams', routes.streams);
 
 app.post('/uploader',routes.uploader);
 

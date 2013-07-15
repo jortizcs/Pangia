@@ -133,13 +133,25 @@
 					<div class="box-content">
 						<form class="form-horizontal">
 						  <fieldset>
+
 							<div class="control-group">
 							  <label class="control-label" for="typeahead">Name of Report </label>
 							  <div class="controls">
-								<input type="text" class="span6" id="filename">
-								
+								<input type="text" class="span6" id="filename">	
 							  </div>
 							</div>
+
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">Building </label>
+							  <div class="controls">
+							   <select id="bldg">
+								{{#each bldgs}}
+								<option value={{this.bldg_id}} >{{this.name}} </option>
+								{{/each}}
+							  </select>
+							  </div>
+							</div>
+
 							<!-- <div class="control-group">
 							  <label class="control-label" for="typeahead">Tags </label>
 							  <div class="controls">
@@ -157,6 +169,7 @@
 							</div>          
 							
 							<div class="form-actions" id="form-btn">
+							  
 							  <a id="triggerUpload" class="btn btn-large btn-primary">Start Processing</a>
 							 
 							  <!-- <button type="reset" class="btn">Cancel</button> -->

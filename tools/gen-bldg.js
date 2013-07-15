@@ -39,7 +39,7 @@ var run = function() {
             		console.log(err)
        	 	}
 		if(user!=null){
-			db.bldgs.save({ 'bldg_name':bldgname, 'user_id': user._id }, 
+			db.bldgs.save({ 'name':bldgname, 'user_id': user._id }, 
 			function(err, bldg){
 				if(err!=null){
 					console.log(err);

@@ -20,6 +20,7 @@ exports.users = null;
 exports.alarms= null;
 exports.data  = null;
 exports.bldgs = null;
+exports.streams = null;
 
 exports.startDb = function (done) {
 	db.open(function(error, connection) {
@@ -41,6 +42,11 @@ exports.startDb = function (done) {
 		connection.createCollection('bldgs', function (error, collection) {
 			if (!error) {
 				exports.bldgs = collection;
+			}
+		});
+		connection.createCollection('streams', function (error, collection) {
+			if (!error) {
+				exports.streams = collection;
 			}
 		});
 		done(error);

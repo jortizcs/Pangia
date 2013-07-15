@@ -95,16 +95,16 @@ def daterange(start_date, end_date):
 
 
 ### Run SBS with data from a TSDB server
-def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, username, start, end):
+def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, user_id, bldg_id, start, end):
 
-  sys.stdout.write("[{0}] 0%, Start SBS: id={1}, username={2}, timeStart={3}, timeEnd={4}\n".format(datetime.datetime.now(),id,username,start,end))
+  sys.stdout.write("[{0}] 0%, Start SBS: id={1}, bldg_id={2}, timeStart={3}, timeEnd={4}\n".format(datetime.datetime.now(),id,bldg_id,start,end))
   sys.stdout.flush()
   #Initialization of SBS
   detector = sbs.SBS()
 
   ## Get the data from the OpenTSDB database
   # Setup the connection
-  req = "sum:1m-avg:sbs."+username+"."+id+"{label=*}"
+  req = "sum:1m-avg:sbs."+user_id+"."+id+"{label=*}"
 
   # Feed SBS with slices of data of 1 hour-long. This is not related to SBS window size (it should be bigger than the OpenTSDB slices? 10 minutes?)
   dateFormat = "%Y/%m/%d-%H:%M:%S"
@@ -145,7 +145,7 @@ def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, usern
 
     ##Insert the alarms in the MySQL database
     for alarm in allAlarms:
-      alarmsColl.insert({"id":bid, "username":username, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
+      alarmsColl.insert({"id":bid, "bldg_id":bldg_id, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
       #SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
         
     #SQLconn.commit()
@@ -155,7 +155,7 @@ def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, usern
 
 if __name__ == "__main__":
   if len(sys.argv) < 11:
-    print("usage: {0} TSDBserver TSDBport SQLserver SQLuser SQLpwd dbname id username timeStart timeEnd".format(sys.argv[0]))
+    print("usage: {0} TSDBserver TSDBport SQLserver SQLuser SQLpwd dbname id user_id bldg_id timeStart timeEnd".format(sys.argv[0]))
     exit()
 
 
@@ -169,8 +169,9 @@ if __name__ == "__main__":
   dbname = sys.argv[6]
 
   id = sys.argv[7]
-  username = sys.argv[8]
-  start = sys.argv[9]
-  end = sys.argv[10]
+  user_id = sys.argv[8]
+  bldg_id = sys.argv[9]
+  start = sys.argv[10]
+  end = sys.argv[11]
 
-  TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, username, start, end)
+  TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, user_id, bldg_id, start, end)

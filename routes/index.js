@@ -9,7 +9,8 @@ var  sbs = require('./sbs')
   ,  exec  = require('child_process').exec
   ,  fs = require('fs')
   ,  dashboard = require('./dashboard')
-  ,  bldgs = require('./bldgs');
+  ,  bldgs = require('./bldgs')
+  ,  db = require('../db');
 
 
 exports.index = function(req, res) {
@@ -78,18 +79,21 @@ exports.chart = function(req, res) {
 };
 
 exports.upload = function(req, res) {
-        res.render('upload', {
-                title: 'Pangia - Generate New Report',
-                extrameta: [
+	var bldg_id = req.query.bldg_id; //TODO preselect a building
+	bldgs.getBldgs(req.user._id, function(bldgs){
+		res.render('upload', 
+			{
+                	title: 'Pangia - Generate New Report',
+                	extrameta: [
                         { name: 'description', content: '' },
                         { name: 'author', content: '' },
                         // Mobile specific:
                         { name: 'viewport', content: 'width=device-width, initial-scale=1' }
-                ],
+                	],
     			extracss: [
 				'lib/fineuploader_3.2/fineuploader-3.2.css'
 				],
-                extrastyle: [
+                	extrastyle: [
                         // Fine Uploader
                         '.qq-upload-list { text-align: left; }',
                         // Bootstrap
@@ -97,11 +101,13 @@ exports.upload = function(req, res) {
                         'li.alert-error { background-color: #F2DEDE; }',
                         '.alert-error .qq-upload-failed-text { display: inline; }',
                         '.qq-upload-button { }',
-                ],
-                extrascripts: [
+                	],
+                	extrascripts: [
                         'lib/fineuploader_3.2/jquery.fineuploader-3.2.min.js'
-                ]
-        });
+                	],
+			bldgs:bldgs
+        	});
+	});
 };
 
 
@@ -119,11 +125,10 @@ exports.uploader = function(req, res) {
           if(!err){
             response.success = true; 
             
-            var user = 'root';  //TODO get the user ID
           
             // TODO parse the file to check if it's in the correct form
             // Register the file in Mysql and copy the data to tsdb 
-            sbs.copyData(user,pathFile);
+            sbs.copyData(req.user.id, req.bldg.bldg_id,pathFile);
             
           }
           else{
@@ -137,13 +142,30 @@ exports.uploader = function(req, res) {
 
 
 exports.bldgs = function(req, res) {
-	// Gather 
-	res.render('bldgs', {
-		title: 'Pangia - Dashboard',
-		extrameta: [
-			{ name: 'description', content: '' },
-			{ name: 'author', content: '' },
-		],
-		bldgs: bldgs.getBldgs(req.user.id)
+	bldgs.getBldgs(req.user._id, 
+	function(bldgs){
+		res.render('bldgs', {
+			title: 'Pangia - Buildings',
+			extrameta: [
+				{ name: 'description', content: '' },
+				{ name: 'author', content: '' },
+			],
+			bldgs: bldgs
+		});
+	});
+};
+
+
+exports.streams = function(req, res) {
+	streams.getStreams(req.user._id, 
+	function(streams){
+		res.render('streams', {
+			title: 'Pangia - Streams',
+			extrameta: [
+				{ name: 'description', content: '' },
+				{ name: 'author', content: '' },
+			],
+			streams: streams
+		});
 	});
 };

@@ -14,11 +14,11 @@ var db_name = conf.get('db_name');
 // var mysql_host = conf.get('db_host');
 
 
-// Record the upload in the Mysql db
+// Record the upload in mongodb
 // Create the corresponding metric in OTSDB
 // Copy the data to OTSDB
-// Return the corresponding id
-exports.copyData = function(user, filename) {
+// Return the corresponding _id
+exports.copyData = function(user_id, bldg_id, filename) {
 //   var conn = mysql.createConnectionSync();
 //   conn.connectSync(mysql_host, 'root', 'root', 'sbs');
 //   
@@ -31,7 +31,7 @@ exports.copyData = function(user, filename) {
 //   var id = stmt.lastInsertIdSync();
 //   conn.closeSync();  
 
-	db.data.save({ "username": user, "filepath": filename },
+	db.data.save({ "user_id": user_id, "filepath": filename },
 		function(err, data){
 		
 			// create the TSDB metric and copy the data
@@ -43,7 +43,7 @@ exports.copyData = function(user, filename) {
 					console.log('exec error: ' + error);
 				}else{
 					console.log('Copying data to otsdb... ('+data.username+', '+data._id.toString()+', '+data.filepath+')\n')
-					copyFile2Tsdb(data.username, data._id, data.filepath);
+					copyFile2Tsdb( data.user_id, data._id, data.filepath, bldg_id);
 				}
 			}
 			);
@@ -55,7 +55,7 @@ exports.copyData = function(user, filename) {
 
 
 // Copy the data to OTSDB
-function copyFile2Tsdb(user, id, filename) {
+function copyFile2Tsdb(user_id, id, filename, bldg_id) {
     
   // Connect to the tsdb server
   var client = new net.Socket();
@@ -73,8 +73,8 @@ function copyFile2Tsdb(user, id, filename) {
         //client.end();
         
         //Run SBS
-        console.log('Start SBS... ('+user+', '+id.toString()+', '+startTS+', '+endTS+')\n')
-        runSBS(user, id, startTS, endTS, filename+'.log');
+        console.log('Start SBS... ('+bldg_id.toString()+', '+id.toString()+', '+startTS+', '+endTS+')\n')
+        runSBS(user_id, bldg_id, id, startTS, endTS, filename+'.log');
         
       });
       
@@ -94,7 +94,7 @@ function copyFile2Tsdb(user, id, filename) {
               endTS=ts;
             }
           }
-          client.write('put sbs.'+user+'.'+id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
+          client.write('put sbs.'+user_id.toString()+'.'+id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
           }
       );
       
@@ -112,17 +112,20 @@ function copyFile2Tsdb(user, id, filename) {
 
 
 // Run SBS and sends an email when it is done
-function runSBS(user, id, start, end, logfile){
-      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' TOREMOVE root root '+db_name+' '+id.toString()+' '+user+' '+start+' '+end+' > '+logfile , 
+function runSBS(user_id, id, start, end, logfile){
+      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' TOREMOVE root root '+db_name+' '+id.toString()+' '+user_id.toString()+' '+bldg_id.toString()+' '+start+' '+end+' > '+logfile , 
           function (error, stdout, stderr) {
             if (error !== null) {
               console.log('stderr: ' + stderr);
               console.log('exec error: ' + error);
               //Sends an email to Romain if something went wrong...
-              reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+id.toString()+'<br> user='+user+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);
+              reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+id.toString()+'<br> user='+user_id.toString()+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);
               
             }else{              
-              var child2 = exec('python sbs/sendEmail.py info@greenpangia.com "http://166.78.31.162/Pangia/chart.php?user='+user+'&id='+id.toString()+'"', 
+              //db.users.find({})
+	      // TODO retrieve user's email
+	      var email = "info@greenpangia.com";
+              var child2 = exec('python sbs/sendEmail.py '+email+' "http://166.78.31.162/Pangia/chart.php?id='+id.toString()+'"', 
                function (error, stdout, stderr) {
                   if (error !== null) {
                     console.log('exec error: ' + error);

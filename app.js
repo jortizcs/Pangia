@@ -83,7 +83,7 @@ getpath('/index', routes.index);
 getpath('/alarmshim', routes.alarmshim);
 getpath('/chart', routes.chart);
 getpath('/data', routes.data);
-//postpath('/dashboard', routes.dashboard);
+getpath('/dashboard', routes.bldgs);
 getpath('/upload', routes.upload);
 getpath('/users', user.list);
 // postpath('/uploader', routes.uploader);

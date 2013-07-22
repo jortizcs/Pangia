@@ -8,9 +8,11 @@ var  sbs = require('./sbs')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec
   ,  fs = require('fs')
-  ,  dashboard = require('./dashboard')
+  ,  data = require('./data')
   ,  bldgs = require('./bldgs')
-  ,  db = require('../db');
+  ,  streams = require('./streams')
+  ,  db = require('../db')
+  ,  ObjectID = require('mongodb').ObjectID;
 
 
 exports.index = function(req, res) {
@@ -27,15 +29,18 @@ exports.login = function(req, res) {
 	});
 };
 
-exports.dashboard = function(req, res) {
+exports.data = function(req, res) {
 	// Gather 
-	res.render('dashboard', {
-		title: 'Pangia - Dashboard',
-		extrameta: [
-			{ name: 'description', content: '' },
-			{ name: 'author', content: '' },
-		],
-		reports: dashboard.getReports(req.user.username)
+	data.getData(new ObjectID(req.query.bldg_id), //TODO check if the building belongs to this user? 
+	function(data){
+		res.render('data', {
+			title: 'Pangia - Data',
+			extrameta: [
+				{ name: 'description', content: '' },
+				{ name: 'author', content: '' },
+			],
+			data: data
+		});
 	});
 };
 
@@ -157,7 +162,7 @@ exports.bldgs = function(req, res) {
 
 
 exports.streams = function(req, res) {
-	streams.getStreams(req.user._id, 
+	streams.getStreams(new ObjectID(req.query.bldg_id), //TODO check if the building belongs to this user? 
 	function(streams){
 		res.render('streams', {
 			title: 'Pangia - Streams',

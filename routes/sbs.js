@@ -2,7 +2,7 @@ var  conf  = require('nconf')
   ,  fs    = require('fs')
   ,  sys   = require('sys')
   ,  exec  = require('child_process').exec
-  ,  mysql = require('mysql-libmysqlclient')
+//  ,  mysql = require('mysql-libmysqlclient')
   ,  net = require('net')
   ,  lazy = require('lazy')
   ,  db   = require('../db');
@@ -63,6 +63,8 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
     function(){
       var startTS = 0;
       var endTS = 0;
+
+      var streams;
   
       // Send the data
       // TODO parse/validate the file format
@@ -72,6 +74,10 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
       fr.on('end', function() {
         //client.end();
         
+	// Store the streams name in mongodb
+//        for something....
+//	      db.streams.update({"name": XXX.name, "bldg_id": XXX.bldg_id})
+
         //Run SBS
         console.log('Start SBS... ('+bldg_id.toString()+', '+id.toString()+', '+startTS+', '+endTS+')\n')
         runSBS(user_id, bldg_id, id, startTS, endTS, filename+'.log');

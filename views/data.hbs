@@ -122,7 +122,7 @@
 		<div class="row-fluid sortable">		
 			<div class="box span9">
 				<div class="box-header" data-original-title>
-					<h2><i class="icon-tasks"></i><span class="break"></span>Finished Reports</h2>
+					<h2><i class="icon-tasks"></i><span class="break"></span>Uploaded Files</h2>
 					<div class="box-icon">
 						<!-- <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> -->
 						<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
@@ -135,22 +135,17 @@
 						  <tr style="cursor: pointer">
 							  <th class="sorting">Name <i class="icon-sort"></i></th>
 							  <th class="sorting">Date uploaded <i class="icon-sort"></i></th>
-							  <th class="sorting">Priority <i class="icon-sort"></i></th>
 							  <th class="sorting">Number of Anomalies <i class="icon-sort"></i></th>
-							  <th class="sorting">Tags <i class="icon-sort"></i></th>
 							  <th class="sorting">Data Actions</th>
 						  </tr>
 					  </thead>   
 					  <tbody>
 					  <!-- This is the table where we put the report entries -->
-					  {{#each reports}}
+					  {{#each data}}
 						<tr>
 							<td>{{this.name}}</td>
 							<td class="center">{{this.date}}</td>
-							<!-- td class="center"><span class="label label-important">High</span></td-->
-							<td class="center">{{this.severity}}</td>
 							<td class="center">{{this.num_alarms}}</td>
-							<td class="center">{{this.tags}}</td>
 							<td class="center">
 								<a class="btn btn-success" href="chart?id={{this.id}}">
 									<i class="icon-zoom-in icon-white"></i>  

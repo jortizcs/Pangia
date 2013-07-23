@@ -1,3 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- start: Meta -->
+		<meta charset="utf-8"></meta>
+		<!-- Mobile specific -->
+		<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+		<!-- start extra meta -->
+		{{#each extrameta}}
+		<meta name="{{{this.description}}}" content="{{{this.content}}}"></meta>
+		{{/each}}
+
+		<!-- end: Meta -->
+	
+		<title>{{title}}</title>
+
+		<!-- start: CSS -->
+		<link id="bootstrap-style" href="lib/css/bootstrap.css" rel="stylesheet">
+		<link rel="stylesheet" href="lib/css/bootstrap-responsive.css" >
+		<link rel="stylesheet" href="lib/css/font-awesome.min.css" type="text/css" media="all">
+		<link id="base-style" href="lib/css/style.css" rel="stylesheet">
+		<link id="base-style-responsive" href="lib/css/style-responsive.css" rel="stylesheet">
+		
+		<!--[if lt IE 7 ]>
+		<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
+		<![endif]-->
+		<!--[if IE 8 ]>
+		<link id="ie-style" href="lib/css/style-ie.css" rel="stylesheet">
+		<![endif]-->
+		<!--[if IE 9 ]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		
+		<!-- end: CSS -->
+
+		<!-- start: Favicon -->
+		<link rel="shortcut icon" href="lib/img/favicon.ico">
+		<!-- end: Favicon -->
+
+		<!-- start extra CSS -->
+		{{#each extracss}}
+		<link href="{{{this}}}" rel="stylesheet"></link>
+		{{/each}}
+
+		{{#each extrastyle}}
+		<style type="text/css">{{{this}}}</style>
+		{{/each}}
+		<!-- end extra CSS -->
+
+		<!-- start JavaScript -->
+		<script src="lib/js/jquery-1.7.2.min.js"></script>
+		<script src="lib/js/jquery-ui-1.8.21.custom.min.js"></script>
+
+		<script src="lib/js/bootstrap.js"></script>
+
+		<script src="lib/js/jquery.cookie.js"></script>
+
+		<script src='lib/js/fullcalendar.min.js'></script>
+
+		<script src='lib/js/jquery.dataTables.min.js'></script>
+
+		<script src="lib/js/excanvas.js"></script>
+		<script src="lib/js/jquery.flot.min.js"></script>
+		<script src="lib/js/jquery.flot.pie.min.js"></script>
+		<script src="lib/js/jquery.flot.stack.js"></script>
+		<script src="lib/js/jquery.flot.resize.min.js"></script>
+
+		<script src="lib/js/jquery.chosen.min.js"></script>
+
+		<script src="lib/js/jquery.uniform.min.js"></script>
+
+		<script src="lib/js/jquery.cleditor.min.js"></script>
+
+		<script src="lib/js/jquery.noty.js"></script>
+
+		<script src="lib/js/jquery.elfinder.min.js"></script>
+
+		<script src="lib/js/jquery.raty.min.js"></script>
+
+		<script src="lib/js/jquery.iphone.toggle.js"></script>
+
+		<script src="lib/js/jquery.gritter.min.js"></script>
+
+		<script src="lib/js/jquery.imagesloaded.js"></script>
+
+		<script src="lib/js/jquery.masonry.min.js"></script>
+
+		<script src="lib/js/jquery.knob.js"></script>
+
+		<script src="lib/js/jquery.sparkline.min.js"></script>
+
+		<script src="lib/js/custom.js"></script>
+		<!-- end JavaScript -->
+
+		<!-- start extra JavaScript -->
+		{{#each extrascripts}}
+		<script type="text/javascript" src="{{{this}}}"></script>
+		{{/each}}
+		<!-- end extra JavaScript -->
+
+
+	</head>
+	<body>
+
 <div class="container-fluid">
 <div class="row-fluid">
 			
@@ -42,3 +147,5 @@
 		</div><!--/fluid-row-->
 		
 </div><!--/.fluid-container-->
+	</body>
+</html>

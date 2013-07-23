@@ -23,6 +23,7 @@ exports.index = function(req, res) {
 exports.login = function(req, res) {
 	res.render('login', {
 		title: 'Pangia',
+	        layout: null,
 		extrastyle: [
 			'body { background: url(lib/img/bg-login.jpg) !important; }'
 		]

@@ -2,7 +2,7 @@
 """
 
 Librairies needed: 
-  -numpy
+ -numpy
  -scipy
  -mongopy
 
@@ -18,7 +18,7 @@ import socket;
 import urllib;
 import datetime;
 
-#import MySQLdb as mdb;
+#import Mymongodb as mdb;
 from pymongo import MongoClient;
 import bson;
 import sbs;
@@ -95,12 +95,31 @@ def daterange(start_date, end_date):
 
 
 ### Run SBS with data from a TSDB server
-def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, user_id, bldg_id, start, end):
+def TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongouser, mongopwd, dbname, id, user_id, bldg_id, start, end):
 
   sys.stdout.write("[{0}] 0%, Start SBS: id={1}, bldg_id={2}, timeStart={3}, timeEnd={4}\n".format(datetime.datetime.now(),id,bldg_id,start,end))
   sys.stdout.flush()
   #Initialization of SBS
   detector = sbs.SBS()
+
+  if mongoserver != None:
+    #Get the last values from mongodb
+    client = MongoClient()
+    sbsColl = client[dbname].sbs 
+    bid = bson.objectid.ObjectId(id)
+    param = sbsColl.find({"bldg_id": bid})
+
+    if param.count!=0:
+      #Set SBS to its previous state
+      detector.windowTail = param[0]["window_tail"];
+      detector.filteredSensors = param[0]["sensors_label"];
+      detector.histBehavior = param[0]["hist"];
+      detector.histBehaviorChange = param[0]["hist_change"];
+
+   // TODO also set the fixed params
+
+   // TODO else set the default params from mongodb
+
 
   ## Get the data from the OpenTSDB database
   # Setup the connection
@@ -108,7 +127,7 @@ def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, user_
 
   # Feed SBS with slices of data of 1 hour-long. This is not related to SBS window size (it should be bigger than the OpenTSDB slices? 10 minutes?)
   dateFormat = "%Y/%m/%d-%H:%M:%S"
-  dateFormatMySQL = "%Y-%m-%d %H:%M:%S"
+  dateFormatMymongo = "%Y-%m-%d %H:%M:%S"
   startDate = datetime.datetime.fromtimestamp(float(start)) #strptime(start,dateFormat)
   endDate = datetime.datetime.fromtimestamp(float(end)) #.strptime(end,dateFormat)
   allAlarms = []
@@ -133,29 +152,23 @@ def TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, user_
 
   sys.stdout.write("[{0}] 100%, SBS found {1} anomalies in total\n".format(datetime.datetime.now(),len(allAlarms)))
   
-  if SQLserver != None:
-    ##Initialization of the connection to the MySQL databse
+  if mongoserver != None:
+    ##Initialization of the connection to the database
     client = MongoClient()
     alarmsColl = client[dbname].alarms 
-    
-    #SQLconn = mdb.connect(SQLserver, SQLuser, SQLpwd, SQLdb)
-    #SQLcur = SQLconn.cursor()
-    
+    sbsColl = client[dbname].sbs 
     bid = bson.objectid.ObjectId(id)
 
-    ##Insert the alarms in the MySQL database
+    ##Insert the alarms in the Mymongo database
     for alarm in allAlarms:
-      alarmsColl.insert({"id":bid, "bldg_id":bldg_id, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
-      #SQLcur.execute("INSERT INTO `alarms`(`id`, `username`, `start`, `end`, `label01`, `label02`, `deviation`) VALUES({0},'{1}','{2}','{3}','{4}','{5}',{6})".format(id, username,  datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMySQL), datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMySQL), alarm["label"], alarm["peer"], alarm["dev"]))
-        
-    #SQLconn.commit()
-    #SQLconn.close()
+      alarmsColl.insert({"id":bid, "bldg_id":bldg_id, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMymongo), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMymongo), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
 
-
+    ##Update SBS state in mongodb
+    sbsColl.update({"bldg_id": bid},{"window_tail":detector.windowTail, "sensors_label": detector.filteredSensors, "hist": detector.histBehavior, "hist_change": detector.histBehaviorChange},{"upsert":True})
 
 if __name__ == "__main__":
   if len(sys.argv) < 11:
-    print("usage: {0} TSDBserver TSDBport SQLserver SQLuser SQLpwd dbname id user_id bldg_id timeStart timeEnd".format(sys.argv[0]))
+    print("usage: {0} TSDBserver TSDBport mongoserver mongouser mongopwd dbname id user_id bldg_id timeStart timeEnd".format(sys.argv[0]))
     exit()
 
 
@@ -163,9 +176,9 @@ if __name__ == "__main__":
   TSDBserver = sys.argv[1]
   TSDBport = sys.argv[2]
 
-  SQLserver = sys.argv[3]
-  SQLuser = sys.argv[4]
-  SQLpwd = sys.argv[5]
+  mongoserver = sys.argv[3]
+  mongouser = sys.argv[4]
+  mongopwd = sys.argv[5]
   dbname = sys.argv[6]
 
   id = sys.argv[7]
@@ -174,4 +187,4 @@ if __name__ == "__main__":
   start = sys.argv[10]
   end = sys.argv[11]
 
-  TSDB2SBS(TSDBserver, TSDBport, SQLserver, SQLuser, SQLpwd, dbname, id, user_id, bldg_id, start, end)
+  TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongouser, mongopwd, dbname, id, user_id, bldg_id, start, end)

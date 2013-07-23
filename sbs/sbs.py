@@ -33,8 +33,6 @@ class SBS:
     Initialize the SBS object
     """
     ###### Parameters ######
-    ### TODO: make a config file?
-    
     # Parameters for the sliding window (the unit is seconds)
 
     self.windowSize = 24*3600; # Size of the sliding time window 

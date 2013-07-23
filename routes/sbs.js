@@ -5,7 +5,8 @@ var  conf  = require('nconf')
 //  ,  mysql = require('mysql-libmysqlclient')
   ,  net = require('net')
   ,  lazy = require('lazy')
-  ,  db   = require('../db');
+  ,  db   = require('../db')
+  ,  hashset = require('../public/lib/js/hashset');
 
 var otsdb_host = conf.get('otsdb_host');
 var otsdb_port = conf.get('otsdb_port');
@@ -64,7 +65,7 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
       var startTS = 0;
       var endTS = 0;
 
-      var streams;
+      var streamsName = new hashset.HashSet();
   
       // Send the data
       // TODO parse/validate the file format
@@ -75,8 +76,10 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
         //client.end();
         
 	// Store the streams name in mongodb
-//        for something....
-//	      db.streams.update({"name": XXX.name, "bldg_id": XXX.bldg_id})
+	var names = streamsName.values();
+        for(i=0; i<name.length; i++){
+	      db.streams.update({"name": names[i], "bldg_id": bldg_id},{$set: {"name": names[i], "bldg_id": bldg_id}},{"upsert":true});
+	}
 
         //Run SBS
         console.log('Start SBS... ('+bldg_id.toString()+', '+id.toString()+', '+startTS+', '+endTS+')\n')
@@ -88,6 +91,9 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
       function (line) { 
           var elem = line.toString().replace(/\s+/g, '').replace(/{|}|\(|\)|\[|\]|%/g, '_').split(',');
           var ts = parseInt(parseFloat(elem[0]));
+
+	  streamsName.add(elem);
+
           if(startTS == 0){
             startTS = ts;
             endTS = ts;

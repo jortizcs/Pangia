@@ -32,7 +32,7 @@ exports.copyData = function(user_id, bldg_id, filename) {
 //   var id = stmt.lastInsertIdSync();
 //   conn.closeSync();  
 
-	db.data.save({ "user_id": user_id, "filepath": filename },
+	db.data.save({ "user_id": user_id, "filepath": filename , "bldg_id":bldg_id, "ts": new Date()},
 		function(err, data){
 		
 			// create the TSDB metric and copy the data

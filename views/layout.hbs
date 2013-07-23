@@ -210,6 +210,23 @@
 		</noscript>
 		
 		<div id="content" class="span10">
+		<div>
+			<hr>
+			<ul class="breadcrumb">
+			<li>
+				<a href="dashboard">Home</a> <span class="divider">/</span>
+			</li>
+			{{#if bldg}}
+			<li>
+				<a href="bldgs"> {{bldg.name}}</a> <span class="divider">/</span>
+			</li>
+			{{/if}}
+			<li>
+				<a href="#">{{this.title}}</a>
+			</li>
+			</ul>
+		<hr>
+		</div>
 		
 		{{{body}}}
 

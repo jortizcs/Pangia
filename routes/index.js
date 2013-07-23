@@ -31,17 +31,28 @@ exports.login = function(req, res) {
 };
 
 exports.data = function(req, res) {
+	//Get the building details
+	db.bldgs.findOne({"_id": new ObjectID(req.query.bldg_id)}, function(err, bldg){
+		
+		// Check if the building belong to this user
+		if(bldg != null && (bldg.user_id.toString() == req.user._id.toString())){ //Chck if there is a better way to compare ObjectID
 	// Gather 
-	data.getData(new ObjectID(req.query.bldg_id), //TODO check if the building belongs to this user? 
-	function(data){
-		res.render('data', {
-			title: 'Pangia - Data',
-			extrameta: [
-				{ name: 'description', content: '' },
-				{ name: 'author', content: '' },
-			],
+			data.getData(new ObjectID(req.query.bldg_id), //TODO check if the building belongs to this user? 
+			function(data){
+				res.render('data', {
+					title: 'Uploaded Data',
+					data: data,
+					bldg: bldg
+				});
+			});
+		}
+		else{
+			res.render('data', {
+			title: 'Uploaded Data (Access Denied)',
 			data: data
-		});
+			});
+			
+		}
 	});
 };
 
@@ -56,31 +67,47 @@ exports.alarmshim = function(req, res) {
 exports.chart = function(req, res) {
 	var id = req.query.id;
 	var user = req.user.username;
-	getalarms.getDataAlarms(user, id, function(data) {
-		var len = data.length; //(data.length > 10) ? 10 : data.length;
-		var i;
-		var indexes = [];
+	//Get the building details
+	db.bldgs.findOne({"_id": new ObjectID(req.query.bldg_id)}, function(err, bldg){
+		
+		// Check if the building belong to this user
+		if(bldg != null && (bldg.user_id.toString() == req.user._id.toString())){ //Chck if there is a better way to compare ObjectID
+			getalarms.getDataAlarms(user, id, function(data) {
+				var len = data.length; //(data.length > 10) ? 10 : data.length;
+				var i;
+				var indexes = [];
 
-		for (i = 0; i < len; i++) {
-			indexes.push(i);
+				for (i = 0; i < len; i++) {
+					indexes.push(i);
+				}
+
+				res.render('chart', {
+					title: 'Anomaly Report',
+					extracss: [
+						'lib/css/custom/custom.css'
+					],
+					extrascripts: [
+						'lib/js/d3.v3.min.js',
+						'pages/chart.js'
+					],
+					data: JSON.stringify(data),
+					indexes: indexes,
+					bldg: bldg
+				});
+			});
 		}
-
-		res.render('chart', {
-			title: 'Pangia - Anomaly Report',
-			extrameta: [
-				{ name: 'description', content: 'Pangia - View Anomaly Report.' },
-				{ name: 'author', content: '' }
-			],
-			extracss: [
-				'lib/css/custom/custom.css'
-			],
-			extrascripts: [
-				'lib/js/d3.v3.min.js',
-				'pages/chart.js'
-			],
-			data: JSON.stringify(data),
-			indexes: indexes
-		});
+		else{
+			res.render('chart', {
+				title: 'Anomaly Report (Access denied)',
+				extracss: [
+					'lib/css/custom/custom.css'
+				],
+				extrascripts: [
+					'lib/js/d3.v3.min.js',
+					'pages/chart.js'
+				]
+			});
+		}
 	});
 };
 
@@ -89,7 +116,7 @@ exports.upload = function(req, res) {
 	bldgs.getBldgs(req.user._id, function(bldgs){
 		res.render('upload', 
 			{
-                	title: 'Pangia - Generate New Report',
+                	title: 'Data Upload',
                 	extrameta: [
                         { name: 'description', content: '' },
                         { name: 'author', content: '' },
@@ -151,7 +178,7 @@ exports.bldgs = function(req, res) {
 	bldgs.getBldgs(req.user._id, 
 	function(bldgs){
 		res.render('bldgs', {
-			title: 'Pangia - Buildings',
+			title: 'Buildings',
 			extrameta: [
 				{ name: 'description', content: '' },
 				{ name: 'author', content: '' },
@@ -163,15 +190,25 @@ exports.bldgs = function(req, res) {
 
 
 exports.streams = function(req, res) {
-	streams.getStreams(new ObjectID(req.query.bldg_id), //TODO check if the building belongs to this user? 
-	function(streams){
-		res.render('streams', {
-			title: 'Pangia - Streams',
-			extrameta: [
-				{ name: 'description', content: '' },
-				{ name: 'author', content: '' },
-			],
-			streams: streams
-		});
+	//Get the building details
+	db.bldgs.findOne({"_id": new ObjectID(req.query.bldg_id)}, function(err, bldg){
+		
+		// Check if the building belong to this user
+		if(bldg != null && (bldg.user_id.toString() == req.user._id.toString())){ //Chck if there is a better way to compare ObjectID
+			streams.getStreams(bldg._id, 
+			function(streams){
+				res.render('streams', {
+					title: 'Streams',
+					streams: streams,
+					bldg: bldg
+				});
+			});
+		}
+		else{
+			console.log("User id is different");
+			res.render('streams', {
+				title: 'Streams (Access Denied)',
+			});
+		}
 	});
 };

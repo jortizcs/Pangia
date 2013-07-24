@@ -64,7 +64,7 @@ class SBS:
     self.bootstrapDetection = True;
     self.histBehavior = deque();
     self.histBehaviorChange = dict();
-    self.histBehaviorSize=5; #5
+    self.histBehaviorSize=14; #5
     self.lnorm = 4.0;
     self.detectionThreshold = 5.0;
     
@@ -78,7 +78,7 @@ class SBS:
     The filtered signals are stored in the filteredData attribute.
     """
     
-    ###TODO clean the buffer? remove all sensors without data /// No! it might mess up the "search"...?
+    ### clean the buffer? remove all sensors without data /// No! it might mess up the "search"...?
     
     #print("strip...")
     

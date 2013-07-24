@@ -160,8 +160,9 @@ exports.uploader = function(req, res) {
             
           
             // TODO parse the file to check if it's in the correct form
-            // Register the file in Mysql and copy the data to tsdb 
-            sbs.copyData(req.user.id, req.bldg.bldg_id,pathFile);
+	    // TODO check that the bldg belongs to this user
+            // Register the file in mongodb and copy the data to tsdb 
+            sbs.copyData(req.user.id, req.body.bldg, pathFile);
             
           }
           else{

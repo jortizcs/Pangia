@@ -6,7 +6,9 @@ var  conf  = require('nconf')
   ,  net = require('net')
   ,  lazy = require('lazy')
   ,  db   = require('../db')
-  ,  hashset = require('../public/lib/js/hashset');
+  ,  hashset = require('../public/lib/js/hashset')
+  ,  hashmap = require('../public/lib/js/hashtable')
+  ,  thresDetec = require('../sbs/thresDetec');
 
 var otsdb_host = conf.get('otsdb_host');
 var otsdb_port = conf.get('otsdb_port');
@@ -57,6 +59,10 @@ exports.copyData = function(user_id, bldg_id, filename) {
 
 // Copy the data to OTSDB
 function copyFile2Tsdb(user_id, id, filename, bldg_id) {
+
+  // Threshold based detector	
+ var detec = thresDetec.detector();
+ detec.init(bldg_id,function(eval){
     
   // Connect to the tsdb server
   var client = new net.Socket();
@@ -107,6 +113,12 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
             }
           }
           client.write('put sbs.'+user_id.toString()+'.'+id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
+
+	  //TODO threshold based detection here
+	  if(eval(elem[1],elem[2])){
+		  console.log("Alarm to report");
+		  console.log(elem);
+	   }
           }
       );
       
@@ -119,6 +131,7 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
     // TODO raise and error if something went wrong
     console.log(data.toString());
   });
+ });
   
 }
 

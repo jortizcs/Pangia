@@ -86,11 +86,11 @@ getpath('/data', routes.data);
 getpath('/dashboard', routes.bldgs);
 getpath('/upload', routes.upload);
 getpath('/users', user.list);
-// postpath('/uploader', routes.uploader);
+postpath('/uploader', routes.uploader);
 getpath('/bldgs', routes.bldgs);
 getpath('/streams', routes.streams);
 
-app.post('/uploader',routes.uploader);
+//app.post('/uploader',routes.uploader);
 
 db.startDb(function (error) {
   http.createServer(app).listen(app.get('port'), function(){

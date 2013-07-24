@@ -6,62 +6,47 @@ var  conf  = require('nconf')
   ,  net = require('net')
   ,  lazy = require('lazy')
   ,  db   = require('../db')
-  ,  hashset = require('../public/lib/js/hashset')
-  ,  hashmap = require('../public/lib/js/hashtable')
+  ,  hashtable = require('jshashtable')
   ,  thresDetec = require('../sbs/thresDetec');
 
 var otsdb_host = conf.get('otsdb_host');
 var otsdb_port = conf.get('otsdb_port');
 
 var db_name = conf.get('db_name');
-// var mysql_host = conf.get('db_host');
+var mongo_host = conf.get('mongo_host');
+var mongo_port = conf.get('mongo_port');
+
 
 
 // Record the upload in mongodb
 // Create the corresponding metric in OTSDB
 // Copy the data to OTSDB
-// Return the corresponding _id
-exports.copyData = function(user_id, bldg_id, filename) {
-//   var conn = mysql.createConnectionSync();
-//   conn.connectSync(mysql_host, 'root', 'root', 'sbs');
-//   
-//   // Place an entry in the mysql db
-//   var query = "insert into data (username, filepath) values (?, ?)";
-//   var stmt = conn.initStatementSync();
-//   stmt.prepareSync(query);
-//   stmt.bindParamsSync([ user, filename]);
-//   var ex = stmt.executeSync();
-//   var id = stmt.lastInsertIdSync();
-//   conn.closeSync();  
-
-	db.data.save({ "user_id": user_id, "filepath": filename , "bldg_id":bldg_id, "ts": new Date()},
-		function(err, data){
-		
+exports.analyzeData = function(user_id, bldg_id, filename,user_email) {
+	db.data.save({ "user_id": user_id, "filepath": filename , "bldg_id":bldg_id, "ts": new Date()},	function(err, data){
+			if(err!=null){
+				console.log(err);
+			}
 			// create the TSDB metric and copy the data
 			// then run SBS
 			var ts;
-			var child = exec('tsdb mkmetric sbs.' + data.username + '.' + data._id.toString() , 
-			function (error, stdout, stderr) {
-				if (error !== null) {
+			var child = exec('tsdb mkmetric sbs.' + user_id.toString() + '.' + data._id.toString() , 
+			function (error, stdout, stderr){ 
+				if (error != null) {
 					console.log('exec error: ' + error);
 				}else{
 					console.log('Copying data to otsdb... ('+data.username+', '+data._id.toString()+', '+data.filepath+')\n')
-					copyFile2Tsdb( data.user_id, data._id, data.filepath, bldg_id);
+					copyFile2Tsdb( data.user_id, data._id, data.filepath, bldg_id,user_email);
 				}
-			}
-			);
-			
-		}
-	);
-//   return id;
+			});
+		});
 }
 
 
 // Copy the data to OTSDB
-function copyFile2Tsdb(user_id, id, filename, bldg_id) {
+function copyFile2Tsdb(user_id, id, filename, bldg_id, user_email) {
 
   // Threshold based detector	
- var detec = thresDetec.detector();
+ var detec = new thresDetec.detector();
  detec.init(bldg_id,function(eval){
     
   // Connect to the tsdb server
@@ -71,7 +56,7 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
       var startTS = 0;
       var endTS = 0;
 
-      var streamsName = new hashset.HashSet();
+      var streamsName = new hashtable();
   
       // Send the data
       // TODO parse/validate the file format
@@ -82,14 +67,14 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
         //client.end();
         
 	// Store the streams name in mongodb
-	var names = streamsName.values();
-        for(i=0; i<name.length; i++){
-	      db.streams.update({"name": names[i], "bldg_id": bldg_id},{$set: {"name": names[i], "bldg_id": bldg_id}},{"upsert":true});
+	var names = streamsName.keys();
+        for(i=0; i<names.length; i++){
+	      db.streams.update({"name": names[i], "bldg_id": bldg_id},{$set: {"name": names[i], "bldg_id": bldg_id}},{"upsert":true},function(err,modif){if(err!=null){console.log(err);}});
 	}
 
         //Run SBS
         console.log('Start SBS... ('+bldg_id.toString()+', '+id.toString()+', '+startTS+', '+endTS+')\n')
-        runSBS(user_id, bldg_id, id, startTS, endTS, filename+'.log');
+        runSBS(user_id, bldg_id, id, startTS, endTS, filename+'.log',user_email);
         
       });
       
@@ -98,7 +83,7 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
           var elem = line.toString().replace(/\s+/g, '').replace(/{|}|\(|\)|\[|\]|%/g, '_').split(',');
           var ts = parseInt(parseFloat(elem[0]));
 
-	  streamsName.add(elem);
+	  streamsName.put(elem[2],0);
 
           if(startTS == 0){
             startTS = ts;
@@ -115,10 +100,10 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
           client.write('put sbs.'+user_id.toString()+'.'+id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
 
 	  //TODO threshold based detection here
-	  if(eval(elem[1],elem[2])){
-		  console.log("Alarm to report");
-		  console.log(elem);
-	   }
+	  //if(eval(elem[2],elem[1])){
+	//	  console.log("Alarm to report");
+	//	  console.log(elem);
+	  // }
           }
       );
       
@@ -137,23 +122,22 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id) {
 
 
 // Run SBS and sends an email when it is done
-function runSBS(user_id, id, start, end, logfile){
-      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' TOREMOVE root root '+db_name+' '+id.toString()+' '+user_id.toString()+' '+bldg_id.toString()+' '+start+' '+end+' > '+logfile , 
+function runSBS(user_id, bldg_id, data_id, start, end, logfile,user_email){
+      var child = exec('python sbs/sbsWrapper.py '+otsdb_host+' '+otsdb_port+' '+mongo_host+' '+mongo_port+' '+db_name+' '+data_id.toString()+' '+user_id.toString()+' '+bldg_id.toString()+' '+start+' '+end+' > '+logfile , 
           function (error, stdout, stderr) {
             if (error !== null) {
               console.log('stderr: ' + stderr);
               console.log('exec error: ' + error);
-              //Sends an email to Romain if something went wrong...
-              reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+id.toString()+'<br> user='+user_id.toString()+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);
+              //Sends an email to Romain if something went wrong in SBS...
+              reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+data_id.toString()+'<br> user='+user_id.toString()+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);
               
             }else{              
-              //db.users.find({})
-	      // TODO retrieve user's email
-	      var email = "info@greenpangia.com";
-              var child2 = exec('python sbs/sendEmail.py '+email+' "http://166.78.31.162/Pangia/chart.php?id='+id.toString()+'"', 
+              //db.users.find({}) 
+              var child2 = exec('python sbs/sendEmail.py '+user_email+' "http://166.78.31.162/Pangia/chart.php?id='+data_id.toString()+'"', 
                function (error, stdout, stderr) {
                   if (error !== null) {
                     console.log('exec error: ' + error);
+			//TODO create an email address were we collect errors?
                     reportError('romain@greenpangia.com', 'Error sending the report by email. <br> Error message: <br>'+error);
                   }
                 }

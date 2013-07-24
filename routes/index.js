@@ -160,10 +160,14 @@ exports.uploader = function(req, res) {
             
           
             // TODO parse the file to check if it's in the correct form
-	    // TODO check that the bldg belongs to this user
-            // Register the file in mongodb and copy the data to tsdb 
-            sbs.copyData(req.user.id, req.body.bldg, pathFile);
-            
+            // Register the file in mongodb and copy the data to tsdb
+	    var bldg_id =  new ObjectID(req.query.bldg);
+	    db.bldgs.findOne({"_id": bldg_id}, function(err,bldg){
+	    	// check that the bldg belongs to this user
+		if(bldg != null && (bldg.user_id.toString() == req.user._id.toString())){
+            		sbs.analyzeData(req.user._id,bldg_id, pathFile,req.user.email);
+		}
+	    }); 
           }
           else{
             response.err = err;

@@ -17,6 +17,7 @@
 	  "mv": "*",
 	  "nconf": "*",
 	  "prompt": "*",
-	  "mongodb": "*"
+	  "mongodb": "*",
+	  "jshashtable": "*"
   }
 }

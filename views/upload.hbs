@@ -24,7 +24,7 @@
 				<div class="control-group">
 					<label class="control-label" for="typeahead">Building </label>
 					<div class="controls">
-					<select id="bldg">
+					<select name="bldg" id="bldg">
 					{{#each bldgs}}
 					<option value={{this.bldg_id}} >{{this.name}} </option>
 					{{/each}}
@@ -101,7 +101,10 @@ function createUploader() {
         var uploader = new qq.FineUploader({
       element: document.getElementById('bootstrapped-fine-uploader'),
       request: {
-        endpoint: 'uploader'
+        endpoint: 'uploader',
+	params:{ 
+		bldg: document.getElementById('bldg').value
+	}
       },
       chunking: {
       	enabled: false
@@ -142,6 +145,12 @@ function createUploader() {
       },
       debug: true,
       callbacks: {
+
+//	onUpload: function(event, id, name){
+//		var bldg_id = document.getElementById('bldg').value;
+//		$(this).fineUploader('setParams', {'bldg': bldg_id});
+//	},
+
         onComplete: function(id, fileName, responseJSON) {
           if (responseJSON.success) {
 //             document.getElementById('form-btn').style.visibility='hidden';

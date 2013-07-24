@@ -21,6 +21,7 @@ import datetime;
 #import Mymongodb as mdb;
 from pymongo import MongoClient;
 import bson;
+import pickle;
 import sbs;
 #import sendEmail;
 
@@ -95,35 +96,35 @@ def daterange(start_date, end_date):
 
 
 ### Run SBS with data from a TSDB server
-def TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongouser, mongopwd, dbname, id, user_id, bldg_id, start, end):
+def TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongoport, dbname, data_id, user_id, bldg_id, start, end):
 
-  sys.stdout.write("[{0}] 0%, Start SBS: id={1}, bldg_id={2}, timeStart={3}, timeEnd={4}\n".format(datetime.datetime.now(),id,bldg_id,start,end))
+  sys.stdout.write("[{0}] 0%, Start SBS: data_id={1}, bldg_id={2}, user_id={3}, timeStart={4}, timeEnd={5}\n".format(datetime.datetime.now(),data_id,bldg_id,user_id,start,end))
   sys.stdout.flush()
   #Initialization of SBS
   detector = sbs.SBS()
 
   if mongoserver != None:
     #Get the last values from mongodb
-    client = MongoClient()
+    client = MongoClient(mongoserver, mongoport)
     sbsColl = client[dbname].sbs 
-    bid = bson.objectid.ObjectId(id)
-    param = sbsColl.find({"bldg_id": bid})
+    bid = bson.objectid.ObjectId(bldg_id)
+    param = sbsColl.find_one({"bldg_id": bid})
 
-    if param.count!=0:
+    if param!=None:
       #Set SBS to its previous state
       detector.windowTail = param[0]["window_tail"];
       detector.filteredSensors = param[0]["sensors_label"];
-      detector.histBehavior = param[0]["hist"];
-      detector.histBehaviorChange = param[0]["hist_change"];
+      detector.histBehavior = pickle.loads(param[0]["hist"]);
+      detector.histBehaviorChange = pickle.loads(param[0]["hist_change"]);
 
-   // TODO also set the fixed params
+   # TODO also set the fixed params
 
-   // TODO else set the default params from mongodb
+ # TODO else set the default params from mongodb
 
 
   ## Get the data from the OpenTSDB database
   # Setup the connection
-  req = "sum:1m-avg:sbs."+user_id+"."+id+"{label=*}"
+  req = "sum:1m-avg:sbs."+user_id+"."+data_id+"{label=*}"
 
   # Feed SBS with slices of data of 1 hour-long. This is not related to SBS window size (it should be bigger than the OpenTSDB slices? 10 minutes?)
   dateFormat = "%Y/%m/%d-%H:%M:%S"
@@ -154,21 +155,25 @@ def TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongouser, mongopwd, dbname, id,
   
   if mongoserver != None:
     ##Initialization of the connection to the database
-    client = MongoClient()
+    client = MongoClient(mongoserver,mongoport)
     alarmsColl = client[dbname].alarms 
     sbsColl = client[dbname].sbs 
-    bid = bson.objectid.ObjectId(id)
+    bdata_id = bson.objectid.ObjectId(data_id)
+    bbldg_id = bson.objectid.ObjectId(bldg_id)
+    buser_id = bson.objectid.ObjectId(user_id)
 
     ##Insert the alarms in the Mymongo database
     for alarm in allAlarms:
-      alarmsColl.insert({"id":bid, "bldg_id":bldg_id, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMymongo), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMymongo), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
+#TODO get _id of the streams and store it in an array
+#TODO store date objects (ISODate) 
+      alarmsColl.insert({"data_id":bdata_id, "bldg_id":bbldg_id, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMymongo), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMymongo), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
 
     ##Update SBS state in mongodb
-    sbsColl.update({"bldg_id": bid},{"window_tail":detector.windowTail, "sensors_label": detector.filteredSensors, "hist": detector.histBehavior, "hist_change": detector.histBehaviorChange},{"upsert":True})
+    sbsColl.update({"bldg_id": bbldg_id},{"window_tail":detector.windowTail, "sensors_label": detector.filteredSensors, "hist": bson.binary.Binary(pickle.dumps(detector.histBehavior,2)), "hist_change":  bson.binary.Binary(pickle.dumps(detector.histBehaviorChange,2))},True)
 
 if __name__ == "__main__":
   if len(sys.argv) < 11:
-    print("usage: {0} TSDBserver TSDBport mongoserver mongouser mongopwd dbname id user_id bldg_id timeStart timeEnd".format(sys.argv[0]))
+    print("usage: {0} TSDBserver TSDBport mongoserver mongoport mongo dbname id user_id bldg_id timeStart timeEnd".format(sys.argv[0]))
     exit()
 
 
@@ -177,14 +182,13 @@ if __name__ == "__main__":
   TSDBport = sys.argv[2]
 
   mongoserver = sys.argv[3]
-  mongouser = sys.argv[4]
-  mongopwd = sys.argv[5]
-  dbname = sys.argv[6]
+  mongoport = int(sys.argv[4])
+  dbname = sys.argv[5]
 
-  id = sys.argv[7]
-  user_id = sys.argv[8]
-  bldg_id = sys.argv[9]
-  start = sys.argv[10]
-  end = sys.argv[11]
+  id = sys.argv[6]
+  user_id = sys.argv[7]
+  bldg_id = sys.argv[8]
+  start = sys.argv[9]
+  end = sys.argv[10]
 
-  TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongouser, mongopwd, dbname, id, user_id, bldg_id, start, end)
+  TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongoport, dbname, id, user_id, bldg_id, start, end)

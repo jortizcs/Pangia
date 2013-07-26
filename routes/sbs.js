@@ -29,12 +29,12 @@ exports.analyzeData = function(user_id, bldg_id, filename,user_email) {
 			// create the TSDB metric and copy the data
 			// then run SBS
 			var ts;
-			var child = exec('tsdb mkmetric sbs.' + user_id.toString() + '.' + data._id.toString() , 
+			var child = exec('tsdb mkmetric sbs.' + user_id.toString() + '.' + bldg_id.toString() , 
 			function (error, stdout, stderr){ 
 				if (error != null) {
 					console.log('exec error: ' + error);
 				}else{
-					console.log('Copying data to otsdb... ('+data.username+', '+data._id.toString()+', '+data.filepath+')\n')
+					console.log('Copying data to otsdb... ('+data.user_id+', '+bldg_id.toString()+', '+data.filepath+')\n')
 					copyFile2Tsdb( data.user_id, data._id, data.filepath, bldg_id,user_email);
 				}
 			});
@@ -43,7 +43,7 @@ exports.analyzeData = function(user_id, bldg_id, filename,user_email) {
 
 
 // Copy the data to OTSDB
-function copyFile2Tsdb(user_id, id, filename, bldg_id, user_email) {
+function copyFile2Tsdb(user_id, data_id, filename, bldg_id, user_email) {
 
   // Threshold based detector	
  var detec = new thresDetec.detector();
@@ -73,8 +73,8 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id, user_email) {
 	}
 
         //Run SBS
-        console.log('Start SBS... ('+bldg_id.toString()+', '+id.toString()+', '+startTS+', '+endTS+')\n')
-        runSBS(user_id, bldg_id, id, startTS, endTS, filename+'.log',user_email);
+        console.log('Start SBS... ('+bldg_id.toString()+', '+data_id.toString()+', '+startTS+', '+endTS+')\n')
+        runSBS(user_id, bldg_id, data_id, startTS, endTS, filename+'.log',user_email);
         
       });
       
@@ -97,7 +97,7 @@ function copyFile2Tsdb(user_id, id, filename, bldg_id, user_email) {
               endTS=ts;
             }
           }
-          client.write('put sbs.'+user_id.toString()+'.'+id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
+          client.write('put sbs.'+user_id.toString()+'.'+bldg_id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
 
 	  //TODO threshold based detection here
 	  //if(eval(elem[2],elem[1])){

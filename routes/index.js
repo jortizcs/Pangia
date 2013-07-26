@@ -65,18 +65,17 @@ exports.alarmshim = function(req, res) {
 };
 
 exports.chart = function(req, res) {
-	var id = req.query.id;
-	var user = req.user.username;
+	var bldg_id =  new ObjectID(req.query.bldg_id);
 	//Get the building details
-	db.bldgs.findOne({"_id": new ObjectID(req.query.bldg_id)}, function(err, bldg){
+	db.bldgs.findOne({"_id": bldg_id}, function(err, bldg){
 		
 		// Check if the building belong to this user
-		if(bldg != null && (bldg.user_id.toString() == req.user._id.toString())){ //Chck if there is a better way to compare ObjectID
-			getalarms.getDataAlarms(user, id, function(data) {
+		if(bldg != null && (bldg.user_id.toString() == req.user._id.toString())){
+			getalarms.getDataAlarms(req.user._id, bldg_id, function(data) {
 				var len = data.length; //(data.length > 10) ? 10 : data.length;
 				var i;
 				var indexes = [];
-
+console.log(data);
 				for (i = 0; i < len; i++) {
 					indexes.push(i);
 				}

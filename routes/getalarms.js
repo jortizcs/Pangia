@@ -25,66 +25,61 @@ var http = require('http');
 var tsdbShim_host = conf.get('tsdbShim_host');
 var tsdbShim_port = conf.get('tsdbShim_port');
 
-exports.getDataAlarms = function(user, id, done) {
+exports.getDataAlarms = function(user_id, bldg_id, done) {  
     var data_alarms = [];
-	getAlarms(user, id, function(alarms){
-        alarms.toArray(function(err,documents){
+	getAlarms(bldg_id, function(alarms,count){
+          alarms.each(function(err,data){
             if(err!=null){
                 console.log(err)
             }
-    		for(i=0;i<documents.length;i++){
-                var data = documents[i];
-				var alarm_set = [];
-				var alarm_array = [];
-				// The values we get are SQL dates.
-				var start = data.start;
-				var end = data.end;
-				var label1 = data.label01;
-				var label2 = data.label02;
-				// GMT-0800 is PST
-				var start_dt = new timezoneJS.Date(start, 'America/Los_Angeles');
-				var end_dt = new timezoneJS.Date(end, 'America/Los_Angeles');
-				//for each alarm, extend the start time and end time
-				var diff =  2* (end_dt.getTime() - start_dt.getTime());
-				var new_start = new timezoneJS.Date(start_dt.getTime() - diff);
-				var new_end = new timezoneJS.Date(end_dt.getTime() + diff);
-				//fetch the data for the new alarm start time and end time
-				getTsData(user, id, new_start, new_end, label1,
-				function(data4_label1) {
-					getTsData(user, id, new_start, new_end, label2,
-					function(data4_label2) {
-						var data_obj1 = {
-							'label': label1,
-							'data': data4_label1
-						};
-						var data_obj2 = {
-							'label': label2,
-							'data': data4_label2
-						};
-
-						// First we convert to seconds, then we add 8 hours because of
+    		if(data!=null){
+			var alarm_set = [];
+			var alarm_array = [];
+			// The values we get are SQL dates.
+			var start = data.start;
+			var end = data.end;
+			var label1 = data.label01;
+			var label2 = data.label02;
+			// GMT-0800 is PST
+			var start_dt = new timezoneJS.Date(start, 'America/Los_Angeles');
+			var end_dt = new timezoneJS.Date(end, 'America/Los_Angeles');
+			//for each alarm, extend the start time and end time
+			var diff =  2* (end_dt.getTime() - start_dt.getTime());
+			var new_start = new timezoneJS.Date(start_dt.getTime() - diff);
+			var new_end = new timezoneJS.Date(end_dt.getTime() + diff);
+			//fetch the data for the new alarm start time and end time
+			getTsData(user_id, bldg_id, new_start, new_end, label1,
+			function(data4_label1) {
+				getTsData(user_id, bldg_id, new_start, new_end, label2,
+				function(data4_label2) {
+					var data_obj1 = {
+						'label': label1,
+						'data': data4_label1
+					};
+					var data_obj2 = {
+						'label': label2,
+						'data': data4_label2
+					};
+					// First we convert to seconds, then we add 8 hours because of
 						// some messed up time zone conversions. 
-						var pair = [ start_dt.getTime() / 1000,
-							end_dt.getTime() / 1000 ];
-						alarm_set = [];
-						alarm_set.push(pair);
+					var pair = [ start_dt.getTime() / 1000,
+						end_dt.getTime() / 1000 ];
+					alarm_set = [];
+					alarm_set.push(pair);
+					var data_array = [];
+					data_array.push(data_obj1);
+					data_array.push(data_obj2);
+					data_array.push(alarm_set);
+		                        data_alarms.push(data_array);
 
-						var data_array = [];
-						data_array.push(data_obj1);
-						data_array.push(data_obj2);
-						data_array.push(alarm_set);
-						//pushAlarm(data_array);
-                        data_alarms.push(data_array);
-                        if(data_alarms.length>=documents.length){
-                            done(data_alarms);
-                        }
-					});
-				});
+console.log(count);console.log(data_alarms.length);
+					if(data_alarms.length>=count){
+						done(data_alarms);
+					}
+			});
+		});
             }
-            if(documents.length==0){
-                done(data_alarms);
-            }
-	    });
+      });
     });
 }
 
@@ -103,7 +98,7 @@ function formattedDateString(d) {
 		+ numToString(d.getSeconds());
 }
 
-function getTsData(user, id, st_date, et_date, label, done) {
+function getTsData(user_id, bldg_id, st_date, et_date, label, done) {
 	//the time zone is ignored
 	// opentsdb issue
 	// https://groups.google.com/forum/?fromgroups=#!topic/opentsdb/-Gy3MWpqAjo
@@ -125,7 +120,7 @@ function getTsData(user, id, st_date, et_date, label, done) {
 	var et_format = formattedDateString(et_date);
 
 	var query = 'http://' + tsdbShim_host + ':' + tsdbShim_port +'/q?start=' + st_format + '&end=' + et_format
-		+ '&m=sum:15m-avg:sbs.' + user + '.' + id + '{label=' + label + '}';
+		+ '&m=sum:15m-avg:sbs.' + user_id.toString() + '.' + bldg_id.toString() + '{label=' + label + '}';
 	var fullBody = "";
 
 	http.get(query, function (res) {
@@ -140,18 +135,13 @@ function getTsData(user, id, st_date, et_date, label, done) {
 	});
 }
 
-function getAlarms(user, id, done) {
-	var bid = new ObjectID(id);
-	db.alarms.find({"$query": {"bldg_id":bid}, "$orderby": {"deviation": -1}}, 
-	function (err, result) {
-		done(result.limit(15));
-	});
-// 	var query = "select start, end, label01, label02 from alarms where username=? and id=? order by alarms.deviation desc limit 0, 15";	//Only 10 alarms are shown in the "chart" page
-// 	var stmt = db.conn.initStatementSync();
-// 	stmt.prepareSync(query);
-// 	stmt.bindParamsSync([ user, id ]);
-// 	stmt.executeSync();
-// 	var rows = stmt.fetchAllSync();
-	// TODO create error condition if fetchAllSync fails
-// 	return rows;
+function getAlarms(bldg_id, done) {
+	var limit = 15;
+	var cur = db.alarms.find({"$query": {"bldg_id":bldg_id}, "$orderby": {"deviation": -1}}).limit(limit); 
+	db.alarms.find({"bldg_id":bldg_id}).count(function(err,cnt){
+		console.log(cnt);
+			var nbalarms = cnt;
+			if(cnt>limit){nbalarms=limit;}	
+			done(cur,nbalarms);
+		});
 }

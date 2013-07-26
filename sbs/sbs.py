@@ -35,9 +35,9 @@ class SBS:
     ###### Parameters ######
     # Parameters for the sliding window (the unit is seconds)
 
-    self.windowSize = 24*3600; # Size of the sliding time window 
+    self.windowSize = 7*24*3600; # Size of the sliding time window 
     self.windowTail = -1;
-    self.windowStep = 7*24*3600; #self.windowSize;
+    self.windowStep = 24*3600; #self.windowSize; #Size of each sliding step
     self.samplingRate = 300;
     self.ratioFilledBuffer = 0.7;  # Detect abnormalities when at least ratioFilledBuffer*100% of the sensors provided enough data
     

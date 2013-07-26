@@ -124,7 +124,7 @@ def TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongoport, dbname, data_id, user
 
   ## Get the data from the OpenTSDB database
   # Setup the connection
-  req = "sum:1m-avg:sbs."+user_id+"."+data_id+"{label=*}"
+  req = "sum:1m-avg:sbs."+user_id+"."+bldg_id+"{label=*}"
 
   # Feed SBS with slices of data of 1 hour-long. This is not related to SBS window size (it should be bigger than the OpenTSDB slices? 10 minutes?)
   dateFormat = "%Y/%m/%d-%H:%M:%S"

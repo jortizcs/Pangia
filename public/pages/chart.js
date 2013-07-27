@@ -1,6 +1,4 @@
-function createGraphs() {
-	var alarms = JSON.parse($('#alarmsdata').attr('data-alarms'));
-
+function createGraphs(alarms) {
 	/*
 	 * Loop through the JSON object.
 	 * The structure of the object is:
@@ -173,7 +171,9 @@ function addTag(container, label) {
 }
 
 $(document).ready(function () {
-	createGraphs();
+	var alarms = JSON.parse($('#alarmsdata').attr('data-alarms'));
+
+	createGraphs(alarms);
 
 	$('.tagTableContainer').draggable();
 
@@ -239,8 +239,20 @@ $(document).ready(function () {
 		modal.modal('show');
 	});
 
-  $(".anomaly-useful").find('a').click(function() {
-    var btn = $(this);
-    // TODO fill DB with 'useful' categorization for this anomaly
+  $(".anomaly-useful").each(function(index, elt) {
+    var span = $(elt);
+    var btns = span.find('a');
+
+    var reportId = alarms[index][3];
+    var useful = alarms[index][4];
+    if (!useful || useful === 'unsure') {
+      $(btns[2]).addClass('active');
+    }
+
+    btns.click(function() {
+      var btn = $(this);
+      var isUseful = btn.text().toLowerCase();
+      $.post('/chart', { isUseful: isUseful, index: index, reportId: reportId });
+    });
   });
 });

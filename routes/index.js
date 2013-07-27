@@ -48,6 +48,7 @@ exports.alarmshim = function(req, res) {
 exports.chart = function(req, res) {
 	var id = req.query.id;
 	var user = req.user.username;
+
 	getalarms.getDataAlarms(user, id, function(data) {
 		var len = data.length; //(data.length > 10) ? 10 : data.length;
 		var i;
@@ -74,6 +75,10 @@ exports.chart = function(req, res) {
 			indexes: indexes
 		});
 	});
+};
+
+exports.chartPost = function(req, res) {
+  getalarms.setUseful(req.user.username, req.body.reportId, req.body.index, req.body.isUseful);
 };
 
 exports.upload = function(req, res) {

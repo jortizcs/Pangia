@@ -82,6 +82,7 @@ getpath('/', routes.index);
 getpath('/index', routes.index);
 getpath('/alarmshim', routes.alarmshim);
 getpath('/chart', routes.chart);
+postpath('/chart', routes.chartPost);
 getpath('/dashboard', routes.dashboard);
 postpath('/dashboard', routes.dashboard);
 getpath('/upload', routes.upload);

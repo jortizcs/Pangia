@@ -28,14 +28,16 @@ var tsdbShim_port = conf.get('tsdbShim_port');
 exports.getDataAlarms = function(user, id, done) {
     var data_alarms = [];
 	getAlarms(user, id, function(alarms){
-        alarms.toArray(function(err,documents){
-            if(err!=null){
+        alarms.toArray(function(err, documents){
+            if(err != null){
                 console.log(err)
             }
-    		for(i=0;i<documents.length;i++){
-                var data = documents[i];
+    		for(i=0; i < documents.length; i++){
+        var data = documents[i];
 				var alarm_set = [];
 				var alarm_array = [];
+        var alarmId = data._id;
+        var useful = data.useful;
 				// The values we get are SQL dates.
 				var start = data.start;
 				var end = data.end;
@@ -49,6 +51,7 @@ exports.getDataAlarms = function(user, id, done) {
 				var new_start = new timezoneJS.Date(start_dt.getTime() - diff);
 				var new_end = new timezoneJS.Date(end_dt.getTime() + diff);
 				//fetch the data for the new alarm start time and end time
+        (function (alarmId, useful) {
 				getTsData(user, id, new_start, new_end, label1,
 				function(data4_label1) {
 					getTsData(user, id, new_start, new_end, label2,
@@ -73,13 +76,16 @@ exports.getDataAlarms = function(user, id, done) {
 						data_array.push(data_obj1);
 						data_array.push(data_obj2);
 						data_array.push(alarm_set);
-						//pushAlarm(data_array);
-                        data_alarms.push(data_array);
-                        if(data_alarms.length>=documents.length){
-                            done(data_alarms);
-                        }
+            data_array.push(alarmId);
+            if (useful) {
+						  pushAlarm(useful);
+            }
+            data_alarms.push(data_array);
+            if(data_alarms.length >= documents.length){
+                done(data_alarms);
+            }
 					});
-				});
+				})})(alarmId, useful);
             }
             if(documents.length==0){
                 done(data_alarms);
@@ -155,3 +161,10 @@ function getAlarms(user, id, done) {
 	// TODO create error condition if fetchAllSync fails
 // 	return rows;
 }
+
+exports.setUseful = function(user, reportId, index, isUseful) {
+  console.log('reportId = ' + reportId);
+  console.log('index = ' + index);
+  console.log('isUseful = ' + isUseful);
+  db.alarms.save({ "_id": reportId, "useful": isUseful }, { safe: true }, function () {});
+};

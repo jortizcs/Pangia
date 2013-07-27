@@ -78,7 +78,7 @@ exports.chart = function(req, res) {
 };
 
 exports.chartPost = function(req, res) {
-  getalarms.setUseful(req.user.username, req.body.reportId, req.body.index, req.body.isUseful);
+  getalarms.setUseful(req.user.username, req.body.reportId, req.body.isUseful);
 };
 
 exports.upload = function(req, res) {

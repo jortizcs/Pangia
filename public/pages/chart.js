@@ -245,14 +245,22 @@ $(document).ready(function () {
 
     var reportId = alarms[index][3];
     var useful = alarms[index][4];
+    var usefulBtn;
     if (!useful || useful === 'unsure') {
-      $(btns[2]).addClass('active');
+      usefulBtn = $(btns[2]);
+    } else if (useful === 'no') {
+      console.log('useful = no');
+      usefulBtn = $(btns[1]);
+    } else {
+      console.log('useful = yes');
+      usefulBtn = $(btns[0]);
     }
+    usefulBtn.addClass('active');
 
     btns.click(function() {
       var btn = $(this);
       var isUseful = btn.text().toLowerCase();
-      $.post('/chart', { isUseful: isUseful, index: index, reportId: reportId });
+      $.post('/chart', { isUseful: isUseful, reportId: reportId });
     });
   });
 });

@@ -162,9 +162,6 @@ function getAlarms(user, id, done) {
 // 	return rows;
 }
 
-exports.setUseful = function(user, reportId, index, isUseful) {
-  console.log('reportId = ' + reportId);
-  console.log('index = ' + index);
-  console.log('isUseful = ' + isUseful);
-  db.alarms.save({ "_id": reportId, "useful": isUseful }, { safe: true }, function () {});
+exports.setUseful = function(user, reportId, isUseful) {
+  db.alarms.save({ "_id": new db.mongo.ObjectID(reportId), "useful": isUseful }, { safe: true }, function () {});
 };

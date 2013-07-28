@@ -76,7 +76,6 @@ exports.chart = function(req, res) {
 				var len = data.length; //(data.length > 10) ? 10 : data.length;
 				var i;
 				var indexes = [];
-console.log(data);
 				for (i = 0; i < len; i++) {
 					indexes.push(i);
 				}
@@ -109,6 +108,10 @@ console.log(data);
 			});
 		}
 	});
+};
+
+exports.chartPost = function(req, res) {
+  getalarms.setUseful(req.user.username, req.body.reportId, req.body.isUseful);
 };
 
 exports.upload = function(req, res) {

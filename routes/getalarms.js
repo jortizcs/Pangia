@@ -26,15 +26,17 @@ var tsdbShim_host = conf.get('tsdbShim_host');
 var tsdbShim_port = conf.get('tsdbShim_port');
 
 exports.getDataAlarms = function(user_id, bldg_id, done) {  
-    var data_alarms = [];
+	var data_alarms = [];
 	getAlarms(bldg_id, function(alarms,count){
-          alarms.each(function(err,data){
-            if(err!=null){
-                console.log(err)
-            }
-    		if(data!=null){
+		alarms.each(function(err,data){
+		if(err!=null){
+			console.log(err)
+		}
+		if(data!=null){
 			var alarm_set = [];
 			var alarm_array = [];
+			var alarmId = data._id;
+			var useful = data.useful;
 			// The values we get are SQL dates.
 			var start = data.start;
 			var end = data.end;
@@ -61,7 +63,7 @@ exports.getDataAlarms = function(user_id, bldg_id, done) {
 						'data': data4_label2
 					};
 					// First we convert to seconds, then we add 8 hours because of
-						// some messed up time zone conversions. 
+					// some messed up time zone conversions. 
 					var pair = [ start_dt.getTime() / 1000,
 						end_dt.getTime() / 1000 ];
 					alarm_set = [];
@@ -70,9 +72,12 @@ exports.getDataAlarms = function(user_id, bldg_id, done) {
 					data_array.push(data_obj1);
 					data_array.push(data_obj2);
 					data_array.push(alarm_set);
+            				data_array.push(alarmId);
+            				if (useful) {
+						  pushAlarm(useful);
+            				}
 		                        data_alarms.push(data_array);
 
-console.log(count);console.log(data_alarms.length);
 					if(data_alarms.length>=count){
 						done(data_alarms);
 					}
@@ -145,3 +150,7 @@ function getAlarms(bldg_id, done) {
 			done(cur,nbalarms);
 		});
 }
+
+exports.setUseful = function(user, reportId, isUseful) {
+  db.alarms.save({ "_id": new db.mongo.ObjectID(reportId), "useful": isUseful }, { safe: true }, function () {});
+};

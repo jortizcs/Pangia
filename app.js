@@ -78,6 +78,7 @@ var postpath = function(path, route) {
   app.post(path, auth.ensureAuth, route);
 };
 
+// views
 getpath('/', routes.index);
 getpath('/index', routes.index);
 getpath('/alarmshim', routes.alarmshim);
@@ -89,6 +90,9 @@ getpath('/users', user.list);
 postpath('/uploader', routes.uploader);
 getpath('/bldgs', routes.bldgs);
 getpath('/streams', routes.streams);
+
+// AJAX
+getpath('/streamPriority',routes.streamPriority);
 
 //app.post('/uploader',routes.uploader);
 

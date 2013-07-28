@@ -11,6 +11,7 @@ var  sbs = require('./sbs')
   ,  data = require('./data')
   ,  bldgs = require('./bldgs')
   ,  streams = require('./streams')
+  ,  streamPriority = require('./streamPriority')
   ,  db = require('../db')
   ,  ObjectID = require('mongodb').ObjectID;
 
@@ -216,3 +217,8 @@ exports.streams = function(req, res) {
 		}
 	});
 };
+
+
+exports.streamPriority = function(req, res) {
+res.render
+}

@@ -9,7 +9,7 @@ exports.getStreams = function(bldg_id, done) {
 		if(stream!=null){
 			streams.push({
 			name: stream.name,
-			priority: '--',
+			priority: stream.priority,
 			upper_bound: '+inf',
 			lower_bound: '-inf'
 			});
@@ -18,4 +18,22 @@ exports.getStreams = function(bldg_id, done) {
 			done(streams)
 		}
 	});
+}
+
+
+exports.setStreamPriority(stream_id, priority){
+
+	if(priority>1){priority=1;}
+	if(priotity<-1){priority=-1;}
+
+	db.streams.update({"_id":stream_id}, {$set: {"priority":priority}}, 
+		function(err,modif){	
+			if(err){
+				console.log(err);
+				done(404);
+			}
+			else{
+				done(200);
+			}
+		});
 }

@@ -93,7 +93,7 @@ getpath('/bldgs', routes.bldgs);
 getpath('/streams', routes.streams);
 
 // AJAX
-getpath('/streamPriority',routes.streamPriority);
+getpath('/setStreamPriority',routes.setStreamPriority);
 
 //app.post('/uploader',routes.uploader);
 

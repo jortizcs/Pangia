@@ -222,6 +222,19 @@ exports.streams = function(req, res) {
 };
 
 
-exports.streamPriority = function(req, res) {
-res.render
+exports.setStreamPriority = function(req, res) {
+	//Get the stream details
+	db.streams.findOne({"_id": new ObjectID(req.query.stream_id)}, function(err, stream){
+		
+		//TODO Check if the stream belong to this user
+		if(stream != null ){ 
+			streams.getStreams(stream._id, req.query.priority,function(sucess){
+				res.write(sucess);
+				
+			});
+		}
+		else{
+			res.write(false);
+		}
+	}
 }

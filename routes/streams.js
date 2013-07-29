@@ -21,7 +21,7 @@ exports.getStreams = function(bldg_id, done) {
 }
 
 
-exports.setStreamPriority(stream_id, priority){
+exports.setStreamPriority = function(stream_id, priority){
 
 	if(priority>1){priority=1;}
 	if(priotity<-1){priority=-1;}

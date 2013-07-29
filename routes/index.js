@@ -11,7 +11,6 @@ var  sbs = require('./sbs')
   ,  data = require('./data')
   ,  bldgs = require('./bldgs')
   ,  streams = require('./streams')
-  ,  streamPriority = require('./streamPriority')
   ,  db = require('../db')
   ,  ObjectID = require('mongodb').ObjectID;
 
@@ -228,13 +227,13 @@ exports.setStreamPriority = function(req, res) {
 		
 		//TODO Check if the stream belong to this user
 		if(stream != null ){ 
-			streams.getStreams(stream._id, req.query.priority,function(sucess){
-				res.write(sucess);
+			streams.setStreamPriority(stream._id, req.query.priority,function(sucess){
+				res.send(sucess);
 				
 			});
 		}
 		else{
-			res.write(false);
+			res.send(404);
 		}
-	}
+	});
 }

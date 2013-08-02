@@ -1,6 +1,4 @@
 <!-- start: Content -->
-
-
 <div class="row-fluid sortable">		
 	<div class="box span9">
 		<div class="box-header" data-original-title>
@@ -26,7 +24,7 @@
 				{{#each streams}}
 				<tr>
 					<td>{{this.name}}</td>
-					<td class="center"> <i class="icon-plus"></i>{{this.priotity}} <i class="icon-minus"></i></td>
+					<td class="center"><span class="priority" id="{{this.id}}"><i class="btn icon-minus" id="btnmin"></i> <span class="priority{{this.priority}}"></span> <i class="btn icon-plus" id="btnplu"></i></span></td>
 					<td class="center">{{this.upper_bound}}</td>
 					<td class="center">{{this.lower_bound}}</td>
 				</tr>

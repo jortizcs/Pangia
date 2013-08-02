@@ -7,11 +7,15 @@ exports.getStreams = function(bldg_id, done) {
 
 	db.streams.find({"$query": {"bldg_id":bldg_id}, "$orderby": {"priority": -1}}).each( function(err,stream){
 		if(stream!=null){
+			var priority = stream.priority;
+			if(priority==undefined) priority=1;
+
 			streams.push({
+			id: stream._id,
 			name: stream.name,
-			priority: stream.priority,
-			upper_bound: '+inf',
-			lower_bound: '-inf'
+			priority: priority,
+			upper_bound: stream.upper_bound,
+			lower_bound: stream.lower_bound
 			});
 		}
 		else{
@@ -21,10 +25,10 @@ exports.getStreams = function(bldg_id, done) {
 }
 
 
-exports.setStreamPriority = function(stream_id, priority){
+exports.setStreamPriority = function(stream_id, priority, done){
 
-	if(priority>1){priority=1;}
-	if(priotity<-1){priority=-1;}
+	if(priority>2){priority=2;}
+	if(priority<0){priority=0;}
 
 	db.streams.update({"_id":stream_id}, {$set: {"priority":priority}}, 
 		function(err,modif){	

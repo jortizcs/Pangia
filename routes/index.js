@@ -206,6 +206,12 @@ exports.streams = function(req, res) {
 			function(streams){
 				res.render('streams', {
 					title: 'Streams',
+					extracss: [
+						'lib/css/custom/streams.css'
+					],
+					extrascripts: [
+						'pages/streams.js'
+					],
 					streams: streams,
 					bldg: bldg
 				});

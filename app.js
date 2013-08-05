@@ -95,6 +95,7 @@ getpath('/streams', routes.streams);
 
 // AJAX
 getpath('/setStreamPriority',routes.setStreamPriority);
+getpath('/setStreamBound',routes.setStreamBound);
 
 //app.post('/uploader',routes.uploader);
 

@@ -243,3 +243,21 @@ exports.setStreamPriority = function(req, res) {
 		}
 	});
 }
+
+
+exports.setStreamBound = function(req, res) {
+	//Get the stream details
+	db.streams.findOne({"_id": new ObjectID(req.query.stream_id)}, function(err, stream){
+		
+		//TODO Check if the stream belong to this user
+		if(stream != null ){ 
+			streams.setStreamBound(stream._id, req.query.value, req.query.type,function(sucess){
+				res.send(sucess);
+				
+			});
+		}
+		else{
+			res.send(404);
+		}
+	});
+}

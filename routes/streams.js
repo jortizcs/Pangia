@@ -41,3 +41,26 @@ exports.setStreamPriority = function(stream_id, priority, done){
 			}
 		});
 }
+
+exports.setStreamBound = function(stream_id, value, type, done){
+	var boundLabel;
+	if(type=="upper_bound" || type=="lower_bound"){
+		boundLabel=type;
+
+		var update = {};
+		update[boundLabel] = value;
+		db.streams.update({"_id":stream_id}, {$set: update}, 
+			function(err,modif){	
+				if(err){
+					console.log(err);
+					done(404);
+				}
+				else{
+					done(200);
+				}
+			});
+	}
+	else{
+		done(404);
+	}
+}

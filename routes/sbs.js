@@ -45,18 +45,16 @@ exports.analyzeData = function(user_id, bldg_id, filename,user_email) {
 // Copy the data to OTSDB
 function copyFile2Tsdb(user_id, data_id, filename, bldg_id, user_email) {
 
-  // Threshold based detector	
- var detec = new thresDetec.detector();
- detec.init(bldg_id,function(eval){
     
-  // Connect to the tsdb server
-  var client = new net.Socket();
-  client.connect(otsdb_port, otsdb_host,
+// Connect to the tsdb server
+var client = new net.Socket();
+client.connect(otsdb_port, otsdb_host,
     function(){
       var startTS = 0;
       var endTS = 0;
 
-      var streamsName = new hashtable();
+      var streamsName  = new hashtable();
+      this.thresAlarms = new hashtable();
   
       // Send the data
       // TODO parse/validate the file format
@@ -68,9 +66,20 @@ function copyFile2Tsdb(user_id, data_id, filename, bldg_id, user_email) {
         
 	// Store the streams name in mongodb
 	var names = streamsName.keys();
-        for(i=0; i<names.length; i++){
+        for(var i=0; i<names.length; i++){
 	      db.streams.update({"name": names[i], "bldg_id": bldg_id},{$set: {"name": names[i], "bldg_id": bldg_id}},{"upsert":true},function(err,modif){if(err!=null){console.log(err);}});
 	}
+
+	// Store alarms based on the thresholds
+	var alarms = thresAlarms.entries();
+	for(var i=0; i<alarms.length; i++){
+		db.streams.findOne({"bldg_id": bldg_id, "name": alarms[i][0]},function(err,stream){
+			//TODO insert the stream_id NOT its name/label!
+			db.alarms.insert({"label01": stream.name, "data_id": data_id, "bldg_id":bldg_id,"start":alarms[i][1][0],"end":alarms[i][1][1] });
+		
+		});
+	}
+
 
         //Run SBS
         console.log('Start SBS... ('+bldg_id.toString()+', '+data_id.toString()+', '+startTS+', '+endTS+')\n')
@@ -78,8 +87,12 @@ function copyFile2Tsdb(user_id, data_id, filename, bldg_id, user_email) {
         
       });
       
-      fr.lines.forEach(
-      function (line) { 
+     // Threshold based detector	
+     var detec = new thresDetec.detector();
+     detec.init(bldg_id,function(detector){
+
+       fr.lines.forEach(
+       function (line) { 
           var elem = line.toString().replace(/\s+/g, '').replace(/{|}|\(|\)|\[|\]|%/g, '_').split(',');
           var ts = parseInt(parseFloat(elem[0]));
 
@@ -99,26 +112,30 @@ function copyFile2Tsdb(user_id, data_id, filename, bldg_id, user_email) {
           }
           client.write('put sbs.'+user_id.toString()+'.'+bldg_id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
 
-	  //TODO threshold based detection here
-	  //if(eval(elem[2],elem[1])){
-	//	  console.log("Alarm to report");
-	//	  console.log(elem);
-	  // }
-          }
-      );
+	  // threshold based detection	
+	  var ts = parseInt(elem[1]);
+	  if(detector.eval(elem[2],ts)){
+		  if(alarms.containsKey(elem[2])){
+			  //Update timestamps
+			  var currTS = alarms.get(elem[2]);
+			  alarms.put(elem[2],[Math.min(currTS[0],ts),Math.max(currTS[1],ts)]);
+		  }else{
+			  alarms.put(elem[2],[ts,ts]);
+			  console.log('add new alarm for '+elem);
+		  }
+	  }
+        });
       
+    });    
       
-      
-    }
-  );
   
   client.on('data', function(data) {
-    // TODO raise and error if something went wrong
-    console.log(data.toString());
+	// TODO raise and error if something went wrong
+	console.log(data.toString());
   });
- });
+});
   
-}
+};
 
 
 // Run SBS and sends an email when it is done

@@ -54,6 +54,7 @@ function setPriorityLabel(span, modif){
 
 $(document).ready(function () {
 
+
 	$("span.priority").each(function(index, elt){
 		var span = $(elt);
 		var stream_id = span.attr('id');
@@ -92,7 +93,7 @@ $(document).ready(function () {
 
 		input.focusout(function(){
 			//TODO verify that it is higher than the lower bound
-			setStreamBound(stream_id, input.attr('value'), 'upper_bound', function(){});	
+			setStreamBound(stream_id, input.attr('value'), 'upper_bound', function(success){});	
 		});
 	});
 

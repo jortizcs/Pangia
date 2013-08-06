@@ -1,0 +1,30 @@
+th.priority{
+	min-width: 12em;
+}
+
+span.priority0 {
+	color: gray;
+	width: 5em;
+	display:inline-block;
+	text-align: center;
+}
+
+span.priority1 {
+	color: green;
+	width: 5em;
+	display:inline-block;
+	text-align: center;
+}
+
+span.priority2 {
+	color: red;
+	width: 5em;
+	display:inline-block;
+	text-align: center;
+}
+
+
+input.lower_bound,
+input.upper_bound {
+	width: 5em;
+}	

@@ -75,7 +75,10 @@ client.connect(otsdb_port, otsdb_host,
 	for(var i=0; i<labels.length; i++){
 		db.streams.findOne({"bldg_id": bldg_id, "name": labels[i]},function(err,stream){
 			//TODO insert the stream_id NOT its name/label!
-			db.alarms.insert({"label01": stream.name, "data_id": data_id, "bldg_id":bldg_id,"start":thresAlarms.get(stream.name)[0],"end":thresAlarms.get(stream.name)[1], "priority":1000, "type":"threshold" },function(err, alarm){});
+			//TODO remove label02 when the alarms with only one label could be displayed
+			var TSstart = new Date(thresAlarms.get(stream.name)[0]*1000);
+			var TSend   = new Date(thresAlarms.get(stream.name)[1]*1000);
+			db.alarms.insert({"label01": stream.name, "label02": stream.name,  "data_id": data_id, "bldg_id":bldg_id,"start":TSstart, "end":TSend, "priority":1000, "type":"threshold" },function(err, alarm){});
 		});
 	}
 
@@ -115,8 +118,9 @@ client.connect(otsdb_port, otsdb_host,
             client.write('put sbs.'+user_id.toString()+'.'+bldg_id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
 
 	    // threshold based detection	
-	    var ts = parseInt(elem[1]);
-	    if(detector.eval(elem[2],ts)){
+	    var ts = parseInt(elem[0]);
+            var val = parseInt(elem[1]);
+	    if(detector.eval(elem[2],val)){
 	  	  if(thresAlarms.containsKey(elem[2])){
 	  		  //Update timestamps
 			  var currTS = thresAlarms.get(elem[2]);

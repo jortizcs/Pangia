@@ -142,7 +142,7 @@ function getTsData(user_id, bldg_id, st_date, et_date, label, done) {
 
 function getAlarms(bldg_id, done) {
 	var limit = 15;
-	var cur = db.alarms.find({"$query": {"bldg_id":bldg_id}, "$orderby": {"deviation": -1}}).limit(limit); 
+	var cur = db.alarms.find({"$query": {"bldg_id":bldg_id}, "$orderby": {"priority": -1, "deviation": -1}}).limit(limit); 
 	db.alarms.find({"bldg_id":bldg_id}).count(function(err,cnt){
 		console.log(cnt);
 			var nbalarms = cnt;

@@ -5,7 +5,7 @@ import sys
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
  
-def sendReport(recipient, reportURL):
+def sendReport(recipient, reportURL, template):
   
   SMTP_SERVER = 'smtp.gmail.com'
   SMTP_PORT = 587
@@ -23,6 +23,9 @@ def sendReport(recipient, reportURL):
   msg['To'] = recipient
 
   # Create the body of the message (a plain-text and an HTML version).
+  with open(template+".html") as htmlTemp:
+     
+
   text = "Hi!\nWe thought that you would like to know that your wonderful Pangia anomaly report is ready.\nSee the full report at this address: {0} \n\nThanks for your support,\nPangia Team".format(reportURL)
   html = """\
   <html>

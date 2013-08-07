@@ -54,7 +54,7 @@ client.connect(otsdb_port, otsdb_host,
       var endTS = 0;
 
       var streamsName  = new hashtable();
-      this.thresAlarms = new hashtable();
+      var thresAlarms = new hashtable();
   
       // Send the data
       // TODO parse/validate the file format
@@ -71,14 +71,15 @@ client.connect(otsdb_port, otsdb_host,
 	}
 
 	// Store alarms based on the thresholds
-	var alarms = thresAlarms.entries();
-	for(var i=0; i<alarms.length; i++){
-		db.streams.findOne({"bldg_id": bldg_id, "name": alarms[i][0]},function(err,stream){
+	var labels = thresAlarms.keys();
+	for(var i=0; i<labels.length; i++){
+		db.streams.findOne({"bldg_id": bldg_id, "name": labels[i]},function(err,stream){
 			//TODO insert the stream_id NOT its name/label!
-			db.alarms.insert({"label01": stream.name, "data_id": data_id, "bldg_id":bldg_id,"start":alarms[i][1][0],"end":alarms[i][1][1] });
-		
+			db.alarms.insert({"label01": stream.name, "data_id": data_id, "bldg_id":bldg_id,"start":thresAlarms.get(stream.name)[0],"end":thresAlarms.get(stream.name)[1], "priority":1000, "type":"threshold" },function(err, alarm){});
 		});
 	}
+
+	//TODO send email for the alarms detected with the tresholds
 
 
         //Run SBS
@@ -95,36 +96,40 @@ client.connect(otsdb_port, otsdb_host,
        function (line) { 
           var elem = line.toString().replace(/\s+/g, '').replace(/{|}|\(|\)|\[|\]|%/g, '_').split(',');
           var ts = parseInt(parseFloat(elem[0]));
+          
+          if(elem[2]!=undefined){
+	    streamsName.put(elem[2],0);
 
-	  streamsName.put(elem[2],0);
-
-          if(startTS == 0){
-            startTS = ts;
-            endTS = ts;
-          }
-          else{
-            if(startTS>ts){
-              startTS=ts;
+            if(startTS == 0){
+              startTS = ts;
+              endTS = ts;
             }
-            if(endTS<ts){
-              endTS=ts;
+            else{
+              if(startTS>ts){
+                startTS=ts;
+              }
+              if(endTS<ts){
+                endTS=ts;
+              }
             }
-          }
-          client.write('put sbs.'+user_id.toString()+'.'+bldg_id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
+            client.write('put sbs.'+user_id.toString()+'.'+bldg_id.toString()+' '+elem[0]+' '+elem[1]+' label='+elem[2]+'\r\n');
 
-	  // threshold based detection	
-	  var ts = parseInt(elem[1]);
-	  if(detector.eval(elem[2],ts)){
-		  if(alarms.containsKey(elem[2])){
-			  //Update timestamps
-			  var currTS = alarms.get(elem[2]);
-			  alarms.put(elem[2],[Math.min(currTS[0],ts),Math.max(currTS[1],ts)]);
+	    // threshold based detection	
+	    var ts = parseInt(elem[1]);
+	    if(detector.eval(elem[2],ts)){
+	  	  if(thresAlarms.containsKey(elem[2])){
+	  		  //Update timestamps
+			  var currTS = thresAlarms.get(elem[2]);
+			  thresAlarms.put(elem[2],[Math.min(currTS[0],ts),Math.max(currTS[1],ts)]);
 		  }else{
-			  alarms.put(elem[2],[ts,ts]);
-			  console.log('add new alarm for '+elem);
+			  thresAlarms.put(elem[2],[ts,ts]);
 		  }
-	  }
-        });
+	    }
+           }
+           else{
+             console.log("Error could not retrieve the label of a sensor")
+           }
+          });
       
     });    
       

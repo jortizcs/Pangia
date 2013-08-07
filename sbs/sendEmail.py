@@ -12,35 +12,24 @@ def sendReport(recipient, reportURL, template):
   
   sender = 'info@greenpangia.com'
   secret = 'temp9999'
-  subject = "Congratulations! Your Pangia Report is ready."
 
-  
-  "Sends an e-mail to the specified recipient."
+  # Get the subject and body of the message (a plain-text and an HTML version).
+  subject = ""
+  html = ""
+  text = ""
+  with open(template+".html") as htmlTemp:
+    subject = htmlTemp.readline()
+    html = htmlTemp.read().format(reportURL=reportURL)
+ 
+  with open(template+".txt") as textTemp:
+    subject = textTemp.readline()
+    text = textTemp.read().format(reportURL=reportURL)
+
   # Create message container - the correct MIME type is multipart/alternative.
   msg = MIMEMultipart('alternative')
   msg['Subject'] = subject
   msg['From'] = sender
   msg['To'] = recipient
-
-  # Create the body of the message (a plain-text and an HTML version).
-  with open(template+".html") as htmlTemp:
-     
-
-  text = "Hi!\nWe thought that you would like to know that your wonderful Pangia anomaly report is ready.\nSee the full report at this address: {0} \n\nThanks for your support,\nPangia Team".format(reportURL)
-  html = """\
-  <html>
-    <head></head>
-    <body>
-      <p>Hi!<br>
-        We thought that you would like to know that your wonderful Pangia anomaly report is ready. Simply click <a href="{0}">here</a> to see the full report.
-      </p>
-      <p>
-      Thanks for your support,<br>
-      Pangia Team
-      </p>
-    </body>
-  </html>
-  """.format(reportURL)
 
   # Record the MIME types of both parts - text/plain and text/html.
   part1 = MIMEText(text, 'plain')
@@ -65,8 +54,8 @@ def sendReport(recipient, reportURL, template):
 if __name__ == "__main__":
   
   if len(sys.argv) < 3:
-    print("usage: {0} emailAddress reportURL".format(sys.argv[0]));
+    print("usage: {0} emailAddress reportURL template".format(sys.argv[0]));
     quit();
   
   
-  sendReport(sys.argv[1], sys.argv[2])
+  sendReport(sys.argv[1], sys.argv[2], sys.argv[3])

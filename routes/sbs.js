@@ -82,8 +82,17 @@ client.connect(otsdb_port, otsdb_host,
 		});
 	}
 
-	//TODO send email for the alarms detected with the tresholds
-
+	if(labels.length!=0){
+	     // send an email for the alarms detected with the tresholds
+              var child2 = exec('python sbs/sendEmail.py '+user_email+' "http://166.78.31.162:3000/Pangia/chart?bldg_id='+bldg_id.toString()+'" sbs/email/thresholdReport', 
+               function (error, stdout, stderr) {
+                  if (error !== null) {
+                    console.log('exec error: ' + error);
+			//TODO create an email address were we collect errors?
+                    reportError('romain@greenpangia.com', 'Error sending the report by email. <br> Error message: <br>'+error);
+                  }
+                });
+	}
 
         //Run SBS
         console.log('Start SBS... ('+bldg_id.toString()+', '+data_id.toString()+', '+startTS+', '+endTS+')\n')
@@ -158,16 +167,14 @@ function runSBS(user_id, bldg_id, data_id, start, end, logfile,user_email){
               reportError('romain@greenpangia.com', 'Error in the function runSBS with the following parameters: <br> id='+data_id.toString()+'<br> user='+user_id.toString()+'<br> start='+start+'<br> end='+end+'<br> Error message:<br>'+error);
               
             }else{              
-              //db.users.find({}) 
-              var child2 = exec('python sbs/sendEmail.py '+user_email+' "http://166.78.31.162/Pangia/chart.php?id='+data_id.toString()+'"', 
+              var child2 = exec('python sbs/sendEmail.py '+user_email+' "http://166.78.31.162:3000/Pangia/chart?bldg_id='+bldg_id.toString()+'" sbs/email/sbsReport', 
                function (error, stdout, stderr) {
                   if (error !== null) {
                     console.log('exec error: ' + error);
 			//TODO create an email address were we collect errors?
                     reportError('romain@greenpangia.com', 'Error sending the report by email. <br> Error message: <br>'+error);
                   }
-                }
-              );
+                });
             }
           }
         );

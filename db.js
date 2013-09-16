@@ -1,12 +1,12 @@
 var   conf = require('nconf')
-    , mysql = require('mysql-libmysqlclient')
+//    , mysql = require('mysql-libmysqlclient')
 	, mongo = require('mongodb');
 
-var conn = mysql.createConnectionSync(conf.get('sbs_host'),
+//var conn = mysql.createConnectionSync(conf.get('sbs_host'),
                                       conf.get('sbs_user'),
                                       conf.get('sbs_pwd'),
                                       conf.get('sbs_db'));
-exports.conn = conn;
+//exports.conn = conn;
 
 var server = new mongo.Server(conf.get('mongo_host'),
                               conf.get('mongo_port'),

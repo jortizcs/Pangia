@@ -1,0 +1,2 @@
+Stream threshold exceeded.   
+Hi!\nWe have detected values outside the boundaries you have set for your streams.\nSee the corresponding streams at this address: {reportURL}\nWe are still analyzing your data and will send you a complete report soon. \n\nThanks for your support,\nPangia Team

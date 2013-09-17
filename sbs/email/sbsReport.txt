@@ -1,0 +1,2 @@
+Congratulations! Your Pangia report is ready.
+Hi!\nWe thought that you would like to know that your anomaly report is ready.\nSee the full report at this address: {reportURL} \n\nThanks for your support,\nPangia Team

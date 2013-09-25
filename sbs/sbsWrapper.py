@@ -182,7 +182,7 @@ def TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongoport, dbname, data_id, user
       alarmsColl.insert({"data_id":bdata_id, "bldg_id":bbldg_id, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMymongo), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMymongo), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
 
     ##Update SBS state in mongodb
-    sbsColl.update({"bldg_id": bbldg_id},{$set: {"bldg_id": bbldg_id, "window_tail":detector.windowTail, "sensors_label": detector.filteredSensors, "hist": bson.binary.Binary(pickle.dumps(detector.histBehavior,2)), "hist_change":  bson.binary.Binary(pickle.dumps(detector.histBehaviorChange,2))}},upsert=True)
+    sbsColl.update({"bldg_id": bbldg_id},{"$set": {"bldg_id": bbldg_id, "window_tail":detector.windowTail, "sensors_label": detector.filteredSensors, "hist": bson.binary.Binary(pickle.dumps(detector.histBehavior,2)), "hist_change":  bson.binary.Binary(pickle.dumps(detector.histBehaviorChange,2))}},upsert=True)
 
 if __name__ == "__main__":
   if len(sys.argv) < 11:

@@ -82,8 +82,7 @@ class SBS:
     
     #print("strip...")
     
-    self.filteredData = np.zeros( (len(self.buffer), self.windowSize/float(self.samplingRate)) )
-    self.filteredSensors = dict();
+    self.filteredData = np.zeros( (len(self.filteredSensors), self.windowSize/float(self.samplingRate)) )
     _nullFct = lambda x : np.zeros(len(x))
     
     # Get the right sampling rate
@@ -93,13 +92,17 @@ class SBS:
     lowCut  = 1.0/self.cutoffLow;
     highCut = 1.0/self.cutoffHigh;
     Wn = [lowCut/nyq, highCut/nyq]
-    ind = 0;
-    for sen, dat in self.buffer.items():
+
+    for sen, ind in self.filteredSensors.items():
       ##sample the buffer
-      rawData = np.array(dat)
+      if sen in self.buffer:
+        rawData = np.array(self.buffer[sen])
+      else:
+        rawData = np.array([])
+        
       if np.size(rawData,0)<2: # If the buffer is empty
         f = _nullFct
-        print("Warning: buffer is empty!")
+        print("Warning: buffer is empty for point: "+sen)
       else:
         f = interpolate.interp1d(rawData[:,0],rawData[:,1],copy=False,bounds_error=False,fill_value=0)
 
@@ -109,12 +112,10 @@ class SBS:
 
       [b2,a2] = butter(self.butterOrder,Wn,btype="bandpass");
       self.filteredData[ind,:] = filtfilt(b2,a2,f(xSample))[:]; # band pass filter
-      self.filteredSensors[sen] = ind;
 
       #[b3,a3] = butter(butterOrder,lowCut/nyq,btype="lowpass");
       #dataFiltered3 = filtfilt(b3,a3,dataSample); # low pass filter
 
-      ind+=1;
       
     
   ############### BIND ############### 

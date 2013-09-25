@@ -148,7 +148,7 @@ exports.upload = function(req, res) {
 
 exports.uploader = function(req, res) {
         
-        //console.log(req);
+        console.log(req);
   
         // Move the file to the appropriate place
         var pathFile = 'sbs/files/'+ req.files.qqfile.name + '.' + Math.floor(Math.random()*1000000);

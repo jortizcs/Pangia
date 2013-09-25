@@ -113,13 +113,26 @@ def TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongoport, dbname, data_id, user
     if param!=None:
       #Set SBS to its previous state
       detector.windowTail = param[0]["window_tail"];
-      detector.filteredSensors = param[0]["sensors_label"];
+      detector.filteredSensors = param[0]["sensors_label"];  # TODO change this to allow new sensors to be added
       detector.histBehavior = pickle.loads(param[0]["hist"]);
       detector.histBehaviorChange = pickle.loads(param[0]["hist_change"]);
-
-   # TODO also set the fixed params
-
- # TODO else set the default params from mongodb
+      print("Restore SBS state");
+      
+    else:
+      # First run:
+      # Get measurement points names from the stream collection
+      print("Initialize SBS state");
+      streamColl = client[dbname].streams
+      streams = streamColl.find({"bldg_id": bid})
+      
+      filteredSensors = dict()
+      ind = 0
+      for stream in streams:
+        filteredSensors[stream["name"]] = ind;
+        ind += 1
+        
+      detector.filteredSensors = filteredSensors
+      # TODO also set the fixed params
 
 
   ## Get the data from the OpenTSDB database
@@ -169,7 +182,7 @@ def TSDB2SBS(TSDBserver, TSDBport, mongoserver, mongoport, dbname, data_id, user
       alarmsColl.insert({"data_id":bdata_id, "bldg_id":bbldg_id, "start": datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["start"]),dateFormatMymongo), "end":datetime.datetime.strftime(datetime.datetime.fromtimestamp(alarm["end"]),dateFormatMymongo), "label01":alarm["label"], "label02":alarm["peer"], "deviation":alarm["dev"]})
 
     ##Update SBS state in mongodb
-    sbsColl.update({"bldg_id": bbldg_id},{"window_tail":detector.windowTail, "sensors_label": detector.filteredSensors, "hist": bson.binary.Binary(pickle.dumps(detector.histBehavior,2)), "hist_change":  bson.binary.Binary(pickle.dumps(detector.histBehaviorChange,2))},True)
+    sbsColl.update({"bldg_id": bbldg_id},{$set: {"bldg_id": bbldg_id, "window_tail":detector.windowTail, "sensors_label": detector.filteredSensors, "hist": bson.binary.Binary(pickle.dumps(detector.histBehavior,2)), "hist_change":  bson.binary.Binary(pickle.dumps(detector.histBehaviorChange,2))}},upsert=True)
 
 if __name__ == "__main__":
   if len(sys.argv) < 11:

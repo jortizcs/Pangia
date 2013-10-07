@@ -43,6 +43,10 @@ function createGraphs(alarms) {
 			
 			var set = alarms[i][j];
 			var startDate = new Date(set.data[0][0] * 1000);
+      var endDate = new Date(set.data[set.data.length - 1][0] * 1000);
+      // Get the difference in days between the start and end so that we can
+      // make a formatting decision later.
+      var dayDiff = (endDate - startDate) / (1000 * 60 * 60 * 24);
 
 			var x = d3.time.scale.utc()
 				.range([0, width]);
@@ -54,7 +58,9 @@ function createGraphs(alarms) {
 				.scale(x)
 				.orient("bottom")
 				.ticks(9)
-				.tickFormat(d3.time.format.utc("%H:%M"));
+        .tickFormat((dayDiff < 3) ?
+            d3.time.format.utc("%H:%M") :
+            d3.time.format.utc("%b %d"));
 			
 			var yAxis = d3.svg.axis()
 				.scale(y)

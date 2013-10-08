@@ -110,29 +110,6 @@ function createGraphs(alarms) {
 
       hoverLine.classed("hide", true);
 
-      // These mouse move and leave events are to create the vertical bar that
-      // locates the time on the graphs.
-      container.mousemove((function() {
-        var myH = hoverLine;
-        var myX = x;
-        var myContainer = container;
-        return function (e) {
-          var xpos = e.pageX - myContainer.find('svg').offset().left - margin.left;
-          myH.classed("hide", false);
-          myH.attr("x1", xpos).attr("x2", xpos);
-        }
-      })());
-
-      container.mouseleave((function() {
-        var myH = hoverLine;
-        var myX = x;
-        var myContainer = container;
-        return function (e) {
-          myH.classed("hide", true);
-        }
-      })());
-			
-			
 			svg.append("g")
 				.attr("class", "x axis")
 				.attr("transform", "translate(0," + height + ")")
@@ -189,6 +166,38 @@ function createGraphs(alarms) {
         .attr("class", "line")
         .attr("d", line);
 
+      // These mouse move and leave events are to create the vertical bar that
+      // locates the time on the graphs.
+      container.mousemove((function() {
+        var myH = hoverLine;
+        var myX = x;
+        var myY = y;
+        var myContainer = container;
+        var myOffsetX = myContainer.find('svg').offset().left + margin.left;
+        var myOffsetY = myContainer.find('svg').offset().top + margin.top;
+        return function (e) {
+          var xpos = e.pageX - myOffsetX;
+          var ypos = e.pageY - myOffsetY;
+
+          if (xpos < 0 || xpos > myX.range()[1]) {
+            myH.classed("hide", true);
+            return;
+          }
+
+          myH.classed("hide", false);
+          myH.attr("x1", xpos).attr("x2", xpos);
+        }
+      })());
+
+      container.mouseleave((function() {
+        var myH = hoverLine;
+        var myX = x;
+        var myContainer = container;
+        return function (e) {
+          myH.classed("hide", true);
+        }
+      })());
+			
 			//Set the Anomaly Chart titles to something more descriptive
 			if (j==0){
 				$("#anomaly-title"+i).append('Anomaly ' + (i+1) + ": " + set.label);

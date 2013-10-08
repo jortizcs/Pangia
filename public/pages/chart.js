@@ -138,6 +138,13 @@ function createGraphs(alarms) {
 				.style("text-anchor", "end")
 				//set the y axis label here
 				.text(set.label);
+
+			var timeLabel = svg.append("text")
+				.attr("class", "x label")
+				//.attr("x", width)
+				.attr("x", 100)
+				.attr("y", height + 50)
+				.text("");
 					
 			//x-axis label
       var formattedStartDate = d3.time.format.utc("%b-%d %Y")(startDate);
@@ -175,17 +182,21 @@ function createGraphs(alarms) {
         var myContainer = container;
         var myOffsetX = myContainer.find('svg').offset().left + margin.left;
         var myOffsetY = myContainer.find('svg').offset().top + margin.top;
+        var myTimeLabel = timeLabel;
         return function (e) {
           var xpos = e.pageX - myOffsetX;
           var ypos = e.pageY - myOffsetY;
 
           if (xpos < 0 || xpos > myX.range()[1]) {
             myH.classed("hide", true);
+            myTimeLabel.text("");
             return;
           }
 
           myH.classed("hide", false);
           myH.attr("x1", xpos).attr("x2", xpos);
+          var formattedTime = d3.time.format.utc("%b-%d %Y, %H:%M")(myX.invert(xpos));
+          myTimeLabel.text(formattedTime);
         }
       })());
 
@@ -193,8 +204,10 @@ function createGraphs(alarms) {
         var myH = hoverLine;
         var myX = x;
         var myContainer = container;
+        var myTimeLabel = timeLabel;
         return function (e) {
           myH.classed("hide", true);
+          myTimeLabel.text("");
         }
       })());
 			

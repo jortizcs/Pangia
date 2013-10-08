@@ -30,18 +30,24 @@ function createGraphs(alarms) {
 		// For each dataset in the alarm (of which there will
 		// always be exactly two), create a graph.
 		for (var j = 0; j < 2; j++) {
+			var set = alarms[i][j];
 			// The data is set.data
+
+      // This should never occur, but just in case, skip any graphs that have no
+      // data.
+      if (set.data.length == 0) {
+        continue;
+      }
 			
 			//If it's the first graph, remove the bottom margin so that it's visually better looking and we don't repeat the x-axis
 			if (j == 0) {
 			//This needs to eventually be made into responsive widths and heights and not absolute values	
-			var margin = {top: 0, bottom: 0, right: 20, left: 63}
+			  var margin = {top: 0, bottom: 0, right: 20, left: 63}
 			} else {
 			//This needs to eventually be made into responsive widths and heights and not absolute values	
-			var margin = {top: 0, bottom: 60, right: 20, left: 63}
+			  var margin = {top: 0, bottom: 60, right: 20, left: 63}
 			};
 			
-			var set = alarms[i][j];
 			var startDate = new Date(set.data[0][0] * 1000);
       var endDate = new Date(set.data[set.data.length - 1][0] * 1000);
       // Get the difference in days between the start and end so that we can
@@ -76,15 +82,16 @@ function createGraphs(alarms) {
 			y.domain(d3.extent(set.data, function (d) { return d[1]; }));
 
 			//Insert a holder for tags before the chart.
-			$('#anomaly' + i).append($('<ul class="tagHolder tagTable"></ul>'));
+      var container = $('#anomaly' + i);
+			container.append($('<ul class="tagHolder tagTable"></ul>'));
 
 			//Insert SVG graph into dynamically generated Anomaly Container of id i
 			var svg = d3.select("#anomaly" + i).append("svg")
 				.attr("height", height + margin.top + margin.bottom)
 				.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-				.attr("viewBox","0 0 50 50"); 
-			
+				.attr("viewBox","0 0 50 50")
+
 			//This is the alarm highlight rectangle
 			svg.append("rect")
 				.attr("x", x(alarmStart))
@@ -92,6 +99,39 @@ function createGraphs(alarms) {
 				.attr("width", x(alarmEnd) - x(alarmStart))
 				.attr("height", height)
 				.attr("class", "rect");
+
+      // The hover line.
+      var hoverLineGroup = svg.append("g")
+        .attr("class", "hover-line");
+      var hoverLine = hoverLineGroup
+        .append("line")
+        .attr("x1", 0).attr("x2", 0)
+        .attr("y1", 0).attr("y2", height);
+
+      hoverLine.classed("hide", true);
+
+      // These mouse move and leave events are to create the vertical bar that
+      // locates the time on the graphs.
+      container.mousemove((function() {
+        var myH = hoverLine;
+        var myX = x;
+        var myContainer = container;
+        return function (e) {
+          var xpos = e.pageX - myContainer.find('svg').offset().left - margin.left;
+          myH.classed("hide", false);
+          myH.attr("x1", xpos).attr("x2", xpos);
+        }
+      })());
+
+      container.mouseleave((function() {
+        var myH = hoverLine;
+        var myX = x;
+        var myContainer = container;
+        return function (e) {
+          myH.classed("hide", true);
+        }
+      })());
+			
 			
 			svg.append("g")
 				.attr("class", "x axis")
@@ -100,7 +140,7 @@ function createGraphs(alarms) {
 				.selectAll("text")  
 				.style("text-anchor", "end")
 				.attr("dx", "1.3em")
-				.attr("dy", "1em")
+				.attr("dy", "1em");
 				// .attr("transform", function(d) {
 				  // return "rotate(-65)";
 				// });
@@ -123,14 +163,15 @@ function createGraphs(alarms) {
 				.text(set.label);
 					
 			//x-axis label
+      var formattedStartDate = d3.time.format.utc("%b-%d %Y")(startDate);
 			svg.append("text")
 				.attr("class", "x label")
 				.attr("text-anchor", "end")
 				//.attr("x", width)
 				.attr("x", 86)
 				.attr("y", height + 50)
-				.text(d3.time.format.utc("%b-%d %Y")(startDate));
-			
+				.text(formattedStartDate);
+
 			// Draw Y-axis grid lines
 			svg.selectAll("line.y")
 			  .data(y.ticks(8))
@@ -143,12 +184,12 @@ function createGraphs(alarms) {
 			  .style("stroke", "#CCC")
 			  .style("stroke-dasharray", "2,2");
   
-			  svg.append("path")
-				  .datum(set.data)
-				  .attr("class", "line")
-				  .attr("d", line);
+      svg.append("path")
+        .datum(set.data)
+        .attr("class", "line")
+        .attr("d", line);
 
-			//Set the Anomaly Chart tiltles to somthing more descriptive
+			//Set the Anomaly Chart titles to something more descriptive
 			if (j==0){
 				$("#anomaly-title"+i).append('Anomaly ' + (i+1) + ": " + set.label);
 			} else {

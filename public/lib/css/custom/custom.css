@@ -42,7 +42,7 @@
 .line {
   fill: none;
   stroke: #CCCCCC;
-  stroke-width: 6px;
+  stroke-width: 2px;
 }
 .rect {
   fill: #FFCC00;
@@ -61,4 +61,15 @@ text.x.label {
 }
 .dropdown {
   z-index: 15;
+}
+.anomaly-useful-header {
+  font-weight: bold;
+  margin-left: 10px;
+}
+.hover-line {
+  /*
+  stroke: #6E7B8B;
+  */
+
+  stroke: black;
 }

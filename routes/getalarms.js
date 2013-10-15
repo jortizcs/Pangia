@@ -25,9 +25,35 @@ var http = require('http');
 var tsdbShim_host = conf.get('tsdbShim_host');
 var tsdbShim_port = conf.get('tsdbShim_port');
 
-exports.getDataAlarms = function(user_id, bldg_id, done) {  
+
+
+exports.getDataAlarmsDate = function(user_id, bldg_id, date, done){
+	if(date==""){   // If the date is not given, show the last month report
+		db.alarms.findOne({"$query": {"bldg_id":bldg_id}, "$orderby": {"start": -1}},function(err, alarm){
+		date = ".*"; 
+		if(alarm){
+			var year = alarm.start.substring(0,4);
+			var month = alarm.start.substring(5,7);
+			date = year+"-"+month+".*";
+		}
+		getDataAlarms(user_id, bldg_id, date, done);
+	
+		});
+	}
+	else{	
+		getDataAlarms(user_id, bldg_id, date+".*", done);
+	//	var monthStr = ("0" + month).slice(-2);   // Write month on two digits
+	}
+}
+
+
+
+function getDataAlarms(user_id, bldg_id, date, done) {  
 	var data_alarms = [];
-	getAlarms(bldg_id, function(alarms,count){
+
+
+
+	getAlarms(bldg_id, date, function(alarms,count){
 		alarms.each(function(err,data){
 		if(err!=null){
 			console.log(err)
@@ -140,10 +166,12 @@ function getTsData(user_id, bldg_id, st_date, et_date, label, done) {
 	});
 }
 
-function getAlarms(bldg_id, done) {
+function getAlarms(bldg_id, date, done) {
 	var limit = 15;
-	var cur = db.alarms.find({"$query": {"bldg_id":bldg_id}, "$orderby": {"priority": -1, "deviation": -1}}).limit(limit); 
-	db.alarms.find({"bldg_id":bldg_id}).count(function(err,cnt){
+
+	var cur = db.alarms.find({"$query": {"bldg_id":bldg_id, "start": new RegExp(date) }, "$orderby": {"priority": -1, "deviation": -1}}).limit(limit);
+
+	db.alarms.find({"bldg_id":bldg_id, "start": new RegExp(date)  }).count(function(err,cnt){
 		console.log(cnt);
 			var nbalarms = cnt;
 			if(cnt>limit){nbalarms=limit;}	

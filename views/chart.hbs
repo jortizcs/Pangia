@@ -1,5 +1,6 @@
 
 <!-- start: Content -->
+<!--
 <div class ="tagTableContainer pull-right">
 		<div style="margin-bottom:10px">
 			<i class="icon-tag icon-white"></i>
@@ -13,6 +14,23 @@
 		<ul id="tagTable" class="tagTable" >
 		</ul>
 </div>
+-->
+<div align="center">
+{{#if date}}
+<h2>Anomaly Report for {{date}}</h2>
+{{else}}
+<h2>Latest Anomaly Report</h2>
+{{/if}}
+</div>
+<div align=right>
+<select name="monthlyReport" onchange="location = this.options[this.selectedIndex].value;">
+		<option value="#">See other reports here</option>
+	{{#each month}}
+		<option value="chart?bldg_id={{../bldg._id}}&date={{this._id}}" >{{this._id}} ({{this.nbAnomaly}} anomalies)</option>
+	{{/each}}
+</select>
+</div>
+
 <div class="row-fluid sortable">
 	{{#each indexes}}
 	<div class="box">

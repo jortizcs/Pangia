@@ -65,19 +65,36 @@ exports.alarmshim = function(req, res) {
 };
 
 exports.chart = function(req, res) {
+
+console.log(req.query)
 	var bldg_id =  new ObjectID(req.query.bldg_id);
+	var date = "";
+	if(req.query.date){
+		date = req.query.date;
+console.log(date)
+	}
 	//Get the building details
 	db.bldgs.findOne({"_id": bldg_id}, function(err, bldg){
 		
 		// Check if the building belong to this user
 		if(bldg != null && (bldg.user_id.toString() == req.user._id.toString())){
-			getalarms.getDataAlarms(req.user._id, bldg_id, function(data) {
+			getalarms.getDataAlarmsDate(req.user._id, bldg_id, date, function(data) {
+				db.alarms.aggregate(
+				{$match: {"bldg_id": bldg_id}},
+				{$project: {date: {$substr: ["$start", 0, 7] }} },
+				{$group: {_id: "$date", nbAnomaly: {$sum: 1}} },
+				{$sort: {"_id": -1} },
+				function(err, result){
+
+				
+				if(err){console.log(err);}
 				var len = data.length; //(data.length > 10) ? 10 : data.length;
 				var i;
 				var indexes = [];
 				for (i = 0; i < len; i++) {
 					indexes.push(i);
 				}
+				
 
 				res.render('chart', {
 					title: 'Anomaly Report',
@@ -90,9 +107,12 @@ exports.chart = function(req, res) {
 					],
 					data: JSON.stringify(data),
 					indexes: indexes,
-					bldg: bldg
+					bldg: bldg,
+					month: result,
+					date: date
 				});
 			});
+		});
 		}
 		else{
 			res.render('chart', {

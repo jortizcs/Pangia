@@ -45,10 +45,10 @@ debian-deps:
 server: install css python
 	$(RUNSERVER)
 
-.PHONY server-background
+.PHONY: server-background
 server-background: install css python
 	nohub $(RUNSERVER) &
 
-.PHONY kill
+.PHONY: kill
 kill:
 	pkill node

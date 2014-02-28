@@ -47,7 +47,7 @@ server: install css python
 
 .PHONY: server-background
 server-background: install css python
-	nohub $(RUNSERVER) &
+	nohup $(RUNSERVER) &
 
 .PHONY: kill
 kill:

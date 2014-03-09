@@ -23,6 +23,9 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
   data = pandas.read_csv(filename,header=None,names=["ts","val","name","type"],usecols=["ts","val","name"])
   data.index = pandas.to_datetime(data.pop('ts'),unit='s')
 
+  if not len(data)>24*60*60*2:  # TODO remove this and bootstrap data files properly...
+    continue
+
 
   for name in np.unique(data.name):
     if consSuffix in str(name):

@@ -62,4 +62,4 @@ urllib2.install_opener(opener)
 
 getmeterdata()
 anomalyDetection()
-#consumptionPrediction()
+consumptionPrediction()

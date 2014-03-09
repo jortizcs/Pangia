@@ -1,29 +1,28 @@
 # coding: utf-8
 import pandas
 import numpy as np
-import pylab
+from matplotlib import pyplot as plt
 from datetime import time
 import glob
 
-close("all")
-
-# Data directory: assume it is hourly data (this is not a strong assumption panda can easily resample data)
-path = '../dl/20131208/csvdata/'
-outputpath = '../alarms/'
-
+# parameters:
 threshold = 3
 
-for filename in glob.glob(path+'*Hour_Data.csv'):
+
+
+def detect(dataFiles,nbPtsPerHour,figDirectory=None,outputDirectory=None,threshold=threshold):
+ for filename in glob.glob(dataFiles):
 
   print filename
 
   # Load data
-  data = pandas.read_csv(filename,header=None,names=["ts","val","name"])
+  data = pandas.read_csv(filename,header=None,names=["ts","val","name","type"],usecols=["ts","val","name"])
   data.index = pandas.to_datetime(data.pop('ts'),unit='s')
+#  data = data.resample #TODO resample data, so we can drop "nbPtsPerHour"
 
   # get the name of the devices (namely, exclude nan and temperature data)
   devices = []
-  for name in unique(data.name):
+  for name in np.unique(data.name):
     if name!="OA Temp" and str(name)!="nan":
       devices.append(name)
     
@@ -36,10 +35,10 @@ for filename in glob.glob(path+'*Hour_Data.csv'):
     
     #compute threshold using moving average for the last week
     values = data[data.name == name].val
-    median = pandas.rolling_median(values , 24*7 )
-    std = pandas.rolling_std(values , 24*7 )
+    median = pandas.rolling_median(values , 24*7*nbPtsPerHour )
+    std = pandas.rolling_std(values , 24*7*nbPtsPerHour )
     
-    modes = values>median+threshold*std #
+    modes = values.tail(24*7*nbPtsPerHour)>median.tail(24*7*nbPtsPerHour)+threshold*std.tail(24*7*nbPtsPerHour) #
     
     # Ignore working hours
     # assume working hour is: 7am to 7pm for monday-friday
@@ -68,22 +67,31 @@ for filename in glob.glob(path+'*Hour_Data.csv'):
       if alarm:
         alarmReport.append([timeON,values[timeON]])
         
-    if nbAlarms:
+    if nbAlarms and outputDirectory:
       alarmReport = pandas.DataFrame(alarmReport,columns=["ts","val"])
       alarmReport.index = pandas.to_datetime(alarmReport.pop('ts'), unit="s")
       #record alarms in a csv file
-      alarmReport.to_csv("%s%s_%s_alarms.csv" % (outputpath,filename.rpartition("/")[2], name))
+      alarmReport.to_csv("%s%s_%s_alarms.csv" % (outputDirectory,filename.rpartition("/")[2], name))
+
+
         
-      
-    # plot data, threshold and alarms
-    figure()
-    plot(values.index,values)
-    plot(median.index,median)
-    if nbAlarms:
-      plot(alarmReport.index,alarmReport,"*")
-    title(name)
-    grid("on")
-    show()
-    print("Number of hours when devices should be OFF: %d " % nbAlarms)
-    
-    
+    if figDirectory:  
+      # plot data, threshold and alarms
+      plt.figure(figsize=(12,4))
+      plt.fill_between(values.tail(24*7*nbPtsPerHour).index,values.tail(24*7*nbPtsPerHour))
+      plt.plot(median.tail(24*7*nbPtsPerHour).index,median.tail(24*7*nbPtsPerHour),"g",lw=2)
+      if nbAlarms:
+        plt.plot(alarmReport.index,alarmReport,"r*",ms=20)
+      plt.title(name)
+      plt.grid("on")
+      #plt.show()
+      print("Number of hours when devices should be OFF: %d " % nbAlarms)
+      plt.savefig(figDirectory+name+".png") 
+      plt.close() 
+
+
+
+
+if __name__ == "__main__":
+  # here we assume it is hourly data (1 point per hour)
+  detect('../dl/csvdata/*Hour_Data.csv',1,"../fig/",'../alarms/')

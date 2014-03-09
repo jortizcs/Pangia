@@ -1,6 +1,9 @@
 # coding: utf-8
 import pandas
 import numpy as np
+import matplotlib
+# Force matplotlib to not use any Xwindows backend.
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from datetime import time
 import glob

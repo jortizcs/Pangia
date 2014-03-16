@@ -92,6 +92,7 @@ getpath('/users', user.list);
 postpath('/uploader', routes.uploader);
 getpath('/bldgs', routes.bldgs);
 getpath('/streams', routes.streams);
+getpath('/noveda', routes.noveda);
 
 // AJAX
 getpath('/setStreamPriority',routes.setStreamPriority);

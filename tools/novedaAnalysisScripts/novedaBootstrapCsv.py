@@ -8,7 +8,6 @@ import os
 import pandas
 import sys
 
-csvFile = "../../data/novedaDemo/demo0_bootstrap.csv"
 
 def getmeterdata(date):
     res = json.load(urllib2.urlopen("https://secure.noveda.com/api/devicedata.php?DATE="+str(date)));

@@ -20,7 +20,8 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
 
   consSuffix = "Main Utility Grid"
   consLabel = ""
-  tempLabel = "KCDW Outside Temp F"   #"OA Temp"
+  tempSuffix = "Outside Temp F"   #"OA Temp"
+  tempLabel = ""   #"OA Temp"
 
   # Load data
   data = pandas.read_csv(filename,header=None,names=["ts","val","name","type"],usecols=["ts","val","name"])
@@ -33,6 +34,8 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
   for name in np.unique(data.name):
     if consSuffix in str(name):
       consLabel = name
+    if tempSuffix in str(name):
+      tempLabel = name
 
 
   print consLabel

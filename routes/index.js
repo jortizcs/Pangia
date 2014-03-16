@@ -246,6 +246,18 @@ exports.streams = function(req, res) {
 	});
 };
 
+exports.noveda = function(req, res) {
+	
+	res.render('noveda', {
+		title: 'Pangia Noveda Demo',
+		extracss: [
+			'lib/css/custom/streams.css'
+		],
+		extrascripts: [
+			'pages/streams.js'
+		]
+	});
+};
 
 exports.setStreamPriority = function(req, res) {
 	//Get the stream details

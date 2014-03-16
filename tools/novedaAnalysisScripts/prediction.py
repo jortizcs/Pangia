@@ -4,6 +4,9 @@ import numpy as np
 import pylab
 from datetime import time
 from sklearn import svm
+import matplotlib
+# Force matplotlib to not use any Xwindows backend.
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 import glob
 

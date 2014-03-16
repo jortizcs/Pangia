@@ -9,6 +9,8 @@ lib-cov
 *.DS_Store
 __pycache__
 *.pyc
+*.project
+*.DS_Store
 
 config.json
 

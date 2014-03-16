@@ -31,7 +31,7 @@ def getmeterdata(date):
 
       # save data in the csv file
       if data!= []:
-        index = pandas.date_range(date,periods=144,freq="10min")
+        index = pandas.date_range(date,periods=len(data),freq="10min")
         data_df = pandas.DataFrame(data, index=index, columns=["value","name","etype"])
         data_df["date"] = index
         data_df["ts"] = data_df["date"].apply(lambda x: time.mktime(x.timetuple()))

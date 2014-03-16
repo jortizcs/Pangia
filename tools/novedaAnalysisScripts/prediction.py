@@ -38,7 +38,7 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
   print consLabel
   # resample: get buisness-day average temperature and buisness-day average consumption
   avgTemp = data[data.name == tempLabel].val.resample("B", how=["mean"])
-  avgCons = data[data.name == consLabel].val.resample("B", how=["mean"])
+  avgCons = data[data.name == consLabel].val.resample("B", how=["mean"]).diff()
 
   join = avgTemp.join(avgCons,lsuffix="_temp", rsuffix="_cons")
 
@@ -78,4 +78,4 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
 
 
 if __name__ == "__main__":
-  predict('../dl/20131208/csvdata/941_Lexington_Hour_Data.csv',75,'test.csv','../predictionModel/')
+  predict('../dl/20131208/csvdata/941_Lexington_Hour_Data.csv',70,'test.csv','../predictionModel/')

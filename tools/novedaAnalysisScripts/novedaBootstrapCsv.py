@@ -8,7 +8,6 @@ import os
 import pandas
 import sys
 
-csvFile = "../../data/novedaDemo/demo0_bootstrap.csv"
 
 def getmeterdata(date):
     res = json.load(urllib2.urlopen("https://secure.noveda.com/api/devicedata.php?DATE="+str(date)));
@@ -66,7 +65,7 @@ opener.open(top_level_url)
 # Now all calls to urllib2.urlopen use our opener.
 urllib2.install_opener(opener)
 
-for date in pandas.date_range("2014-02-01","2014-03-09"):
+for date in pandas.date_range("2014-02-01","2014-03-16"):
   sys.stderr.write("Retrieving data for "+str(date.date())+"\n")
   getmeterdata(date.date())
 

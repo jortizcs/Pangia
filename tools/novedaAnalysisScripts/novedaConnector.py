@@ -33,13 +33,13 @@ def getmeterdata():
 # schedule-based anomaly detection
 def anomalyDetection():
     scheduling.detect(csvFile,(24*60*60)/T,figDirectory)
-    threading.Timer(T, anomalyDetection)
+    threading.Timer(T, anomalyDetection).start()
 
 
 # prediction 
 def consumptionPrediction():
     prediction.predict(csvFile,45,predictionOutput,figDirectory)
-    threading.Timer(T*6, consumptionPrediction)
+    threading.Timer(T*6, consumptionPrediction).start()
 
 
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()

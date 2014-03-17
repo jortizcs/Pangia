@@ -248,9 +248,9 @@ exports.streams = function(req, res) {
 
 exports.noveda0 = function(req, res) {
 	//point to path where the image files are located e.g., ./data/
-	var path = "/home/pangia/work/Pangia/data/novedaDemo/demo0/fig";
+	var path = "./data/novedaDemo/demo0/fig/";
 	//use this if you have a static directive anywhere like /public, otherwise set it equal to path 
-	var augPath ='noveda0/';
+	var augPath ='noveda/demo0/fig/';
 	
 	//reads all files in the path
 	var files = fs.readdirSync(path);
@@ -277,9 +277,9 @@ exports.noveda0 = function(req, res) {
 
 exports.noveda1 = function(req, res) {
 	//point to path where the image files are located e.g., ./data/
-	var path = "/home/pangia/work/Pangia/data/novedaDemo/demo1/fig";
+	var path = "data/novedaDemo/demo1/fig/";
 	//use this if you have a static directive anywhere like /public, otherwise set it equal to path 
-	var augPath ='noveda1/';
+	var augPath ='noveda/demo1/fig/';
 	
 	//reads all files in the path
 	var files = fs.readdirSync(path);

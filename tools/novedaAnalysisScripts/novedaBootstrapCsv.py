@@ -65,7 +65,7 @@ opener.open(top_level_url)
 # Now all calls to urllib2.urlopen use our opener.
 urllib2.install_opener(opener)
 
-for date in pandas.date_range("2014-02-01","2014-03-16"):
+for date in pandas.date_range("2013-02-01","2014-01-31"):
   sys.stderr.write("Retrieving data for "+str(date.date())+"\n")
   getmeterdata(date.date())
 

@@ -54,7 +54,11 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
   join = join[join.mean_temp != 0]
 
   #Support Vector Regression
+<<<<<<< HEAD
   clf = svm.SVR(kernel="poly",gamma=.1)
+=======
+  clf = svm.SVR(gamma=0.001)
+>>>>>>> bd54865757f083d21fde513d7c7664bf9745b2df
   clf.fit(zip(join.mean_temp[:-1-ignoreLastDay]), join.mean_cons[:-1-ignoreLastDay]) 
 
 
@@ -76,7 +80,7 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
     plt.plot(join.mean_temp,join.mean_cons,"*")
     plt.plot(sortedTemp,clf.predict(zip(sortedTemp)),"r-",lw=2)
     plt.grid("on")
-    plt.title(bldgLabel)
+#    plt.title("Outside Temp. vs. Utility Grid")
     plt.xlabel("Temperature")
 #    plt.show()
     plt.ylabel("Main Utility Grid")

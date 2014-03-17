@@ -33,19 +33,19 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
     if tempSuffix in str(name):
       tempLabel = name
 
-
   sys.stderr.write(consLabel+"\n")
   sys.stderr.write(tempLabel+"\n")
 
-
-  if not len(data)>24*60*60*2:  # TODO remove this and bootstrap data files properly...
-    sys.stderr.write("Not enough data to do the prediction\n")
-    continue
 
 
   # resample: get buisness-day average temperature and buisness-day average consumption
   avgTemp = data[data.name == tempLabel].val.resample("B", how=["mean"])
   avgCons = data[data.name == consLabel].val.resample("B", how=["mean"]).diff()
+  
+  
+  if not (len(avgTemp)>30 and len(avgCons)>30):  # TODO remove this and bootstrap data files properly...
+    sys.stderr.write("Not enough data to do the prediction\n")
+    continue
 
   join = avgTemp.join(avgCons,lsuffix="_temp", rsuffix="_cons")
 

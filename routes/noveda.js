@@ -1,5 +1,0 @@
-
-/*
- * GET Noveda test page.
- */
-

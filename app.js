@@ -47,6 +47,10 @@ app.configure(function(){
   auth.init(app);
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(__dirname +  'data/novedaDemo/demo0/fig/'));
+  app.use(express.static(__dirname + 'data/novedaDemo/demo1/fig/'));
+// data/novedaDemo/demo0/fig/
+// data/novedaDemo/demo1/fig/
 });
 
 app.configure('development', function(){

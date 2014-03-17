@@ -9,7 +9,7 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 import glob
-
+import sys
 
 ignoreLastDay = 1
 
@@ -18,7 +18,7 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
  print "Enter predict"
  for filename in glob.glob(dataFiles):
 
-  consSuffix = "Main Utility Grid"
+  consSuffix = "Utility Grid"
   consLabel = ""
   tempSuffix = "Outside Temp F"   #"OA Temp"
   tempLabel = ""   #"OA Temp"
@@ -27,21 +27,25 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
   data = pandas.read_csv(filename,header=None,names=["ts","val","name","type"],usecols=["ts","val","name"])
   data.index = pandas.to_datetime(data.pop('ts'),unit='s')
 
-  if not len(data)>24*60*60*2:  # TODO remove this and bootstrap data files properly...
-    continue
-
-
   for name in np.unique(data.name):
     if consSuffix in str(name):
       consLabel = name
     if tempSuffix in str(name):
       tempLabel = name
 
+  sys.stderr.write(consLabel+"\n")
+  sys.stderr.write(tempLabel+"\n")
 
-  print consLabel
+
+
   # resample: get buisness-day average temperature and buisness-day average consumption
   avgTemp = data[data.name == tempLabel].val.resample("B", how=["mean"])
   avgCons = data[data.name == consLabel].val.resample("B", how=["mean"]).diff()
+  
+  
+  if not (len(avgTemp)>30 and len(avgCons)>30):  # TODO remove this and bootstrap data files properly...
+    sys.stderr.write("Not enough data to do the prediction\n")
+    continue
 
   join = avgTemp.join(avgCons,lsuffix="_temp", rsuffix="_cons")
 

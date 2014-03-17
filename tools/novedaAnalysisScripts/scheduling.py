@@ -26,6 +26,7 @@ def detect(dataFiles,figDirectory=None,outputDirectory=None,threshold=threshold)
   for device in np.unique(data.name):
     dataTmp.append(data[data["name"]==device]["val"])
     dataTmp[-1] = pandas.DataFrame(dataTmp[-1].resample("10Min",how="median"),columns=["val"]).diff()*nbPtsPerHour #resample data and convert from energy to consumption
+    dataTmp[-1]["val"][dataTmp[-1]["val"].values<0] = np.nan  # ignore negative values due to measurment errors 
     dataTmp[-1]["name"] = device
   
   data = pandas.concat(dataTmp)
@@ -87,7 +88,7 @@ def detect(dataFiles,figDirectory=None,outputDirectory=None,threshold=threshold)
 
 
         
-    if figDirectory: 
+    if figDirectory and len(values.tail(24*7*nbPtsPerHour))>1: 
       # plot data, threshold and alarms
       plt.figure(figsize=(12,4))
       plt.fill_between(values.tail(24*7*nbPtsPerHour).index,values.tail(24*7*nbPtsPerHour))

@@ -20,7 +20,8 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
 
   consSuffix = "Main Utility Grid"
   consLabel = ""
-  tempLabel = "KCDW Outside Temp F"   #"OA Temp"
+  tempSuffix = "Outside Temp F"   #"OA Temp"
+  tempLabel = ""   #"OA Temp"
 
   # Load data
   data = pandas.read_csv(filename,header=None,names=["ts","val","name","type"],usecols=["ts","val","name"])
@@ -33,12 +34,14 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
   for name in np.unique(data.name):
     if consSuffix in str(name):
       consLabel = name
+    if tempSuffix in str(name):
+      tempLabel = name
 
 
   print consLabel
   # resample: get buisness-day average temperature and buisness-day average consumption
   avgTemp = data[data.name == tempLabel].val.resample("B", how=["mean"])
-  avgCons = data[data.name == consLabel].val.resample("B", how=["mean"])
+  avgCons = data[data.name == consLabel].val.resample("B", how=["mean"]).diff()
 
   join = avgTemp.join(avgCons,lsuffix="_temp", rsuffix="_cons")
 
@@ -78,4 +81,4 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
 
 
 if __name__ == "__main__":
-  predict('../dl/20131208/csvdata/941_Lexington_Hour_Data.csv',75,'test.csv','../predictionModel/')
+  predict('../dl/20131208/csvdata/941_Lexington_Hour_Data.csv',70,'test.csv','../predictionModel/')

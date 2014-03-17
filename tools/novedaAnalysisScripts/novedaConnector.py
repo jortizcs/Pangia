@@ -5,14 +5,12 @@ import urllib2
 import time, threading
 import datetime
 import os
+import sys
 
 import scheduling
 import prediction
 
 T = 600 #period
-csvFile = "../../data/novedaDemo/demo0.csv"
-predictionOutput = "../../data/novedaDemo/prediction.csv"
-figDirectory = "../../data/novedaDemo/fig/"
 
 def getmeterdata():
     res = json.load(urllib2.urlopen("https://secure.noveda.com/api/devicedata.php"));
@@ -32,20 +30,32 @@ def getmeterdata():
 
 # schedule-based anomaly detection
 def anomalyDetection():
-    scheduling.detect(csvFile,(24*60*60)/T,figDirectory)
-    threading.Timer(T, anomalyDetection)
+    scheduling.detect(csvFile,figDirectory)
+    threading.Timer(T, anomalyDetection).start()
 
 
 # prediction 
 def consumptionPrediction():
-    prediction.predict(csvFile,45,predictionOutput,figDirectory)
-    threading.Timer(T*6, consumptionPrediction)
+    prediction.predict(csvFile,40,predictionOutput,figDirectory)
+    threading.Timer(T*6, consumptionPrediction).start()
 
 
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
 top_level_url = "https://secure.noveda.com/api/devicedata.php"
-username = "APIGreenPangiaAvisBudgetParsippany"
-password = "APIGPABHQ"
+
+if len(sys.argv)>1:         # Get the login and password from the given file
+  fconf = open(sys.argv[1])
+  line = fconf.readline()
+  credits = line.split(",")
+  username = credits[0] #"APIGreenPangiaAvisBudgetParsippany"
+  password = credits[1] #"APIGPABHQ"
+  csvFile = credits[2]
+  predictionOutput = credits[3]
+  figDirectory = credits[4]
+else:
+  sys.stderr.write("usage: python "+sys.argv[0]+" login.conf\n")
+  quit()
+
 password_mgr.add_password(None, top_level_url, username, password)
 handler = urllib2.HTTPBasicAuthHandler(password_mgr)
 

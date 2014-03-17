@@ -9,19 +9,27 @@ from datetime import time
 import glob
 
 # parameters:
-threshold = 3
+threshold = 2 
+nbPtsPerHour = 6
 
 
-
-def detect(dataFiles,nbPtsPerHour,figDirectory=None,outputDirectory=None,threshold=threshold):
+def detect(dataFiles,figDirectory=None,outputDirectory=None,threshold=threshold):
  for filename in glob.glob(dataFiles):
 
   print filename
 
   # Load data
-  data = pandas.read_csv(filename,header=None,names=["ts","val","name","type"],usecols=["ts","val","name"])
+  data = pandas.read_csv(filename,header=None,names=["ts","val","name","type"],usecols=["ts","val","name","type"])
   data.index = pandas.to_datetime(data.pop('ts'),unit='s')
-#  data = data.resample #TODO resample data, so we can drop "nbPtsPerHour"
+  data = data[data["type"]!="Outside Air Temperat"]
+  dataTmp = []
+  for device in np.unique(data.name):
+    dataTmp.append(data[data["name"]==device]["val"])
+    dataTmp[-1] = pandas.DataFrame(dataTmp[-1].resample("10Min",how="median"),columns=["val"]).diff()*nbPtsPerHour #resample data and convert from energy to consumption
+    dataTmp[-1]["name"] = device
+  
+  data = pandas.concat(dataTmp)
+  
 
   # get the name of the devices (namely, exclude nan and temperature data)
   devices = []
@@ -70,26 +78,27 @@ def detect(dataFiles,nbPtsPerHour,figDirectory=None,outputDirectory=None,thresho
       if alarm:
         alarmReport.append([timeON,values[timeON]])
         
-    if nbAlarms and outputDirectory:
+    if nbAlarms :
       alarmReport = pandas.DataFrame(alarmReport,columns=["ts","val"])
       alarmReport.index = pandas.to_datetime(alarmReport.pop('ts'), unit="s")
+    if outputDirectory:
       #record alarms in a csv file
       alarmReport.to_csv("%s%s_%s_alarms.csv" % (outputDirectory,filename.rpartition("/")[2], name))
 
 
         
-    if figDirectory:  
+    if figDirectory: 
       # plot data, threshold and alarms
       plt.figure(figsize=(12,4))
       plt.fill_between(values.tail(24*7*nbPtsPerHour).index,values.tail(24*7*nbPtsPerHour))
       plt.plot(median.tail(24*7*nbPtsPerHour).index,median.tail(24*7*nbPtsPerHour),"g",lw=2)
       if nbAlarms:
-        plt.plot(alarmReport.index,alarmReport,"r*",ms=20)
+        plt.plot(alarmReport.index,alarmReport,"r^",ms=10)
       plt.title(name)
       plt.grid("on")
       #plt.show()
       print("Number of hours when devices should be OFF: %d " % nbAlarms)
-      plt.savefig(figDirectory+name+".png") 
+      plt.savefig(figDirectory+str(name)+".png") 
       plt.close() 
 
 

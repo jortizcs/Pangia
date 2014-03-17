@@ -9,7 +9,7 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 import glob
-
+import sys
 
 ignoreLastDay = 1
 
@@ -34,10 +34,12 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
       tempLabel = name
 
 
-  print consLabel
+  sys.stderr.write(consLabel+"\n")
+  sys.stderr.write(tempLabel+"\n")
 
 
   if not len(data)>24*60*60*2:  # TODO remove this and bootstrap data files properly...
+    sys.stderr.write("Not enough data to do the prediction\n")
     continue
 
 

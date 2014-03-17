@@ -247,16 +247,32 @@ exports.streams = function(req, res) {
 };
 
 exports.noveda = function(req, res) {
+	//point to path where the image files are located e.g., ./data/
+	var path = './public/noveda/';
+	//use this if you have a static directive anywhere like /public, otherwise set it equal to path 
+	var augPath ='noveda/';
 	
-	res.render('noveda', {
-		title: 'Pangia Noveda Demo',
-		extracss: [
-			'lib/css/custom/streams.css'
-		],
-		extrascripts: [
-			'pages/streams.js'
-		]
-	});
+	//reads all files in the path
+	var files = fs.readdirSync(path);
+	
+	//this section adds path info to the files array
+	var len = files.length;
+	var i;
+	var indexes = [];
+	for (i = 0; i < len; i++) {
+		indexes.push(augPath + files[i]);
+	}
+	
+		res.render('noveda', {
+			title: 'Pangia Noveda Demo',
+			extracss: [
+				'lib/css/custom/streams.css'
+			],
+			extrascripts: [
+				'pages/streams.js'
+			],
+			files: indexes
+		});
 };
 
 exports.setStreamPriority = function(req, res) {

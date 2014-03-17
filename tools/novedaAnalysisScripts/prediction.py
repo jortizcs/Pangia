@@ -54,7 +54,7 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
   join = join[join.mean_temp != 0]
 
   #Support Vector Regression
-  clf = svm.SVR(gamma=.001)
+  clf = svm.SVR(kernel="poly",gamma=.1)
   clf.fit(zip(join.mean_temp[:-1-ignoreLastDay]), join.mean_cons[:-1-ignoreLastDay]) 
 
 

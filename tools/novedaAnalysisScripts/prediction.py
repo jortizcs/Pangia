@@ -18,7 +18,7 @@ def predict(dataFiles,tempPredicted,outputFile=None,figDirectory=None):
  print "Enter predict"
  for filename in glob.glob(dataFiles):
 
-  consSuffix = "Main Utility Grid"
+  consSuffix = "Utility Grid"
   consLabel = ""
   tempSuffix = "Outside Temp F"   #"OA Temp"
   tempLabel = ""   #"OA Temp"

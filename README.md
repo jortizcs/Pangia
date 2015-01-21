@@ -1,6 +1,10 @@
 Pangia
 ======
 
+Please note
+======
+The latest working branch is dev-anomaly. The code is provided as is, please, contact us via www.greenpangia.com for questions or consulting requests.
+
 Installation
 ======
 You need to have the libmysql development libs installed. On Debian/Ubuntu, you
